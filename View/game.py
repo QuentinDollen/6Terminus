@@ -4,7 +4,7 @@ from map import Map
 from settings import TILE_SIZE
 from utils import draw_text
 from camera import Camera
-
+# from hud import Hud
 
 class Game:
 
@@ -17,6 +17,9 @@ class Game:
 
         # camera
         self.camera = Camera(self.width, self.height)
+
+        # hud
+        # self.hud = Hud
 
     def run(self):
         self.playing = True
@@ -58,6 +61,8 @@ class Game:
                 # p = self.map.map[x][y]["iso_poly"]
                 # p = [(x + self.width/2, y) for x, y in p]
                 # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
+
+        # self.hud.draw(self.screen)
 
         draw_text(
             self.screen,
