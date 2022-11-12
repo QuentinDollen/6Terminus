@@ -12,5 +12,30 @@ class Delivery_Guy(W.Walker):
 		if(type_transport == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
 		if(type_transport == 'viandes'): self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
 		if(type_transport == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
-#		if(type_transport == 'argile'): 
+		if(type_transport == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
+	
+	def dechargement(self,type_transport):
+		if(type_transport == 'blé'): 
+			res = self.cargaison_nourriture[0][1] 
+			self.cargaison_nourriture[0][1] = 0
+			return res
+
+		if(type_transport == 'fruits'): 
+			res = self.cargaison_nourriture[1][1]
+			self.cargaison_nourriture[1][1] = 0
+			return res
+		if(type_transport == 'viandes'): 
+			res = self.cargaison_nourriture[2][1] = 0
+			self.cargaison_nourriture[2][1] = 0
+			return res
+		if(type_transport == 'olives'): 
+			res = self.cargaison_produits[2][1] 
+			self.cargaison_produits[2][1] = 0
+			return res
+		if(type_transport == 'argile'): 
+			res = self.cargaison_produits[0][1] 
+			self.cargaison_produits[0][1] = 0
+			return res
+		
+	
 	
