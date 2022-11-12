@@ -11,8 +11,8 @@ class Reservoir(b.Batiment):
         b.Batiment.__init__(self, 3, 90, posx, posy, 80, -6, 1, 2, 3, 0)
         water_flow = 0
     def change_id(self):
-        if(water_flow == 0): self.id = 90
-        if(water_flow == 1): self.id = 9000
+        if(self.water_flow == 0): self.id = 90
+        if(self.water_flow == 1): self.id = 9000
 
 class Aquaduct(b.Batiment):
     def __init__(self, posx, posy):

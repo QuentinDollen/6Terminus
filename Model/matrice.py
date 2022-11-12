@@ -9,6 +9,7 @@ import water as wa
 import engineering as eng
 import security as sec
 import herb as h
+import View.map as Vm
 
 nb_cases_x = 60
 nb_cases_y = 60
