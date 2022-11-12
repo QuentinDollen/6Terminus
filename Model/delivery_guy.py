@@ -1,8 +1,8 @@
 import Walker as W
 
 class Delivery_Guy(W.Walker):
-	def __init__(self):
-		W.Walker.__init__()
+	def __init__(self,x,y):
+		W.Walker.__init__(x,y)
 		self.name = 'Delivery_Guy'
 		self.cargaison_nourriture = [ ['blé', 0 ], ['fruits', 0], ['viande', 0]]
 		self.cargaison_produits = [ ['argile',0], ['potterie',0], ['huile',0], ['',0], ['',0]]

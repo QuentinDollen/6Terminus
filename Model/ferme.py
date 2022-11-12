@@ -8,6 +8,6 @@ class Ferme (b.Batiment):
         ind_Harv = 0
     def growFood(self):
         self.growFood = self.growFood + 1
-        if(self.growFood > 5):
+        if(self.growFood >= 5):
             self.growFood = 0
             
