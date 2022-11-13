@@ -3,8 +3,8 @@ from nis import match
 import Walker as W
 
 class Food_Guy(W.Walker):
-	def __init__(self):
-		W.Walker.__init__(self)
+	def __init__(self,x,y):
+		W.Walker.__init__(self,x,y)
 		self.cargaison = [ ['blé', 0 ], ['fruits', 0], ['viande', 0] ]
 		self.name = 'Food_Guy'
 

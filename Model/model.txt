@@ -1,0 +1,11 @@
+
+def add_bat(x,y,id_bat):
+    match (id_bat):
+        case 0: globals()["Herb"+x+y] = h.Herb(x,y)
+        case 92: bat1 = wa.Well(x,y)
+        case 90: globals()["Reservoir"+x+y] = wa.Reservoir(x,y)
+        case 91: globals()["Fountain"+x+y] = wa.Fountain(x,y)
+        case 8: globals()["Aquaduct"+x+y] = wa.Aquaduct(x,y)
+        case 81: globals()["EngineersPost"+x+y] = eng.EngineersPost(x,y)
+        case 55: globals()["Prefecture"+x+y] = sec.Prefecture(x,y)
+

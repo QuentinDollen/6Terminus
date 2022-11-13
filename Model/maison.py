@@ -1,5 +1,7 @@
 import batiment as b
 
+
+#class Panneau():
 class Maison_1(b.Batiment):
     def __init__(self,x,y):
         b.Batiment.__init__(self,1,11,x,y,)
@@ -10,7 +12,4 @@ class Maison_1(b.Batiment):
         self.acces_eau = 0
         self.id = 10
 
-
-class Maison_2():
-        
-
+#class Maison_2():
