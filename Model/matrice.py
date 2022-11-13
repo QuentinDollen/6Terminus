@@ -163,41 +163,59 @@ def SearchforRoad(x,y,Mat): #SearchforRoad donne la route qu'il croise autour (d
         y1= y1 -1
     return (-1,-1)
 
+def InTable(x,tab):
+    bool = 1
+    for i in range(len(tab)):
+        if(x == tab[i]):
+            bool = 0
+    return bool
+
+def min_tab_tab_notnull(tab): #take a tab of tab and return the tab with less size, exept if null
+    n = len(tab)
+    min = tab[0]
+    for i in range(n):
+        if( len(min) < len(tab[i]) and len(tab[i]) != 0 ):
+            min = tab[i] 
+    return min
 
 
-#definir calcul de trajectoire 
-# attention ! il faut rajouter le cas ou on est sur les bords et aussi s'il y a une boucle c'est la merde
-def next_case(x,y,destx,desty, prec_x, prec_y, Mat,t): #calcul par des appels recursif le chemin a parcourir
-    x1 = -1
-    y1 = -1
-    x2 = -1
-    y2 = -1
-    x3 = -1
-    y3 = -1
-    x4 = -1
-    y4 = -1
+ 
+def next_case(x,y, tab_path, dest_x, dest_y, Mat):
     assert(isPath(x,y,Mat))
-    assert(isPath(destx,desty,Mat))
-    if(x == destx and y == desty):
-        return (prec_x, prec_y)
-    if(t > destx-x + desty-y + 20): # dans le cas où on a une boucle le temps t va devenir deraisonnablement grand pour un trajet  
-        return(-1,-1)
-    if(isPath(x+1,y,Mat) and x+1 != prec_x):
-        (x1,y1) = next_case(x+1,y,destx,desty,x,y,Mat,t+1)
-    if(isPath(x,y+1,Mat) and y+1 != prec_y):
-        (x2,y2) = next_case(x,y+1,destx,desty,x,y,Mat,t+1)
-    if(isPath(x-1,y,Mat) and x-1 != prec_x):
-        (x3,y3) = next_case(x-1,y,destx,desty,x,y,Mat,t+1)
-    if(isPath(x-1,y,Mat) and y-1 != prec_y):
-        (x4,y4) = next_case(x,y-1,destx,desty,x,y,Mat,t+1)
-    
-    # faut faire la comparaison des différents resultats (c'est un resultat si c'est différent de -1) et prendre le meilleur en terme de temps t
-
-
+    if(x == dest_x and y == dest_y):
+        return tab_path
     else:
-        return (-1,-1)
-    
-    
+        tab1 = []
+        tab2 = []
+        tab3 = []
+        tab4 = []
+        if(isPath(x+1,y,Mat) and InTable((x+1,y),tab_path)):
+            tab1 = tab_path
+            tab1.append((x+1,y))
+            tab1 = next_case(x+1,y,tab1,dest_x,dest_y,Mat)
+        if(isPath(x,y+1,Mat) and InTable((x,y+1),tab_path)):
+            tab2 = tab_path
+            tab2.append((x,y+1))
+            tab2 = next_case(x,y+1,tab1,dest_x,dest_y,Mat)
+        if(isPath(x-1,y,Mat) and InTable((x+1,y),tab_path)):
+            tab3 = tab_path
+            tab3.append((x-1,y))
+            tab3 = next_case(x-1,y,tab1,dest_x,dest_y,Mat)
+        if(isPath(x,y-1,Mat) and InTable((x,y-1),tab_path)):
+            tab4 = tab_path
+            tab4.append((x,y-1))
+            tab4 = next_case(x,y-1,tab1,dest_x,dest_y,Mat)
+        if ( (isPath(x+1,y,Mat) and InTable((x+1,y),tab_path)) or (isPath(x,y+1,Mat) and InTable((x,y+1),tab_path)) or (isPath(x-1,y,Mat) and InTable((x+1,y),tab_path)) or (isPath(x,y-1,Mat) and InTable((x,y-1),tab_path)) == 0 ):
+            return []
+        tab = []
+        tab.append(tab1)
+        tab.append(tab2)
+        tab.append(tab3)
+        tab.append(tab4)
+        return min_tab_tab_notnull(tab)
+
+        
+
     
 
 def Deplacement_basique(): # a faire evidemment
@@ -208,8 +226,12 @@ def Deplacement_basique(): # a faire evidemment
 def deplacement_perso(Mat,i,j):
     if Mat[i][j][0].name != "Walker":
         for k in range(Mat[i][j].len) :
-            if (Mat[i][j][k].destination_x != 666 or Mat[i][j][k].destination_y != 666) :
-                (nx,ny) = next_case(SearchforRoad(i,j,Mat),SearchforRoad(Mat[i][j][k].destination_x,Mat[i][j][k].destination_y,Mat),-1,-1,Mat,0)
+            if (Mat[i][j][k].destination_x != 666 and Mat[i][j][k].destination_y != 666) :
+                if(Mat[i][j][k].tab_path == []):
+                    Mat[i][j][k].tab_path = next_case(i,j,[(i,j)],Mat[i][j][k].destination_x,Mat[i][j][k].destination_y,Mat)
+                else:
+                    Mat[i][j][k].tab_path.pop(0)
+                    (nx,ny) = Mat[i][j][k].tab_path(0)
             else:
                 (nx,ny) = Deplacement_basique()
             
@@ -231,6 +253,4 @@ print(Mat_perso[0][0])
 
 afficher_matrice_bat(Mat_batiment, 3, 3)
 afficher_matrice_perso(Mat_perso, 3, 3)
-
-
 

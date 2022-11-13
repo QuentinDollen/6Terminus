@@ -14,6 +14,7 @@ class Walker():
 		self.image_path = dir_path+''
 		self.name = 'no Walker'
 		self.ttl = 20
+		self.tab_path = [(x,y)]
 
 
 
