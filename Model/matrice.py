@@ -133,10 +133,75 @@ def departureMatrice(Mat):
     afficher_matrice_bat(Mat)
 
 
-#definir calcul de trajectoire
-def next_case(i,j,Mat):
-    return (i+1,j+1)
+def isPath(x,y,Mat):
+    return Mat[x][y].name == 'Path'
+        
 
+def SearchforRoad(x,y,Mat): #SearchforRoad donne la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
+    n = Mat[x][y].nbr_cases
+    x1 = 0
+    x2 = 0
+    if(x !=0 ):
+        x1 = x -1
+    if(y != 0):
+        y1 = y -1
+    for i in range(n+3) :
+        if(isPath(x1,y1)):
+            return (x1,y1)
+        x1 = x1+1
+    for j in range(n+3):
+        if(isPath(x1,y1)) :
+            return (x1,y1)
+        y1= y1 +1
+    for i in range(0,n+1):
+        if(isPath(x1,y1)):
+            return (x1,y1)
+        x1 = x1-1
+    for j in range(n+3):
+        if(isPath(x1,y1)) :
+            return (x1,y1)
+        y1= y1 -1
+    return (-1,-1)
+
+
+
+#definir calcul de trajectoire 
+# attention ! il faut rajouter le cas ou on est sur les bords et aussi s'il y a une boucle c'est la merde
+def next_case(x,y,destx,desty, prec_x, prec_y, Mat,t): #calcul par des appels recursif le chemin a parcourir
+    x1 = -1
+    y1 = -1
+    x2 = -1
+    y2 = -1
+    x3 = -1
+    y3 = -1
+    x4 = -1
+    y4 = -1
+    assert(isPath(x,y,Mat))
+    assert(isPath(destx,desty,Mat))
+    if(x == destx and y == desty):
+        return (prec_x, prec_y)
+    if(t > destx-x + desty-y + 20): # dans le cas où on a une boucle le temps t va devenir deraisonnablement grand pour un trajet  
+        return(-1,-1)
+    if(isPath(x+1,y,Mat) and x+1 != prec_x):
+        (x1,y1) = next_case(x+1,y,destx,desty,x,y,Mat,t+1)
+    if(isPath(x,y+1,Mat) and y+1 != prec_y):
+        (x2,y2) = next_case(x,y+1,destx,desty,x,y,Mat,t+1)
+    if(isPath(x-1,y,Mat) and x-1 != prec_x):
+        (x3,y3) = next_case(x-1,y,destx,desty,x,y,Mat,t+1)
+    if(isPath(x-1,y,Mat) and y-1 != prec_y):
+        (x4,y4) = next_case(x,y-1,destx,desty,x,y,Mat,t+1)
+    
+    # faut faire la comparaison des différents resultats (c'est un resultat si c'est différent de -1) et prendre le meilleur en terme de temps t
+
+
+    else:
+        return (-1,-1)
+    
+    
+    
+
+def Deplacement_basique(): # a faire evidemment
+    return (0,0)
 
 
 
@@ -144,7 +209,10 @@ def deplacement_perso(Mat,i,j):
     if Mat[i][j][0].name != "Walker":
         for k in range(Mat[i][j].len) :
             if (Mat[i][j][k].destination_x != 666 or Mat[i][j][k].destination_y != 666) :
-                (nx,ny) = next_case(i,j,Mat)
+                (nx,ny) = next_case(SearchforRoad(i,j,Mat),SearchforRoad(Mat[i][j][k].destination_x,Mat[i][j][k].destination_y,Mat),-1,-1,Mat,0)
+            else:
+                (nx,ny) = Deplacement_basique()
+            
 
 
 
