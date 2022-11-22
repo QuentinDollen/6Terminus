@@ -163,6 +163,9 @@ def afficher_matrice_perso(Mat, x, y):
         print("]")
 
 
+id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
+           111: 2, 114: 2, 0: 1, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
+
 def add_bat(x, y, id_bat, Mat):
     if (id_bat == 0):
         Herb = h.Herb(x, y)

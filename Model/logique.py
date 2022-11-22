@@ -30,7 +30,6 @@ def init_game():
 
 def Add_bat_game(x,y,id_bat): # pb: il faut prendre en compte la taille du batiment
     if(m.Mat_batiment[x][y].name ==  "Herb" ): #il faut rajouter un or pour le cas où on rajoute un aqueduc sur une route ou vice versa mais comme c'est trop chiant a taper je l'ai pas fait
-        if ()
         m.add_bat(x,y,id_bat, m.Mat_batiment)
     else: return -1
 

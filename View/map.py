@@ -1,7 +1,7 @@
 import pygame as pg
 from settings import TILE_SIZE
 
-
+# 0 land 1 water 2 caillasse 3 tree 115 entrée 116 sortie 7 panneaumaison
 class Map:
 
     def __init__(self, grid_length_x, grid_length_y, width, height):
