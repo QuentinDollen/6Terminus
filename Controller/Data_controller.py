@@ -159,8 +159,6 @@ class Button :
 
 class Texte_button(Button) :
 
-    
-
     def __init__(self, pos, path_image, action , text ):
         super().__init__(pos, path_image, action)
         self.__text = text
@@ -181,14 +179,22 @@ class Texte_button(Button) :
             TEXTE = Textefont.render(f"{self.get_text()}", True , self.get_color() )
             
             screen.blit(TEXTE , ( self.get_left() , self.get_up() ) )
-            self.__image = pg.transform.scale( self.__image , TEXTE.get_size() )
+            self.set_width(TEXTE.get_size()[0]) , self.set_height(TEXTE.get_size()[1]) 
+            
             print (TEXTE.get_size())
+
+    
+    def overtext(self, pos):
+        if super().overhead( pos ) : 
+            print("SIA")
+
 
     def set_text_size( self , size ) :
         
-        
         match size :
             case "Normal" :  return True 
+
+
 
             
 
@@ -199,22 +205,22 @@ class Texte_button(Button) :
 
     # Home page ones :
 
-# HP_back = Button( Pos_HP_back , Path_HP_back , None)
-# HP_back.resize( ( window_width , winddow_height ) )
-# HP_back.draw_image_center()
-# HP_back.set_disable()
+HP_back = Button( Pos_HP_back , Path_HP_back , None)
+HP_back.resize( ( window_width , winddow_height ) )
+HP_back.draw_image_center()
+HP_back.set_disable()
 
-# HP_exit = Button( Pos_HP_exit , Path_HP_exit , exit_game)
-# HP_exit.resize( ( window_width , winddow_height ) )
-# HP_exit.draw_image_center()
+HP_exit = Button( Pos_HP_exit , Path_HP_exit , exit_game)
+HP_exit.resize( ( window_width , winddow_height ) )
+HP_exit.draw_image_center()
 
-# HP_newc = Button( Pos_HP_new_carrer , Path_HP_new_carrer , go_to_new_carrer)
-# HP_newc.resize( ( window_width , winddow_height ) )
-# HP_newc.draw_image_center()
+HP_newc = Button( Pos_HP_new_carrer , Path_HP_new_carrer , go_to_new_carrer)
+HP_newc.resize( ( window_width , winddow_height ) )
+HP_newc.draw_image_center()
 
-# HP_load_game = Button ( Pos_HP_load_game , Path_HP_load_game , go_to_save_repositori)
-# HP_load_game.resize( ( window_width , winddow_height ) )
-# HP_load_game.draw_image_center()
+HP_load_game = Button ( Pos_HP_load_game , Path_HP_load_game , go_to_save_repositori)
+HP_load_game.resize( ( window_width , winddow_height ) )
+HP_load_game.draw_image_center()
 
 
     # Save page Ones :
@@ -234,15 +240,17 @@ class Texte_button(Button) :
 # Test game 
 
 textebutton= Texte_button ( ( 100 , 100 ) ,f"{getcwd()}/View/Sprites/Save_page/SP_validate.PNG" , None , "Hello there" )
-
+textebutton.set_color( ( 16 , 32 , 48))
 textebutton.print_texte()
-textebutton.draw_image_center()
+
 
 
 while running :
 
     timer.tick(60)
     mouse_pos = pg.mouse.get_pos()
+    textebutton.overtext( mouse_pos )
+
 
     for event in pg.event.get() :
         if event.type == pg.QUIT :
