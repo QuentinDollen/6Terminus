@@ -133,18 +133,108 @@ def departureMatrice(Mat):
     afficher_matrice_bat(Mat)
 
 
-#definir calcul de trajectoire
-def next_case(i,j,Mat):
-    return (i+1,j+1)
+def isPath(x,y,Mat):
+    return Mat[x][y].name == 'Path'
+        
 
+def SearchforRoad(x,y,Mat): #SearchforRoad donne la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
+    n = Mat[x][y].nbr_cases
+    x1 = 0
+    x2 = 0
+    if(x !=0 ):
+        x1 = x -1
+    if(y != 0):
+        y1 = y -1
+    for i in range(n+3) :
+        if(isPath(x1,y1)):
+            return (x1,y1)
+        x1 = x1+1
+    for j in range(n+3):
+        if(isPath(x1,y1)) :
+            return (x1,y1)
+        y1= y1 +1
+    for i in range(0,n+1):
+        if(isPath(x1,y1)):
+            return (x1,y1)
+        x1 = x1-1
+    for j in range(n+3):
+        if(isPath(x1,y1)) :
+            return (x1,y1)
+        y1= y1 -1
+    return (-1,-1)
+
+def InTable(x,tab):
+    bool = 1
+    for i in range(len(tab)):
+        if(x == tab[i]):
+            bool = 0
+    return bool
+
+def min_tab_tab_notnull(tab): #take a tab of tab and return the tab with less size, exept if null
+    n = len(tab)
+    min = tab[0]
+    for i in range(n):
+        if( len(min) < len(tab[i]) and len(tab[i]) != 0 ):
+            min = tab[i] 
+    return min
+
+
+ 
+def next_case(x,y, tab_path, dest_x, dest_y, Mat):
+    assert(isPath(x,y,Mat))
+    if(x == dest_x and y == dest_y):
+        return tab_path
+    else:
+        tab1 = []
+        tab2 = []
+        tab3 = []
+        tab4 = []
+        if(isPath(x+1,y,Mat) and InTable((x+1,y),tab_path)):
+            tab1 = tab_path
+            tab1.append((x+1,y))
+            tab1 = next_case(x+1,y,tab1,dest_x,dest_y,Mat)
+        if(isPath(x,y+1,Mat) and InTable((x,y+1),tab_path)):
+            tab2 = tab_path
+            tab2.append((x,y+1))
+            tab2 = next_case(x,y+1,tab1,dest_x,dest_y,Mat)
+        if(isPath(x-1,y,Mat) and InTable((x+1,y),tab_path)):
+            tab3 = tab_path
+            tab3.append((x-1,y))
+            tab3 = next_case(x-1,y,tab1,dest_x,dest_y,Mat)
+        if(isPath(x,y-1,Mat) and InTable((x,y-1),tab_path)):
+            tab4 = tab_path
+            tab4.append((x,y-1))
+            tab4 = next_case(x,y-1,tab1,dest_x,dest_y,Mat)
+        if ( (isPath(x+1,y,Mat) and InTable((x+1,y),tab_path)) or (isPath(x,y+1,Mat) and InTable((x,y+1),tab_path)) or (isPath(x-1,y,Mat) and InTable((x+1,y),tab_path)) or (isPath(x,y-1,Mat) and InTable((x,y-1),tab_path)) == 0 ):
+            return []
+        tab = []
+        tab.append(tab1)
+        tab.append(tab2)
+        tab.append(tab3)
+        tab.append(tab4)
+        return min_tab_tab_notnull(tab)
+
+        
+
+    
+
+def Deplacement_basique(): # a faire evidemment
+    return (0,0)
 
 
 
 def deplacement_perso(Mat,i,j):
     if Mat[i][j][0].name != "Walker":
         for k in range(Mat[i][j].len) :
-            if (Mat[i][j][k].destination_x != 666 or Mat[i][j][k].destination_y != 666) :
-                (nx,ny) = next_case(i,j,Mat)
+            if (Mat[i][j][k].destination_x != 666 and Mat[i][j][k].destination_y != 666) :
+                if(Mat[i][j][k].tab_path == []):
+                    Mat[i][j][k].tab_path = next_case(i,j,[(i,j)],Mat[i][j][k].destination_x,Mat[i][j][k].destination_y,Mat)
+                else:
+                    Mat[i][j][k].tab_path.pop(0)
+                    (nx,ny) = Mat[i][j][k].tab_path(0)
+            else:
+                (nx,ny) = Deplacement_basique()
+            
 
 
 
@@ -163,6 +253,4 @@ print(Mat_perso[0][0])
 
 afficher_matrice_bat(Mat_batiment, 3, 3)
 afficher_matrice_perso(Mat_perso, 3, 3)
-
-
 

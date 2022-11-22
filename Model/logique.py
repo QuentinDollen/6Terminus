@@ -12,40 +12,9 @@ import security as sec
 import herb as h
 import delivery_guy as dg
 
-def isPath(x,y,Mat):
-    return Mat[x][y].name == 'Path'
-        
-
-def SearchforRoad(x,y,Mat):
-    n = Mat[x][y].nbr_cases
-    x1 = 0
-    x2 = 0
-    if(x !=0 ):
-        x1 = x -1
-    if(y != 0):
-        y1 = y -1
-    for i in range(n+3) :
-        if(isPath(x1,y1)):
-            return (x1,y1)
-        x1 = x1+1
-    for j in range(n+3):
-        if(isPath(x1,y1)) :
-            return (x1,y1)
-        y1= y1 +1
-    for i in range(0,n+1):
-        if(isPath(x1,y1)):
-            return (x1,y1)
-        x1 = x1-1
-    for j in range(n+3):
-        if(isPath(x1,y1)) :
-            return (x1,y1)
-        y1= y1 -1
-    return (-1,-1)
-    
-
 
 def Delivery(Bat, type_march, quant, Mat):
-    (x,y) = SearchforRoad(Bat.pos_x, Bat.pos_y, Mat)
+    (x,y) = m.SearchforRoad(Bat.pos_x, Bat.pos_y, Mat)
     if(x != -1):
         m.add_perso(x,y,'Delivery Guy', Mat)
         
