@@ -1,5 +1,5 @@
 import terrain as T
 class Herb(T.Terrain):
-    def __init__(self,x,y,id_t):
-        T.Terrain.__init__(x,y,id_t)
+    def __init__(self,x,y):
+        T.Terrain.__init__(self, x,y,0)
         self.name = "Herb"

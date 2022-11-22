@@ -2,7 +2,7 @@ import math as m
 import numpy as np
 import batiment as b
 import terrain as t
-import maison as m
+import maison as mais
 import Walker as w
 import Priest as p
 import water as wa
@@ -10,6 +10,7 @@ import engineering as eng
 import security as sec
 import herb as h
 import delivery_guy as dv
+import path as pa
 
 
 
@@ -58,9 +59,9 @@ matrix = [
 
 
 
-nb_cases_x = 60
-nb_cases_y = 60
-nb_cases = 60
+nb_cases_x = 40
+nb_cases_y = 40
+nb_cases = 40
 
 def init_matrice_terrain(Mat, x, y):
     assert (Mat == [])
@@ -114,6 +115,7 @@ def add_bat(x,y,id_bat,Mat):
         if(id_bat == 8): Aquaduct = wa.Aquaduct(x,y)
         if(id_bat == 81): EngineersPost = eng.EngineersPost(x,y)
         if(id_bat == 55): Prefecture = sec.Prefecture(x,y)
+        if(id_bat == 5): Route = pa.Path(x,y)
 
 
 #globals()["Prefecture"+x+y]
@@ -127,10 +129,10 @@ def add_perso(x, y, type, Mat):
 #TESTER SI FONCTIONNE
 def departureMatrice(Mat):
     map_depart = matrix
-    for i in range(nb_cases+1):
-        for j in range(nb_cases+1):
-            Mat[i][j] = add_bat(i,j,map_depart[i][j])
-    afficher_matrice_bat(Mat)
+    for i in range(0, nb_cases_x):
+        for j in range(0, nb_cases_y):
+            add_bat(i,j,map_depart[i][j],Mat)
+    afficher_matrice_bat(Mat,nb_cases_x,nb_cases_y)
 
 
 def isPath(x,y,Mat):
@@ -140,25 +142,25 @@ def isPath(x,y,Mat):
 def SearchforRoad(x,y,Mat): #SearchforRoad donne la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
     n = Mat[x][y].nbr_cases
     x1 = 0
-    x2 = 0
+    y1 = 0
     if(x !=0 ):
         x1 = x -1
     if(y != 0):
         y1 = y -1
     for i in range(n+3) :
-        if(isPath(x1,y1)):
+        if(isPath(x1,y1, Mat)):
             return (x1,y1)
         x1 = x1+1
     for j in range(n+3):
-        if(isPath(x1,y1)) :
+        if(isPath(x1,y1, Mat)) :
             return (x1,y1)
         y1= y1 +1
     for i in range(0,n+1):
-        if(isPath(x1,y1)):
+        if(isPath(x1,y1, Mat)):
             return (x1,y1)
         x1 = x1-1
     for j in range(n+3):
-        if(isPath(x1,y1)) :
+        if(isPath(x1,y1, Mat)) :
             return (x1,y1)
         y1= y1 -1
     return (-1,-1)
@@ -244,13 +246,13 @@ Mat_perso = []
 bat1 = b.Batiment(1, "", 1, 1, 0, 0, 0, 0, 0, 0)
 p1 = p.Priest(1,1)
 
-init_matrice_terrain(Mat_batiment, 3, 3)
-Mat_batiment[0][0] = bat1
-
-init_matrice_perso(Mat_perso, 3, 3)
-
-print(Mat_perso[0][0])
-
-afficher_matrice_bat(Mat_batiment, 3, 3)
-afficher_matrice_perso(Mat_perso, 3, 3)
-
+init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
+# Mat_batiment[0][0] = bat1
+#
+init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
+#
+# print(Mat_perso[0][0])
+#
+# afficher_matrice_bat(Mat_batiment, 3, 3)
+# afficher_matrice_perso(Mat_perso, 3, 3)
+#
