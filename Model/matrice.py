@@ -204,6 +204,7 @@ def add_perso_mat(Mat, perso,x,y):
         Mat[x][y].append(perso)
 
 
+
 def add_perso(x,y, type, Mat, Bat):
     if (type == 'Delivery Guy'):
         DV = dv.Delivery_Guy(x, y, Bat)
@@ -212,7 +213,6 @@ def add_perso(x,y, type, Mat, Bat):
 
 
 
-# TESTER SI FONCTIONNE
 def departureMatrice(Mat):
     map_depart = matrix
     for i in range(0, nb_cases_x):
@@ -225,8 +225,7 @@ def isPath(x, y, Mat):
     return Mat[x][y].name == 'Path'
 
 
-def SearchforRoad(x, y,
-                  Mat):  # SearchforRoad donne la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
+def SearchforRoad(x, y, Mat):  # SearchforRoad donne la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
     n = Mat[x][y].nbr_cases
     x1 = 0
     y1 = 0
@@ -329,19 +328,17 @@ def deplacement_perso(Mat, i, j):
 Mat_batiment = []
 Mat_perso = []
 
-bat1 = b.Batiment(1, "", 1, 1, 0, 0, 0, 0, 0, 0)
-p1 = pa.Path(1,1)
 
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 # Mat_batiment[0][0] = bat1
 #
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
-
-add_perso(1,1,"Delivery Guy", Mat_perso, bat1)
+add_bat(1,1,5,Mat_batiment)
+add_perso(1,1,"Delivery Guy", Mat_perso, Mat_batiment[1][1])
 
 #
 # print(Mat_perso[0][0])
 #
-# afficher_matrice_bat(Mat_batiment, 3, 3)
-# afficher_matrice_perso(Mat_perso, 3, 3)
-#
+afficher_matrice_bat(Mat_batiment, 3, 3)
+afficher_matrice_perso(Mat_perso, 3, 3)
+
