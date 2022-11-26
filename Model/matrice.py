@@ -4,7 +4,6 @@ import batiment as b
 import terrain as t
 import maison as mais
 import Walker as w
-import Priest as p
 import water as wa
 import engineering as eng
 import security as sec
@@ -12,6 +11,7 @@ import herb as h
 import delivery_guy as dv
 import administration as admin
 import path as pa
+import delivery_guy as dv
 
 matrix = [
     [10058, 10054, 10061, 10060, 10055, 10055, 10060, 0, 10036, 10032, 30152, 30172, 30121, 30121, 30121, 30121, 30131,
@@ -141,7 +141,7 @@ def init_matrice_perso(Mat, x, y):
         for j in range(y):
             Mat[i].append([])
             Mat[i][j].append([])
-            Mat[i][j][0] = w.Walker(i, j)
+            Mat[i][j][0] = w.Walker(i, j, None)
 
 
 def afficher_matrice_bat(Mat, x, y):
@@ -197,11 +197,19 @@ def add_bat(x, y, id_bat, Mat):
 
 # globals()["Prefecture"+x+y]
 
+def add_perso_mat(Mat, perso,x,y):
+    if(Mat[x][y][0].name == "no Walker"):
+        Mat[x][y][0] = perso
+    else:
+        Mat[x][y].append(perso)
 
-def add_perso(x, y, type, Mat):
+
+def add_perso(x,y, type, Mat, Bat):
     if (type == 'Delivery Guy'):
-        DV = dv.Delivery_Guy(x, y)
-        Mat[x][y] = DV
+        DV = dv.Delivery_Guy(x, y, Bat)
+        add_perso_mat(Mat, DV ,x,y)
+        Bat.Walk.append(DV)
+
 
 
 # TESTER SI FONCTIONNE
@@ -253,7 +261,7 @@ def InTable(x, tab):
     return bool
 
 
-def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab with less size, exept if null
+def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab of tab, with the smallest size, exept if null
     n = len(tab)
     min = tab[0]
     for i in range(n):
@@ -322,12 +330,15 @@ Mat_batiment = []
 Mat_perso = []
 
 bat1 = b.Batiment(1, "", 1, 1, 0, 0, 0, 0, 0, 0)
-p1 = p.Priest(1, 1)
+p1 = pa.Path(1,1)
 
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 # Mat_batiment[0][0] = bat1
 #
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
+
+add_perso(1,1,"Delivery Guy", Mat_perso, bat1)
+
 #
 # print(Mat_perso[0][0])
 #

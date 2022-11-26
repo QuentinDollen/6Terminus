@@ -24,3 +24,6 @@ class Batiment(t.Terrain):
         self.rangeDesirability = rge              # La portée maximale de la désirabilité
         self.neededEmployees = emp                # le nombre d'employé requis pour que le batiment fonctionne
         self.name = 'Batiment'                    # le nom du batiment. À modifier selon le type de batiment
+        self.Walk = []
+    
+    

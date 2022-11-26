@@ -5,7 +5,6 @@ import batiment as b
 import terrain as t
 import maison as mais
 import Walker as w
-import Priest as p
 import water as wa
 import engineering as eng
 import security as sec
@@ -16,7 +15,8 @@ import delivery_guy as dg
 def Delivery(Bat, type_march, quant, Mat):
     (x,y) = m.SearchforRoad(Bat.pos_x, Bat.pos_y, Mat)
     if(x != -1):
-        m.add_perso(x,y,'Delivery Guy', Mat)
+        m.add_perso(x,y,'Delivery Guy', Mat, Bat)
+       
         
         
 
