@@ -7,10 +7,7 @@ class Terrain():
         self.id = id_t # id du terrain
         self.main = 0  # Condition imposée pour l'affichage de batiment à taille n*n: le coin en haut vaut 1 et les autres 0
 
-class Land(Terrain):
-    def __init__(self, posx, posy):
-        Terrain.__init__(self, posx, posy, 0)
-        self.name = "Land"
+
 
 class Water(Terrain):
     def __init__(self, posx, posy):

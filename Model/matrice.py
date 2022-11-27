@@ -193,6 +193,8 @@ def add_bat(x, y, id_bat, Mat):
         Mat[x][y] = Route
     if (id_bat == 84):
         Mat[x][y] = admin.Forum1(x, y)
+    if(id_bat == 1):
+        Mat[x][y]
 
 
 # globals()["Prefecture"+x+y]
