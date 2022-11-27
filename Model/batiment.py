@@ -25,5 +25,6 @@ class Batiment(t.Terrain):
         self.neededEmployees = emp                # le nombre d'employé requis pour que le batiment fonctionne
         self.name = 'Batiment'                    # le nom du batiment. À modifier selon le type de batiment
         self.Walk = []
+
     
     

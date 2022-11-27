@@ -11,7 +11,8 @@ import herb as h
 import delivery_guy as dv
 import administration as admin
 import path as pa
-import delivery_guy as dv
+import tree as tr
+
 
 matrix = [
     [10058, 10054, 10061, 10060, 10055, 10055, 10060, 0, 10036, 10032, 30152, 30172, 30121, 30121, 30121, 30121, 30131,
@@ -133,7 +134,7 @@ def init_matrice_terrain(Mat, x, y):
             Mat[i].append(t.Terrain(i, j, 2))
 
 
-# Mat [i][j] : donne un tableau avec la liste des personnages,
+# Mat [i][j] : donne un tableau avec la liste des personnages, si y en a aucun c'est le type walker par défaut. (parce qu'on a besoin de l'attribut name)
 def init_matrice_perso(Mat, x, y):
     assert (Mat == [])
     for i in range(x):
@@ -166,6 +167,12 @@ def afficher_matrice_perso(Mat, x, y):
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
            111: 2, 114: 2, 0: 1, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
+def put_bat_mat(x,y,bat,Mat):
+    for i in range(0,bat.nbr_cases):
+        for j in range(0,bat.nbr_cases):
+            Mat[x+i][y+j] = bat
+
+
 def add_bat(x, y, id_bat, Mat):
     if (id_bat == 0):
         Herb = h.Herb(x, y)
@@ -175,7 +182,7 @@ def add_bat(x, y, id_bat, Mat):
         Mat[x][y] = well
     if (id_bat == 90):
         Reservoir = wa.Reservoir(x, y)
-        Mat[x][y] = Reservoir
+        put_bat_mat(x,y,Reservoir, Mat)
     if (id_bat == 91):
         Fountain = wa.Fountain(x, y)
         Mat[x][y] = Fountain
@@ -192,12 +199,20 @@ def add_bat(x, y, id_bat, Mat):
         Route = pa.Path(x, y)
         Mat[x][y] = Route
     if (id_bat == 84):
-        Mat[x][y] = admin.Forum1(x, y)
+        Forum = admin.Forum1(x, y)
+        put_bat_mat(x,y,Forum,Mat)
     if(id_bat == 1):
-        Mat[x][y]
+        Mat[x][y] = t.Water(x,y)
+    if(id_bat == 2):
+        Mat[x][y] = t.Rock(x,y)
+    if(id_bat == 3):
+        Mat[x][y] = tr.tree(x,y)
+    if(id_bat == 4):
+        Senate = admin.Senate1(x,y)
+        put_bat_mat(x,y,Senate,Mat)
 
 
-# globals()["Prefecture"+x+y]
+# globals()["Prefecture"+x+y] # truc interessant dont on se sert pas, à conserver pour plus tard
 
 def add_perso_mat(Mat, perso,x,y):
     if(Mat[x][y][0].name == "no Walker"):

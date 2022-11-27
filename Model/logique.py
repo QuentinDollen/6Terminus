@@ -21,7 +21,7 @@ def Delivery(Bat, type_march, quant, Mat):
         
 
 def getID(i,j):
-    if(m.Mat_batiment[i][j].main == 1):
+    if(m.Mat_batiment[i][j].pos_x == i and m.Mat_batiment[i][j].pos_y == j ):
         return m.Mat_batiment[i][j].id
     else:  return 666
 
@@ -31,7 +31,7 @@ def init_game():
 def Add_bat_game(x,y,id_bat):
     for i in range(m.id_size[id_bat]):
         for j in range(m.id_size[id_bat]):
-            if m.Mat_batiment[x+i][y+j].name == "Herb":
+            if m.Mat_batiment[x+i][y+j].name != "Herb":
                 return -1
     m.add_bat(x,y,id_bat, m.Mat_batiment)
 
