@@ -16,9 +16,7 @@ def Delivery(Bat, type_march, quant, Mat):
     (x,y) = m.SearchforRoad(Bat.pos_x, Bat.pos_y, Mat)
     if(x != -1):
         m.add_perso(x,y,'Delivery Guy', Mat, Bat)
-       
-        
-        
+
 
 def getID(i,j):
     if(m.Mat_batiment[i][j].pos_x == i and m.Mat_batiment[i][j].pos_y == j ):
@@ -34,5 +32,8 @@ def Add_bat_game(x,y,id_bat):
             if m.Mat_batiment[x+i][y+j].name != "Herb":
                 return -1
     m.add_bat(x,y,id_bat, m.Mat_batiment)
+    return 0
 
 init_game()
+print(Add_bat_game(2,0,5))
+m.afficher_matrice_bat(m.Mat_batiment,3,3)
