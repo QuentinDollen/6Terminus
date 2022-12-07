@@ -12,6 +12,9 @@ import delivery_guy as dv
 import administration as admin
 import path as pa
 import tree as tr
+import ferme as f
+import granary as g
+import warehouse as war
 
 
 matrix = [
@@ -174,9 +177,7 @@ def put_bat_mat(x,y,bat,Mat):
 
 
 def add_bat(x, y, id_bat, Mat):
-    if (id_bat == 0):
-        Herb = h.Herb(x, y)
-        Mat[x][y] = Herb
+    
     if (id_bat == 92):
         well = wa.Well(x, y)
         Mat[x][y] = well
@@ -219,9 +220,21 @@ def add_bat(x, y, id_bat, Mat):
     if(id_bat == 12):
         Maison_3=mais.Maison_3(x,y)
         put_bat_mat(x,y,Maison_3, Mat)
-    if(id_bat == 12):
+    if(id_bat == 13):
         Maison_4=mais.Maison_4(x,y)
         put_bat_mat(x,y,Maison_4, Mat)
+    if(id_bat == 100):
+        Ferme=f.Ferme(x,y)
+        put_bat_mat(x,y,Ferme,Mat)
+    if(id_bat == 71):
+        Granary = g.Granary(x,y)
+        put_bat_mat(x,y,Granary,Mat)
+    if (id_bat == 72):
+        Warehouse = war.Warehouse(x,y)
+        put_bat_mat(Warehouse)
+    else:
+        Herb = h.Herb(x, y)
+        Mat[x][y] = Herb
 
 # globals()["Prefecture"+x+y] # truc interessant dont on se sert pas, à conserver pour plus tard
 
