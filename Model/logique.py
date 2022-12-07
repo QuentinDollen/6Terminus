@@ -1,15 +1,5 @@
-import matrice as m
-import math as ma
-import numpy as np
-import batiment as b
-import terrain as t
-import maison as mais
-import Walker as w
-import water as wa
-import engineering as eng
-import security as sec
-import herb as h
-import delivery_guy as dg
+from Terminus_project.Model import matrice as m
+
 
 
 def Delivery(Bat, type_march, quant, Mat):

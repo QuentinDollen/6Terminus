@@ -1,4 +1,4 @@
-import terrain as t
+from Terminus_project.Model import terrain as t
 import pathlib
 
 global dir_path

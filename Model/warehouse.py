@@ -1,4 +1,4 @@
-import batiment as b
+from Terminus_project.Model import batiment as b
 
 
 class Warehouse(b.Batiment):

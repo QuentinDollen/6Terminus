@@ -1,6 +1,6 @@
 import pygame as pg
-import logique
 from settings import TILE_SIZE
+from Terminus_project.Model import logique as l
 
 
 class Map:
@@ -604,7 +604,7 @@ class Map:
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                self.matrix[grid_x][grid_y]=logique.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
 
     def get_neighbor(self, grid, coorX, coorY, who=4):
 

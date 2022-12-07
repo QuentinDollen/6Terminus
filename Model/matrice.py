@@ -1,20 +1,17 @@
-import math as m
-import numpy as np
-import batiment as b
-import terrain as t
-import maison as mais
-import Walker as w
-import water as wa
-import engineering as eng
-import security as sec
-import herb as h
-import delivery_guy as dv
-import administration as admin
-import path as pa
-import tree as tr
-import ferme as f
-import granary as g
-import warehouse as war
+from Terminus_project.Model import terrain as t
+from Terminus_project.Model import maison as mais
+from Terminus_project.Model import Walker as w
+from Terminus_project.Model import water as wa
+from Terminus_project.Model import engineering as eng
+from Terminus_project.Model import security as sec
+from Terminus_project.Model import herb as h
+from Terminus_project.Model import delivery_guy as dv
+from Terminus_project.Model import administration as admin
+from Terminus_project.Model import path as pa
+from Terminus_project.Model import tree as tr
+from Terminus_project.Model import ferme as f
+from Terminus_project.Model import granary as g
+from Terminus_project.Model import warehouse as war
 
 
 matrix = [ [3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,

@@ -1,4 +1,4 @@
-import Walker as W
+from Terminus_project.Model import Walker as W
 
 class Delivery_Guy(W.Walker):
 	def __init__(self,x,y,bat):
