@@ -210,7 +210,18 @@ def add_bat(x, y, id_bat, Mat):
     if(id_bat == 4):
         Senate = admin.Senate1(x,y)
         put_bat_mat(x,y,Senate,Mat)
-
+    if(id_bat == 10):
+        Maison_1=mais.Maison_1(x,y)
+        put_bat_mat(x,y, Maison_1, Mat)
+    if(id_bat == 11):
+        Maison_2=mais.Maison_2(x,y)
+        put_bat_mat(x,y,Maison_2, Mat)
+    if(id_bat == 12):
+        Maison_3=mais.Maison_3(x,y)
+        put_bat_mat(x,y,Maison_3, Mat)
+    if(id_bat == 12):
+        Maison_4=mais.Maison_4(x,y)
+        put_bat_mat(x,y,Maison_4, Mat)
 
 # globals()["Prefecture"+x+y] # truc interessant dont on se sert pas, à conserver pour plus tard
 
