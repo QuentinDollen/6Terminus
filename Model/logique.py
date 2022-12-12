@@ -1,6 +1,12 @@
 import pickle
 import testuwu.test
+import os.path
+import sys
+
+sys.path.insert(0, '..')
+
 from Terminus_project.Model import matrice as m
+
 
 
 def Delivery(Bat, type_march, quant, Mat):
