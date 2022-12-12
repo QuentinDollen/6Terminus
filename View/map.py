@@ -1,6 +1,17 @@
+import os
+import sys
+
+# Construct the full path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add the parent directory to the PYTHONPATH
+sys.path.append(parent_dir)
+
 import pygame as pg
-from settings import TILE_SIZE
-from Terminus_project.Model import logique as l
+from View.settings import TILE_SIZE
+from Model import logique as l
+
+
 
 
 class Map:
