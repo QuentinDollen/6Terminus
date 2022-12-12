@@ -1,5 +1,13 @@
+import os
+import sys
 
-from Terminus_project.Model import batiment as b
+# Construct the full path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add the parent directory to the PYTHONPATH
+sys.path.append(parent_dir)
+
+from Model import batiment as b
 
 
 class Walker():

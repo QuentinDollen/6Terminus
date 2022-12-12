@@ -1,17 +1,26 @@
-from Terminus_project.Model import terrain as t
-from Terminus_project.Model import maison as mais
-from Terminus_project.Model import Walker as w
-from Terminus_project.Model import water as wa
-from Terminus_project.Model import engineering as eng
-from Terminus_project.Model import security as sec
-from Terminus_project.Model import herb as h
-from Terminus_project.Model import delivery_guy as dv
-from Terminus_project.Model import administration as admin
-from Terminus_project.Model import path as pa
-from Terminus_project.Model import tree as tr
-from Terminus_project.Model import ferme as f
-from Terminus_project.Model import granary as g
-from Terminus_project.Model import warehouse as war
+import os
+import sys
+
+# Construct the full path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add the parent directory to the PYTHONPATH
+sys.path.append(parent_dir)
+
+from Model import terrain as t
+from Model import maison as mais
+from Model import Walker as w
+from Model import water as wa
+from Model import engineering as eng
+from Model import security as sec
+from Model import herb as h
+from Model import delivery_guy as dv
+from Model import administration as admin
+from Model import path as pa
+from Model import tree as tr
+from Model import ferme as f
+from Model import granary as g
+from Model import warehouse as war
 
 
 matrix = [ [3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
