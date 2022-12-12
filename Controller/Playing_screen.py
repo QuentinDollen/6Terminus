@@ -2,6 +2,7 @@
 
 import pygame
 import sys
+sys.path.insert(0, '..')
 import Path_images as pi
 
 
