@@ -1,4 +1,4 @@
-import batiment as b
+from Terminus_project.Model import batiment as b
 
 class Path(b.Batiment):
     def __init__(self,x,y):

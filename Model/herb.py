@@ -1,5 +1,5 @@
-import terrain as T
-class Herb(T.Terrain):
+from Terminus_project.Model import batiment as b
+class Herb(b.Batiment):
     def __init__(self,x,y):
-        T.Terrain.__init__(self, x,y,0)
+        b.Batiment.__init__(self, x,y,0,0,0,0,0,0,0,0)
         self.name = "Herb"
