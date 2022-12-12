@@ -1,1 +1,4 @@
-View/Sprites/Used_sprites/Home_page/Home_page.png"
+while running :
+
+    timer.tick(60)
+    mouse_pos = pg.mouse.get_pos()
