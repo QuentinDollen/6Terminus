@@ -5,7 +5,7 @@ import sys
 
 sys.path.insert(0, '..')
 
-from Terminus_project.Model import matrice as m
+from Model import matrice as m
 
 
 
