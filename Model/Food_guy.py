@@ -1,6 +1,6 @@
-
- # from nis import match
-from Terminus_project.Model import Walker as W
+import sys
+sys.path.insert(0, '..')
+from Model import Walker as W
 
 class Food_Guy(W.Walker):
 	def __init__(self,x,y):

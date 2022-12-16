@@ -1,11 +1,7 @@
-from Terminus_project.Model import terrain as t
-import pathlib
+import sys
+sys.path.insert(0, '..')
+from Model import terrain as t
 
-global dir_path
-
-bat_path = '' + str(pathlib.Path(__file__).absolute())
-
-dir_path: str = bat_path.replace('Batiment.py', '')
 
 
 

@@ -1,4 +1,6 @@
-from Terminus_project.Model import batiment as b
+import os.path
+import sys
+from Model import batiment as b
 
 
 # class Panneau():
