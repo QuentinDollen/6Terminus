@@ -9,5 +9,6 @@ class Ferme (b.Batiment):
     def growFood(self):
         self.growFood = self.growFood + 1
         if(self.growFood >= 5):
+            #time for delivery
             self.growFood = 0
             

@@ -75,8 +75,11 @@ def load(nom):
         sauv = pickle.load(f)
     sauv.uploadFromSave()
 
-
+# a garder
 init_game()
+#
+
+# partie test
 print(Add_bat_game(2, 0, 5))
 m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 print("***  modification en cours ****")

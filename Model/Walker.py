@@ -13,6 +13,7 @@ class Walker():
 		self.batiment = bat
 		self.dest_x = -1
 		self.dest_y = -1
+		self.has_moved = 0
 
 
 
