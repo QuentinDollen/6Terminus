@@ -9,8 +9,10 @@ class Walker():
 		self.y = y
 		self.name = 'no Walker'
 		self.ttl = 20
-		self.tab_path = [(x,y)]
+		self.tab_path = []
 		self.batiment = bat
+		self.dest_x = -1
+		self.dest_y = -1
 
 
 

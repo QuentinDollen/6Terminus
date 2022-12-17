@@ -2,6 +2,9 @@ import pickle
 import os.path
 import sys
 
+
+
+
 sys.path.insert(0, '..')
 from Model import terrain as t
 from Model import maison as mais
@@ -18,7 +21,7 @@ from Model import ferme as f
 from Model import granary as g
 from Model import warehouse as war
 
-
+# matrice de depart par defaut
 matrix = [ [3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
          0, 0, 0, 0],
         [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
@@ -105,7 +108,7 @@ nb_cases_x = 40
 nb_cases_y = 40
 nb_cases = 40
 
-
+# creer une matrice de taille passée en argument. (n'est pas utilisable en jeu)
 def init_matrice_terrain(Mat, x, y):
     assert (Mat == [])
     for i in range(x):
@@ -114,7 +117,11 @@ def init_matrice_terrain(Mat, x, y):
             Mat[i].append(h.Herb(i,j))
 
 
-# Mat [i][j] : donne un tableau avec la liste des personnages, si y en a aucun c'est le type walker par défaut. (parce qu'on a besoin de l'attribut name)
+
+
+# la fonction initialise le tableau des walker
+# Mat [i][j] est un tableau avec la liste des personnages, si y en a aucun c'est le type walker par défaut. (parce qu'on a besoin de l'attribut name)
+# en jeu on utilisera Mat_perso
 def init_matrice_perso(Mat, x, y):
     assert (Mat == [])
     for i in range(x):
@@ -124,7 +131,7 @@ def init_matrice_perso(Mat, x, y):
             Mat[i][j].append([])
             Mat[i][j][0] = w.Walker(i, j, None)
 
-
+# test utiliser pour afficher la matrice des batiments (utilise le type)
 def afficher_matrice_bat(Mat, x, y):
     for i in range(x):
         print("[", end='')
@@ -132,7 +139,7 @@ def afficher_matrice_bat(Mat, x, y):
             print(Mat[i][j].name, " ", end='')
         print("]")
 
-
+# test utiliser pour afficher la matrice des personnage (utilise le type) (walker revient a ce qu'il n'y aie aucun perso dans la case)
 def afficher_matrice_perso(Mat, x, y):
     for i in range(x):
         print("[", end='')
@@ -143,15 +150,18 @@ def afficher_matrice_perso(Mat, x, y):
                 print("| ", end='')
         print("]")
 
-
+#dictionnaire reliant l'id des batiments a la taille qu'ils occupent
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
            111: 2, 114: 2, 0: 1, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
+# permet de inserer un batiment dans la matrice sur tout la taille qu'il occupe (non utilisable en jeu) 
 def put_bat_mat(x,y,bat,Mat):
     for i in range(0,bat.nbr_cases):
         for j in range(0,bat.nbr_cases):
             Mat[x+i][y+j] = bat
 
+# ajoute un batiment a une position specifiee en fonction de l'id
+# on utilise Mat_batiment 
 
 def add_bat(x, y, id_bat, Mat):
     
@@ -217,6 +227,7 @@ def add_bat(x, y, id_bat, Mat):
 
 # globals()["Prefecture"+x+y] # truc interessant dont on se sert pas, à conserver pour plus tard
 
+# ajoute un walker a une matrice donnnee en argument (on utilisera Mat_perso)
 def add_perso_mat(Mat, perso,x,y):
     if(Mat[x][y][0].name == "no Walker"):
         Mat[x][y][0] = perso
@@ -224,15 +235,16 @@ def add_perso_mat(Mat, perso,x,y):
         Mat[x][y].append(perso)
 
 
-
+# cree un personnage de type specifié par un string
 def add_perso(x,y, type, Mat, Bat):
     if (type == 'Delivery Guy'):
         DV = dv.Delivery_Guy(x, y, Bat)
         add_perso_mat(Mat, DV ,x,y)
         Bat.Walk.append(DV)
+        return DV
 
 
-
+# charge la matrice de départ par défaut
 def departureMatrice(Mat):
     map_depart = matrix
     for i in range(0, nb_cases_x):
@@ -241,12 +253,12 @@ def departureMatrice(Mat):
                 add_bat(i, j, map_depart[i][j], Mat)
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
 
-
+# teste si l'emplacement x,y d'une matrice correspond a un chemin
 def isPath(x, y, Mat):
     return Mat[x][y].name == 'Path'
 
-
-def SearchforRoad(x, y, Mat):  # SearchforRoad donne la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
+# SearchforRoad renvoie la position de la route qu'il croise autour (distance de 1) d'un batiment situé en x,y
+def SearchforRoad(x, y, Mat):  
     n = Mat[x][y].nbr_cases
     x1 = 0
     y1 = 0
@@ -254,25 +266,25 @@ def SearchforRoad(x, y, Mat):  # SearchforRoad donne la route qu'il croise autou
         x1 = x - 1
     if (y != 0):
         y1 = y - 1
-    for i in range(n + 3):
+    for i in range(n + 2):
         if (isPath(x1, y1, Mat)):
             return (x1, y1)
         x1 = x1 + 1
-    for j in range(n + 3):
+    for j in range(n + 2):
         if (isPath(x1, y1, Mat)):
             return (x1, y1)
         y1 = y1 + 1
-    for i in range(0, n + 1):
+    for i in range(0, n + 2):
         if (isPath(x1, y1, Mat)):
             return (x1, y1)
         x1 = x1 - 1
-    for j in range(n + 3):
+    for j in range(n + 2):
         if (isPath(x1, y1, Mat)):
             return (x1, y1)
         y1 = y1 - 1
     return (-1, -1)
 
-
+# cherche si une valeur est déjà presente dans un tableau
 def InTable(x, tab):
     bool = 1
     for i in range(len(tab)):
@@ -281,15 +293,15 @@ def InTable(x, tab):
     return bool
 
 
-def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab of tab, with the smallest size, exept if null
+def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab of tab, with the smallest size
     n = len(tab)
     min = tab[0]
     for i in range(n):
-        if (len(min) < len(tab[i]) and len(tab[i]) != 0):
+        if (len(min) > len(tab[i])):
             min = tab[i]
     return min
 
-
+# fonction de pathfinding
 def next_case(x, y, tab_path, dest_x, dest_y, Mat):
     assert (isPath(x, y, Mat))
     if (x == dest_x and y == dest_y):
@@ -321,24 +333,26 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
                 isPath(x, y - 1, Mat) and InTable((x, y - 1), tab_path)) == 0):
             return []
         tab = []
-        tab.append(tab1)
-        tab.append(tab2)
-        tab.append(tab3)
-        tab.append(tab4)
+        if tab1 != [] : tab.append(tab1) 
+        if tab2 != [] : tab.append(tab2)
+        if tab3 != [] : tab.append(tab3)
+        if tab4 != [] : tab.append(tab4)
         return min_tab_tab_notnull(tab)
 
-
+# deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
+# doit prendre une direction au pif a un croisement
 def Deplacement_basique():  # a faire evidemment
     return (0, 0)
 
-
+# deplace l'ensemble des walker 
+# possibilité de l'implémenter avec de la mise en parralèle
 def deplacement_perso(Mat, i, j):
     if Mat[i][j][0].name != "Walker":
         for k in range(Mat[i][j].len):
             if (Mat[i][j][k].destination_x != 666 and Mat[i][j][k].destination_y != 666):
                 if (Mat[i][j][k].tab_path == []):
-                    Mat[i][j][k].tab_path = next_case(i, j, [(i, j)], Mat[i][j][k].destination_x,
-                                                      Mat[i][j][k].destination_y, Mat)
+                    Mat[i][j][k].tab_path = next_case(i, j, [(i, j)], Mat[i][j][k].dest_x,
+                                                      Mat[i][j][k].dest_y, Mat)
                 else:
                     Mat[i][j][k].tab_path.pop(0)
                     (nx, ny) = Mat[i][j][k].tab_path(0)

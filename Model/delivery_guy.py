@@ -9,6 +9,7 @@ class Delivery_Guy(W.Walker):
 		self.cargaison_nourriture = [ ['blé', 0 ], ['fruits', 0], ['viande', 0]]
 		self.cargaison_produits = [ ['argile',0], ['potterie',0], ['huile',0], ['',0], ['',0]]
 
+	# ajoute une marchandise a la cargaison
 	def ajout_marchandise(self,type_transport,nb):
 		if(type_transport == 'blé'): self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
 		if(type_transport == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
@@ -16,6 +17,7 @@ class Delivery_Guy(W.Walker):
 		if(type_transport == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
 		if(type_transport == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
 	
+	# decharge une marchandise
 	def dechargement(self,type_transport):
 		if(type_transport == 'blé'): 
 			res = self.cargaison_nourriture[0][1] 
