@@ -1,16 +1,26 @@
-import matrice as m
+import os
+import sys
+
+# Construct the full path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add the parent directory to the PYTHONPATH
+sys.path.append(parent_dir)
+
+
+import Model.matrice as m
 import math as ma
 import numpy as np
-import batiment as b
-import terrain as t
-import maison as mais
-import Walker as w
-import Priest as p
-import water as wa
-import engineering as eng
-import security as sec
-import herb as h
-import delivery_guy as dg
+import Model.batiment as b
+import Model.terrain as t
+import Model.maison as mais
+import Model.Walker as w
+import Model.Priest as p
+import Model.water as wa
+import Model.engineering as eng
+import Model.security as sec
+import Model.herb as h
+import Model.delivery_guy as dg
 
 
 def Delivery(Bat, type_march, quant, Mat):
