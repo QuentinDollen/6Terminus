@@ -416,17 +416,12 @@ afficher_matrice_perso(Mat_perso, 5, 5)
 
 deplacement_perso(Mat_perso)
 print(" ")
-afficher_matrice_bat(Mat_batiment, 6, 6)
 afficher_matrice_perso(Mat_perso, 5, 5)
-
 
 deplacement_perso(Mat_perso)
 print(" ")
-afficher_matrice_bat(Mat_batiment, 6, 6)
 afficher_matrice_perso(Mat_perso, 5, 5)
-
 
 deplacement_perso(Mat_perso)
 print(" ")
-afficher_matrice_bat(Mat_batiment, 6, 6)
 afficher_matrice_perso(Mat_perso, 5, 5)

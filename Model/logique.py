@@ -21,8 +21,10 @@ def Delivery(Bat_depart, type_march, quant):
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart)
         dg.ajout_marchandise(type_march,quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
-        #dg.dest_x = Bat_dest.pos_x
-        #dg.dest_y = Bat_dest.pos_y
+        (dx, dy) = m.SearchforRoad(x, y, m.Mat_bat)
+        #dg.dest_x = dx
+        #dg.dest_y = dy
+
 
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
 # Pour un batiment de plusieurs cases, ne donne l'id que si la case est celle en haut, autrement renvoie 666
