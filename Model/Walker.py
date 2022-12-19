@@ -1,5 +1,6 @@
-
-from Terminus_project.Model import batiment as b
+import sys
+sys.path.insert(0, '..')
+from Model import batiment as b
 
 
 class Walker():
@@ -8,8 +9,11 @@ class Walker():
 		self.y = y
 		self.name = 'no Walker'
 		self.ttl = 20
-		self.tab_path = [(x,y)]
+		self.tab_path = []
 		self.batiment = bat
+		self.dest_x = -1
+		self.dest_y = -1
+		self.has_moved = 0
 
 
 

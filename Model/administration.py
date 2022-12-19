@@ -1,12 +1,7 @@
 import sys
 import os
-
-parent_package_dir = os.path.abspath(os.path.join(os.path.dirname("administration.py"), '..'))
-print(sys.path)
-sys.path.insert(0, parent_package_dir)
-
-
-from Terminus_project.Model import batiment as b
+sys.path.insert(0, '..')
+from Model import batiment as b
 
 
 class Senate1(b.Batiment):

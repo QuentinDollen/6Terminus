@@ -1,4 +1,6 @@
-from Terminus_project.Model import batiment as b
+import sys
+sys.path.insert(0, '..')
+from Model import batiment as b
 
 class Ferme (b.Batiment):
     def __init__(self, posx, posy):
@@ -7,5 +9,6 @@ class Ferme (b.Batiment):
     def growFood(self):
         self.growFood = self.growFood + 1
         if(self.growFood >= 5):
+            #time for delivery
             self.growFood = 0
             

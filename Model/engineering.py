@@ -1,4 +1,6 @@
-from Terminus_project.Model import batiment as b
+import sys
+sys.path.insert(0, '..')
+from Model import batiment as b
 
 
 class EngineersPost(b.Batiment):
