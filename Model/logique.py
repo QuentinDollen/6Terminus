@@ -21,7 +21,7 @@ def Delivery(Bat_depart, type_march, quant):
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart)
         dg.ajout_marchandise(type_march,quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
-        (dx, dy) = m.SearchforRoad(x, y, m.Mat_bat)
+        #(dx, dy) = m.SearchforRoad( batd_x, batd_y, m.Mat_bat)
         #dg.dest_x = dx
         #dg.dest_y = dy
 
