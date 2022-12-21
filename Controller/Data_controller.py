@@ -295,12 +295,17 @@ def set_screen_SP() :
     disable_all_HP_button()
     enable_all_SP_button()
 
+    
     SP_back.draw_image_center()
     SP_support.draw_image_center()
     SP_validate.draw_image_center()
     SP_validate.print_texte() 
     SP_go_home.draw_image_center()
     SP_go_home.print_texte()
+    SP_back.overhead()
+    SP_validate.overhead()
+    SP_go_home.overhead()
+    SP_support.overhead()
     
 
     pg.display.update() 
