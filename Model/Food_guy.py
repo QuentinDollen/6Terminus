@@ -10,8 +10,8 @@ from Model import Walker as W
 # les déplacement vont soit du marché aux greniers, soit du marché au random
 
 class Food_Guy(W.Walker):
-    def __init__(self, x, y):
-        W.Walker.__init__(self, x, y)
+    def __init__(self, x, y, bat):
+        W.Walker.__init__(self, x, y, bat)
         self.cargaison = [['blé', 0], ['fruits', 0], ['viande', 0]]
         self.name = 'Food_Guy'
 

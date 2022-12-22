@@ -1,6 +1,4 @@
 import pickle
-import testuwu.test
-import os.path
 import sys
 
 sys.path.insert(0, '..')

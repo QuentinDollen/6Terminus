@@ -1,9 +1,6 @@
-import pickle
-import os.path
 import sys
 
 sys.path.insert(0, '..')
-
 
 from Model import terrain as t
 from Model import maison as mais
@@ -156,7 +153,7 @@ def afficher_matrice_perso(Mat, x, y):
 
 # dictionnaire reliant l'id des batiments a la taille qu'ils occupent
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
-           111: 2, 114: 2, 0: 1, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
+           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
 
 # permet de inserer un batiment dans la matrice sur tout la taille qu'il occupe (non utilisable en jeu)
@@ -222,7 +219,7 @@ def add_bat(x, y, id_bat, Mat):
         put_bat_mat(x, y, Granary, Mat)
     if id_bat == 72:
         Warehouse = war.Warehouse(x, y)
-        put_bat_mat(Warehouse)
+        put_bat_mat(x, y, Warehouse, Mat)
     if id_bat == 0:
         Herb = h.Herb(x, y)
         Mat[x][y] = Herb
@@ -239,8 +236,8 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type, Mat, Bat):
-    if type == 'Delivery Guy':
+def add_perso(x, y, type_, Mat, Bat):
+    if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat)
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
@@ -292,20 +289,20 @@ def SearchforRoad(x, y, Mat):
 
 # cherche si une valeur est déjà presente dans un tableau
 def InTable(x, tab):
-    bool = 0
+    bool_ = 0
     for i in range(len(tab)):
         if x == tab[i]:
-            bool = 1
-    return bool
+            bool_ = 1
+    return bool_
 
 
 def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab of tab, with the smallest size
     n = len(tab)
-    min = tab[0]
+    min_ = tab[0]
     for i in range(n):
-        if len(min) > len(tab[i]):
-            min = tab[i]
-    return min
+        if len(min_) > len(tab[i]):
+            min_ = tab[i]
+    return min_
 
 
 # fonction de pathfinding
@@ -335,10 +332,14 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
             tab4.append((x, y - 1))
             tab4 = next_case(x, y - 1, tab4, dest_x, dest_y, Mat)
         tab = []
-        if tab1 != []: tab.append(tab1)
-        if tab2 != []: tab.append(tab2)
-        if tab3 != []: tab.append(tab3)
-        if tab4 != []: tab.append(tab4)
+        if tab1 != []:
+            tab.append(tab1)
+        if tab2 != []:
+            tab.append(tab2)
+        if tab3 != []:
+            tab.append(tab3)
+        if tab4 != []:
+            tab.append(tab4)
         final_tab = min_tab_tab_notnull(tab)
         return final_tab
 
