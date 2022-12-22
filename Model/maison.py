@@ -1,5 +1,6 @@
-import os.path
 import sys
+
+sys.path.insert(0, '..')
 from Model import batiment as b
 
 

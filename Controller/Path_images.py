@@ -6,7 +6,6 @@
 
 from os import getcwd
 import pygame
-import cv2
 
 screen = pygame.display.set_mode( (0,0), pygame.FULLSCREEN )
 
