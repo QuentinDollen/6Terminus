@@ -8,6 +8,7 @@ class Delivery_Guy(W.Walker):
 		self.name = 'Delivery_Guy'
 		self.cargaison_nourriture = [ ['blé', 0 ], ['fruits', 0], ['viande', 0]]
 		self.cargaison_produits = [ ['argile',0], ['potterie',0], ['huile',0], ['',0], ['',0]]
+		self.bat_destination 
 
 	# ajoute une marchandise a la cargaison
 	def ajout_marchandise(self,type_transport,nb):
