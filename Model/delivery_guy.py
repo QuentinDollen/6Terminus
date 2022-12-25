@@ -1,6 +1,8 @@
 import sys
+
 sys.path.insert(0, '..')
 from Model import Walker as W
+
 
 class Delivery_Guy(W.Walker):
 	def __init__(self,x,y,bat):
@@ -25,22 +27,19 @@ class Delivery_Guy(W.Walker):
 			self.cargaison_nourriture[0][1] = 0
 			return res
 
-		if(type_transport == 'fruits'): 
-			res = self.cargaison_nourriture[1][1]
-			self.cargaison_nourriture[1][1] = 0
-			return res
-		if(type_transport == 'viandes'): 
-			res = self.cargaison_nourriture[2][1] = 0
-			self.cargaison_nourriture[2][1] = 0
-			return res
-		if(type_transport == 'olives'): 
-			res = self.cargaison_produits[2][1] 
-			self.cargaison_produits[2][1] = 0
-			return res
-		if(type_transport == 'argile'): 
-			res = self.cargaison_produits[0][1] 
-			self.cargaison_produits[0][1] = 0
-			return res
-		
-	
-	
+        if type_transport == 'fruits':
+            res = self.cargaison_nourriture[1][1]
+            self.cargaison_nourriture[1][1] = 0
+            return res
+        if type_transport == 'viandes':
+            res = self.cargaison_nourriture[2][1] = 0
+            self.cargaison_nourriture[2][1] = 0
+            return res
+        if type_transport == 'olives':
+            res = self.cargaison_produits[2][1]
+            self.cargaison_produits[2][1] = 0
+            return res
+        if type_transport == 'argile':
+            res = self.cargaison_produits[0][1]
+            self.cargaison_produits[0][1] = 0
+            return res

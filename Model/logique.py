@@ -1,6 +1,4 @@
 import pickle
-import testuwu.test
-import os.path
 import sys
 
 sys.path.insert(0, '..')
@@ -92,7 +90,7 @@ print("***  test de sauvegarde ****")
 sauvegarde("sauv1")
 m.add_bat(1,0,0,m.Mat_batiment)
 m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-print("***  test du load ****")
+print("**** test du load ****")
 
 load("sauv1")
 m.afficher_matrice_bat(m.Mat_batiment, 3, 3)

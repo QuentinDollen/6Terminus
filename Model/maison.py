@@ -1,11 +1,13 @@
-import os.path
 import sys
+
+sys.path.insert(0, '..')
 from Model import batiment as b
 
 
 # classe de maison servant a définir les méthodes communes a toutes les maisons
 class Maison(b.Batiment):
-    def __init__(self):
+    def __init__(self, nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp):
+        super().__init__(nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp)
         self.name = 'Maison'
         self.nb_habitants = 0
         self.nourriture = []
