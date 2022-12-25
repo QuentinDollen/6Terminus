@@ -10,14 +10,22 @@ class Maison(b.Batiment):
         super().__init__(nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp)
         self.name = 'Maison'
         self.nb_habitants = 0
-        self.nourriture = []
-        self.produits = []
+        self.nourriture = [['ble', 0 ], ['fruits', 0], ['viande', 0]]
+        self.produits = [['argile',0], ['potterie',0], ['huile',0]]
+        
+    def get_delivery(self, chargement):
+        print("chargement",chargement)
+        if(chargement[0] == 'ble'):
+            print("aaaaaaaaaaaaaaaaaa")
+            self.nourriture[0][1] = self.nourriture[0][1] + chargement[1]
+                
 
+ 
 
 
 class Maison_1(Maison):
     def __init__(self, x, y):
-        b.Batiment.__init__(self, 1, 10, x, y, 10, -3, 1, 1, 3, 0)
+        Maison.__init__(self, 1, 10, x, y, 10, -3, 1, 1, 3, 0)
         self.name = 'Maison 1'
         self.acces_eau = 0
         self.des_prev = -99  # cf https://gamefaqs.gamespot.com/pc/63635-caesar-iii/faqs/14466

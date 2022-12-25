@@ -236,9 +236,9 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat, Bat):
+def add_perso(x, y, type_, Mat, Bat, Bat_cible):
     if type_ == 'Delivery Guy':
-        DV = dv.Delivery_Guy(x, y, Bat)
+        DV = dv.Delivery_Guy(x, y, Bat, Bat_cible)
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
@@ -409,14 +409,17 @@ add_bat(1, 4, 5, Mat_batiment)
 add_bat(2, 4, 5, Mat_batiment)
 add_bat(3, 4, 5, Mat_batiment)
 add_bat(4, 4, 5, Mat_batiment)
-
-add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1])
-Mat_perso[1][1][0].dest_x = 4
+add_bat(4,5,10, Mat_batiment)
+add_bat(2,1,72,Mat_batiment)
+DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[4][5])
+DV.ajout_marchandise('ble',5)
+print(DV.cargaison_nourriture)
+Mat_perso[1][1][0].dest_x = 4 # ces valeurs devraient normalement être obtenur avec SearchforRoad()
 Mat_perso[1][1][0].dest_y = 4
 
 #
 #
-afficher_matrice_bat(Mat_batiment, 6, 6)
+afficher_matrice_bat(Mat_batiment, 7, 7)
 afficher_matrice_perso(Mat_perso, 5, 5)
 
 deplacement_perso(Mat_perso)
@@ -430,3 +433,26 @@ afficher_matrice_perso(Mat_perso, 5, 5)
 deplacement_perso(Mat_perso)
 print(" ")
 afficher_matrice_perso(Mat_perso, 5, 5)
+
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 6, 6)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 6, 6)
+afficher_matrice_bat(Mat_batiment, 6,6)
+
+
+print("test livraison")
+def dist(x1,y1,x2,y2):
+    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) )
+
+
+print(DV.cargaison_nourriture)
+
+if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
+    DV.bat_destination.get_delivery( DV.dechargement('ble'))
+    print("fonctionnement normal")
+
+print(Mat_batiment[4][5].nourriture)
