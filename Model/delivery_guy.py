@@ -24,24 +24,21 @@ class Delivery_Guy(W.Walker):
 	def dechargement(self,type_transport):
 		if(type_transport == 'ble'): 
 			res = ["ble", self.cargaison_nourriture[0][1]]
-			print("debug delivery")
-			print(res)
 			self.cargaison_nourriture[0][1] = 0
-			print(res)
 			return res
 		if type_transport == 'fruits':
-			res = self.cargaison_nourriture[1]
+			res = [self.cargaison_nourriture[1][1]]
 			self.cargaison_nourriture[1][1] = 0
 			return res
 		if type_transport == 'viandes':
-			res = self.cargaison_nourriture[2]
+			res = [self.cargaison_nourriture[2][1]]
 			self.cargaison_nourriture[2][1] = 0
 			return res
 		if type_transport == 'olives':
-			res = self.cargaison_produits[2]
+			res = [self.cargaison_produits[2][1]]
 			self.cargaison_produits[2][1] = 0
 			return res
 		if type_transport == 'argile':
-			res = self.cargaison_produits[0]
+			res = [self.cargaison_produits[0][1]]
 			self.cargaison_produits[0][1] = 0
 			return res

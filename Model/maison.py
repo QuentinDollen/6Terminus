@@ -13,11 +13,7 @@ class Maison(b.Batiment):
         self.nourriture = [['ble', 0 ], ['fruits', 0], ['viande', 0]]
         self.produits = [['argile',0], ['potterie',0], ['huile',0]]
         
-    def get_delivery(self, chargement):
-        print("chargement",chargement)
-        if(chargement[0] == 'ble'):
-            print("aaaaaaaaaaaaaaaaaa")
-            self.nourriture[0][1] = self.nourriture[0][1] + chargement[1]
+    
                 
 
  

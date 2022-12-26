@@ -16,12 +16,18 @@ from Model import matrice as m
 def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
     if (x != -1):
-        dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart)
+        cible = m.SearchforSpace()
+        if(cible == None):
+            return -1
+        dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible)
         dg.ajout_marchandise(type_march,quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
-        #(dx, dy) = m.SearchforRoad( batd_x, batd_y, m.Mat_bat)
-        #dg.dest_x = dx
-        #dg.dest_y = dy
+        (cx,cy) = cible.ret_coord()
+        print("cible",cx,cy)
+        (dx, dy) = m.SearchforRoad( cx, cy, m.Mat_batiment)
+        dg.dest_x = dx
+        dg.dest_y = dy
+        print(dx,dy)
 
 
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
@@ -76,21 +82,32 @@ def load(nom):
     sauv.uploadFromSave()
 
 # a garder
-init_game()
+#init_game()
+
 #
 
 # partie test
-print(Add_bat_game(2, 0, 5))
-m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-print("***  modification en cours ****")
-m.add_bat(0,0,0,m.Mat_batiment)
-m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-print("***  test de sauvegarde ****")
+#print(Add_bat_game(2, 0, 5))
+#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+#print("***  modification en cours ****")
+#m.add_bat(0,0,0,m.Mat_batiment)
+#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+#print("***  test de sauvegarde ****")
 
-sauvegarde("sauv1")
-m.add_bat(1,0,0,m.Mat_batiment)
-m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-print("**** test du load ****")
+#sauvegarde("sauv1")
+#m.add_bat(1,0,0,m.Mat_batiment)
+#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+#print("**** test du load ****")
 
-load("sauv1")
-m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+#load("sauv1")
+#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+Add_bat_game(0,6,100)
+Add_bat_game(1,5,5)
+
+Delivery(m.Mat_batiment[0][6],'ble',11)
+
+m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
+m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+m.deplacement_perso(m.Mat_perso)
+m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+

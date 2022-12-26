@@ -20,3 +20,10 @@ class Batiment(t.Terrain):
         self.neededEmployees = emp  # le nombre d'employé requis pour que le batiment fonctionne
         self.name = 'Batiment'  # le nom du batiment. À modifier selon le type de batiment
         self.Walk = []
+    def ret_coord(self):
+        return (self.pos_x , self.pos_y)
+        
+    def get_delivery(self, chargement):
+        print("chargement",chargement)
+        if(chargement[0] == 'ble'):
+            self.nourriture[0][1] = self.nourriture[0][1] + chargement[1]

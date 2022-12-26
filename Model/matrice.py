@@ -104,6 +104,15 @@ nb_cases_x = 40
 nb_cases_y = 40
 nb_cases = 40
 
+#liste servant a retenir l'ensemble des batiments servant a stocker des marchandises
+Liste_stock = []
+
+
+def SearchforSpace():
+    for i in range(len(Liste_stock)):
+        if(Liste_stock[i].isFull() != 1):
+            return Liste_stock[i]
+    return None
 
 # creer une matrice de taille passée en argument. (n'est pas utilisable en jeu)
 def init_matrice_terrain(Mat, x, y):
@@ -217,9 +226,11 @@ def add_bat(x, y, id_bat, Mat):
     if id_bat == 71:
         Granary = g.Granary(x, y)
         put_bat_mat(x, y, Granary, Mat)
+        Liste_stock.append(Granary)
     if id_bat == 72:
         Warehouse = war.Warehouse(x, y)
         put_bat_mat(x, y, Warehouse, Mat)
+        Liste_stock.append(Warehouse)
     if id_bat == 0:
         Herb = h.Herb(x, y)
         Mat[x][y] = Herb
@@ -394,11 +405,23 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                     Mat[i][j][k].has_moved = 0
 
 
+# verifie que la distance entre deux cases est de 1
+def dist(x1,y1,x2,y2):
+    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) )
+
+# procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible
+def echange(DV):
+    print(DV.cargaison_nourriture)
+    if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
+        DV.bat_destination.get_delivery( DV.dechargement('ble'))
+
+
 ### a garder #############################
 Mat_batiment = []
 Mat_perso = []
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
+
 ############################################
 
 # non necessaire, juste un test
@@ -414,7 +437,7 @@ add_bat(2,1,72,Mat_batiment)
 DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[4][5])
 DV.ajout_marchandise('ble',5)
 print(DV.cargaison_nourriture)
-Mat_perso[1][1][0].dest_x = 4 # ces valeurs devraient normalement être obtenur avec SearchforRoad()
+Mat_perso[1][1][0].dest_x = 4 # ces valeurs devraient normalement être obtenue avec SearchforRoad()
 Mat_perso[1][1][0].dest_y = 4
 
 #
@@ -445,14 +468,5 @@ afficher_matrice_bat(Mat_batiment, 6,6)
 
 
 print("test livraison")
-def dist(x1,y1,x2,y2):
-    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) )
-
-
-print(DV.cargaison_nourriture)
-
-if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
-    DV.bat_destination.get_delivery( DV.dechargement('ble'))
-    print("fonctionnement normal")
-
+echange(DV)
 print(Mat_batiment[4][5].nourriture)
