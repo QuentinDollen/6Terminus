@@ -279,19 +279,19 @@ def SearchforRoad(x, y, Mat):
         x1 = x - 1
     if y != 0:
         y1 = y - 1
-    for i in range(n + 2):
+    for i in range(n + 1):
         if isPath(x1, y1, Mat):
             return x1, y1
         x1 = x1 + 1
-    for j in range(n + 2):
+    for j in range(n + 1):
         if isPath(x1, y1, Mat):
             return x1, y1
         y1 = y1 + 1
-    for i in range(0, n + 2):
+    for i in range(0, n + 1):
         if isPath(x1, y1, Mat):
             return x1, y1
         x1 = x1 - 1
-    for j in range(n + 2):
+    for j in range(n + 1):
         if isPath(x1, y1, Mat):
             return x1, y1
         y1 = y1 - 1
@@ -351,7 +351,9 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
             tab.append(tab3)
         if tab4 != []:
             tab.append(tab4)
-        final_tab = min_tab_tab_notnull(tab)
+        final_tab = []
+        if(tab != []):
+            final_tab = min_tab_tab_notnull(tab)
         return final_tab
 
 
@@ -407,7 +409,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 # verifie que la distance entre deux cases est de 1
 def dist(x1,y1,x2,y2):
-    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) )
+    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) or ( (x2-x1)**2 + (y2-y1)**2 == 2))
 
 # procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible
 def echange(DV):

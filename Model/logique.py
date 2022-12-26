@@ -87,6 +87,7 @@ def load(nom):
 #
 
 # partie test
+
 #print(Add_bat_game(2, 0, 5))
 #m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 #print("***  modification en cours ****")
@@ -105,7 +106,7 @@ Add_bat_game(0,6,100)
 Add_bat_game(1,5,5)
 
 Delivery(m.Mat_batiment[0][6],'ble',11)
-
+print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
 m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 m.deplacement_perso(m.Mat_perso)
