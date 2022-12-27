@@ -364,11 +364,23 @@ def Deplacement_basique():  # a faire evidemment
     return 0, 0
 
 
-# deplace un walker sur la matrice, avec la prochaine étape
+# verifie que la distance entre deux cases est de 1
+def dist(x1,y1,x2,y2):
+    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) or ( (x2-x1)**2 + (y2-y1)**2 == 2))
 
+# procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible
+def echange(DV):
+    print("echange")
+    if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
+        print("dechargement:",DV.cargaison_nourriture)
+        DV.bat_destination.get_delivery( DV.dechargement('ble'))
 
 # deplace l'ensemble des walker
 # possibilité de l'implémenter avec de la mise en parralèle
+# si un walker arrive a destination procede a un echange
+# pas terminé: il faut que on puisse echangé dès qu'on est a proximité et que le path soit remis a jours
+# un walker arrive a destination doit soit mourir soit revenir a son batiment d'origine
+# il faut implémenter des "missions" pour les walkers: definir le type de marchandise a acheminer, parce que echange marche juste avec ble pour l'instant
 def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
     for i in range(tx):
         for j in range(ty):
@@ -378,14 +390,14 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                         Mat[i][j][k].has_moved = 1
                         if Mat[i][j][k].dest_x != -1 and Mat[i][j][k].dest_y != -1:
                             if Mat[i][j][k].tab_path == []:
-                                new_path = next_case(i, j, [(i, j)], Mat[i][j][k].dest_x, Mat[i][j][k].dest_y,
-                                                     Mat_batiment)
+                                new_path = next_case(i, j, [(i, j)], Mat[i][j][k].dest_x, Mat[i][j][k].dest_y, Mat_batiment)
                                 print("new_path:", new_path)
                                 Mat[i][j][k].tab_path = new_path
                             Mat[i][j][k].tab_path.pop(0)
                             if len(Mat[i][j][k].tab_path) != 0:
                                 (nx, ny) = Mat[i][j][k].tab_path[0]
                             else:
+                                echange(Mat[i][j][k])
                                 nx = i
                                 ny = j
                         else:
@@ -407,15 +419,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                     Mat[i][j][k].has_moved = 0
 
 
-# verifie que la distance entre deux cases est de 1
-def dist(x1,y1,x2,y2):
-    return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) or ( (x2-x1)**2 + (y2-y1)**2 == 2))
 
-# procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible
-def echange(DV):
-    print(DV.cargaison_nourriture)
-    if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
-        DV.bat_destination.get_delivery( DV.dechargement('ble'))
 
 
 ### a garder #############################
@@ -437,8 +441,8 @@ add_bat(4, 4, 5, Mat_batiment)
 add_bat(4,5,10, Mat_batiment)
 add_bat(2,1,72,Mat_batiment)
 DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[4][5])
-DV.ajout_marchandise('ble',5)
-print(DV.cargaison_nourriture)
+DV.ajout_marchandise('ble',6)
+print("cargaison",DV.cargaison_nourriture)
 Mat_perso[1][1][0].dest_x = 4 # ces valeurs devraient normalement être obtenue avec SearchforRoad()
 Mat_perso[1][1][0].dest_y = 4
 
@@ -470,5 +474,4 @@ afficher_matrice_bat(Mat_batiment, 6,6)
 
 
 print("test livraison")
-echange(DV)
 print(Mat_batiment[4][5].nourriture)
