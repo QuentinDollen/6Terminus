@@ -387,36 +387,40 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
         for j in range(ty):
             if Mat[i][j][0].name != "no Walker":
                 for k in range(len(Mat[i][j])):
-                    print(i,j,k)
-                    if Mat[i][j][k].has_moved == 0:
-                        Mat[i][j][k].has_moved = 1
-                        if Mat[i][j][k].dest_x != -1 and Mat[i][j][k].dest_y != -1:
-                            if Mat[i][j][k].tab_path == []:
-                                new_path = next_case(i, j, [(i, j)], Mat[i][j][k].dest_x, Mat[i][j][k].dest_y, Mat_batiment)
+                    count = 0
+                    if Mat[i][j][count].has_moved == 1:
+                        count = count+1
+                    else :
+                        Mat[i][j][count].has_moved = 1
+                        if Mat[i][j][count].dest_x != -1 and Mat[i][j][count].dest_y != -1:
+                            if Mat[i][j][count].tab_path == []:
+                                new_path = next_case(i, j, [(i, j)], Mat[i][j][count].dest_x, Mat[i][j][count].dest_y, Mat_batiment)
                                 print("new_path:", new_path)
-                                Mat[i][j][k].tab_path = new_path
-                            Mat[i][j][k].tab_path.pop(0)
-                            if len(Mat[i][j][k].tab_path) != 0:
-                                (nx, ny) = Mat[i][j][k].tab_path[0]
+                                Mat[i][j][count].tab_path = new_path
+                            Mat[i][j][count].tab_path.pop(0)
+                            if len(Mat[i][j][count].tab_path) != 0:
+                                (nx, ny) = Mat[i][j][count].tab_path[0]
                             else:
-                                echange(Mat[i][j][k])
+                                echange(Mat[i][j][count])
                                 nx = i
                                 ny = j
                         else:
                             (nx, ny) = Deplacement_basique()
                             print("default")
-                       
-                        walk = Mat[i][j][k]
-                        Mat[i][j].pop(k)
-                        if len(Mat[i][j]) == 0:
-                            Mat[i][j].append(w.Walker(i, j, None))
-                        walk.x = nx
-                        walk.y = ny
-                        print("nx:", nx, "ny", ny)
-                        print("test 3")
-                        add_perso_mat(Mat, walk, nx, ny)
-                        afficher_matrice_perso(Mat_perso,7,7)
-                        print("test 4")
+                        if(nx == i and ny == j):
+                            count = count + 1
+                        else:
+                            walk = Mat[i][j][count]
+                            Mat[i][j].pop(count)
+                            if len(Mat[i][j]) == 0:
+                                Mat[i][j].append(w.Walker(i, j, None))
+                            walk.x = nx
+                            walk.y = ny
+                            print("nx:", nx, "ny", ny)
+                            print("test 3")
+                            add_perso_mat(Mat, walk, nx, ny)
+                            afficher_matrice_perso(Mat_perso,7,7)
+                            print("test 4")
 
     for i in range(tx):
         for j in range(ty):
