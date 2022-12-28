@@ -405,18 +405,17 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                         else:
                             (nx, ny) = Deplacement_basique()
                             print("default")
-                        if(nx != i and ny != j):
-                            walk = Mat[i][j][k]
-                            if len(Mat[i][j]) > 1:
-                                Mat[i][j].pop(k)
-                            if len(Mat[i][j]) <= 1:
-                                Mat[i][j][0] = w.Walker(i, j, None)
-                            walk.x = nx
-                            walk.y = ny
-                            print("nx:", nx, "ny", ny)
-                            print("test 3")
-                            add_perso_mat(Mat, walk, nx, ny)
-                            afficher_matrice_perso(Mat_perso,7,7)
+                       
+                        walk = Mat[i][j][k]
+                        Mat[i][j].pop(k)
+                        if len(Mat[i][j]) == 0:
+                            Mat[i][j].append(w.Walker(i, j, None))
+                        walk.x = nx
+                        walk.y = ny
+                        print("nx:", nx, "ny", ny)
+                        print("test 3")
+                        add_perso_mat(Mat, walk, nx, ny)
+                        afficher_matrice_perso(Mat_perso,7,7)
                         print("test 4")
 
     for i in range(tx):
