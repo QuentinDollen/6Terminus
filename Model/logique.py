@@ -118,5 +118,5 @@ m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 m.deplacement_perso(m.Mat_perso)
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
-#m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
 #m.afficher_matrice_perso(m.Mat_perso, 6, 6)

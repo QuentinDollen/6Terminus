@@ -154,7 +154,7 @@ def afficher_matrice_perso(Mat, x, y):
             for k in range(n):
                 print(Mat[i][j][k].name, " ", end='')
                 if n > 1 and k != n - 1:
-                    print(";")
+                    print("; ", end = '')
             if j != y - 1:
                 print("| ", end='')
         print("]")
@@ -243,6 +243,7 @@ def add_perso_mat(Mat, perso, x, y):
     if Mat[x][y][0].name == "no Walker":
         Mat[x][y][0] = perso
     else:
+        print("test4")
         Mat[x][y].append(perso)
 
 
@@ -386,6 +387,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
         for j in range(ty):
             if Mat[i][j][0].name != "no Walker":
                 for k in range(len(Mat[i][j])):
+                    print(i,j,k)
                     if Mat[i][j][k].has_moved == 0:
                         Mat[i][j][k].has_moved = 1
                         if Mat[i][j][k].dest_x != -1 and Mat[i][j][k].dest_y != -1:
@@ -403,15 +405,19 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                         else:
                             (nx, ny) = Deplacement_basique()
                             print("default")
-                        walk = Mat[i][j][k]
-                        if len(Mat[i][j]) > 1:
-                            Mat[i][j].pop(k)
-                        if len(Mat[i][j]) <= 1:
-                            Mat[i][j][0] = w.Walker(i, j, None)
-                        walk.x = nx
-                        walk.y = ny
-                        print("nx:", nx, "ny", ny)
-                        add_perso_mat(Mat, walk, nx, ny)
+                        if(nx != i and ny != j):
+                            walk = Mat[i][j][k]
+                            if len(Mat[i][j]) > 1:
+                                Mat[i][j].pop(k)
+                            if len(Mat[i][j]) <= 1:
+                                Mat[i][j][0] = w.Walker(i, j, None)
+                            walk.x = nx
+                            walk.y = ny
+                            print("nx:", nx, "ny", ny)
+                            print("test 3")
+                            add_perso_mat(Mat, walk, nx, ny)
+                        print("test 4")
+
     for i in range(tx):
         for j in range(ty):
             if Mat[i][j][0].name != "no Walker":
@@ -431,6 +437,12 @@ init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 ############################################
 
 # non necessaire, juste un test
+
+
+
+
+
+
 add_bat(1, 1, 5, Mat_batiment)
 add_bat(1, 2, 5, Mat_batiment)
 add_bat(1, 3, 5, Mat_batiment)
@@ -438,6 +450,10 @@ add_bat(1, 4, 5, Mat_batiment)
 add_bat(2, 4, 5, Mat_batiment)
 add_bat(3, 4, 5, Mat_batiment)
 add_bat(4, 4, 5, Mat_batiment)
+
+
+
+
 add_bat(4,5,10, Mat_batiment)
 add_bat(2,1,72,Mat_batiment)
 DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[4][5])
@@ -448,6 +464,7 @@ Mat_perso[1][1][0].dest_y = 4
 
 #
 #
+# 
 afficher_matrice_bat(Mat_batiment, 7, 7)
 afficher_matrice_perso(Mat_perso, 5, 5)
 
