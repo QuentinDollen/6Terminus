@@ -416,6 +416,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             print("nx:", nx, "ny", ny)
                             print("test 3")
                             add_perso_mat(Mat, walk, nx, ny)
+                            afficher_matrice_perso(Mat_perso,7,7)
                         print("test 4")
 
     for i in range(tx):
@@ -437,9 +438,6 @@ init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 ############################################
 
 # non necessaire, juste un test
-
-
-
 
 
 
