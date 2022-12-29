@@ -5,14 +5,15 @@ from os import getcwd
 import pygame as pg
 from pygame.locals import * 
 import sys
-
+from tkinter import simpledialog
+import tkinter as tk 
 pg.init()
 
 # Define global variables :
 
-screen = pg.display.set_mode( (0 , 0 ) , pg.FULLSCREEN)
-window_width = screen.get_size()[0]
-winddow_height = screen.get_size()[1]
+screenData = pg.display.set_mode( ( 0 , 0 ) , pg.FULLSCREEN)
+window_width = screenData.get_size()[0]
+winddow_height = screenData.get_size()[1]
 timer = pg.time.Clock()
 Paragraph = 16
 Normal = 24
@@ -111,7 +112,7 @@ class Button :
 
         # Tell if the mouse is over the button object
 
-    def overhead ( self , pos ) :
+    def overhead ( self , pos , screen ) :
         if  self.get_enable() :
             if  self.get_left() <= pos[0] <= self.get_left()  + self.get_width() and self.get_up()  <= pos[1] <= self.get_up() + self.get_height() :
 
@@ -123,21 +124,21 @@ class Button :
                 return True
 
             else :
-                self.draw_image_center()
+                self.draw_image_center( screen )
                 
         return False
 
         # Tell if the mouse click on the button object
 
-    def touched ( self , pos ) : 
-        if self.get_enable() and self.overhead( pos ) : 
+    def touched ( self , pos , screen ) : 
+        if self.get_enable() and self.overhead( pos , screen ) : 
             pg.event.post( self.__action )
             return True
         
 
         # Draw form the center of Image on the screen :
 
-    def draw_image_center( self ) : 
+    def draw_image_center( self , screen ) : 
         if not self.__centred :
             center = ( self.get_left() - self.get_width()/2 , self.get_up() - self.get_height()/2 )
 
@@ -153,7 +154,7 @@ class Button :
 
         # Draw the image on the screen :
 
-    def draw_image( self ) : 
+    def draw_image( self , screen ) : 
 
         if ( self.get_enable()) :
          screen.blit( self.get_image() , ( self.get_left() , self.get_height() )  )
@@ -192,7 +193,7 @@ class Texte_button(Button) :
 
         # Print the button's texte : 
 
-    def print_texte(self) :
+    def print_texte(self , screen ) :
         if self.get_enable() and self.get_text() != None :
             TEXTE = Textefont.render(f"{self.get_text()}", True , self.get_color() )
             
@@ -214,10 +215,17 @@ class Texte_button(Button) :
             self.__text += key 
         
         
+# Define text box for choosing game name :
+SP_gname = pg.Surface((window_width/2 , window_width / 2 ))
+SP_rgname = pg.draw.rect(SP_gname , ( 255 , 255 , 255 ), SP_gname.get_rect() , 1 )
+SP_gname_txt = ""
 
-        
-         
+def on_button_click():
+    # Create a dialog box for the user to enter text
+    text = simpledialog.askstring("Input", "Enter some text:")
 
+    # Print the text to the console
+    print(text)
 
 # Define all buttons of the game :
 
@@ -240,7 +248,7 @@ HP_load_game.resize( ( window_width , winddow_height ) )
 
 HP_tittle = Button ( Pos_HP_tittle , Path_HP_tittle , go_to_home_page)
 HP_tittle.resize( ( window_width , winddow_height ) )
-HP_tittle.draw_image_center()
+
 
     # Save page Ones :
 
@@ -252,6 +260,7 @@ SP_go_home = Texte_button ( Pos_SP_go_home , Path_SP_go_home , None , "Back")
 SP_validate.set_size(( window_width /10, winddow_height /10 ))
 SP_support = Button( Pos_SP_support , Path_SP_support , None)
 SP_support.set_size( ( 2*window_width /3, 2*winddow_height /3 ) )
+
 # SP_go_home = Button( )
 
 
@@ -291,84 +300,104 @@ def enable_all_SP_button() :
     SP_support.set_enable()
 
 
-def set_screen_SP() :
+def set_screen_SP( screen ) :
     disable_all_HP_button()
     enable_all_SP_button()
 
     
-    SP_back.draw_image_center()
-    SP_support.draw_image_center()
-    SP_validate.draw_image_center()
-    SP_validate.print_texte() 
-    SP_go_home.draw_image_center()
-    SP_go_home.print_texte()
-    SP_back.overhead()
-    SP_validate.overhead()
-    SP_go_home.overhead()
-    SP_support.overhead()
+    SP_back.draw_image_center(screen)
+    SP_support.draw_image_center(screen)
+    SP_validate.draw_image_center(screen)
+    SP_validate.print_texte(screen) 
+    SP_go_home.draw_image_center(screen)
+    SP_go_home.print_texte(screen)
+
     
 
     pg.display.update() 
 
-def set_screen_HP() :
+def set_screen_HP(screen) :
     disable_all_SP_button()
     enable_all_HP_button()
+    HP_tittle.set_disable()
 
-    HP_back.draw_image_center()
-    HP_support.draw_image_center()
-    HP_newc.draw_image_center()
-    HP_exit.draw_image_center()
-    HP_load_game.draw_image_center()
+    HP_back.draw_image_center(screen)
+    HP_support.draw_image_center(screen)
+    HP_newc.draw_image_center(screen)
+    HP_exit.draw_image_center(screen)
+    HP_load_game.draw_image_center(screen)
     pg.display.update()
 
+
+def set_screen_tittle( screen ) :
+    HP_tittle.draw_image_center(screen)
+    
 # Test game 
 
-
-disable_all()
-while running :
-
-    timer.tick(60)
-    mouse_pos = pg.mouse.get_pos()
-
-        
-    # for event in pg.event.get() :
-    #     if event.type == pg.QUIT :
-    #         running = False
-    #         pg.quit()
-    #         sys.exit()
-  
+# Cur_page = None
+# disable_all()
+# while running :
     
-    pg.display.update() 
 
-# mémory 
+#     timer.tick(60)
+#     mouse_pos = pg.mouse.get_pos()
 
-    for event in pg.event.get() :
+            
+#     pg.display.update() 
+#     pg.display.flip()
 
-        if event.type == pg.QUIT :
-            running = False
-            pg.quit()
-            sys.exit()
+# # mémory 
+#     for event in pg.event.get() :
 
-        if event.type == pg.MOUSEMOTION :
-            HP_exit.overhead( mouse_pos )
-            HP_load_game.overhead( mouse_pos )
-            HP_newc.overhead( mouse_pos )
+#         if event.type == pg.QUIT :
+#             running = False
+#             pg.quit()
+#             sys.exit()
 
-        if event.type == pg.MOUSEBUTTONDOWN :
+#         if event.type == pg.MOUSEMOTION :
+#             HP_exit.overhead( mouse_pos )
+#             HP_load_game.overhead( mouse_pos )
+#             HP_newc.overhead( mouse_pos )
 
-            if HP_tittle.touched( mouse_pos):
-                set_screen_HP()
-                HP_tittle.set_disable()
+#         if Cur_page == "Select" : 
 
-            if HP_exit.touched( mouse_pos ) : 
-                running = False 
-                pg.quit()
-                sys.exit()
+#             if event.type == pg.KEYDOWN :
 
-            if HP_newc.touched( mouse_pos ) :
-                set_screen_SP()
 
-            if SP_validate.overtext( mouse_pos ) :
-                set_screen_HP()
 
+
+#         if event.type == pg.MOUSEBUTTONDOWN :
+
+#             if Cur_page == "Home" :
+
+#                 if HP_tittle.touched( mouse_pos ):
+                   
+#                     set_screen_HP()
+#                     HP_tittle.set_disable()
+
+#                 if HP_exit.touched( mouse_pos ) : 
+#                     running = False 
+#                     pg.quit()
+#                     sys.exit()
+
+#                 if HP_newc.touched( mouse_pos ) :
+#                     set_screen_SP()
+#                     Cur_page = "Select"
+
+#             elif Cur_page == "Select" :
+
+                
+
+#                 if SP_validate.overtext( mouse_pos ) :
+#                     pass
+
+#                 if SP_go_home.overtext( mouse_pos ) :
+#                     set_screen_HP()
+#                     Cur_page = "Home"
+
+
+#             else : 
+#                 set_screen_HP()
+#                 Cur_page = "Home"
+#                 HP_tittle.set_disable()
 

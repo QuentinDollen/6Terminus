@@ -3,20 +3,31 @@ import pygame as pg
 from Controller.Data_controller import *
 
 
+
+
+
+
+
 def main():
 
 
 # Global varibles 
 
+    # Variable pour les boucles dans le jeu 
     running = True
     playing = True
     Launch = True
+    global Cur_page
+    Cur_page = None
+
+    
 
     pg.init()
     pg.mixer.init()
+    global screen
     screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
     clock = pg.time.Clock()
-    disable_all()    
+    set_screen_tittle( screen )   
 
     # implement game
     
@@ -26,62 +37,64 @@ def main():
 
 
         clock.tick(60)
-        mouse_pos = pg.mouse.get_pos()    
+        
+        mouse_track = pg.mouse.get_pos()    
         pg.display.update() 
         pg.display.flip()
 
-
-
+        
+        
         while Launch :
-                global Cur_page
-                for event in pg.event.get() :
 
-                    if event.type == pg.QUIT :
-                        running = False
-                        pg.quit()
-                        sys.exit()
+            pg.display.flip()
+            mouse_track = pg.mouse.get_pos() 
 
-                    if event.type == pg.MOUSEMOTION :
-                        HP_exit.overhead( mouse_pos )
-                        HP_load_game.overhead( mouse_pos )
-                        HP_newc.overhead( mouse_pos )
+            for event in pg.event.get() :
 
-
-                    if event.type == pg.MOUSEBUTTONDOWN :
-
-                        if Cur_page == "Home" :
-
-                                if HP_tittle.touched( mouse_pos ):
-                                    set_screen_HP()
-                                    HP_tittle.set_disable()
-
-                                if HP_exit.touched( mouse_pos ) : 
-                                    Launch = False 
-                                    pg.quit()
-                                    sys.exit()
-
-                                if HP_newc.touched( mouse_pos ) :
-                                    set_screen_SP()
-
-                        elif Cur_page == "Select" :
+                if event.type == pg.QUIT :
+                    running = False 
+                    Launch = False 
+                    pg.quit()
+                    sys.exit()
 
 
-                            if SP_validate.overtext( mouse_pos ) :
-                                pass
+                if event.type == pg.MOUSEBUTTONDOWN : 
+                        
+                    if Cur_page == "Home" :
 
-                            if SP_go_home.overtext( mouse_pos ) :
-                                set_screen_HP()
+                        if HP_exit.overhead( mouse_track , screen ) :
+                            running = False 
+                            Launch = False 
+                            pg.quit()
+                            sys.exit()
 
-                            if SP_gname.collidepoint( mouse_pos ) :
-                                on_button_click()
+                        if HP_newc.overhead( mouse_track , screen ) :
+                            Cur_page = "Select"
+                            set_screen_SP( screen )                         
+                
+                        if HP_load_game.overhead( mouse_track , screen ) :
+                            pass
 
-                        else : 
-                            set_screen_HP()
-                            HP_tittle.set_disable()
-            
+                    elif Cur_page == "Select" :
+                        if SP_validate.overhead( mouse_track , screen ) :
+                            print("Start new game")
+                            pass 
 
-        while playing :
-            pass
+                        if SP_rgname.collidepoint( mouse_track ) :
+                            pass 
+
+                        if SP_go_home.overhead( mouse_track , screen ) :
+                            Cur_page = "Home" 
+                            set_screen_HP( screen )
+
+                    else : 
+
+                        Cur_page = "Home"
+                        set_screen_HP( screen )
+        
+
+        # while playing :
+        #     pass
             # game loop here
             # Game.run()
 
