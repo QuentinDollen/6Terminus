@@ -116,14 +116,14 @@ class Button :
         if  self.get_enable() :
             if  self.get_left() <= pos[0] <= self.get_left()  + self.get_width() and self.get_up()  <= pos[1] <= self.get_up() + self.get_height() :
 
-                temp_image = self.get_image()            
-                screen.blit(pg.Surface( (self.get_width(),self.get_height() ) , pg.Color("Black")) , (self.get_left() , self.get_up()) )
-                pg.Surface.set_alpha(temp_image , 60)
-                screen.blit(temp_image  ,(self.get_left() , self.get_up()))
-                pg.display.update()
+                tmp_image = self.get_image()
+                tmp_image.set_alpha(100)
+                screen.blit( tmp_image , (self.get_left() , self.get_up()) )
+                pg.display.flip()
                 return True
 
             else :
+                self.get_image().set_alpha(255)
                 self.draw_image_center( screen )
                 
         return False
@@ -330,6 +330,7 @@ def set_screen_HP(screen) :
 
 
 def set_screen_tittle( screen ) :
+    disable_all()
     HP_tittle.draw_image_center(screen)
     
 # Test game 

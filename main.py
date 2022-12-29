@@ -25,7 +25,7 @@ def main():
     pg.init()
     pg.mixer.init()
     global screen
-    screen = pg.display.set_mode((0, 0), pg.FULLSCREEN)
+    screen = pg.display.set_mode((0,0), pg.FULLSCREEN)
     clock = pg.time.Clock()
     set_screen_tittle( screen )   
 
@@ -49,6 +49,8 @@ def main():
             pg.display.flip()
             mouse_track = pg.mouse.get_pos() 
 
+            HP_exit.overhead(mouse_track , screen )
+
             for event in pg.event.get() :
 
                 if event.type == pg.QUIT :
@@ -68,11 +70,11 @@ def main():
                             pg.quit()
                             sys.exit()
 
-                        if HP_newc.overhead( mouse_track , screen ) :
+                        elif HP_newc.overhead( mouse_track , screen ) :
                             Cur_page = "Select"
                             set_screen_SP( screen )                         
                 
-                        if HP_load_game.overhead( mouse_track , screen ) :
+                        elif HP_load_game.overhead( mouse_track , screen ) :
                             pass
 
                     elif Cur_page == "Select" :
@@ -80,10 +82,10 @@ def main():
                             print("Start new game")
                             pass 
 
-                        if SP_rgname.collidepoint( mouse_track ) :
+                        elif SP_rgname.collidepoint( mouse_track ) :
                             pass 
 
-                        if SP_go_home.overhead( mouse_track , screen ) :
+                        elif SP_go_home.overhead( mouse_track , screen ) :
                             Cur_page = "Home" 
                             set_screen_HP( screen )
 
