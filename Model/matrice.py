@@ -136,7 +136,7 @@ def init_matrice_perso(Mat, x, y):
             Mat[i][j][0] = w.Walker(i, j, None)
 
 
-# test utiliser pour afficher la matrice des batiments (utilise le type)
+# test utiliser pour afficher la matrice des batiments (utilise le nom )
 def afficher_matrice_bat(Mat, x, y):
     for i in range(x):
         print("[", end='')
@@ -256,7 +256,7 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible):
         return DV
 
 
-# charge la matrice de départ par défaut
+# charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
     map_depart = matrix
     for i in range(0, nb_cases_x):
