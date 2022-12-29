@@ -374,12 +374,12 @@ def echange(DV):
     print("echange")
     if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
         print("dechargement:",DV.cargaison_nourriture)
-        DV.bat_destination.get_delivery( DV.dechargement('ble'))
+        DV.bat_destination.get_delivery(DV.dechargement('ble'))
 
 # deplace l'ensemble des walker
 # possibilité de l'implémenter avec de la mise en parralèle
 # si un walker arrive a destination procede a un echange
-# pas terminé: il faut que on puisse echangé dès qu'on est a proximité et que le path soit remis a jours
+# pas terminé: il faut que on puisse echanger dès qu'on est a proximité et que le path soit remis a jours
 # un walker arrive a destination doit soit mourir soit revenir a son batiment d'origine
 # il faut implémenter des "missions" pour les walkers: definir le type de marchandise a acheminer, parce que echange marche juste avec ble pour l'instant
 def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
