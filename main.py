@@ -47,9 +47,7 @@ def main():
         while Launch :
 
             pg.display.flip()
-            mouse_track = pg.mouse.get_pos() 
-
-            HP_exit.overhead(mouse_track , screen )
+            mouse_track = pg.mouse.get_pos()  
 
             for event in pg.event.get() :
 
@@ -62,7 +60,7 @@ def main():
 
                 if event.type == pg.MOUSEBUTTONDOWN : 
                         
-                    if Cur_page == "Home" :
+                    if Cur_page == "Home" : # Si on se trouve sur la page Home 
 
                         if HP_exit.overhead( mouse_track , screen ) :
                             running = False 
@@ -77,22 +75,23 @@ def main():
                         elif HP_load_game.overhead( mouse_track , screen ) :
                             pass
 
-                    elif Cur_page == "Select" :
-                        if SP_validate.overhead( mouse_track , screen ) :
-                            print("Start new game")
-                            pass 
+                    elif Cur_page == "Select" : # Si on se trouve sur la page Select
 
-                        elif SP_rgname.collidepoint( mouse_track ) :
-                            pass 
+                        # Erreur dans la conception avec les rectangle 
 
-                        elif SP_go_home.overhead( mouse_track , screen ) :
-                            Cur_page = "Home" 
-                            set_screen_HP( screen )
+                        # if SP_go_home_txt.collidepoint(  mouse_track ) :
+                        #     Cur_page = "Home"
+                        #     set_screen_HP( screen )
 
-                    else : 
+                        if SP_validate_txt.get_rect().collidepoint( mouse_track[0] , mouse_track[1]) : 
+                            print("Lancement de partie ")
+                            
+
+                    else : # Si on se trouve dans l'écran titre
 
                         Cur_page = "Home"
                         set_screen_HP( screen )
+                       
         
 
         # while playing :
