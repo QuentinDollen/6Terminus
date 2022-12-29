@@ -5,12 +5,13 @@ from Model import Walker as W
 
 
 class Delivery_Guy(W.Walker):
-	def __init__(self,x,y,bat,bat_cible):
+	def __init__(self,x,y,bat,bat_cible,type_marchandise='ble', type_transport='warhouse'):
 		W.Walker.__init__(self,x,y,bat)
 		self.name = 'Delivery_Guy'
 		self.cargaison_nourriture = [ ['ble', 0 ], ['fruits', 0], ['viande', 0]]
 		self.cargaison_produits = [ ['argile',0], ['potterie',0], ['huile',0], ['',0], ['',0]]
 		self.bat_destination = bat_cible
+		self.type_transport=type_transport
 
 	# ajoute une marchandise a la cargaison
 	def ajout_marchandise(self,type_transport,nb):
