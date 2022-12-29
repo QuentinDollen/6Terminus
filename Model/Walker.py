@@ -3,11 +3,17 @@ import sys
 sys.path.insert(0, '..')
 
 
-class Walker:
-    def __init__(self, x, y, bat):
+class NoWalker:
+    def __init__(self, x, y):
         self.x = x
         self.y = y
         self.name = 'no Walker'
+
+
+class Walker(NoWalker):
+    def __init__(self, x, y, bat):
+        super().__init__(x, y)
+        self.name = 'unknown'
         self.ttl = 20
         self.tab_path = []
         self.batiment = bat

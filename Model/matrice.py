@@ -133,7 +133,7 @@ def init_matrice_perso(Mat, x, y):
         for j in range(y):
             Mat[i].append([])
             Mat[i][j].append([])
-            Mat[i][j][0] = w.Walker(i, j, None)
+            Mat[i][j][0] = w.NoWalker(i, j)
 
 
 # test utiliser pour afficher la matrice des batiments (utilise le nom )
