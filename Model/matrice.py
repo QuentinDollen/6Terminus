@@ -345,17 +345,17 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
             tab1 = next_case(x + 1, y, tab1, dest_x, dest_y, Mat)
         if isPath(x, y + 1, Mat) and not InTable((x, y + 1), tab_path):
             test = 1
-            tab2 = tab_path
+            tab2 = copy(tab_path)
             tab2.append((x, y + 1))
             tab2 = next_case(x, y + 1, tab2, dest_x, dest_y, Mat)
         if isPath(x - 1, y, Mat) and not InTable((x - 1, y), tab_path):
             test = 1
-            tab3 = tab_path
+            tab3 = copy(tab_path)
             tab3.append((x - 1, y))
             tab3 = next_case(x - 1, y, tab3, dest_x, dest_y, Mat)
         if isPath(x, y - 1, Mat) and not InTable((x, y - 1), tab_path):
             test = 1
-            tab4 = tab_path
+            tab4 = copy(tab_path)
             tab4.append((x, y - 1)) 
             tab4 = next_case(x, y - 1, tab4, dest_x, dest_y, Mat)
         if(test == 0):
