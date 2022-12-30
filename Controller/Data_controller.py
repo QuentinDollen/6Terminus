@@ -254,10 +254,14 @@ HP_tittle.resize( ( window_width , winddow_height ) )
 
 SP_back = Button( Pos_SP_back , Path_SP_back , None)
 SP_back.resize( ( window_width , winddow_height ) )
-SP_validate = Texte_button( Pos_SP_validate , Path_SP_validate , None , "Confirm")
-SP_validate.set_size(( window_width /10, winddow_height /10 ))
-SP_go_home = Texte_button ( Pos_SP_go_home , Path_SP_go_home , None , "Back")
-SP_validate.set_size(( window_width /10, winddow_height /10 ))
+
+SP_validate_txt = Textefont.render("Validate" , True , ( 0 , 0 , 0 ) , ( 255 , 255 , 255 ))
+
+
+# SP_validate.set_size(( window_width /10, winddow_height /10 ))
+
+SP_go_home_txt = Textefont.render("Return" , True , ( 0 , 0 , 0 ) , ( 255 , 255 , 255 ))
+# SP_validate.set_size(( window_width /10, winddow_height /10 ))
 SP_support = Button( Pos_SP_support , Path_SP_support , None)
 SP_support.set_size( ( 2*window_width /3, 2*winddow_height /3 ) )
 
@@ -282,8 +286,6 @@ def disable_all_HP_button() :
 
 def disable_all_SP_button() :
     SP_support.set_disable()
-    SP_validate.set_disable()
-    SP_go_home.set_disable()
     SP_back.set_disable()
 
 def enable_all_HP_button() : 
@@ -294,8 +296,7 @@ def enable_all_HP_button() :
     HP_support.set_enable()
 
 def enable_all_SP_button() :
-    SP_validate.set_enable()
-    SP_go_home.set_enable()
+   
     SP_back.set_enable()
     SP_support.set_enable()
 
@@ -303,17 +304,10 @@ def enable_all_SP_button() :
 def set_screen_SP( screen ) :
     disable_all_HP_button()
     enable_all_SP_button()
-
-    
     SP_back.draw_image_center(screen)
     SP_support.draw_image_center(screen)
-    SP_validate.draw_image_center(screen)
-    SP_validate.print_texte(screen) 
-    SP_go_home.draw_image_center(screen)
-    SP_go_home.print_texte(screen)
-
-    
-
+    screen.blit( SP_validate_txt , ( Pos_SP_validate[0] - SP_validate_txt.get_width()/2 , Pos_SP_validate[1] - SP_validate_txt.get_height()/2 ))
+    screen.blit( SP_go_home_txt , ( Pos_SP_go_home[0] - SP_go_home_txt.get_width()/2 , Pos_SP_go_home[1] - SP_go_home_txt.get_height()/2 ) )
     pg.display.update() 
 
 def set_screen_HP(screen) :
