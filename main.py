@@ -79,9 +79,9 @@ def main():
 
                         # Erreur dans la conception avec les rectangle 
 
-                        # if SP_go_home_txt.collidepoint(  mouse_track ) :
-                        #     Cur_page = "Home"
-                        #     set_screen_HP( screen )
+                        if SP_go_home_txt.collidepoint(  mouse_track ) :
+                            Cur_page = "Home"
+                            set_screen_HP( screen )
 
                         if SP_validate_txt.get_rect().collidepoint( mouse_track[0] , mouse_track[1]) : 
                             print("Lancement de partie ")
