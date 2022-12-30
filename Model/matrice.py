@@ -133,7 +133,7 @@ def init_matrice_perso(Mat, x, y):
         for j in range(y):
             Mat[i].append([])
             Mat[i][j].append([])
-            Mat[i][j][0] = w.NoWalker(i, j)
+            Mat[i][j][0] = w.NoWalker()
 
 
 # test utiliser pour afficher la matrice des batiments (utilise le nom )
@@ -413,7 +413,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             walk = Mat[i][j][count]
                             Mat[i][j].pop(count)
                             if len(Mat[i][j]) == 0:
-                                Mat[i][j].append(w.Walker(i, j, None))
+                                Mat[i][j].append(w.NoWalker())
                             walk.x = nx
                             walk.y = ny
                             print("nx:", nx, "ny", ny)

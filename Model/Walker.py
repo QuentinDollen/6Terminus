@@ -4,15 +4,15 @@ sys.path.insert(0, '..')
 
 
 class NoWalker:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self):
         self.name = 'no Walker'
 
 
 class Walker(NoWalker):
     def __init__(self, x, y, bat):
-        super().__init__(x, y)
+        super().__init__()
+        self.x = x
+        self.y = y
         self.name = 'unknown'
         self.ttl = 20
         self.tab_path = []
