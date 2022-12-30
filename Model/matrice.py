@@ -217,9 +217,20 @@ def next_case(x,y, tab_path, dest_x, dest_y, Mat):
         
 
     
+# retourne la case suivante 
+def Deplacement_basique(Mat_batiment ,  Mat_perso ): # a faire evidemment
 
-def Deplacement_basique(): # a faire evidemment
-    return (0,0)
+    for i in range( nb_cases ) : 
+        for j in range( nb_cases ) : 
+            if Mat_perso[i][j] != "no walker" :
+                # Checker les routes 
+
+                if not isPath( i , j , Mat_batiment ) : 
+                    pass
+                # Faire un choix 
+                # Déplacer le walker
+
+    pass
 
 
 

@@ -15,6 +15,6 @@ class Walker():
 		self.name = 'no Walker'
 		self.ttl = 20
 		self.tab_path = [(x,y)]
-
+		self.prev_pos = ( x , y ) # Nécessaire pour le déplacement 
 
 
