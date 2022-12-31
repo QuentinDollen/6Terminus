@@ -513,3 +513,7 @@ deplacement_perso(Mat_perso)
 afficher_matrice_perso(Mat_perso,7,7)
 print("test livraison")
 print(Mat_batiment[5][4].nourriture)
+
+add_bat(1,0,5,Mat_batiment)
+afficher_matrice_bat(Mat_batiment,3,3)
+print(Mat_batiment[0][1].name)

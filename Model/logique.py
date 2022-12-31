@@ -105,8 +105,8 @@ def load(nom):
 Add_bat_game(0,6,100)
 Add_bat_game(1,5,5)
 
-Delivery(m.Mat_batiment[0][6],'ble',11)
-Delivery(m.Mat_batiment[0][6],'ble',8)
+Delivery(m.Mat_batiment[6][0],'ble',11)
+Delivery(m.Mat_batiment[6][0],'ble',8)
 
 print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
 m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
@@ -134,4 +134,4 @@ m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 print(" ")
 m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
 
-#print(m.Mat_batiment[2][1].nourriture)
+print(m.Mat_batiment[1][2].nourriture)
