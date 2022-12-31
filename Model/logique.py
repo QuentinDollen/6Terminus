@@ -128,4 +128,10 @@ m.deplacement_perso(m.Mat_perso)
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
 m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+print(" ")
+m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
+
+#print(m.Mat_batiment[2][1].nourriture)
