@@ -1,5 +1,5 @@
 import sys
-
+import random
 sys.path.insert(0, '..')
 
 from Model import terrain as t
@@ -135,15 +135,33 @@ def init_matrice_perso(Mat, x, y):
             Mat[i].append([])
             Mat[i][j].append([])
             Mat[i][j][0] = w.NoWalker()
+# Créer une matrice route utile pour les déplacement des walkers 
+def init_matrice_route( Mat_route , cases_x = nb_cases_x , cases_y = nb_cases_y ) :
+    assert Mat_route == []
+    for i in range ( cases_x ) :
+        Mat_route.append([])
+        for j in range( cases_y ) :
+            Mat_route[i].append([])
+            Mat_route[i][j] = 0 
 
 
 ### a garder #############################
 Mat_batiment = []
 Mat_perso = []
+Mat_route = []
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
+init_matrice_route( Mat_route , nb_cases_x , nb_cases_y)
 
 ############################################
+
+
+# Actualise la matrice de route
+def actualiser_matrice_route() :
+    for i in range ( nb_cases_x ) :
+        for j in range ( nb_cases_y ) :
+            Mat_route[i][j] = isPath(i,j)
+
 
 # test utiliser pour afficher la matrice des batiments (utilise le nom )
 def afficher_matrice_bat(Mat, x, y):
@@ -380,12 +398,28 @@ def suppr_Batiment(x,y,Mat):
             Mat[Mat[x][y].pos_x + i][Mat[x][y].pos_y + j] = h.Herb(Mat[x][y].pos_x + i, Mat[x][y].pos_y + j)
 
 
+
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
-def Deplacement_basique():  # a faire evidemment
-    return 0, 0
+def Deplacement_basique( Mat , nb_x = nb_cases_x , nb_y = nb_cases_y ):  # a faire evidemment
+    for i in range( nb_x ) :
+        for j in range( nb_y ) :
+                tab_possibles_chemins = []
+                if Mat_route[i+1][j] and ( Mat[i][j].prev_x , Mat[i][j].prev_y ) != ( i , j ) :
+                    tab_possibles_chemins.append((i,j))
+                if Mat_route[i-1][j] and ( Mat[i][j].prev_x , Mat[i][j].prev_y ) != ( i , j ) :
+                    tab_possibles_chemins.append((i,j))
+                if Mat_route[i][j+1] and ( Mat[i][j].prev_x , Mat[i][j].prev_y ) != ( i , j ) :
+                    tab_possibles_chemins.append((i,j))
+                if Mat_route[i][j-1] and ( Mat[i][j].prev_x , Mat[i][j].prev_y ) != ( i , j ) :
+                    tab_possibles_chemins.append((i,j))
 
+                match len( tab_possibles_chemins ) :
+                    case 0 : return ( Mat[i][j].prev_x , Mat[i][j].prev_y ) # Demi tour
+                    case _  : return tab_possibles_chemins[ random(0 ,len( tab_possibles_chemins ) - 1 )] # Aléatoire 
+
+                    
 
 # verifie que la distance entre deux cases est de 1
 def dist(x1,y1,x2,y2):
