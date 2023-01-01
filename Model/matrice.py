@@ -131,10 +131,13 @@ def init_matrice_perso(Mat, x, y):
     assert (Mat == [])
     for j in range(y):
         Mat.append([])
-        for j in range(y):
-            Mat[i].append([])
-            Mat[i][j].append([])
-            Mat[i][j][0] = w.NoWalker()
+        for j in range(y):        
+            for i in range(x):
+                Mat[j].append([])
+                Mat[j][i].append([])
+                Mat[j][i][0] = w.NoWalker()
+
+
 # Créer une matrice route utile pour les déplacement des walkers 
 def init_matrice_route( Mat_route , cases_x = nb_cases_x , cases_y = nb_cases_y ) :
     assert Mat_route == []
@@ -143,10 +146,7 @@ def init_matrice_route( Mat_route , cases_x = nb_cases_x , cases_y = nb_cases_y 
         for j in range( cases_y ) :
             Mat_route[i].append([])
             Mat_route[i][j] = 0 
-        for i in range(x):
-            Mat[j].append([])
-            Mat[j][i].append([])
-            Mat[j][i][0] = w.NoWalker()
+
 
 
 ### a garder #############################
