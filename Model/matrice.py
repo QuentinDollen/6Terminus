@@ -118,18 +118,18 @@ def SearchforSpace():
 # creer une matrice de taille passée en argument. (n'est pas utilisable en jeu)
 def init_matrice_terrain(Mat, x, y):
     assert (Mat == [])
-    for i in range(x):
+    for j in range(y):
         Mat.append([])
-        for j in range(y):
-            Mat[i].append(h.Herb(i, j))
+        for i in range(x):
+            Mat[j].append(h.Herb(i, j))
 
 
 # la fonction initialise le tableau des walker
-# Mat [i][j] est un tableau avec la liste des personnages, si y en a aucun c'est le type walker par défaut. (parce qu'on a besoin de l'attribut name)
+# Mat [j][i] est un tableau avec la liste des personnages, si y en a aucun c'est le type walker par défaut. (parce qu'on a besoin de l'attribut name)
 # en jeu on utilisera Mat_perso
 def init_matrice_perso(Mat, x, y):
     assert (Mat == [])
-    for i in range(x):
+    for j in range(y):
         Mat.append([])
         for j in range(y):
             Mat[i].append([])
@@ -143,6 +143,10 @@ def init_matrice_route( Mat_route , cases_x = nb_cases_x , cases_y = nb_cases_y 
         for j in range( cases_y ) :
             Mat_route[i].append([])
             Mat_route[i][j] = 0 
+        for i in range(x):
+            Mat[j].append([])
+            Mat[j][i].append([])
+            Mat[j][i][0] = w.NoWalker()
 
 
 ### a garder #############################
@@ -165,24 +169,24 @@ def actualiser_matrice_route() :
 
 # test utiliser pour afficher la matrice des batiments (utilise le nom )
 def afficher_matrice_bat(Mat, x, y):
-    for i in range(x):
+    for j in range(y):
         print("[", end='')
-        for j in range(y):
-            print(Mat[i][j].name, " ", end='')
+        for i in range(x):
+            print(Mat[j][i].name, " ", end='')
         print("]")
 
 
 # test utiliser pour afficher la matrice des personnage (utilise le type) (walker revient a ce qu'il n'y aie aucun perso dans la case)
 def afficher_matrice_perso(Mat, x, y):
-    for i in range(x):
+    for j in range(y):
         print("[", end='')
-        for j in range(y):
-            n = len(Mat[i][j])
+        for i in range(x):
+            n = len(Mat[j][i])
             for k in range(n):
-                print(Mat[i][j][k].name, " ", end='')
+                print(Mat[j][i][k].name, " ", end='')
                 if n > 1 and k != n - 1:
                     print("; ", end = '')
-            if j != y - 1:
+            if i != x - 1:
                 print("| ", end='')
         print("]")
 
@@ -192,46 +196,47 @@ id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72
            111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
 
-# permet de inserer un batiment dans la matrice sur tout la taille qu'il occupe (non utilisable en jeu)
+# permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)
 def put_bat_mat(x, y, bat, Mat):
     for i in range(0, bat.nbr_cases):
         for j in range(0, bat.nbr_cases):
-            Mat[x + i][y + j] = bat
+            Mat[y + j][x + i] = bat
 
 
 # ajoute un batiment a une position specifiee en fonction de l'id
-# on utilise Mat_batiment 
+# on utilise Mat_batiment
+# si le batiment est de type stockage, l'ajoute a la liste des batiments de stockage
 def add_bat(x, y, id_bat, Mat):
     if id_bat == 92:
         well = wa.Well(x, y)
-        Mat[x][y] = well
+        Mat[y][x] = well
     if id_bat == 90:
         Reservoir = wa.Reservoir(x, y)
         put_bat_mat(x, y, Reservoir, Mat)
     if id_bat == 91:
         Fountain = wa.Fountain(x, y)
-        Mat[x][y] = Fountain
+        Mat[y][x] = Fountain
     if id_bat == 8:
         Aquaduct = wa.Aquaduct(x, y)
-        Mat[x][y] = Aquaduct
+        Mat[y][x] = Aquaduct
     if id_bat == 81:
         EngineersPost = eng.EngineersPost(x, y)
-        Mat[x][y] = EngineersPost
+        Mat[y][x] = EngineersPost
     if id_bat == 55:
         Prefecture = sec.Prefecture(x, y)
-        Mat[x][y] = Prefecture
+        Mat[y][x] = Prefecture
     if id_bat == 5:
         Route = pa.Path(x, y)
-        Mat[x][y] = Route
+        Mat[y][x] = Route
     if id_bat == 84:
         Forum = admin.Forum1(x, y)
         put_bat_mat(x, y, Forum, Mat)
     if id_bat == 1:
-        Mat[x][y] = t.Water(x, y)
+        Mat[y][x] = t.Water(x, y)
     if id_bat == 2:
-        Mat[x][y] = t.Rock(x, y)
+        Mat[y][x] = t.Rock(x, y)
     if id_bat == 3:
-        Mat[x][y] = tr.tree(x, y)
+        Mat[y][x] = tr.tree(x, y)
     if id_bat == 4:
         Senate = admin.Senate1(x, y)
         put_bat_mat(x, y, Senate, Mat)
@@ -260,18 +265,18 @@ def add_bat(x, y, id_bat, Mat):
         Liste_stock.append(Warehouse)
     if id_bat == 0:
         Herb = h.Herb(x, y)
-        Mat[x][y] = Herb
+        Mat[y][x] = Herb
 
 
 # globals()["Prefecture"+x+y] # truc interessant dont on se sert pas, à conserver pour plus tard
 
 # ajoute un walker a une matrice donnnee en argument (on utilisera Mat_perso)
 def add_perso_mat(Mat, perso, x, y):
-    if Mat[x][y][0].name == "no Walker":
-        Mat[x][y][0] = perso
+    if Mat[y][x][0].name == "no Walker":
+        Mat[y][x][0] = perso
     else:
         print("test4")
-        Mat[x][y].append(perso)
+        Mat[y][x].append(perso)
 
 
 # cree un personnage de type specifié par un string
@@ -288,19 +293,19 @@ def departureMatrice(Mat):
     map_depart = matrix
     for i in range(0, nb_cases_x):
         for j in range(0, nb_cases_y):
-            if map_depart[i][j]:
-                add_bat(i, j, map_depart[i][j], Mat)
+            if map_depart[j][i]:
+                add_bat(i, j, map_depart[j][i], Mat)
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
 
 
 # teste si l'emplacement x,y d'une matrice correspond a un chemin
 def isPath(x, y, Mat):
-    return Mat[x][y].name == 'Path'
+    return Mat[y][x].name == 'Path'
 
 
 # SearchforRoad renvoie la position de la première route rencontrée autour (distance de 1) d'un batiment situé en x,y
 def SearchforRoad(x, y, Mat):
-    n = Mat[x][y].nbr_cases
+    n = Mat[y][x].nbr_cases
     x1 = 0
     y1 = 0
     if x != 0:
@@ -349,7 +354,6 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
     assert (isPath(x, y, Mat))
     if x == dest_x and y == dest_y:
         return tab_path
-  
     else:
         tab1 = []
         tab2 = []
@@ -392,10 +396,11 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
             final_tab = min_tab_tab_notnull(tab)
         return final_tab
 
+# supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x,y,Mat):
-    for i in range(0, Mat[x][y].nbr_cases):
-        for j in range(0, Mat[x][y].nbr_cases):
-            Mat[Mat[x][y].pos_x + i][Mat[x][y].pos_y + j] = h.Herb(Mat[x][y].pos_x + i, Mat[x][y].pos_y + j)
+    for i in range(0, Mat[y][x].nbr_cases):
+        for j in range(0, Mat[y][x].nbr_cases):
+            Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
 
@@ -421,7 +426,7 @@ def Deplacement_basique( Mat , nb_x = nb_cases_x , nb_y = nb_cases_y ):  # a fai
 
                     
 
-# verifie que la distance entre deux cases est de 1
+# verifie que la distance entre deux cases est de 1 (y compris en diagonale)
 def dist(x1,y1,x2,y2):
     return( (x1 == x2 and (abs(y1-y2) == 1)) or (y1 == y2 and (abs(x1-x2) == 1)) or ( (x2-x1)**2 + (y2-y1)**2 == 2))
 
@@ -441,26 +446,25 @@ def echange(DV):
 def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
     for i in range(tx):
         for j in range(ty):
-            if Mat[i][j][0].name != "no Walker":
-                for k in range(len(Mat[i][j])):
+            if Mat[j][i][0].name != "no Walker":
+                for k in range(len(Mat[j][i])):
                     count = 0
-                    if Mat[i][j][count].has_moved == 1:
+                    if Mat[j][i][count].has_moved == 1:
                         count = count+1
                     else :
-                        Mat[i][j][count].has_moved = 1
-                        if Mat[i][j][count].dest_x != -1 and Mat[i][j][count].dest_y != -1:
-                            if Mat[i][j][count].tab_path == []:
-                                new_path = next_case(i, j, [(i, j)], Mat[i][j][count].dest_x, Mat[i][j][count].dest_y, Mat_batiment)
+                        Mat[j][i][count].has_moved = 1
+                        if Mat[j][i][count].dest_x != -1 and Mat[j][i][count].dest_y != -1:
+                            if Mat[j][i][count].tab_path == []:
+                                new_path = next_case(i, j, [(i, j)], Mat[j][i][count].dest_x, Mat[j][i][count].dest_y, Mat_batiment)
                                 if(new_path == []):
                                     new_path.append((i,j))
-                                Mat[i][j][count].tab_path = new_path
+                                Mat[j][i][count].tab_path = new_path
                                 
-                            Mat[i][j][count].tab_path.pop(0)
-                            if len(Mat[i][j][count].tab_path) != 0:
-                                (nx, ny) = Mat[i][j][count].tab_path[0]
-
+                            Mat[j][i][count].tab_path.pop(0)
+                            if len(Mat[j][i][count].tab_path) != 0:
+                                (nx, ny) = Mat[j][i][count].tab_path[0]
                             else:
-                                echange(Mat[i][j][count])
+                                echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
                         else:
@@ -469,31 +473,28 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             count = count + 1
                         else:
                             if(not isPath(nx,ny,Mat_batiment)):
-                                new_path = next_case(i, j, [(i, j)], Mat[i][j][count].dest_x, Mat[i][j][count].dest_y, Mat_batiment)
-                                Mat[i][j][count].tab_path = new_path
+                                new_path = next_case(i, j, [(i, j)], Mat[j][i][count].dest_x, Mat[j][i][count].dest_y, Mat_batiment)
+                                Mat[j][i][count].tab_path = new_path
                                 count = count + 1
                             else:
-                                walk = Mat[i][j][count]
-                                Mat[i][j].pop(count)
-                                if len(Mat[i][j]) == 0:
-                                    Mat[i][j].append(w.NoWalker())
+                                walk = Mat[j][i][count]
+                                Mat[j][i].pop(count)
+                                if len(Mat[j][i]) == 0:
+                                    Mat[j][i].append(w.NoWalker())
                                 walk.x = nx
                                 walk.y = ny
                                 add_perso_mat(Mat, walk, nx, ny)
-                                
     for i in range(tx):
         for j in range(ty):
-            if Mat[i][j][0].name != "no Walker":
-                for k in range(len(Mat[i][j])):
-                    Mat[i][j][k].has_moved = 0
+            if Mat[j][i][0].name != "no Walker":
+                for k in range(len(Mat[j][i])):
+                    Mat[j][i][k].has_moved = 0
 
 
 
 
 
 # non necessaire, juste un test
-
-
 
 add_bat(1, 1, 5, Mat_batiment)
 add_bat(1, 2, 5, Mat_batiment)
@@ -503,10 +504,12 @@ add_bat(2, 4, 5, Mat_batiment)
 add_bat(3, 4, 5, Mat_batiment)
 add_bat(4, 4, 5, Mat_batiment)
 
+afficher_matrice_bat(Mat_batiment,8,8)
+
 
 add_bat(4,5,10, Mat_batiment)
 add_bat(2,1,72,Mat_batiment)
-DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[4][5])
+DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
 DV.ajout_marchandise('ble',6)
 print("cargaison",DV.cargaison_nourriture)
 Mat_perso[1][1][0].dest_x = 4 # ces valeurs devraient normalement être obtenue avec SearchforRoad()
@@ -544,6 +547,11 @@ deplacement_perso(Mat_perso)
 deplacement_perso(Mat_perso)
 deplacement_perso(Mat_perso)
 afficher_matrice_perso(Mat_perso,7,7)
-
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso,7,7)
 print("test livraison")
-print(Mat_batiment[4][5].nourriture)
+print(Mat_batiment[5][4].nourriture)
+
+add_bat(1,0,5,Mat_batiment)
+afficher_matrice_bat(Mat_batiment,3,3)
+print(Mat_batiment[0][1].name)

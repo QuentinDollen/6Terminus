@@ -33,8 +33,8 @@ def Delivery(Bat_depart, type_march, quant):
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
 # Pour un batiment de plusieurs cases, ne donne l'id que si la case est celle en haut, autrement renvoie 666
 def getID(i, j):
-    if (m.Mat_batiment[i][j].pos_x == i and m.Mat_batiment[i][j].pos_y == j):
-        return m.Mat_batiment[i][j].id
+    if (m.Mat_batiment[j][i].pos_x == i and m.Mat_batiment[j][i].pos_y == j):
+        return m.Mat_batiment[j][i].id
     else:
         return 666
 
@@ -47,7 +47,7 @@ def init_game():
 def Add_bat_game(x, y, id_bat):
     for i in range(m.id_size[id_bat]):
         for j in range(m.id_size[id_bat]):
-            if m.Mat_batiment[x + i][y + j].name != "Herb":
+            if m.Mat_batiment[y + j][x + i].name != "Herb":
                 return -1
     m.add_bat(x, y, id_bat, m.Mat_batiment)
     return 0
@@ -105,8 +105,8 @@ def load(nom):
 Add_bat_game(0,6,100)
 Add_bat_game(1,5,5)
 
-Delivery(m.Mat_batiment[0][6],'ble',11)
-Delivery(m.Mat_batiment[0][6],'ble',8)
+Delivery(m.Mat_batiment[6][0],'ble',11)
+Delivery(m.Mat_batiment[6][0],'ble',8)
 
 print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
 m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
@@ -128,4 +128,10 @@ m.deplacement_perso(m.Mat_perso)
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
 m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+print(" ")
+m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
+
+print(m.Mat_batiment[1][2].nourriture)
