@@ -446,25 +446,29 @@ def Deplacement_basique_v2( Mat = Mat_perso, nb_x = nb_cases_x , nb_y = nb_cases
 # renvoie le prochain x et le prochain y
 def Deplacement_basique( x , y , Mat = Mat_perso, no_walker = 0  ): 
 
+    if Mat[y][x][no_walker].ttl <= 0 :
+        ( Mat[y][x][no_walker].dest_y , Mat[y][x][no_walker].dest_x ) = ( Mat[y][x][no_walker].bat.pos_y, Mat[y][x][no_walker].bat.pos_x )
+        pass # Aller vers son batiment 
+
         tab_possibles_chemins = []
         if x < nb_cases_x - 1 :
 
-            if Mat_route[x+1][y] and ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y ) != ( x , y ) :
+            if Mat_route[y][x+1] and ( Mat[y][x][no_walker].prev_x , Mat[y][x][no_walker].prev_y ) != ( x , y ) :
                 tab_possibles_chemins.append((x+1,y))
         if x > 0  :
-            if Mat_route[x-1][y] and ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y ) != ( x , y ) :
+            if Mat_route[y][x-1] and ( Mat[y][x][no_walker].prev_x , Mat[y][x][no_walker].prev_y ) != ( x , y ) :
                 tab_possibles_chemins.append(( x-1 , y ))
         if y < nb_cases_y - 1 :        
-            if Mat_route[x][y+1] and ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y ) != ( x , y ) :
+            if Mat_route[y+1][x] and ( Mat[y][x][no_walker].prev_x , Mat[y][x][no_walker].prev_y ) != ( x , y ) :
                 tab_possibles_chemins.append(( x , y+1 ))
         if y > 0 :
-            if Mat_route[x][y-1] and ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y ) != ( x , y ) :
+            if Mat_route[y-1][x] and ( Mat[y][x][no_walker].prev_x , Mat[y][x][no_walker].prev_y ) != ( x , y ) :
                 tab_possibles_chemins.append(( x , y-1 ))
 
         if len( tab_possibles_chemins ) > 0 :
             return tab_possibles_chemins[ random.randrange(0 ,  len ( tab_possibles_chemins ) ) ] # Aléatoire 
         else : 
-             return ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y )
+            return ( Mat[y][x][no_walker].prev_y , Mat[y][x][no_walker].prev_x )
                 
                     
 
@@ -511,7 +515,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 nx = i
                                 ny = j
                         else:
-                            (nx,ny) = Deplacement_basique(Mat , )
+                            (nx,ny) = Deplacement_basique(i ,j , no_walker=count )
                             
                         if(nx == i and ny == j):
                             count = count + 1
