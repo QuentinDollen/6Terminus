@@ -474,8 +474,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 ny = j
                         else:
                             (nx,ny) = Deplacement_basique(Mat)
-                            Mat[j][i][count].prev_x = i
-                            Mat[j][i][count].prev_y = j
+                            
                         if(nx == i and ny == j):
                             count = count + 1
                         else:
@@ -490,6 +489,8 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                     Mat[j][i].append(w.NoWalker())
                                 walk.x = nx
                                 walk.y = ny
+                                walk.prev_x = i
+                                walk.prev_y = j
                                 add_perso_mat(Mat, walk, nx, ny)
     for i in range(tx):
         for j in range(ty):
