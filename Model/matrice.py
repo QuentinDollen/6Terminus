@@ -130,12 +130,11 @@ def init_matrice_terrain(Mat, x, y):
 def init_matrice_perso(Mat, x, y):
     assert (Mat == [])
     for j in range(y):
-        Mat.append([])
-        for j in range(y):        
-            for i in range(x):
-                Mat[j].append([])
-                Mat[j][i].append([])
-                Mat[j][i][0] = w.NoWalker()
+        Mat.append([])       
+        for i in range(x):
+            Mat[j].append([])
+            Mat[j][i].append([])
+            Mat[j][i][0] = w.NoWalker()
 
 
 # Créer une matrice route utile pour les déplacement des walkers 
@@ -195,6 +194,8 @@ def afficher_matrice_perso(Mat, x, y):
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
            111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
+# dictionnaire reliant le nom des batiments avec leur id
+name_id = {"Well" : 92, "Reservoir" : 90, "Fountain" : 91, "Aquaduct" : 8, "EngineersPost" : 81, "Prefecture" : 55, "Path" : 5, "Forum1" : 84, "Water" : 1, "Rock" : 2, "Tree" : 3, "Senate1" : 4, "Maison1" : 10, "Maison2" : 11, "Maison3" : 12, "Maison4": 13, "Farm" : 100, "Granary" : 71, "Warehouse" : 71, "Herb" : 0 }
 
 # permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)
 def put_bat_mat(x, y, bat, Mat):
@@ -263,6 +264,10 @@ def add_bat(x, y, id_bat, Mat):
         Warehouse = war.Warehouse(x, y)
         put_bat_mat(x, y, Warehouse, Mat)
         Liste_stock.append(Warehouse)
+    if id_bat == 115:
+        Mat[y][x] = tr.Enter_Pannel(x, y)
+    if id_bat == 116:
+        Mat[y][x] = tr.Exit_Pannel(x,y)
     if id_bat == 0:
         Herb = h.Herb(x, y)
         Mat[y][x] = Herb
@@ -403,11 +408,11 @@ def suppr_Batiment(x,y,Mat):
             Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
-
+# !!! Pour un walker !!!
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
-def Deplacement_basique( Mat , nb_x = nb_cases_x , nb_y = nb_cases_y ):  # a faire evidemment
+def Deplacement_basique( Mat , nb_x = nb_cases_x , nb_y = nb_cases_y ):  
     for i in range( nb_x ) :
         for j in range( nb_y ) :
                 tab_possibles_chemins = []
@@ -419,7 +424,6 @@ def Deplacement_basique( Mat , nb_x = nb_cases_x , nb_y = nb_cases_y ):  # a fai
                     tab_possibles_chemins.append((i,j))
                 if Mat_route[i][j-1] and ( Mat[i][j].prev_x , Mat[i][j].prev_y ) != ( i , j ) :
                     tab_possibles_chemins.append((i,j))
-
                 match len( tab_possibles_chemins ) :
                     case 0 : return ( Mat[i][j].prev_x , Mat[i][j].prev_y ) # Demi tour
                     case _  : return tab_possibles_chemins[ random(0 ,len( tab_possibles_chemins ) - 1 )] # Aléatoire 
@@ -464,11 +468,14 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             if len(Mat[j][i][count].tab_path) != 0:
                                 (nx, ny) = Mat[j][i][count].tab_path[0]
                             else:
-                                echange(Mat[j][i][count])
+                                if(Mat[i][j][count].name == "Delivery_Guy" or Mat[i][j][count].name == "Food_guy"):
+                                    echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
                         else:
-                            (nx, ny) = Deplacement_basique()
+                            (nx,ny) = Deplacement_basique(Mat)
+                            Mat[j][i][count].prev_x = i
+                            Mat[j][i][count].prev_y = j
                         if(nx == i and ny == j):
                             count = count + 1
                         else:

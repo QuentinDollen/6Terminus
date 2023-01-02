@@ -20,3 +20,5 @@ class Walker(NoWalker):
         self.dest_x = -1
         self.dest_y = -1
         self.has_moved = 0
+        self.prev_x = -1
+        self.prev_y = -1
