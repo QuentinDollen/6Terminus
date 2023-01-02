@@ -202,6 +202,8 @@ def afficher_mat_route( taille ) :
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
            111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
+# dictionnaire reliant le nom des batiments avec leur id
+name_id = {"Well" : 92, "Reservoir" : 90, "Fountain" : 91, "Aquaduct" : 8, "EngineersPost" : 81, "Prefecture" : 55, "Path" : 5, "Forum1" : 84, "Water" : 1, "Rock" : 2, "Tree" : 3, "Senate1" : 4, "Maison1" : 10, "Maison2" : 11, "Maison3" : 12, "Maison4": 13, "Farm" : 100, "Granary" : 71, "Warehouse" : 71, "Herb" : 0 }
 
 # permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)
 def put_bat_mat(x, y, bat, Mat):
@@ -271,6 +273,10 @@ def add_bat(x, y, id_bat, Mat):
         Warehouse = war.Warehouse(x, y)
         put_bat_mat(x, y, Warehouse, Mat)
         Liste_stock.append(Warehouse)
+    if id_bat == 115:
+        Mat[y][x] = tr.Enter_Pannel(x, y)
+    if id_bat == 116:
+        Mat[y][x] = tr.Exit_Pannel(x,y)
     if id_bat == 0:
         Herb = h.Herb(x, y)
         Mat[y][x] = Herb
@@ -411,7 +417,7 @@ def suppr_Batiment(x,y,Mat):
             Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
-
+# !!! Pour un walker !!!
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
@@ -422,14 +428,13 @@ def Deplacement_basique_v2( Mat = Mat_perso, nb_x = nb_cases_x , nb_y = nb_cases
                 print( ( i , j) )
                 tab_possibles_chemins = []
                 if Mat_route[i+1][j] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i+1,j))
+                    tab_possibles_chemins.append((i,j))
                 if Mat_route[i-1][j] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i-1,j))
+                    tab_possibles_chemins.append((i,j))
                 if Mat_route[i][j+1] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i,j+1))
+                    tab_possibles_chemins.append((i,j))
                 if Mat_route[i][j-1] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i,j-1))
-                print ( tab_possibles_chemins)
+                    tab_possibles_chemins.append((i,j))
                 match len( tab_possibles_chemins ) :
                     case 0 : 
                         
@@ -456,10 +461,11 @@ def Deplacement_basique( x , y , Mat = Mat_perso, no_walker = 0  ):
             if Mat_route[x][y-1] and ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y ) != ( x , y ) :
                 tab_possibles_chemins.append(( x , y-1 ))
 
-        match len( tab_possibles_chemins ) :
+        if len( tab_possibles_chemins ) > 0 :
+            return tab_possibles_chemins[ random.randrange(0 ,  len ( tab_possibles_chemins ) ) ] # Aléatoire 
+        else : 
+             return ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y )
                 
-            case 0 : return ( Mat[x][y][no_walker].prev_x , Mat[x][y][no_walker].prev_y ) # Demi tour
-            case _ : return tab_possibles_chemins[ random.randrange(0 ,  len ( tab_possibles_chemins ) ) ] # Aléatoire 
                     
 
 # verifie que la distance entre deux cases est de 1 (y compris en diagonale)
@@ -500,11 +506,13 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             if len(Mat[j][i][count].tab_path) != 0:
                                 (nx, ny) = Mat[j][i][count].tab_path[0]
                             else:
-                                echange(Mat[j][i][count])
+                                if(Mat[i][j][count].name == "Delivery_Guy" or Mat[i][j][count].name == "Food_guy"):
+                                    echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
                         else:
-                            (nx, ny) = Deplacement_basique(Mat_perso,no_walker=count)
+                            (nx,ny) = Deplacement_basique(Mat , )
+                            
                         if(nx == i and ny == j):
                             count = count + 1
                         else:
@@ -519,6 +527,8 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                     Mat[j][i].append(w.NoWalker())
                                 walk.x = nx
                                 walk.y = ny
+                                walk.prev_x = i
+                                walk.prev_y = j
                                 add_perso_mat(Mat, walk, nx, ny)
     for i in range(tx):
         for j in range(ty):

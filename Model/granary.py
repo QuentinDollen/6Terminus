@@ -8,5 +8,6 @@ class Granary(b.Batiment):
         b.Batiment.__init__(self, 3, 71, posx, posy, 100, -4, 1, 2, 2, 6,)
         self.max_space = 50
         self.occupied_space = 0
+        self.name = "Granary"
     def isFull(self):
         return self.max_space == self.occupied_space
