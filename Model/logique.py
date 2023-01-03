@@ -19,7 +19,7 @@ def Delivery(Bat_depart, type_march, quant):
         cible = m.SearchforSpace(type_march)
         if cible == None:
             return -1
-        dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible)
+        dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible, type_march)
         dg.ajout_marchandise(quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
         (cx,cy) = cible.ret_coord()
@@ -107,6 +107,7 @@ Add_bat_game(1,5,5)
 
 Delivery(m.Mat_batiment[6][0],'ble',11)
 Delivery(m.Mat_batiment[6][0],'ble',8)
+Delivery(m.Mat_batiment[6][0],'argile',15)
 
 print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
 m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
@@ -135,3 +136,4 @@ print(" ")
 m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
 
 print(m.Mat_batiment[1][2].nourriture)
+print(m.Mat_batiment[1][2].produits)
