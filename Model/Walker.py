@@ -21,4 +21,4 @@ class Walker(NoWalker):
         self.dest_y = -1
         self.has_moved = 0
         self.prev_x = x # Necessaire pour le déplacement
-        self.prev_y = y 
+        self.prev_y = y # Laisser ces valeur pour deplacment_basique()

@@ -300,7 +300,10 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible):
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
-
+    if type_ == "Engeneer" :
+        EN = eng.EngineersPost(x,y)
+        add_perso_mat(x,y,type_ , Mat , Bat , Bat_cible )
+        Bat.Wal
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
@@ -470,6 +473,7 @@ def Deplacement_basique( x , y , Mat = Mat_perso, no_walker = 0  ):
         else : 
             return ( Mat[y][x][no_walker].prev_y , Mat[y][x][no_walker].prev_x )
                 
+
                     
 
 # verifie que la distance entre deux cases est de 1 (y compris en diagonale)
