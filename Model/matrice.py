@@ -159,7 +159,7 @@ def init_matrice_route(Mat_route, cases_x=nb_cases_x, cases_y=nb_cases_y):
             Mat_route[i].append([])
             Mat_route[i][j] = 0
 
-        ### a garder #############################
+################ a garder #############################
 
 
 Mat_batiment = []
@@ -167,7 +167,7 @@ Mat_perso = []
 Mat_route = []
 unemployed = 0  # Le nombre de chômeurs
 Nb_immigrant = 0  # Le nombre de migrants
- 
+
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
@@ -211,9 +211,9 @@ def add_employees() :
         for i in range( nb_cases_x ) :
             for j in range( nb_cases_y ) :
                 if Nb_immigrant > 1 :
-                    
-                    Nb_immigrant =  Mat_batiment[j][i].need_employees( Nb_immigrant ) 
-                    print(Mat_batiment[j][i].curEmployees )
+                    pass
+                    # Nb_immigrant =  Mat_batiment[j][i].need_employees( Nb_immigrant ) 
+                    # print(Mat_batiment[j][i].curEmployees )
 
 
 # Afficher la carte de la route :
