@@ -116,15 +116,17 @@ def SearchforSpace(type_march):
             if type(Liste_stock[i]) is g.Granary and not Liste_stock[i].isFull():
                 return Liste_stock[i]
             i = 0
-            if not Liste_stock[i].isFull():
-                return Liste_stock[i]
+            for i in range(len(Liste_stock)):
+                if not Liste_stock[i].isFull():
+                    return Liste_stock[i]
     else:
         for i in range(len(Liste_stock)):
             if type(Liste_stock[i]) is war.Warehouse and not Liste_stock[i].isFull():
                 return Liste_stock[i]
             i = 0
-            if not Liste_stock[i].isFull():
-                return Liste_stock[i]
+            for i in range(len(Liste_stock)):
+                if not Liste_stock[i].isFull():
+                    return Liste_stock[i]
     return None
 
 
