@@ -23,7 +23,7 @@ class Maison(b.Batiment):
             self.nourriture[2][1] += chargement[1]
         if chargement[0] == 'olives':
             self.produits[2][1] += chargement[1]
-        if chargement[0] == 'viandes':
+        if chargement[0] == 'argile':
             self.produits[0][1] += chargement[1]
                 
 

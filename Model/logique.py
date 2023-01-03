@@ -20,7 +20,7 @@ def Delivery(Bat_depart, type_march, quant):
         if(cible == None):
             return -1
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible)
-        dg.ajout_marchandise(type_march,quant)
+        dg.ajout_marchandise(quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
         (cx,cy) = cible.ret_coord()
         print("cible",cx,cy)
