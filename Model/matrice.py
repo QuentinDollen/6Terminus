@@ -152,6 +152,8 @@ def init_matrice_route( Mat_route , cases_x = nb_cases_x , cases_y = nb_cases_y 
 Mat_batiment = []
 Mat_perso = []
 Mat_route = []
+unemployed = 0 # Le nombre de chômeurs 
+Nb_immigrant = 0 # Le nombre de migrants 
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route( Mat_route , nb_cases_x , nb_cases_y)
@@ -303,7 +305,6 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible):
     if type_ == "Engeneer" :
         EN = eng.EngineersPost(x,y)
         add_perso_mat(x,y,type_ , Mat , Bat , Bat_cible )
-        Bat.Wal
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
@@ -313,6 +314,7 @@ def departureMatrice(Mat):
             if map_depart[j][i]:
                 add_bat(i, j, map_depart[j][i], Mat)
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
+
 
 
 # teste si l'emplacement x,y d'une matrice correspond a un chemin
@@ -420,39 +422,16 @@ def suppr_Batiment(x,y,Mat):
             Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
-# !!! Pour un walker !!!
-# deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
-# doit prendre une direction au pif a un croisement
-# renvoie le prochain x et le prochain y
-def Deplacement_basique_v2( Mat = Mat_perso, nb_x = nb_cases_x , nb_y = nb_cases_y , no_walker = 0  ): 
-    for i in range( nb_x ) :
-        for j in range( nb_y ) :
-            if  Mat[i][j][0].name != "no Walker" :
-                print( ( i , j) )
-                tab_possibles_chemins = []
-                if Mat_route[i+1][j] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i,j))
-                if Mat_route[i-1][j] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i,j))
-                if Mat_route[i][j+1] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i,j))
-                if Mat_route[i][j-1] and ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) != ( i , j ) :
-                    tab_possibles_chemins.append((i,j))
-                match len( tab_possibles_chemins ) :
-                    case 0 : 
-                        
-                         return ( Mat[i][j][no_walker].prev_x , Mat[i][j][no_walker].prev_y ) # Demi tour
-                    case _  : return tab_possibles_chemins[ random.randrange(0 ,  len ( tab_possibles_chemins ) ) ] # Aléatoire 
-
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique( x , y , no_walker = 0  ): 
 
-    if Mat_perso[y][x][no_walker].ttl <= 0 :
-        ( Mat_perso[y][x][no_walker].dest_y , Mat_perso[y][x][no_walker].dest_x ) = ( Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x )
-        pass # Aller vers son batiment 
-
+        if Mat_perso[y][x][no_walker].ttl <= 0 :
+            dest_walker = SearchforRoad( Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x , Mat_batiment )
+            ( Mat_perso[y][x][no_walker].dest_x , Mat_perso[y][x][no_walker].dest_y ) = ( dest_walker[0] , dest_walker[1] )
+            return tuple( x , y )
+ 
         tab_possibles_chemins = []
         if x < nb_cases_x - 1 :
 
