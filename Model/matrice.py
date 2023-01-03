@@ -155,7 +155,7 @@ Mat_batiment = []
 Mat_perso = []
 Mat_route = []
 unemployed = 0 # Le nombre de chômeurs 
-Nb_immigrant = 0 # Le nombre de migrants 
+Nb_immigrant = int(100) # Le nombre de migrants 
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
@@ -193,6 +193,15 @@ def afficher_matrice_perso(Mat, x, y):
             if i != x - 1:
                 print("| ", end='')
         print("]")
+
+# Regarde s'il y a des immigrants et les attributs aux batiments qui en ont besoins 
+def add_employees() :
+        for i in range( nb_cases_x ) :
+            for j in range( nb_cases_y ) :
+                if Nb_immigrant > 1 :
+                    
+                    Nb_immigrant =  Mat_batiment[j][i].need_employees( Nb_immigrant ) 
+                    print(Mat_batiment[j][i].curEmployees )
 
 
 # Afficher la carte de la route :
@@ -437,10 +446,9 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    if Mat[y][x][no_walker].ttl <= 0:
-        (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = (
-        Mat[y][x][no_walker].bat.pos_y, Mat[y][x][no_walker].bat.pos_x)
-        pass  # Aller vers son batiment
+        if Mat[y][x][no_walker].ttl <= 0:
+            (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad( x , y , Mat_batiment )
+            return ( x , y )
 
         if Mat_perso[y][x][no_walker].ttl <= 0 :
             dest_walker = SearchforRoad( Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x , Mat_batiment )
@@ -626,3 +634,6 @@ afficher_matrice_perso(Mat_perso, 7, 7)
 add_bat(4, 5, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 7, 7)
 print(Deplacement_basique(0, 0))
+add_bat(0,0,name_id["Maison1"], Mat_batiment )
+add_employees()
+print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curEmployees }")
