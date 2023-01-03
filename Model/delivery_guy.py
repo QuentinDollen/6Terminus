@@ -12,15 +12,14 @@ class Delivery_Guy(W.Walker):
 		self.cargaison_produits = [['argile',0], ['potterie',0], ['huile',0], ['',0], ['',0]]
 		self.bat_destination = bat_cible
 		self.type_marchandise = type_marchandise
-		self.type_transport = type_transport
 
 	# ajoute une marchandise a la cargaison
 	def ajout_marchandise(self,nb):
-		if(self.type_transport == 'ble'): self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
-		if(self.type_transport == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
-		if(self.type_transport == 'viandes'): self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
-		if(self.type_transport == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
-		if(self.type_transport == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
+		if(self.type_marchandise == 'ble'): self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
+		if(self.type_marchandise == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
+		if(self.type_marchandise == 'viandes'): self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
+		if(self.type_marchandise == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
+		if(self.type_marchandise == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
 	
 	# decharge une marchandise
 	def dechargement(self,type_transport):
