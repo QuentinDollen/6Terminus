@@ -211,9 +211,8 @@ def add_employees() :
         for i in range( nb_cases_x ) :
             for j in range( nb_cases_y ) :
                 if Nb_immigrant > 1 :
-                    pass
-                    # Nb_immigrant =  Mat_batiment[j][i].need_employees( Nb_immigrant ) 
-                    # print(Mat_batiment[j][i].curEmployees )
+                    Nb_immigrant = Mat_batiment[j][i].need_employees( Nb_immigrant ) 
+                    print(Mat_batiment[j][i].curEmployees )
 
 
 # Afficher la carte de la route :
@@ -333,7 +332,7 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible):
         return DV
     if type_ == "Engeneer":
         EN = eng.EngineersPost(x, y)
-        add_perso_mat(x, y, type_, Mat, Bat, Bat_cible)
+        add_perso_mat(Mat, EN , x , y )
 
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
