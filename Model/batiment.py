@@ -25,10 +25,13 @@ class Batiment(t.Terrain):
         return (self.pos_x , self.pos_y)
         
     def need_employees( self , Nb_immigrant ) :
-        if Nb_immigrant > 0 and self. curEmployees < self.neededEmployees : 
-            Nb_immigrant -= 1 
+        if Nb_immigrant > 0 and self.curEmployees < self.neededEmployees : 
             self.curEmployees += 1
+            return  Nb_immigrant - 1 
+        else :
             return Nb_immigrant
+
+
 
     
 

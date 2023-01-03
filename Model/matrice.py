@@ -166,7 +166,7 @@ Mat_batiment = []
 Mat_perso = []
 Mat_route = []
 unemployed = 0  # Le nombre de chômeurs
-Nb_immigrant = 0  # Le nombre de migrants
+Nb_immigrant = 20  # Le nombre de migrants
 
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
@@ -207,13 +207,18 @@ def afficher_matrice_perso(Mat, x, y):
         print("]")
 
 # Regarde s'il y a des immigrants et les attributs aux batiments qui en ont besoins 
+
+# Ajouter tous les immigrants possible dans les batiments 
 def add_employees() :
-        for i in range( nb_cases_x ) :
-            for j in range( nb_cases_y ) :
-#                if Nb_immigrant > 1 :
-                    
-#                    Nb_immigrant =  Mat_batiment[j][i].need_employees( Nb_immigrant )
-                    print(Mat_batiment[j][i].curEmployees )
+    global Nb_immigrant
+    for i in range( nb_cases_x ) :
+        for j in range( nb_cases_y ) :
+            for _ in range ( Mat_batiment[j][i].neededEmployees ) :
+                if  Mat_batiment[j][i].name == f"Maison { 1|2|3|4 }" :
+                    Mat_batiment[j][i].add_familly( Nb_immigrant )
+                else :
+                    Nb_immigrant = Mat_batiment[j][i].need_employees( Nb_immigrant )
+            
 
 
 # Afficher la carte de la route :
@@ -645,5 +650,6 @@ add_bat(4, 5, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 7, 7)
 print(Deplacement_basique(0, 0))
 add_bat(0,0,name_id["Maison1"], Mat_batiment )
+afficher_matrice_bat(Mat_batiment, 7, 7)
 add_employees()
-print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curEmployees }")
+print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
