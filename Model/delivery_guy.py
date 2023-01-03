@@ -11,15 +11,16 @@ class Delivery_Guy(W.Walker):
 		self.cargaison_nourriture = [ ['ble', 0 ], ['fruits', 0], ['viande', 0]]
 		self.cargaison_produits = [ ['argile',0], ['potterie',0], ['huile',0], ['',0], ['',0]]
 		self.bat_destination = bat_cible
+		self.type_marchandise = type_marchandise
 		self.type_transport = type_transport
 
 	# ajoute une marchandise a la cargaison
-	def ajout_marchandise(self,type_transport,nb):
-		if(type_transport == 'ble'): self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
-		if(type_transport == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
-		if(type_transport == 'viandes'): self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
-		if(type_transport == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
-		if(type_transport == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
+	def ajout_marchandise(self,nb):
+		if(self.type_transport == 'ble'): self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
+		if(self.type_transport == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
+		if(self.type_transport == 'viandes'): self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
+		if(self.type_transport == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
+		if(self.type_transport == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
 	
 	# decharge une marchandise
 	def dechargement(self,type_transport):
@@ -28,18 +29,18 @@ class Delivery_Guy(W.Walker):
 			self.cargaison_nourriture[0][1] = 0
 			return res
 		if type_transport == 'fruits':
-			res = [self.cargaison_nourriture[1][1]]
+			res = ["fruits", self.cargaison_nourriture[1][1]]
 			self.cargaison_nourriture[1][1] = 0
 			return res
 		if type_transport == 'viandes':
-			res = [self.cargaison_nourriture[2][1]]
+			res = ["viandes", self.cargaison_nourriture[2][1]]
 			self.cargaison_nourriture[2][1] = 0
 			return res
 		if type_transport == 'olives':
-			res = [self.cargaison_produits[2][1]]
+			res = ["olives", self.cargaison_produits[2][1]]
 			self.cargaison_produits[2][1] = 0
 			return res
 		if type_transport == 'argile':
-			res = [self.cargaison_produits[0][1]]
+			res = ["argile", self.cargaison_produits[0][1]]
 			self.cargaison_produits[0][1] = 0
 			return res
