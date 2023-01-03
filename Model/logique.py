@@ -17,14 +17,14 @@ def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
     if (x != -1):
         cible = m.SearchforSpace(type_march)
-        if(cible == None):
+        if cible == None:
             return -1
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible)
         dg.ajout_marchandise(quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
         (cx,cy) = cible.ret_coord()
         print("cible",cx,cy)
-        (dx, dy) = m.SearchforRoad( cx, cy, m.Mat_batiment)
+        (dx, dy) = m.SearchforRoad(cx, cy, m.Mat_batiment)
         dg.dest_x = dx
         dg.dest_y = dy
         print(dx,dy)

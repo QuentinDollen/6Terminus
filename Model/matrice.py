@@ -115,16 +115,16 @@ def SearchforSpace(type_march):
         for i in range(len(Liste_stock)):
             if type(Liste_stock[i]) is g.Granary and not Liste_stock[i].isFull():
                 return Liste_stock[i]
-            i = 0
-            if not Liste_stock[i].isFull():
-                return Liste_stock[i]
+            for i in range(len(Liste_stock)):
+                if not Liste_stock[i].isFull():
+                    return Liste_stock[i]
     else:
         for i in range(len(Liste_stock)):
             if type(Liste_stock[i]) is war.Warehouse and not Liste_stock[i].isFull():
                 return Liste_stock[i]
-            i = 0
-            if not Liste_stock[i].isFull():
-                return Liste_stock[i]
+            for i in range(len(Liste_stock)):
+                if not Liste_stock[i].isFull():
+                    return Liste_stock[i]
     return None
 
 
@@ -210,8 +210,9 @@ def afficher_matrice_perso(Mat, x, y):
 def add_employees() :
         for i in range( nb_cases_x ) :
             for j in range( nb_cases_y ) :
-                if Nb_immigrant > 1 :
-                    Nb_immigrant = Mat_batiment[j][i].need_employees( Nb_immigrant ) 
+#                if Nb_immigrant > 1 :
+                    
+#                    Nb_immigrant =  Mat_batiment[j][i].need_employees( Nb_immigrant )
                     print(Mat_batiment[j][i].curEmployees )
 
 
