@@ -110,10 +110,21 @@ nb_cases = 40
 Liste_stock = []
 
 
-def SearchforSpace():
-    for i in range(len(Liste_stock)):
-        if (Liste_stock[i].isFull() != 1):
-            return Liste_stock[i]
+def SearchforSpace(type_march):
+    if type_march == 'ble' or type_march == 'viande' or type_march == 'fruits':
+        for i in range(len(Liste_stock)):
+            if type(Liste_stock[i]) is g.Granary and not Liste_stock[i].isFull():
+                return Liste_stock[i]
+            i = 0
+            if not Liste_stock[i].isFull():
+                return Liste_stock[i]
+    else:
+        for i in range(len(Liste_stock)):
+            if type(Liste_stock[i]) is war.Warehouse and not Liste_stock[i].isFull():
+                return Liste_stock[i]
+            i = 0
+            if not Liste_stock[i].isFull():
+                return Liste_stock[i]
     return None
 
 
@@ -154,8 +165,8 @@ def init_matrice_route(Mat_route, cases_x=nb_cases_x, cases_y=nb_cases_y):
 Mat_batiment = []
 Mat_perso = []
 Mat_route = []
-unemployed = 0 # Le nombre de chômeurs 
-Nb_immigrant = 0 # Le nombre de migrants 
+unemployed = 0  # Le nombre de chômeurs
+Nb_immigrant = 0  # Le nombre de migrants
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
@@ -310,9 +321,10 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible):
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
-    if type_ == "Engeneer" :
-        EN = eng.EngineersPost(x,y)
-        add_perso_mat(x,y,type_ , Mat , Bat , Bat_cible )
+    if type_ == "Engeneer":
+        EN = eng.EngineersPost(x, y)
+        add_perso_mat(x, y, type_, Mat, Bat, Bat_cible)
+
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
@@ -322,7 +334,6 @@ def departureMatrice(Mat):
             if map_depart[j][i]:
                 add_bat(i, j, map_depart[j][i], Mat)
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
-
 
 
 # teste si l'emplacement x,y d'une matrice correspond a un chemin
@@ -431,49 +442,46 @@ def suppr_Batiment(x, y, Mat):
             Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
-
-
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
     if Mat[y][x][no_walker].ttl <= 0:
         (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = (
-        Mat[y][x][no_walker].bat.pos_y, Mat[y][x][no_walker].bat.pos_x)
+            Mat[y][x][no_walker].bat.pos_y, Mat[y][x][no_walker].bat.pos_x)
         pass  # Aller vers son batiment
 
-        if Mat_perso[y][x][no_walker].ttl <= 0 :
-            dest_walker = SearchforRoad( Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x , Mat_batiment )
-            ( Mat_perso[y][x][no_walker].dest_x , Mat_perso[y][x][no_walker].dest_y ) = ( dest_walker[0] , dest_walker[1] )
-            return tuple( x , y )
- 
+        if Mat_perso[y][x][no_walker].ttl <= 0:
+            dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
+                                        Mat_batiment)
+            (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+            return tuple(x, y)
+
         tab_possibles_chemins = []
         if x < nb_cases_x - 1:
 
-            if Mat_route[y][x+1] and ( Mat_perso[y][x][no_walker].prev_x , Mat_perso[y][x][no_walker].prev_y ) != ( x , y ) :
-                tab_possibles_chemins.append((x+1,y))
-        if x > 0  :
-            if Mat_route[y][x-1] and ( Mat_perso[y][x][no_walker].prev_x , Mat_perso[y][x][no_walker].prev_y ) != ( x , y ) :
-                tab_possibles_chemins.append(( x-1 , y ))
-        if y < nb_cases_y - 1 :        
-            if Mat_route[y+1][x] and ( Mat_perso[y][x][no_walker].prev_x , Mat_perso[y][x][no_walker].prev_y ) != ( x , y ) :
-                tab_possibles_chemins.append(( x , y+1 ))
-        if y > 0 :
-            if Mat_route[y-1][x] and ( Mat_perso[y][x][no_walker].prev_x , Mat_perso[y][x][no_walker].prev_y ) != ( x , y ) :
-                tab_possibles_chemins.append(( x , y-1 ))
+            if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+                tab_possibles_chemins.append((x + 1, y))
+        if x > 0:
+            if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+                tab_possibles_chemins.append((x - 1, y))
+        if y < nb_cases_y - 1:
+            if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+                tab_possibles_chemins.append((x, y + 1))
+        if y > 0:
+            if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+                tab_possibles_chemins.append((x, y - 1))
 
-        if len( tab_possibles_chemins ) > 0 :
-            return tab_possibles_chemins[ random.randrange(0 ,  len ( tab_possibles_chemins ) ) ] # Aléatoire 
-        else : 
-            return ( Mat_perso[y][x][no_walker].prev_y , Mat_perso[y][x][no_walker].prev_x )
-                
+        if len(tab_possibles_chemins) > 0:
+            return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
+        else:
+            return (Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x)
 
-                    
 
 # verifie que la distance entre deux cases est de 1 (y compris en diagonale)
 def dist(x1, y1, x2, y2):
     return ((x1 == x2 and (abs(y1 - y2) == 1)) or (y1 == y2 and (abs(x1 - x2) == 1)) or (
-                (x2 - x1) ** 2 + (y2 - y1) ** 2 == 2))
+            (x2 - x1) ** 2 + (y2 - y1) ** 2 == 2))
 
 
 # procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible

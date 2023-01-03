@@ -16,7 +16,7 @@ from Model import matrice as m
 def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
     if (x != -1):
-        cible = m.SearchforSpace()
+        cible = m.SearchforSpace(type_march)
         if(cible == None):
             return -1
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible)
