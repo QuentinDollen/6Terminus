@@ -331,13 +331,14 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat, Bat, Bat_cible , dest_x = -1 , dest_y = -1 ):
+def add_perso(x, y, type_, Mat, Bat, Bat_cible , type_bouffe='ble' , dest_x = -1 , dest_y = -1 ):
+
     if type_ == 'Delivery Guy':
-        DV = dv.Delivery_Guy(x, y, Bat, Bat_cible)
+        DV = dv.Delivery_Guy(x, y, Bat, Bat_cible, type_bouffe)
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
-    if type_ == "Engeneer":
+    if type_ == "Engineer":
         EN = eng.EngineersPost(x, y)
         add_perso_mat(Mat, EN , x , y )
 
@@ -349,6 +350,8 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible , dest_x = -1 , dest_y = -1 ):
 
 
 
+
+
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
     map_depart = matrix
@@ -357,9 +360,8 @@ def departureMatrice(Mat):
             if map_depart[j][i]:
                 add_bat(i, j, map_depart[j][i], Mat)
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
-    
-    
-    
+
+
 # teste si l'emplacement x,y d'une matrice correspond a un chemin
 def isPath(x, y, Mat):
     return Mat[y][x].name == 'Path'
@@ -470,35 +472,35 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-        if Mat[y][x][no_walker].ttl <= 0:
-            (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad( x , y , Mat_batiment )
-            return ( x , y )
+    if Mat[y][x][no_walker].ttl <= 0:
+        (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
+        return (x, y)
 
-        if Mat_perso[y][x][no_walker].ttl <= 0:
-            dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-                                        Mat_batiment)
-            (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-            return tuple(x, y)
+    if Mat_perso[y][x][no_walker].ttl <= 0:
+        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
+                                    Mat_batiment)
+        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+        return tuple(x, y)
 
-        tab_possibles_chemins = []
-        if x < nb_cases_x - 1:
+    tab_possibles_chemins = []
+    if x < nb_cases_x - 1:
 
-            if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
-                tab_possibles_chemins.append((x + 1, y))
-        if x > 0:
-            if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
-                tab_possibles_chemins.append((x - 1, y))
-        if y < nb_cases_y - 1:
-            if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
-                tab_possibles_chemins.append((x, y + 1))
-        if y > 0:
-            if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
-                tab_possibles_chemins.append((x, y - 1))
+        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+            tab_possibles_chemins.append((x + 1, y))
+    if x > 0:
+        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+            tab_possibles_chemins.append((x - 1, y))
+    if y < nb_cases_y - 1:
+        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+            tab_possibles_chemins.append((x, y + 1))
+    if y > 0:
+        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+            tab_possibles_chemins.append((x, y - 1))
 
-        if len(tab_possibles_chemins) > 0:
-            return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
-        else:
-            return (Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x)
+    if len(tab_possibles_chemins) > 0:
+        return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
+    else:
+        return (Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x)
 
 
 # verifie que la distance entre deux cases est de 1 (y compris en diagonale)
@@ -513,6 +515,7 @@ def echange(DV):
     if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
         print("dechargement:", DV.cargaison_nourriture)
         if DV.type_marchandise == 'ble':
+            print("ble")
             DV.bat_destination.get_delivery(DV.dechargement('ble'))
         elif DV.type_marchandise == 'fruits':
             DV.bat_destination.get_delivery(DV.dechargement('fruits'))
@@ -536,8 +539,8 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
     for i in range(tx):
         for j in range(ty):
             if Mat[j][i][0].name != "no Walker":  # Pour toute cases, si on a un walker
+                count = 0
                 for k in range(len(Mat[j][i])):
-                    count = 0
                     if Mat[j][i][count].has_moved == 1:
                         count = count + 1
                     else:
@@ -554,7 +557,9 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             if len(Mat[j][i][count].tab_path) != 0:
                                 (nx, ny) = Mat[j][i][count].tab_path[0]
                             else:
-                                if Mat[i][j][count].name == "Delivery_Guy" or Mat[i][j][count].name == "Food_guy":
+                                print(i, j, count)
+                                if (Mat[j][i][count].name == "Delivery_Guy" or Mat[j][i][count].name == "Food_guy") and \
+                                        Mat[j][i][count].HasSomething():
                                     echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
