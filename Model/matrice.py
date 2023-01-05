@@ -17,6 +17,7 @@ from Model import tree as tr
 from Model import ferme as f
 from Model import granary as g
 from Model import warehouse as war
+from Model import Immigrant as imm
 from copy import copy
 
 # matrice de depart par defaut
@@ -330,7 +331,7 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat, Bat, Bat_cible):
+def add_perso(x, y, type_, Mat, Bat, Bat_cible , dest_x = -1 , dest_y = -1 ):
     if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat, Bat_cible)
         add_perso_mat(Mat, DV, x, y)
@@ -339,6 +340,13 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible):
     if type_ == "Engeneer":
         EN = eng.EngineersPost(x, y)
         add_perso_mat(Mat, EN , x , y )
+
+    if type_ == "Immigrant" :
+        IM = imm.Immigrant( x ,y , Bat )
+        add_perso_mat(Mat_perso , IM , x , y )
+        route_cible = SearchforRoad(Bat.pos_x , Bat.pos_y )
+        (IM.dest_x , IM.dest_y) = route_cible
+
 
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
@@ -358,7 +366,7 @@ def isPath(x, y, Mat):
 
 
 # SearchforRoad renvoie la position de la première route rencontrée autour (distance de 1) d'un batiment situé en x,y
-def SearchforRoad(x, y, Mat):
+def SearchforRoad(x, y, Mat = Mat_batiment):
     n = Mat[y][x].nbr_cases
     x1 = 0
     y1 = 0
