@@ -214,12 +214,22 @@ def add_employees() :
     global Nb_immigrant
     for i in range( nb_cases_x ) :
         for j in range( nb_cases_y ) :
-            for _ in range ( Mat_batiment[j][i].neededEmployees ) :
-                if  Mat_batiment[j][i].name == f"Maison { 1|2|3|4 }" :
+                if  Mat_batiment[j][i].name == 'Maison 1' :
                     Mat_batiment[j][i].add_familly( Nb_immigrant )
                 else :
                     Nb_immigrant = Mat_batiment[j][i].need_employees( Nb_immigrant )
             
+# Sortie des walker 
+
+def sortir_walker() :
+
+    for i in range( nb_cases_x ) :
+        for j in range( nb_cases_y ) :
+            pass
+            # print(j,i)
+            # if Mat_batiment[j][i].name not in  ["Herb" , "Path"] and Mat_batiment[j][i].walker_in and random.random()%2:
+            #     print("Je sort le walker de la maison ",j," ",i)
+
 
 
 # Afficher la carte de la route :
@@ -331,7 +341,7 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat, Bat, Bat_cible , type_bouffe='ble' , dest_x = -1 , dest_y = -1 ):
+def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -1 , dest_y = -1 ):
 
     if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat, Bat_cible, type_bouffe)
@@ -347,6 +357,7 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible , type_bouffe='ble' , dest_x = -1
         add_perso_mat(Mat_perso , IM , x , y )
         route_cible = SearchforRoad(Bat.pos_x , Bat.pos_y )
         (IM.dest_x , IM.dest_y) = route_cible
+        return IM
 
 
 
@@ -547,8 +558,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                         Mat[j][i][count].has_moved = 1
                         if Mat[j][i][count].dest_x != -1 and Mat[j][i][count].dest_y != -1:
                             if Mat[j][i][count].tab_path == []:
-                                new_path = next_case(i, j, [(i, j)], Mat[j][i][count].dest_x, Mat[j][i][count].dest_y,
-                                                     Mat_batiment)
+                                new_path = next_case(i, j, [(i, j)], Mat[j][i][count].dest_x, Mat[j][i][count].dest_y, Mat_batiment)
                                 if (new_path == []):
                                     new_path.append((i, j))
                                 Mat[j][i][count].tab_path = new_path
@@ -563,6 +573,9 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                     echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
+
+                                if (Mat_perso[j][i][count].name == "Immigrant") :
+                                    pass
                         else:
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
 
@@ -658,11 +671,16 @@ DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batimen
 DVD.prev_x = 1
 DVD.prev_y = 4
 afficher_mat_route(7)
-afficher_matrice_perso(Mat_perso, 7, 7)
+# afficher_matrice_perso(Mat_perso, 7, 7)
 add_bat(4, 5, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-print(Deplacement_basique(0, 0))
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# print(Deplacement_basique(0, 0))
 add_bat(0,0,name_id["Maison1"], Mat_batiment )
 afficher_matrice_bat(Mat_batiment, 7, 7)
 add_employees()
+print(Mat_batiment[0][0].name == "Maison 1")
 print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
+add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
+IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
+Mat_batiment[0][0].walker_in = True
+sortir_walker()
