@@ -18,7 +18,7 @@ timer = pg.time.Clock()
 Paragraph = 16
 Normal = 24
 Big = 36
-Path_font = f"{getcwd()}/C3_policy.TTF"
+Path_font = f"{getcwd()}/Interface/C3_policy.TTF"
 Textefont = pg.font.Font( Path_font , Big )
 running = True
 
