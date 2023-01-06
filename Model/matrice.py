@@ -360,9 +360,6 @@ def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -
         return IM
 
 
-
-
-
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
     map_depart = matrix
