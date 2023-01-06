@@ -1,11 +1,26 @@
-import pickle
+import os
 import sys
 
-sys.path.insert(0, '..')
+# Construct the full path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
-from Model import matrice as m
+# Add the parent directory to the PYTHONPATH
+sys.path.append(parent_dir)
 
-# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
+
+import Model.matrice as m
+import math as ma
+import numpy as np
+import Model.batiment as b
+import Model.terrain as t
+import Model.maison as mais
+import Model.Walker as w
+import Model.Priest as p
+import Model.water as wa
+import Model.engineering as eng
+import Model.security as sec
+import Model.herb as h
+import Model.delivery_guy as dg
 
 
 # pour les variables globales: il nous faut la liste des greniers et des entrepots, et faire une methode qui dit s'ils sont plein ou pas
