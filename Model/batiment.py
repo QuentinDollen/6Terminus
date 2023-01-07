@@ -36,6 +36,14 @@ class Batiment(t.Terrain):
     def recieve_walker( self , walker ):
         self.Walk.append(walker)
         self.wakler_in = True
+    
+    def augm_att(self):
+        self.ind_fire += 1 
+        if(self.ind_fire > 30):
+            return -1
+        self.ind_eff += 1
+        if(self.ind_eff > 30):
+            return -2
 
 
 

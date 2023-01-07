@@ -18,6 +18,8 @@ from Model import ferme as f
 from Model import granary as g
 from Model import warehouse as war
 from Model import Immigrant as imm
+from Model import ruines
+
 from copy import copy
 
 # matrice de depart par defaut
@@ -160,6 +162,7 @@ def init_matrice_route(Mat_route, cases_x=nb_cases_x, cases_y=nb_cases_y):
             Mat_route[i].append([])
             Mat_route[i][j] = 0
 
+
 ################ a garder #############################
 
 
@@ -168,10 +171,19 @@ Mat_perso = []
 Mat_route = []
 unemployed = 0  # Le nombre de chômeurs
 Nb_immigrant = 20  # Le nombre de migrants
-
+Mat_fire = []
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
+
+def init_mat_fire(): # matrice de booleen determinant l'emplacement de zones en feu 
+    assert Mat_fire == []
+    for j in range(nb_cases_y):
+        Mat_route.append([])
+        for i in range(nb_cases_x):
+            Mat_route[j].append([])
+            Mat_route[j][i] = 0
+init_mat_fire()
 
 
 ############################################
@@ -536,8 +548,7 @@ def echange(DV):
             DV.bat_destination.get_delivery(DV.dechargement('olives'))
         elif DV.type_marchandise == 'argile':
             DV.bat_destination.get_delivery(DV.dechargement('argile'))
-        else:
-            print(":notlikethis:")
+
 
 
 # deplace l'ensemble des walker
@@ -602,6 +613,33 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
             if Mat[j][i][0].name != "no Walker":
                 for k in range(len(Mat[j][i])):
                     Mat[j][i][k].has_moved = 0
+
+
+
+def destroy_Bat(Bat):
+    for i in range(Bat.nbr_cases):
+        for j in range(Bat.nbr_cases):
+            Mat_batiment[j][i] = ruines.Ruin()
+
+def set_fire(x,y):
+    Mat_fire[y][x] = 1
+
+
+def fire_bat(Bat):
+    for i in range(Bat.nbr_cases):
+        for j in range(Bat.nbr_cases):
+            set_fire(i,j)
+
+
+def check_fire_eff():
+    for i in range(nb_cases):
+        for j in range(nb_cases):
+            if(Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree"):
+                n = Mat_batiment[j][i].augm_att()
+                if(n == -2):
+                    destroy_Bat(Mat_batiment[j][i])
+                if(n == -1):
+                    fire_bat(Mat_batiment[j][i])
 
 
 # non necessaire, juste un test
