@@ -21,7 +21,7 @@ from Model import Immigrant as imm
 from Model import ruines
 from Model import market as mar
 from Model import prefet as pref
-
+from Model import engineer
 from copy import copy
 
 # matrice de depart par defaut
@@ -363,7 +363,7 @@ def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -
         Bat.Walk.append(DV)
         return DV
     if type_ == "Engineer":
-        EN = eng.EngineersPost(x, y)
+        EN = engineer.Engineer(x, y)
         add_perso_mat(Mat, EN , x , y )
         Bat.Walk.append(EN)
         return EN
@@ -598,6 +598,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                     pass
                         else:
                             print("cas basique")
+                            print(Mat[j][i][count].name)
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
                             print((nx,ny))
 
@@ -661,14 +662,15 @@ def get_bat_prox(x,y,r):
     tab = []
     for i in range(r):
         for j in range(r):
+            
             if(not InTable(Mat_batiment[y+j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y+j][x+i],tab)):
                 tab.append(Mat_batiment[y+j][x+i])
-            if(not InTable(Mat_batiment[y-j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x+i],tab)):
+            if(y-j >= 0 and not InTable(Mat_batiment[y-j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x+i],tab)):
                 tab.append(Mat_batiment[y-j][x+i])
-            if(not InTable(Mat_batiment[y-j][x-i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x-i],tab)):
+            if(y-j >= 0 and x-i >= 0 and not InTable(Mat_batiment[y-j][x-i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x-i],tab)):
                 tab.append(Mat_batiment[y-j][x-i])
-            if(not InTable(Mat_batiment[y+j][x-i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y+j][x-i],tab)):
-                tab.append(Mat_batiment[y+j][x-i])
+            if(x-i >= 0 and not InTable(Mat_batiment[y+j][x-i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y+j][x-i],tab)):
+                    tab.append(Mat_batiment[y+j][x-i])
     print(tab)
     return tab
 
@@ -691,6 +693,17 @@ def test_walker_logique():
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
+                    if(Mat_perso[j][i][k].name == "Engineer"):
+                        proxy = get_bat_prox(i,j,2)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            bat.ind_eff = 0
+                    if(Mat_perso[j][i][k].name == "Priest"):
+                        proxy = get_bat_prox(i,j,4)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            if(InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                                bat.faith = bat.faith + 40
 
 
 # fonction qui teste les condition des batiments:
@@ -700,9 +713,14 @@ def test_walker_logique():
 # si un marché a des produits, appelle une distribution (reste a implementer)
 # si c'est une maison, va consommer de la nourriture, tester l'evolution / regression de la maison
 def test_bat_logique():
+    check_fire_eff()
     for i in range(nb_cases):
         for j in range(nb_cases):
-            continue
+            bat = Mat_batiment[j][i]
+            if bat.name == "Farm":
+                if(bat.ind_Harv >= 6):
+                    bat.ind_Harv = 0
+                    #Call Delivery()
 
 
 

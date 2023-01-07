@@ -8,8 +8,5 @@ class Ferme (b.Batiment):
         ind_Harv = 0
         self.name = "Farm"
     def growFood(self):
-        self.growFood = self.growFood + 1
-        if(self.growFood >= 5):
-            #time for delivery
-            self.growFood = 0
+        self.ind_Harv = self.ind_Harv + 1
             
