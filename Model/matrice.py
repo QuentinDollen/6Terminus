@@ -19,6 +19,8 @@ from Model import granary as g
 from Model import warehouse as war
 from Model import Immigrant as imm
 from Model import ruines
+from Model import market as mar
+from Model import prefet as pref
 
 from copy import copy
 
@@ -363,13 +365,19 @@ def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -
     if type_ == "Engineer":
         EN = eng.EngineersPost(x, y)
         add_perso_mat(Mat, EN , x , y )
-
+        Bat.Walk.append(EN)
+        return EN
     if type_ == "Immigrant" :
         IM = imm.Immigrant( x ,y , Bat )
         add_perso_mat(Mat_perso , IM , x , y )
         route_cible = SearchforRoad(Bat.pos_x , Bat.pos_y )
         (IM.dest_x , IM.dest_y) = route_cible
         return IM
+    if type_ == "Prefect":
+        P = pref.Prefect(x,y,Bat)
+        add_perso_mat(Mat,P,x,y)
+        Bat.Walk.append(P)
+        return P
 
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
@@ -586,7 +594,9 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 if (Mat_perso[j][i][count].name == "Immigrant") :
                                     pass
                         else:
+                            print("cas basique")
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
+                            print((nx,ny))
 
                         if (nx == i and ny == j): # reste immobile
                             count = count + 1
@@ -635,13 +645,29 @@ def fire_bat(Bat):
 def check_fire_eff():
     for i in range(nb_cases):
         for j in range(nb_cases):
-            if(Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree"):
+            if(Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][i].name != "Path"):
                 n = Mat_batiment[j][i].augm_att()
                 if(n == -2):
                     destroy_Bat(Mat_batiment[j][i])
                 if(n == -1):
                     fire_bat(Mat_batiment[j][i])
 
+
+# renvoie un tableau avec les batiments proches d'une case dans un certain rayon, les terrains ne comptent pas et les chemins non plus
+def get_bat_prox(x,y,r):
+    tab = []
+    for i in range(r):
+        for j in range(r):
+            if(not InTable(Mat_batiment[y+j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y+j][x+i],tab)):
+                tab.append(Mat_batiment[y+j][x+i])
+            if(not InTable(Mat_batiment[y-j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x+i],tab)):
+                tab.append(Mat_batiment[y-j][x+i])
+            if(not InTable(Mat_batiment[y-j][x-i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x-i],tab)):
+                tab.append(Mat_batiment[y-j][x-i])
+            if(not InTable(Mat_batiment[y+j][x-i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y+j][x-i],tab)):
+                tab.append(Mat_batiment[y+j][x-i])
+    print(tab)
+    return tab
 
 
 # !!! les deux fonctions qui suivent vont être deplacées dans logique.py !!! (elles sont juste la pour faciliter l'ecriture au début)
@@ -657,8 +683,12 @@ def test_walker_logique():
         for j in range(nb_cases):
             if Mat_perso[j][i][0].name != "no Walker":
                 for k in range(len(Mat_perso[j][i])):
-                    if(Mat_perso[j][i][k].name == "Prefet"):
-                        continue
+                    if(Mat_perso[j][i][k].name == "Prefect"):
+                        proxy = get_bat_prox(i,j,2)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            bat.ind_fire = 0
+
 
 # fonction qui teste les condition des batiments:
 # va tester le feu, l'effondrement
@@ -735,8 +765,24 @@ print("test livraison")
 print(Mat_batiment[5][4].nourriture)
 
 add_bat(1, 0, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 3, 3)
+afficher_matrice_bat(Mat_batiment, 7, 7)
 print(Mat_batiment[0][1].name)
+add_bat(0,1,55,Mat_batiment)
+afficher_matrice_bat(Mat_batiment, 7, 7)
+prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
+print("destination",'(',prefet.dest_x,prefet.dest_y,')')
+print("test check fire")
+print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+check_fire_eff()
+check_fire_eff()
+print("indice de feu",Mat_batiment[1][0].ind_fire)
+print("test_walker_logique")
+test_walker_logique()
+print("indice de feu",Mat_batiment[1][0].ind_fire)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 7, 7)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 7, 7)
 
 print("Test Quentin")
 
