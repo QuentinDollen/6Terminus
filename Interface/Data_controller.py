@@ -83,6 +83,7 @@ class Button :
         self.__enable = True
         self.__action = action
         self.__centred = False
+        self.__transparent = False
       
 
     # Define geters
@@ -114,19 +115,21 @@ class Button :
 
     def overhead ( self , pos , screen ) :
         if  self.get_enable() :
-            if  self.get_left() <= pos[0] <= self.get_left()  + self.get_width() and self.get_up()  <= pos[1] <= self.get_up() + self.get_height() :
+            return  self.get_left() <= pos[0] <= self.get_left()  + self.get_width() and self.get_up()  <= pos[1] <= self.get_up() + self.get_height() 
 
-                tmp_image = self.get_image()
-                tmp_image.set_alpha(100)
-                screen.blit( tmp_image , (self.get_left() , self.get_up()) )
-                pg.display.flip()
-                return True
 
+    def transparenci( self , pos , screen ) :
+        if self.get_enable() :
+            if self.overhead(pos , screen ) :
+                if not self.__transparent :
+                    self.__transparent = True
+                    white_rect = pg.Surface( (self.get_width(), self.get_height()) ) 
+                    white_rect.fill((255,255,255)) 
+                    white_rect.set_alpha(100)
+                    screen.blit(white_rect , (self.get_left(),self.get_up()) )
             else :
-                self.get_image().set_alpha(255)
-                self.draw_image_center( screen )
-                
-        return False
+                self.__transparent = False
+                screen.blit(self.get_image() , (self.get_left(),self.get_up()) )
 
         # Tell if the mouse click on the button object
 
@@ -216,9 +219,27 @@ class Texte_button(Button) :
         
         
 # Define text box for choosing game name :
-SP_gname = pg.Surface((window_width/2 , window_width / 2 ))
-SP_rgname = pg.draw.rect(SP_gname , ( 255 , 255 , 255 ), SP_gname.get_rect() , 1 )
-SP_gname_txt = ""
+text_area_surface  = pg.Surface((window_width/4 , winddow_height/4 ))
+text_surface  = Textefont.render("Nom de la partie" ,True , (0,0,0))
+text_rect  =text_surface.get_rect()
+text_rect.center = (window_width/2 , winddow_height/2 )
+SP_new_game_name = ""
+
+def ajout_char( char ,screen ) :
+    if char in range(ord('a'), ord('z')+1) or char in range(ord('0'), ord('9')+1):
+        SP_new_game_name += chr(char)
+    elif char == pg.K_SPACE :
+        SP_new_game_name += " "
+    elif char == pg.K_BACKSPACE :
+        SP_new_game_name = SP_new_game_name[:-1]
+    text_area_surface.fill((255,255,255))
+
+    text_surface = Textefont.render(SP_new_game_name , True , (0,0,0))
+    text_rect = text_surface.get_rect()
+    text_rect.center = (window_width/2 , winddow_height/2 )
+    text_area_surface.blit(text_surface, text_rect)
+    screen.blit(text_area_surface, (x, y))
+
 
 def on_button_click():
     # Create a dialog box for the user to enter text
@@ -255,15 +276,20 @@ HP_tittle.resize( ( window_width , winddow_height ) )
 SP_back = Button( Pos_SP_back , Path_SP_back , None)
 SP_back.resize( ( window_width , winddow_height ) )
 
-SP_validate_txt = Textefont.render("Validate" , True , ( 0 , 0 , 0 ) , ( 255 , 255 , 255 ))
-
+SP_validate_txt = Textefont.render("Validate" , True , ( 0 , 0 , 0 ) , ( 180 , 180 , 180 ))
+SP_validate_txt_R = SP_validate_txt.get_rect()
+SP_validate_txt_R.topleft= ( Pos_SP_validate[0] - SP_validate_txt.get_width()/2 , Pos_SP_validate[1] - SP_validate_txt.get_height()/2 )
 
 # SP_validate.set_size(( window_width /10, winddow_height /10 ))
 
 SP_go_home_txt = Textefont.render("Return" , True , ( 0 , 0 , 0 ) , ( 255 , 255 , 255 ))
+SP_go_home_txt_R = SP_go_home_txt.get_rect()
+SP_go_home_txt_R.topleft= ( Pos_SP_go_home[0] - SP_go_home_txt.get_width()/2 , Pos_SP_go_home[1] - SP_go_home_txt.get_height()/2 )
 # SP_validate.set_size(( window_width /10, winddow_height /10 ))
 SP_support = Button( Pos_SP_support , Path_SP_support , None)
 SP_support.set_size( ( 2*window_width /3, 2*winddow_height /3 ) )
+
+
 
 # SP_go_home = Button( )
 
@@ -308,6 +334,7 @@ def set_screen_SP( screen ) :
     SP_support.draw_image_center(screen)
     screen.blit( SP_validate_txt , ( Pos_SP_validate[0] - SP_validate_txt.get_width()/2 , Pos_SP_validate[1] - SP_validate_txt.get_height()/2 ))
     screen.blit( SP_go_home_txt , ( Pos_SP_go_home[0] - SP_go_home_txt.get_width()/2 , Pos_SP_go_home[1] - SP_go_home_txt.get_height()/2 ) )
+    
     pg.display.update() 
 
 def set_screen_HP(screen) :
@@ -318,8 +345,12 @@ def set_screen_HP(screen) :
     HP_back.draw_image_center(screen)
     HP_support.draw_image_center(screen)
     HP_newc.draw_image_center(screen)
+    HP_newc.overhead((0,0) , screen)
     HP_exit.draw_image_center(screen)
+    HP_exit.overhead((0,0) , screen)
     HP_load_game.draw_image_center(screen)
+    HP_load_game.overhead((0,0) , screen)
+
     pg.display.update()
 
 
@@ -327,6 +358,22 @@ def set_screen_tittle( screen ) :
     disable_all()
     HP_tittle.draw_image_center(screen)
     
+
+def transparenci( Surface , screen , pos , done ) :
+    
+    if not done :
+        white_rect = pg.Surface( (Surface.get_width(), Surface.get_height()) ) 
+        white_rect.fill((255,255,255)) 
+        white_rect.set_alpha(10)
+        screen.blit(white_rect , pos )
+        done = True
+
+    else :
+        done = False
+        screen.blit(Surface , pos )
+
+    
+        
 # Test game 
 
 # Cur_page = None
