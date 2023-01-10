@@ -4,7 +4,7 @@ from map import Map
 from settings import TILE_SIZE
 from utils import draw_text
 from camera import Camera
-# from hud import Hud
+from hud import Hud
 
 class Game:
 
