@@ -639,11 +639,11 @@ def kill_walker(killed): # gnéhéhé
         n = 0
         if e == killed:
             killed.batiment.Walk.pop(n)
-            n+=1
+            n += 1
     if Mat_perso[killed.y][killed.x][0] == killed:
         if not Mat_perso[killed.y][killed.x][1]:
             Mat_perso[killed.y][killed.x].pop()
-            Mat_perso[killed.y][killed.x].w.NoWalker() #pafini
+            Mat_perso[killed.y][killed.x].w.NoWalker()
         else:
             Mat_perso[killed.y][killed.x].pop(0)
     else:
@@ -651,16 +651,32 @@ def kill_walker(killed): # gnéhéhé
         for e in Mat_perso[killed.y][killed.x]:
             if e == killed:
                 Mat_perso[killed.y][killed.x].pop(n)
-                n+=1
+                n += 1
 
+def genocide(bat): #plus efficace à la destruction d'un batiment
+    for e in bat.Walk:
+        if Mat_perso[e.y][e.x][0] == e:
+            if not Mat_perso[e.y][e.x][1]:
+                Mat_perso[e.y][e.x].pop()
+                Mat_perso[e.y][e.x].w.NoWalker()
+            else:
+                Mat_perso[e.y][e.x].pop(0)
+        else:
+            n = 0
+            for h in Mat_perso[e.y][e.x]:
+                if h == e:
+                    Mat_perso[e.y][e.x].pop(n)
+                    n += 1
+    list.clear(bat.Walk)
 
 # place des ruines a l'emplacement couvert par le batiment
 def destroy_Bat(Bat):
-    if( InTable(Bat,Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse")):
+    if(InTable(Bat,Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse")):
         Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
             Mat_batiment[j][i] = ruines.Ruin(i, j)
+    genocide(Bat)
 
 # la matrice de boolen considère qu'il y a du feu en (x,y) 
 def set_fire(x,y):
