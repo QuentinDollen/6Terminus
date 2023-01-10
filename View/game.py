@@ -1,10 +1,13 @@
+import sys
+
+sys.path.insert(0, '..')
 import pygame as pg
 import sys
-from map import Map
-from settings import *
-from utils import draw_text
-from camera import Camera
-from hud import Hud
+from View.map import Map
+from View.settings import *
+# from utils import draw_text
+from View.camera import Camera
+from View.hud import Hud
 
 
 class Game:
@@ -60,12 +63,12 @@ class Game:
 
         self.hud.draw(self.screen)
 
-        draw_text(
-            self.screen,
-            'fps={}'.format(round(self.clock.get_fps())),
-            25,
-            (255, 255, 255),
-            (10, 10)
-        )
+        # draw_text(
+        #     self.screen,
+        #     'fps={}'.format(round(self.clock.get_fps())),
+        #     25,
+        #     (255, 255, 255),
+        #     (10, 10)
+        # )
 
         pg.display.flip()

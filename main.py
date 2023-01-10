@@ -1,8 +1,8 @@
 import pygame as pg
-# import View.game as game
+
 from Interface.Data_controller import *
 from Interface.InputBoxName import *
-
+from View.game import * 
 
 
 
@@ -28,6 +28,9 @@ def main():
     screen = pg.display.set_mode((0,0), pg.FULLSCREEN)
     clock = pg.time.Clock()
     set_screen_tittle( screen )   
+
+    Game_terminus = Game(screen , clock)
+
 
     # implement game
     
@@ -99,8 +102,9 @@ def main():
                             set_screen_HP( screen )
 
                         if SP_validate_txt_R.collidepoint( mouse_track ) : 
-                            print("Lancement de partie ")
-                        print("Je test")
+                            Launch = False
+                            playing = True 
+                        
                         SP_input.collide(mouse_track)
                             
 
@@ -111,10 +115,9 @@ def main():
                        
         
 
-        # while playing :
-        #     pass
-            # game loop here
-            # Game.run()
+        while playing :
+            
+           Game_terminus.run()
 
 
 

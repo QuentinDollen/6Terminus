@@ -1,5 +1,9 @@
+import sys
+
+sys.path.insert(0, '..')
+
 import pygame as pg
-from settings import *
+from View.settings import *
 
 
 class Camera:

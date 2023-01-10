@@ -1,22 +1,20 @@
 import os
 import sys
 
-# Construct the full path to the parent directory
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
+sys.path.insert(0, '..')
 # Add the parent directory to the PYTHONPATH
-sys.path.append(parent_dir)
+
 
 import pygame as pg
-from camera import *
-from settings import *
+from View.camera import *
+from View.settings import *
 import Model.logique as l
 
-from settings import TILE_SIZE
-from settings import path_to_sprites
-from settings import path_to_Utilities
-from settings import path_to_House
-from settings import path_to_Nature
+from View.settings import TILE_SIZE
+from View.settings import path_to_sprites
+from View.settings import path_to_Utilities
+from View.settings import path_to_House
+from View.settings import path_to_Nature
 
 
 class Map:
