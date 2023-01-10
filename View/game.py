@@ -1,12 +1,11 @@
 import pygame as pg
 import sys
 from map import Map
-from settings import TILE_SIZE
+from settings import *
 from utils import draw_text
 from camera import Camera
-from settings import sizedbuildings_2
-from settings import sizedbuildings_3
-# from hud import Hud
+from hud import Hud
+
 
 class Game:
 
@@ -14,6 +13,7 @@ class Game:
         self.screen = screen
         self.clock = clock
         self.width, self.height = self.screen.get_size()
+
         # map
         self.map = Map(40, 40, self.width, self.height)
 
@@ -21,7 +21,7 @@ class Game:
         self.camera = Camera(self.width, self.height)
 
         # hud
-        # self.hud = Hud
+        self.hud = Hud(self.width, self.height)
 
     def run(self):
         self.playing = True
@@ -32,6 +32,7 @@ class Game:
             self.draw()
 
     def events(self):
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -40,45 +41,24 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
+            # if event.type == pg.MOUSEBUTTONDOWN:
+            #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):
 
     def update(self):
         self.camera.update()
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill(BLACK)
 
-        self.screen.blit(self.map.grass_tiles, (self.camera.scroll.x, self.camera.scroll.y))
+        self.map.draw(self.screen, self.camera)
 
-        for x in range(self.map.grid_length_x):
-            for y in range(self.map.grid_length_y):
+        self.map.draw_mini(self.screen, self.camera)
 
-                render_pos = self.map.map[x][y]["render_pos"]
+        # p = self.map.map[x][y]["iso_poly"]
+        # p = [(x + self.width/2, y) for x, y in p]
+        # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
 
-                tile = self.map.map[x][y]["tile"]
-                if tile != "":
-                    if tile in sizedbuildings_2:
-                        self.screen.blit(self.map.tiles[tile],
-                                        (render_pos[0] + self.map.grass_tiles.get_width()/2 - TILE_SIZE
-                                        + self.camera.scroll.x,
-                                         render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE)
-                                         + self.camera.scroll.y))
-
-                    if tile in sizedbuildings_3:
-                        self.screen.blit(self.map.tiles[tile],
-                                        (render_pos[0] + self.map.grass_tiles.get_width()/2 - TILE_SIZE*2
-                                        + self.camera.scroll.x,
-                                         render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE)
-                                         + self.camera.scroll.y))
-                    else:
-                        self.screen.blit(self.map.tiles[tile],
-                                         (render_pos[0] + self.map.grass_tiles.get_width()/2 + self.camera.scroll.x,
-                                          render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE) + self.camera.scroll.y))
-
-                    # p = self.map.map[x][y]["iso_poly"]
-                    # p = [(x + self.width/2, y) for x, y in p]
-                    # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
-
-        # self.hud.draw(self.screen)
+        self.hud.draw(self.screen)
 
         draw_text(
             self.screen,
@@ -89,4 +69,3 @@ class Game:
         )
 
         pg.display.flip()
-
