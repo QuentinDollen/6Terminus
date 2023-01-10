@@ -182,12 +182,11 @@ init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
 def init_mat_fire(): # matrice de booleen determinant l'emplacement de zones en feu 
     assert Mat_fire == []
     for j in range(nb_cases_y):
-        Mat_route.append([])
+        Mat_fire.append([])
         for i in range(nb_cases_x):
-            Mat_route[j].append([])
-            Mat_route[j][i] = 0
+            Mat_fire[j].append([])
+            Mat_fire[j][i] = 0
 init_mat_fire()
-
 
 ############################################
 
@@ -388,7 +387,7 @@ def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -
 def invoke_walker(bat,type_):
     if(bat.curEmployees >= 1):
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
-        add_perso(x, y, type_, Mat_perso, bat)
+        add_perso(x, y, type_, Mat_perso, bat,None)
 
 
 
@@ -638,7 +637,8 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 # place des ruines a l'emplacement couvert par le batiment
 def destroy_Bat(Bat):
-    Liste_stock.remove(Bat)
+    if( InTable(Bat,Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse")):
+        Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
             Mat_batiment[j][i] = ruines.Ruin(i, j)
@@ -648,11 +648,12 @@ def set_fire(x,y):
     Mat_fire[y][x] = 1
 # place du feu sur l'ensemble d'un batiment (non terminé, il faut que le batiment cesse de fonctionner)
 def fire_bat(Bat):
-    Liste_stock.remove(Bat)
+    if( InTable(Bat,Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse")):
+        Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
             set_fire(i,j)
-            destroy_Bat(Bat)
+    destroy_Bat(Bat)
 
 # verification de l'indice de feu, et d'effondrement
 def check_fire_eff():

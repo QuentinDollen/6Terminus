@@ -126,15 +126,19 @@ def test_bat_logique():
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
             if bat.name == "Farm":
-                if(bat.ind_Harv >= 6):
-                    bat.ind_Harv = 0
+                if(bat.ind_Harv >= 2):
                     Delivery(bat, 'ble', bat.ind_Harv)
+                    bat.ind_Harv = 0
+
             if(bat.name == "Prefecture"):
-                m.invoke_walker(bat,"Prefect")
+                if(bat.Walk == []):
+                    m.invoke_walker(bat,"Prefect")
             if(bat.name == "EngineersPost"):
-                m.invoke_walker(bat,"Engineer")
+                if(bat.Walk == []):
+                    m.invoke_walker(bat,"Engineer")
             if(bat.name == "Temple"):
-                m.invoke_walker(bat,"Priest")
+                if(bat.Walk == []):
+                    m.invoke_walker(bat,"Priest")
 
 
 # a garder
@@ -161,35 +165,21 @@ def test_bat_logique():
 Add_bat_game(0,6,100)
 Add_bat_game(1,5,5)
 
-Delivery(m.Mat_batiment[6][0],'ble',11)
-Delivery(m.Mat_batiment[6][0],'ble',8)
-Delivery(m.Mat_batiment[6][0],'argile',15)
-
-print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
-m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
 
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# test logique:
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+print("ZEHAHAHAHAHAHAHAH")
+test_bat_logique()
+test_walker_logique()
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+print("HAHHAHAHAHAHHA")
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
-m.deplacement_perso(m.Mat_perso)
-
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-print(" ")
-m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-
-print(m.Mat_batiment[1][2].nourriture)
-print(m.Mat_batiment[1][2].produits)
