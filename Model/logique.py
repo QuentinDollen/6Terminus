@@ -126,8 +126,9 @@ def test_bat_logique():
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
             if bat.name == "Farm":
-                if(bat.ind_Harv >= 2):
-                    Delivery(bat, 'ble', bat.ind_Harv)
+                bat.growFood()
+                if(bat.ind_Harv >= 6):
+                    Delivery(bat, 'ble', bat.ind_Harv*2)
                     bat.ind_Harv = 0
 
             if(bat.name == "Prefecture"):
