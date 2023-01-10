@@ -222,10 +222,23 @@ class Map:
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE)
         ]
 
+        rect_mini_map = [
+            (grid_x * TILE_SIZE_MINI_MAP, grid_y * TILE_SIZE_MINI_MAP),
+            ((grid_x * TILE_SIZE_MINI_MAP + TILE_SIZE_MINI_MAP), grid_y * TILE_SIZE_MINI_MAP),
+            ((grid_x * TILE_SIZE_MINI_MAP + TILE_SIZE_MINI_MAP), (grid_y * TILE_SIZE_MINI_MAP + TILE_SIZE_MINI_MAP)),
+            (grid_x * TILE_SIZE_MINI_MAP, (grid_y * TILE_SIZE_MINI_MAP + TILE_SIZE_MINI_MAP))
+        ]
+
+        
+
         iso_poly = [self.cart_to_iso(x, y) for x, y in rect]
+        iso_poly_mini = [self.cart_to_iso(x, y) for x, y in rect_mini_map]
 
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
+
+        minx_mini = min([x for x, y in iso_poly_mini])
+        miny_mini = min([y for x, y in iso_poly_mini])
 
         if self.matrix[grid_x][grid_y] == 666:
             tile = ""
@@ -485,8 +498,11 @@ class Map:
         out = {
                 "grid": [grid_x, grid_y],
                 "cart_rect": rect,
+                "cart_rect_mini_map": rect_mini_map,
                 "iso_poly": iso_poly,
+                "iso_poly_mini": iso_poly_mini,
                 "render_pos": [minx, miny],
+                "render_pos_mini": [minx_mini, miny_mini],
                 "tile": tile
               }
 
