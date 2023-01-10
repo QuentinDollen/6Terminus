@@ -54,14 +54,14 @@ class Game:
         self.screen.fill(BLACK)
 
         self.map.draw(self.screen, self.camera)
-
+        self.hud.draw(self.screen)
         self.map.draw_mini(self.screen, self.camera)
 
         # p = self.map.map[x][y]["iso_poly"]
         # p = [(x + self.width/2, y) for x, y in p]
         # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
 
-        self.hud.draw(self.screen)
+        
 
         # draw_text(
         #     self.screen,
