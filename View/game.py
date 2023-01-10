@@ -4,6 +4,8 @@ from map import Map
 from settings import TILE_SIZE
 from utils import draw_text
 from camera import Camera
+from settings import sizedbuildings_2
+from settings import sizedbuildings_3
 # from hud import Hud
 
 class Game:
@@ -54,13 +56,27 @@ class Game:
 
                 tile = self.map.map[x][y]["tile"]
                 if tile != "":
-                    self.screen.blit(self.map.tiles[tile],
-                                    (render_pos[0] + self.map.grass_tiles.get_width()/2 + self.camera.scroll.x,
-                                     render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE) + self.camera.scroll.y))
+                    if tile in sizedbuildings_2:
+                        self.screen.blit(self.map.tiles[tile],
+                                        (render_pos[0] + self.map.grass_tiles.get_width()/2 - TILE_SIZE
+                                        + self.camera.scroll.x,
+                                         render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE)
+                                         + self.camera.scroll.y))
 
-                # p = self.map.map[x][y]["iso_poly"]
-                # p = [(x + self.width/2, y) for x, y in p]
-                # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
+                    if tile in sizedbuildings_3:
+                        self.screen.blit(self.map.tiles[tile],
+                                        (render_pos[0] + self.map.grass_tiles.get_width()/2 - TILE_SIZE*2
+                                        + self.camera.scroll.x,
+                                         render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE)
+                                         + self.camera.scroll.y))
+                    else:
+                        self.screen.blit(self.map.tiles[tile],
+                                         (render_pos[0] + self.map.grass_tiles.get_width()/2 + self.camera.scroll.x,
+                                          render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE) + self.camera.scroll.y))
+
+                    # p = self.map.map[x][y]["iso_poly"]
+                    # p = [(x + self.width/2, y) for x, y in p]
+                    # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
 
         # self.hud.draw(self.screen)
 
