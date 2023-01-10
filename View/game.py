@@ -1,9 +1,11 @@
 import pygame as pg
 import sys
 from map import Map
-from settings import TILE_SIZE
+from settings import *
 from utils import draw_text
 from camera import Camera
+from settings import sizedbuildings_2
+from settings import sizedbuildings_3
 from hud import Hud
 
 class Game:
@@ -19,7 +21,7 @@ class Game:
         self.camera = Camera(self.width, self.height)
 
         # hud
-        # self.hud = Hud
+        self.hud = Hud(self.width , self.height)
 
     def run(self):
         self.playing = True
@@ -42,27 +44,11 @@ class Game:
     def update(self):
         self.camera.update()
 
-    def draw(self):
-        self.screen.fill((0, 0, 0))
-
-        self.screen.blit(self.map.grass_tiles, (self.camera.scroll.x, self.camera.scroll.y))
-
-        for x in range(self.map.grid_length_x):
-            for y in range(self.map.grid_length_y):
-
-                render_pos = self.map.map[x][y]["render_pos"]
-
-                tile = self.map.map[x][y]["tile"]
-                if tile != "":
-                    self.screen.blit(self.map.tiles[tile],
-                                    (render_pos[0] + self.map.grass_tiles.get_width()/2 + self.camera.scroll.x,
-                                     render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE) + self.camera.scroll.y))
-
-                # p = self.map.map[x][y]["iso_poly"]
-                # p = [(x + self.width/2, y) for x, y in p]
-                # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
-
-        # self.hud.draw(self.screen)
+    def draw(self) :
+        self.screen.fill(BLACK)
+        self.map.draw(self.screen , self.camera)
+        self.map.draw_mini(self.screen, self.camera)
+        self.hud.draw(self.screen)
 
         draw_text(
             self.screen,
@@ -73,4 +59,3 @@ class Game:
         )
 
         pg.display.flip()
-

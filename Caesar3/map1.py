@@ -140,18 +140,35 @@ class Map:
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
 
-    def draw(self, screen, camera):
+    def draw(self):
+        # self.screen.fill((0, 0, 0))
 
-        screen.blit(self.grass_tiles, (camera.scroll.x, camera.scroll.y))
+        self.screen.blit(self.map.grass_tiles, (self.camera.scroll.x, self.camera.scroll.y))
 
-        for x in range(self.grid_length_x):
-            for y in range(self.grid_length_y):
-                render_pos = self.map[x][y]["render_pos"]
-                tile = self.map[x][y]["tile"]
+        for x in range(self.map.grid_length_x):
+            for y in range(self.map.grid_length_y):
+
+                render_pos = self.map.map[x][y]["render_pos"]
+
+                tile = self.map.map[x][y]["tile"]
                 if tile != "":
-                    screen.blit(self.tiles[tile],
-                        (render_pos[0] + self.grass_tiles.get_width()/2 + camera.scroll.x,
-                        render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                    if tile in sizedbuildings_2:
+                        self.screen.blit(self.map.tiles[tile],
+                                        (render_pos[0] + self.map.grass_tiles.get_width()/2 - TILE_SIZE
+                                        + self.camera.scroll.x,
+                                         render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE)
+                                         + self.camera.scroll.y))
+
+                    if tile in sizedbuildings_3:
+                        self.screen.blit(self.map.tiles[tile],
+                                        (render_pos[0] + self.map.grass_tiles.get_width()/2 - TILE_SIZE*2
+                                        + self.camera.scroll.x,
+                                         render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE)
+                                         + self.camera.scroll.y))
+                    else:
+                        self.screen.blit(self.map.tiles[tile],
+                                         (render_pos[0] + self.map.grass_tiles.get_width()/2 + self.camera.scroll.x,
+                                          render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE) + self.camera.scroll.y))
 
     def create_map(self):
 
