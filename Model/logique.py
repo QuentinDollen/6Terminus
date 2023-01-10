@@ -19,6 +19,7 @@ def Delivery(Bat_depart, type_march, quant):
         cible = m.SearchforSpace(type_march)
         if cible == None:
             return -1
+        print("MUDA MUDA")
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible, type_march)
         dg.ajout_marchandise(quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
@@ -125,22 +126,26 @@ def test_bat_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
-            if bat.name == "Farm":
-                bat.growFood()
-                if(bat.ind_Harv >= 6):
-                    Delivery(bat, 'ble', bat.ind_Harv*2)
-                    bat.ind_Harv = 0
-
-            if(bat.name == "Prefecture"):
-                if(bat.Walk == []):
-                    m.invoke_walker(bat,"Prefect")
-            if(bat.name == "EngineersPost"):
-                if(bat.Walk == []):
-                    m.invoke_walker(bat,"Engineer")
-            if(bat.name == "Temple"):
-                if(bat.Walk == []):
-                    m.invoke_walker(bat,"Priest")
-
+            if(bat.hasCheck == 0):
+                bat.hasCheck = 1
+                if bat.name == "Farm":
+                    bat.growFood()
+                    if(bat.ind_Harv >= 6):
+                        print("time for delivery")
+                        Delivery(bat, 'ble', bat.ind_Harv*2)
+                        bat.ind_Harv = 0
+                if(bat.name == "Prefecture"):
+                    if(bat.Walk == []):
+                        m.invoke_walker(bat,"Prefect")
+                if(bat.name == "EngineersPost"):
+                    if(bat.Walk == []):
+                        m.invoke_walker(bat,"Engineer")
+                if(bat.name == "Temple"):
+                    if(bat.Walk == []):
+                        m.invoke_walker(bat,"Priest")
+    for i in range(m.nb_cases):
+        for j in range(m.nb_cases):
+            m.Mat_batiment[j][i].hasCheck = 0
 
 # a garder
 #init_game()
@@ -165,15 +170,17 @@ def test_bat_logique():
 #m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 Add_bat_game(0,6,100)
 Add_bat_game(1,5,5)
-
-
+print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
 
 # test logique:
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 print("ZEHAHAHAHAHAHAHAH")
+
 test_bat_logique()
 test_walker_logique()
+print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 print("HAHHAHAHAHAHHA")
@@ -181,6 +188,10 @@ test_bat_logique()
 test_bat_logique()
 test_bat_logique()
 test_bat_logique()
+test_bat_logique()
+
+print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
