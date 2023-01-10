@@ -219,6 +219,7 @@ def add_employees():
 
 # Afficher la carte de la route :
 
+
 def afficher_mat_route(taille):
     for i in range(taille):
         print("[ ", end='')
