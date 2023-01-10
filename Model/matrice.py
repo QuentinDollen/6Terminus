@@ -2,7 +2,7 @@ import sys
 import random
 
 sys.path.insert(0, '..')
-
+from Model import Priest
 from Model import terrain as t
 from Model import maison as mais
 from Model import Walker as w
@@ -22,6 +22,7 @@ from Model import ruines
 from Model import market as mar
 from Model import prefet as pref
 from Model import engineer
+from Model import temple
 from copy import copy
 
 # matrice de depart par defaut
@@ -236,7 +237,6 @@ def add_employees() :
 # Sortie des walker 
 
 def sortir_walker() :
-
     for i in range( nb_cases_x ) :
         for j in range( nb_cases_y ) :
             pass
@@ -379,8 +379,16 @@ def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -
         add_perso_mat(Mat,P,x,y)
         Bat.Walk.append(P)
         return P
+    if type_ == "Priest":
+        Pr = Priest(x,y,Bat)
+        add_perso_mat(Mat,Pr,x,y)
+        Bat.Walk.append(Pr)
+        return Pr
 
-
+def invoke_walker(bat,type_):
+    if(bat.curEmployees >= 1):
+        (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
+        add_perso(x, y, type_, Mat_perso, bat)
 
 
 

@@ -92,25 +92,25 @@ def load(nom):
 # si c'est pretre, il va augmenter l'indice de foi des maisons autour de lui
 # si c'est un Food_Guy, et que sa mission est de distribuer des biens/bouffe aux habitants, il va donner une certaine quantité de ce qu'il a aux maisons autour de lui
 def test_walker_logique():
-    for i in range(nb_cases):
-        for j in range(nb_cases):
-            if Mat_perso[j][i][0].name != "no Walker":
-                for k in range(len(Mat_perso[j][i])):
-                    if(Mat_perso[j][i][k].name == "Prefect"):
-                        proxy = get_bat_prox(i,j,2)
+    for i in range(m.nb_cases):
+        for j in range(m.nb_cases):
+            if m.Mat_perso[j][i][0].name != "no Walker":
+                for k in range(len(m.Mat_perso[j][i])):
+                    if(m.Mat_perso[j][i][k].name == "Prefect"):
+                        proxy = m.get_bat_prox(i,j,2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
-                    if(Mat_perso[j][i][k].name == "Engineer"):
-                        proxy = get_bat_prox(i,j,2)
+                    if(m.Mat_perso[j][i][k].name == "Engineer"):
+                        proxy = m.get_bat_prox(i,j,2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
-                    if(Mat_perso[j][i][k].name == "Priest"):
-                        proxy = get_bat_prox(i,j,4)
+                    if(m.Mat_perso[j][i][k].name == "Priest"):
+                        proxy = m.get_bat_prox(i,j,4)
                         print("proxy", proxy)
                         for bat in proxy:
-                            if(InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                            if(m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
                                 bat.faith = bat.faith + 40
 
 
@@ -121,14 +121,20 @@ def test_walker_logique():
 # si un marché a des produits, appelle une distribution (reste a implementer)
 # si c'est une maison, va consommer de la nourriture, tester l'evolution / regression de la maison
 def test_bat_logique():
-    check_fire_eff()
-    for i in range(nb_cases):
-        for j in range(nb_cases):
-            bat = Mat_batiment[j][i]
+    m.check_fire_eff()
+    for i in range(m.nb_cases):
+        for j in range(m.nb_cases):
+            bat = m.Mat_batiment[j][i]
             if bat.name == "Farm":
                 if(bat.ind_Harv >= 6):
                     bat.ind_Harv = 0
-                    #Call Delivery()
+                    Delivery(bat, 'ble', bat.ind_Harv)
+            if(bat.name == "Prefecture"):
+                m.invoke_walker(bat,"Prefect")
+            if(bat.name == "EngineersPost"):
+                m.invoke_walker(bat,"Engineer")
+            if(bat.name == "Temple"):
+                m.invoke_walker(bat,"Priest")
 
 
 # a garder
