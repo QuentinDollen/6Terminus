@@ -634,6 +634,25 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                 for k in range(len(Mat[j][i])):
                     Mat[j][i][k].has_moved = 0 # le walker est prêt a bouger au prochain appel de la fonction
 
+def kill_walker(killed): # gnéhéhé
+    for e in killed.batiment.Walk:
+        n = 0
+        if e == killed:
+            killed.batiment.Walk.pop(n)
+            n+=1
+    if Mat_perso[killed.y][killed.x][0] == killed:
+        if not Mat_perso[killed.y][killed.x][1]:
+            Mat_perso[killed.y][killed.x].pop()
+            Mat_perso[killed.y][killed.x].w.NoWalker() #pafini
+        else:
+            Mat_perso[killed.y][killed.x].pop(0)
+    else:
+        n = 0
+        for e in Mat_perso[killed.y][killed.x]:
+            if e == killed:
+                Mat_perso[killed.y][killed.x].pop(n)
+                n+=1
+
 
 # place des ruines a l'emplacement couvert par le batiment
 def destroy_Bat(Bat):
