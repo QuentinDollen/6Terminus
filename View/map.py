@@ -8,12 +8,6 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 import pygame as pg
-
-from settings import TILE_SIZE
-from settings import path_to_sprites
-from settings import path_to_Utilities
-from settings import path_to_House
-from settings import path_to_Nature
 from View.settings import TILE_SIZE
 from Model import logique as l
 
@@ -28,7 +22,7 @@ class Map:
         self.width = width
         self.height = height
         self.matrix = [
-            [3, 3, 3, 3, 3, 3, 3, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+            [3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              0, 0, 0, 0],
             [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
              3, 3, 0, 0, 0],
@@ -64,14 +58,20 @@ class Map:
              3, 3, 1, 1],
             [0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 3, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0,
              0, 0, 0, 3],
-            [0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3,
+            [0, 0, 0, 0, 0, 3, 3, 3, 0, 5, 5, 5, 5, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3,
              3, 3, 3, 3],
-            [0, 0, 7, 7, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3],
-            [3089, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3087, 0],
-            [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 5, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 5, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3],
-            [1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 9000, 5, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            [0, 0, 7, 7, 3, 3, 3, 0, 0, 5, 5, 5, 5, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0,
+             0, 3, 3, 3],
+            [3089, 0, 7, 7, 7, 7, 7, 0, 0, 5, 0, 0, 5, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 3087, 0],
+            [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+             5, 5, 5, 5],
+            [0, 5, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+             0, 0, 0, 0],
+            [0, 5, 5, 5, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+             3, 0, 0, 3],
+            [1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+             3, 3, 3, 3],
             [1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 39, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              0, 3, 0, 3, 3],
             [1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -226,7 +226,7 @@ class Map:
     def create_map(self):
 
         map = []
-        #self.reload_map()
+        #reload_map()
 
         for grid_x in range(self.grid_length_x):
             map.append([])
@@ -238,9 +238,6 @@ class Map:
                 self.grass_tiles.blit(self.tiles["block"], (render_pos[0] + self.grass_tiles.get_width()/2, render_pos[1]))
 
         return map
-
-    def setTile(self,tileID,Xpos,Ypos):
-        self.matrix[Xpos][Ypos] == tileID
 
     def grid_to_map(self, grid_x, grid_y):
 
@@ -256,10 +253,8 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
-        if self.matrix[grid_x][grid_y] == 666:
-            tile = ""
-
         if self.matrix[grid_x][grid_y] == 3: #TREES
+            print("truc")
             if self.matrixNature[grid_x][grid_y] == 10033:
                 tile = "tree33"
             elif self.matrixNature[grid_x][grid_y] == 10030:
@@ -328,7 +323,7 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 3087:
             tile = "direction2"
 
-        elif self.matrix[grid_x][grid_y] == 2:  #ROCKS
+        elif self.matrix[grid_x][grid_y] == 2:  # ROCKS
             if self.matrixNature[grid_x][grid_y] == 20384:
                 tile = "rock1"
             elif self.matrixNature[grid_x][grid_y] == 20376:
@@ -472,41 +467,6 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 7:
             tile = "post_sign"
 
-        #Service publique
-        elif self.matrix[grid_x][grid_y] == 55:
-            tile = "security"
-
-        elif self.matrix[grid_x][grid_y] == 81:
-            tile = "engineer"
-
-        #Commerce
-
-        elif self.matrix[grid_x][grid_y] == 70:
-            tile = "market"
-
-        elif self.matrix[grid_x][grid_y] == 71:
-            tile = "granary"
-
-        elif self.matrix[grid_x][grid_y] == 72:
-            tile = "warehouse"
-
-        #Water services
-
-        elif self.matrix[grid_x][grid_y] == 92:
-            tile = "well"
-
-        elif self.matrix[grid_x][grid_y] == 91:
-            tile = "fountain_empty"
-
-        elif self.matrix[grid_x][grid_y] == 9100:
-            tile = "fountain_full"
-
-        elif self.matrix[grid_x][grid_y] == 90:
-            tile = "reservoir_empty"
-
-        elif self.matrix[grid_x][grid_y] == 9000:
-            tile = "reservoir_full"
-
 
         else:
             tile = ""
@@ -530,135 +490,103 @@ class Map:
 
         #NATURE
 
-        block = pg.image.load(path_to_Nature + "/Land1a_00255.png").convert_alpha()
-        tree33 = pg.image.load(path_to_Nature + "/Land1a_00033.png").convert_alpha()
-        tree30 = pg.image.load(path_to_Nature + "/Land1a_00030.png").convert_alpha()
-        tree37 = pg.image.load(path_to_Nature + "/Land1a_00037.png").convert_alpha()
-        tree54 = pg.image.load(path_to_Nature + "/Land1a_00054.png").convert_alpha()
-        tree58 = pg.image.load(path_to_Nature + "/Land1a_00058.png").convert_alpha()
-        tree51 = pg.image.load(path_to_Nature + "/Land1a_00051.png").convert_alpha()
-        tree55 = pg.image.load(path_to_Nature + "/Land1a_00055.png").convert_alpha()
-        tree61 = pg.image.load(path_to_Nature + "/Land1a_00061.png").convert_alpha()
-        tree60 = pg.image.load(path_to_Nature + "/Land1a_00060.png").convert_alpha()
-        tree57 = pg.image.load(path_to_Nature + "/Land1a_00057.png").convert_alpha()
-        tree46 = pg.image.load(path_to_Nature + "/Land1a_00046.png").convert_alpha()
-        tree41 = pg.image.load(path_to_Nature + "/Land1a_00041.png").convert_alpha()
-        tree31 = pg.image.load(path_to_Nature + "/Land1a_00031.png").convert_alpha()
-        tree32 = pg.image.load(path_to_Nature + "/Land1a_00032.png").convert_alpha()
-        tree34 = pg.image.load(path_to_Nature + "/Land1a_00034.png").convert_alpha()
-        tree35 = pg.image.load(path_to_Nature + "/Land1a_00035.png").convert_alpha()
-        tree36 = pg.image.load(path_to_Nature + "/Land1a_00036.png").convert_alpha()
-        tree38 = pg.image.load(path_to_Nature + "/Land1a_00038.png").convert_alpha()
-        tree42 = pg.image.load(path_to_Nature + "/Land1a_00042.png").convert_alpha()
-        tree45 = pg.image.load(path_to_Nature + "/Land1a_00045.png").convert_alpha()
-        tree47 = pg.image.load(path_to_Nature + "/Land1a_00047.png").convert_alpha()
-        tree52 = pg.image.load(path_to_Nature + "/Land1a_00052.png").convert_alpha()
-        tree53 = pg.image.load(path_to_Nature + "/Land1a_00053.png").convert_alpha()
-        tree59 = pg.image.load(path_to_Nature + "/Land1a_00059.png").convert_alpha()
-        tree49 = pg.image.load(path_to_Nature + "/Land1a_00049.png").convert_alpha()
-        tree50 = pg.image.load(path_to_Nature + "/Land1a_00050.png").convert_alpha()
-        tree56 = pg.image.load(path_to_Nature + "/Land1a_00056.png").convert_alpha()
-        tree43 = pg.image.load(path_to_Nature + "/Land1a_00043.png").convert_alpha()
-        tree40 = pg.image.load(path_to_Nature + "/Land1a_00040.png").convert_alpha()
-        tree44 = pg.image.load(path_to_Nature + "/Land1a_00044.png").convert_alpha()
-        tree46 = pg.image.load(path_to_Nature + "/Land1a_00046.png").convert_alpha()
-        rock1 = pg.image.load(path_to_Nature + "/Land3a_00084.png").convert_alpha()
-        rock2 = pg.image.load(path_to_Nature + "/Land3a_00076.png").convert_alpha()
-        rock3 = pg.image.load(path_to_Nature + "/Land3a_00072.png").convert_alpha()
-        rock4 = pg.image.load(path_to_Nature + "/Land3a_00074.png").convert_alpha()
-        rock5 = pg.image.load(path_to_Nature + "/Land3a_00077.png").convert_alpha()
-        rock6 = pg.image.load(path_to_Nature + "/Land3a_00071.png").convert_alpha()
-        rock7 = pg.image.load(path_to_Nature + "/Land3a_00080.png").convert_alpha()
-        rock8 = pg.image.load(path_to_Nature + "/Land3a_00081.png").convert_alpha()
-        rock9 = pg.image.load(path_to_Nature + "/Land3a_00079.png").convert_alpha()
-        rock10 = pg.image.load(path_to_Nature + "/Land3a_00078.png").convert_alpha()
-        rock11 = pg.image.load(path_to_Nature + "/Land3a_00083.png").convert_alpha()
-        rock12 = pg.image.load(path_to_Nature + "/Land3a_00082.png").convert_alpha()
-        rock13 = pg.image.load(path_to_Nature + "/Land3a_00075.png").convert_alpha()
-        direction1 = pg.image.load(path_to_Nature + "/Land3a_00089.png").convert_alpha()
-        direction2 = pg.image.load(path_to_Nature + "/Land3a_00087.png").convert_alpha()
-        water = pg.image.load(path_to_Nature + "/Land1a_00121.png").convert_alpha()
-        water1 = pg.image.load(path_to_Nature + "/Land1a_00152.png").convert_alpha()
-        water2 = pg.image.load(path_to_Nature + "/Land1a_00153.png").convert_alpha()
-        water3 = pg.image.load(path_to_Nature + "/Land1a_00172.png").convert_alpha()
-        water4 = pg.image.load(path_to_Nature + "/Land1a_00154.png").convert_alpha()
-        water5 = pg.image.load(path_to_Nature + "/Land1a_00131.png").convert_alpha()
-        water6 = pg.image.load(path_to_Nature + "/Land1a_00141.png").convert_alpha()
-        water7 = pg.image.load(path_to_Nature + "/Land1a_00142.png").convert_alpha()
-        water8 = pg.image.load(path_to_Nature + "/Land1a_00143.png").convert_alpha()
-        water9 = pg.image.load(path_to_Nature + "/Land1a_00170.png").convert_alpha()
-        water10 = pg.image.load(path_to_Nature + "/Land1a_00135.png").convert_alpha()
-        water11 = pg.image.load(path_to_Nature + "/Land1a_00133.png").convert_alpha()
-        water12 = pg.image.load(path_to_Nature + "/Land1a_00144.png").convert_alpha()
-        water13 = pg.image.load(path_to_Nature + "/Land1a_00129.png").convert_alpha()
-        water14 = pg.image.load(path_to_Nature + "/Land1a_00147.png").convert_alpha()
-        water15 = pg.image.load(path_to_Nature + "/Land1a_00146.png").convert_alpha()
-        water16 = pg.image.load(path_to_Nature + "/Land1a_00140.png").convert_alpha()
-        water17 = pg.image.load(path_to_Nature + "/Land1a_00151.png").convert_alpha()
-        water18 = pg.image.load(path_to_Nature + "/Land1a_00171.png").convert_alpha()
-        water19 = pg.image.load(path_to_Nature + "/Land1a_00145.png").convert_alpha()
-        water20 = pg.image.load(path_to_Nature + "/Land1a_00165.png").convert_alpha()
-        water21 = pg.image.load(path_to_Nature + "/Land1a_00174.png").convert_alpha()
-        water22 = pg.image.load(path_to_Nature + "/Land1a_00134.png").convert_alpha()
-        water23 = pg.image.load(path_to_Nature + "/Land1a_00156.png").convert_alpha()
-        water24 = pg.image.load(path_to_Nature + "/Land1a_00139.png").convert_alpha()
-        water25 = pg.image.load(path_to_Nature + "/Land1a_00138.png").convert_alpha()
-        water26 = pg.image.load(path_to_Nature + "/Land1a_00137.png").convert_alpha()
-        rock300 = pg.image.load(path_to_Nature + "/Land1a_00300.png").convert_alpha()
+        block = pg.image.load("Graphique/Land1a_00255.png").convert_alpha()
+        tree33 = pg.image.load("Graphique/Land1a_00033.png").convert_alpha()
+        tree30 = pg.image.load("Graphique/Land1a_00030.png").convert_alpha()
+        tree37 = pg.image.load("Graphique/Land1a_00037.png").convert_alpha()
+        tree54 = pg.image.load("Graphique/Land1a_00054.png").convert_alpha()
+        tree58 = pg.image.load("Graphique/Land1a_00058.png").convert_alpha()
+        tree51 = pg.image.load("Graphique/Land1a_00051.png").convert_alpha()
+        tree55 = pg.image.load("Graphique/Land1a_00055.png").convert_alpha()
+        tree61 = pg.image.load("Graphique/Land1a_00061.png").convert_alpha()
+        tree60 = pg.image.load("Graphique/Land1a_00060.png").convert_alpha()
+        tree57 = pg.image.load("Graphique/Land1a_00057.png").convert_alpha()
+        tree46 = pg.image.load("Graphique/Land1a_00046.png").convert_alpha()
+        tree41 = pg.image.load("Graphique/Land1a_00041.png").convert_alpha()
+        tree31 = pg.image.load("Graphique/Land1a_00031.png").convert_alpha()
+        tree32 = pg.image.load("Graphique/Land1a_00032.png").convert_alpha()
+        tree34 = pg.image.load("Graphique/Land1a_00034.png").convert_alpha()
+        tree35 = pg.image.load("Graphique/Land1a_00035.png").convert_alpha()
+        tree36 = pg.image.load("Graphique/Land1a_00036.png").convert_alpha()
+        tree38 = pg.image.load("Graphique/Land1a_00038.png").convert_alpha()
+        tree42 = pg.image.load("Graphique/Land1a_00042.png").convert_alpha()
+        tree45 = pg.image.load("Graphique/Land1a_00045.png").convert_alpha()
+        tree47 = pg.image.load("Graphique/Land1a_00047.png").convert_alpha()
+        tree52 = pg.image.load("Graphique/Land1a_00052.png").convert_alpha()
+        tree53 = pg.image.load("Graphique/Land1a_00053.png").convert_alpha()
+        tree59 = pg.image.load("Graphique/Land1a_00059.png").convert_alpha()
+        tree49 = pg.image.load("Graphique/Land1a_00049.png").convert_alpha()
+        tree50 = pg.image.load("Graphique/Land1a_00050.png").convert_alpha()
+        tree56 = pg.image.load("Graphique/Land1a_00056.png").convert_alpha()
+        tree43 = pg.image.load("Graphique/Land1a_00043.png").convert_alpha()
+        tree40 = pg.image.load("Graphique/Land1a_00040.png").convert_alpha()
+        tree44 = pg.image.load("Graphique/Land1a_00044.png").convert_alpha()
+        tree46 = pg.image.load("Graphique/Land1a_00046.png").convert_alpha()
+        rock1 = pg.image.load("Graphique/land3a_00084.png").convert_alpha()
+        rock2 = pg.image.load("Graphique/land3a_00076.png").convert_alpha()
+        rock3 = pg.image.load("Graphique/land3a_00072.png").convert_alpha()
+        rock4 = pg.image.load("Graphique/land3a_00074.png").convert_alpha()
+        rock5 = pg.image.load("Graphique/land3a_00077.png").convert_alpha()
+        rock6 = pg.image.load("Graphique/land3a_00071.png").convert_alpha()
+        rock7 = pg.image.load("Graphique/land3a_00080.png").convert_alpha()
+        rock8 = pg.image.load("Graphique/land3a_00081.png").convert_alpha()
+        rock9 = pg.image.load("Graphique/land3a_00079.png").convert_alpha()
+        rock10 = pg.image.load("Graphique/land3a_00078.png").convert_alpha()
+        rock11 = pg.image.load("Graphique/land3a_00083.png").convert_alpha()
+        rock12 = pg.image.load("Graphique/land3a_00082.png").convert_alpha()
+        rock13 = pg.image.load("Graphique/land3a_00075.png").convert_alpha()
+        direction1 = pg.image.load("Graphique/land3a_00089.png").convert_alpha()
+        direction2 = pg.image.load("Graphique/land3a_00087.png").convert_alpha()
+        water = pg.image.load("Graphique/Land1a_00121.png").convert_alpha()
+        water1 = pg.image.load("Graphique/Land1a_00152.png").convert_alpha()
+        water2 = pg.image.load("Graphique/Land1a_00153.png").convert_alpha()
+        water3 = pg.image.load("Graphique/Land1a_00172.png").convert_alpha()
+        water4 = pg.image.load("Graphique/Land1a_00154.png").convert_alpha()
+        water5 = pg.image.load("Graphique/Land1a_00131.png").convert_alpha()
+        water6 = pg.image.load("Graphique/Land1a_00141.png").convert_alpha()
+        water7 = pg.image.load("Graphique/Land1a_00142.png").convert_alpha()
+        water8 = pg.image.load("Graphique/Land1a_00143.png").convert_alpha()
+        water9 = pg.image.load("Graphique/Land1a_00170.png").convert_alpha()
+        water10 = pg.image.load("Graphique/Land1a_00135.png").convert_alpha()
+        water11 = pg.image.load("Graphique/Land1a_00133.png").convert_alpha()
+        water12 = pg.image.load("Graphique/Land1a_00144.png").convert_alpha()
+        water13 = pg.image.load("Graphique/Land1a_00129.png").convert_alpha()
+        water14 = pg.image.load("Graphique/Land1a_00147.png").convert_alpha()
+        water15 = pg.image.load("Graphique/Land1a_00146.png").convert_alpha()
+        water16 = pg.image.load("Graphique/Land1a_00140.png").convert_alpha()
+        water17 = pg.image.load("Graphique/Land1a_00151.png").convert_alpha()
+        water18 = pg.image.load("Graphique/Land1a_00171.png").convert_alpha()
+        water19 = pg.image.load("Graphique/Land1a_00145.png").convert_alpha()
+        water20 = pg.image.load("Graphique/Land1a_00165.png").convert_alpha()
+        water21 = pg.image.load("Graphique/Land1a_00174.png").convert_alpha()
+        water22 = pg.image.load("Graphique/Land1a_00134.png").convert_alpha()
+        water23 = pg.image.load("Graphique/Land1a_00156.png").convert_alpha()
+        water24 = pg.image.load("Graphique/Land1a_00139.png").convert_alpha()
+        water25 = pg.image.load("Graphique/Land1a_00138.png").convert_alpha()
+        water26 = pg.image.load("Graphique/Land1a_00137.png").convert_alpha()
+        rock300 = pg.image.load("Graphique/Land1a_00300.png").convert_alpha()
 
         #ROADS
 
-        roadXL = pg.image.load(path_to_Nature + "/Land2a_00093.png").convert_alpha()  # X line /
-        roadYL_capright = pg.image.load(path_to_Nature + "/Land2a_00105.png").convert_alpha()  # X line cap on the right
-        roadYL_capleft = pg.image.load(path_to_Nature + "/Land2a_00101.png").convert_alpha()  # X line cap on the left
-        roadYL = pg.image.load(path_to_Nature + "/Land2a_00094.png").convert_alpha()  # Y line \
-        roadXL_capbottom = pg.image.load(path_to_Nature + "/Land2a_00104.png").convert_alpha()  # Y line cap on the bottom
-        roadXL_captop = pg.image.load(path_to_Nature + "/Land2a_00102.png").convert_alpha()  # Y line cap on the top
-        road_quad = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()  # Quad-Intersection
-        roadXL_teebottom = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()
-        roadXL_teetop = pg.image.load(path_to_Nature + "/Land2a_00108.png").convert_alpha()
-        roadYL_teeright = pg.image.load(path_to_Nature + "/Land2a_00109.png").convert_alpha()
-        roadYL_teeleft = pg.image.load(path_to_Nature + "/Land2a_00107.png").convert_alpha()
-        roadcurv_lefttobottom = pg.image.load(path_to_Nature + "/Land2a_00098.png").convert_alpha()
-        roadcurv_righttobottom = pg.image.load(path_to_Nature + "/Land2a_00097.png").convert_alpha()
-        roadcurv_lefttotop = pg.image.load(path_to_Nature + "/Land2a_00099.png").convert_alpha()
-        roadcurv_righttotop = pg.image.load(path_to_Nature + "/Land2a_00100.png").convert_alpha()
+        roadXL = pg.image.load("Graphique/land2a_00093.png").convert_alpha()  # X line /
+        roadYL_capright = pg.image.load("Graphique/Land2a_00105.png").convert_alpha()  # X line cap on the right
+        roadYL_capleft = pg.image.load("Graphique/Land2a_00101.png").convert_alpha()  # X line cap on the left
+        roadYL = pg.image.load("Graphique/Land2a_00094.png").convert_alpha()  # Y line \
+        roadXL_capbottom = pg.image.load("Graphique/Land2a_00104.png").convert_alpha()  # Y line cap on the bottom
+        roadXL_captop = pg.image.load("Graphique/Land2a_00102.png").convert_alpha()  # Y line cap on the top
+        road_quad = pg.image.load("Graphique/Land2a_00106.png").convert_alpha()  # Quad-Intersection
+        roadXL_teebottom = pg.image.load("Graphique/Land2a_00106.png").convert_alpha()
+        roadXL_teetop = pg.image.load("Graphique/Land2a_00108.png").convert_alpha()
+        roadYL_teeright = pg.image.load("Graphique/Land2a_00109.png").convert_alpha()
+        roadYL_teeleft = pg.image.load("Graphique/Land2a_00107.png").convert_alpha()
+        roadcurv_lefttobottom = pg.image.load("Graphique/Land2a_00098.png").convert_alpha()
+        roadcurv_righttobottom = pg.image.load("Graphique/Land2a_00097.png").convert_alpha()
+        roadcurv_lefttotop = pg.image.load("Graphique/Land2a_00099.png").convert_alpha()
+        roadcurv_righttotop = pg.image.load("Graphique/Land2a_00100.png").convert_alpha()
 
         #HOUSING
 
-        post_sign = pg.image.load(path_to_House + "/Housng1a_00045.png").convert_alpha()
-        houselvl0 = pg.image.load(path_to_House + "/Housng1a_00001.png").convert_alpha()
-        bighouselvl0 = pg.image.load(path_to_House + "/Housng1a_00006.png").convert_alpha()
-        houselvl1 = pg.image.load(path_to_House + "/Housng1a_00007.png").convert_alpha()
-        bighouselvl1 = pg.image.load(path_to_House + "/Housng1a_00012.png").convert_alpha()
-        houselvl2 = pg.image.load(path_to_House + "/Housng1a_00013.png").convert_alpha()
-        bighouselvl2 = pg.image.load(path_to_House + "/Housng1a_00017.png").convert_alpha()
-        houselvl3 = pg.image.load(path_to_House + "/Housng1a_00021.png").convert_alpha()
-        bighouselvl3 = pg.image.load(path_to_House + "/Housng1a_00023.png").convert_alpha()
-
-        #Warehouses and Market
-
-        warehouse = pg.image.load(path_to_Utilities + "/Warehouse.png").convert_alpha()
-        granary = pg.image.load(path_to_Utilities + "/Grange.png").convert_alpha()
-        market = pg.image.load(path_to_Utilities + "/Marche.png").convert_alpha()
-
-        #Service Publique/Fonctionnaires
-
-        security = pg.image.load(path_to_Utilities + "/Security.png").convert_alpha()
-        engineer = pg.image.load(path_to_Utilities + "/Engineer_post.png").convert_alpha()
-
-        #Aléas
-
-        ruine = pg.image.load(path_to_Utilities + "/Ruine.png").convert_alpha()
-        fire = pg.image.load(path_to_Utilities + "/ENFEU_OMG.png").convert_alpha()
-
-        #Water and aquaducts
-
-        well = pg.image.load(path_to_Utilities + "/Puit.png").convert_alpha()
-        fountain_empty = pg.image.load(path_to_Utilities + "/Fontaine_vide.png").convert_alpha()
-        fountain_full = pg.image.load(path_to_Utilities + "/Fontaine_pleine.png").convert_alpha()
-        reservoir_empty = pg.image.load(path_to_Utilities + "/Reservoir_vide.png").convert_alpha()
-        reservoir_full = pg.image.load(path_to_Utilities + "/Reservoir_plein.png").convert_alpha()
+        post_sign = pg.image.load("Sprites/Used_sprites/Home_builds/Housng1a_00045.png").convert_alpha()
 
         return {"block": block,
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
@@ -681,16 +609,13 @@ class Map:
                 "road_quad": road_quad,  "roadYL_teebottom": roadXL_teebottom, "roadYL_teetop": roadXL_teetop, "roadXL_teeright": roadYL_teeright, "roadXL_teeleft": roadYL_teeleft,
                 "roadcurv_lefttobottom": roadcurv_lefttobottom, "roadcurv_righttobottom": roadcurv_righttobottom, "roadcurv_lefttotop": roadcurv_lefttotop, "roadcurv_righttotop": roadcurv_righttotop,
                 "direction1": direction1, "direction2": direction2,
-                "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
-                "warehouse": warehouse, "granary": granary, "market": market,
-                "security": security, "engineer": engineer, "ruine": ruine, "fire": fire,
-                "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full
+                "post_sign": post_sign
                }
 
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                self.matrix[grid_x][grid_y]=logique.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
 
     def get_neighbor(self, grid, coorX, coorY, who=4):
 

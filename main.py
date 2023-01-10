@@ -1,7 +1,6 @@
 import pygame as pg
 # import View.game as game
-from Interface.Data_controller import *
-from Interface.InputBoxName import *
+from Controller.Data_controller import *
 
 
 
@@ -21,6 +20,7 @@ def main():
     global Cur_page
     Cur_page = None
 
+    
 
     pg.init()
     pg.mixer.init()
@@ -35,7 +35,7 @@ def main():
 
     while running:
 
-        
+
         clock.tick(60)
         
         mouse_track = pg.mouse.get_pos()    
@@ -48,7 +48,6 @@ def main():
 
             pg.display.flip()
             mouse_track = pg.mouse.get_pos()  
-            
 
             for event in pg.event.get() :
 
@@ -58,19 +57,6 @@ def main():
                     pg.quit()
                     sys.exit()
 
-                if event.type == pg.MOUSEMOTION :
-
-                    if Cur_page == "Home" :
-
-                        HP_exit.transparenci( mouse_track , screen )
-                        HP_load_game.transparenci( mouse_track , screen )
-                        HP_newc.transparenci( mouse_track , screen )
-                        pg.display.flip()
-
-                if event.type == pg.KEYDOWN and event.type != pg.K_LSHIFT :
-
-                    if Cur_page == "Select" :
-                        SP_input.ajout_char(event , screen)
 
                 if event.type == pg.MOUSEBUTTONDOWN : 
                         
@@ -84,8 +70,7 @@ def main():
 
                         elif HP_newc.overhead( mouse_track , screen ) :
                             Cur_page = "Select"
-                            set_screen_SP( screen )  
-                            SP_input.draw(screen)                       
+                            set_screen_SP( screen )                         
                 
                         elif HP_load_game.overhead( mouse_track , screen ) :
                             pass
@@ -94,14 +79,12 @@ def main():
 
                         # Erreur dans la conception avec les rectangle 
 
-                        if SP_go_home_txt_R.collidepoint(  mouse_track ) :
+                        if SP_go_home_txt.collidepoint(  mouse_track ) :
                             Cur_page = "Home"
                             set_screen_HP( screen )
 
-                        if SP_validate_txt_R.collidepoint( mouse_track ) : 
+                        if SP_validate_txt.get_rect().collidepoint( mouse_track[0] , mouse_track[1]) : 
                             print("Lancement de partie ")
-                        print("Je test")
-                        SP_input.collide(mouse_track)
                             
 
                     else : # Si on se trouve dans l'écran titre

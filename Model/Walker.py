@@ -1,24 +1,27 @@
+import os
 import sys
 
-sys.path.insert(0, '..')
+# Construct the full path to the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Add the parent directory to the PYTHONPATH
+sys.path.append(parent_dir)
+
+from Model import batiment as b
 
 
-class NoWalker:
-    def __init__(self):
-        self.name = 'no Walker'
+class Walker():
+	def __init__(self,x,y, bat):
+		self.x = x
+		self.y = y
+		self.name = 'no Walker'
+		self.ttl = 20
+		self.tab_path = [(x,y)]
+<<<<<<< HEAD
+		self.batiment = bat
+
+=======
+		self.prev_pos = ( x , y ) # Nécessaire pour le déplacement 
+>>>>>>> Controller
 
 
-class Walker(NoWalker):
-    def __init__(self, x, y, bat):
-        super().__init__()
-        self.x = x
-        self.y = y
-        self.name = 'unknown'
-        self.ttl = 20
-        self.tab_path = []
-        self.batiment = bat
-        self.dest_x = -1
-        self.dest_y = -1
-        self.has_moved = 0
-        self.prev_x = x # Necessaire pour le déplacement
-        self.prev_y = y # Laisser ces valeur pour deplacment_basique()
