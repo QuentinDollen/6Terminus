@@ -24,17 +24,17 @@ class Hud:
 
      def draw(self, screen):
 
-         screen.blit(self.menu1, (1374, 24))
-         screen.blit(self.menu2, (1374, 698))
+         screen.blit(self.menu1, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 840))
+         screen.blit(self.menu2, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 166))
 
          #corner
-         screen.blit(self.menu3, (1520, 474))
-         screen.blit(self.menu4, (1520, 682))
-         screen.blit(self.menu5, (1376, 474))
-         screen.blit(self.menu6, (1376, 682))
+         screen.blit(self.menu3, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 390))
+         screen.blit(self.menu4, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 182))
+         screen.blit(self.menu5, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 390))
+         screen.blit(self.menu6, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 182))
 
          for a in range(12):
-             screen.blit(self.menu7, (1520, 490 + 16 * a))
+             screen.blit(self.menu7, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 374 + 16 * a))
              screen.blit(self.menu8, (1376, 490 + 16 * a))
          for b in range(8):
             screen.blit(self.menu9, (1392 + 16 * b, 682))
