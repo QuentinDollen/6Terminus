@@ -140,7 +140,7 @@ class Map:
 
     def draw_mini(self, screen, camera):
 
-        pg.draw.rect(screen, BLACK, (1382.5, 59.5, 144.3, 111))
+        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 500, 144.3, 111))
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -154,26 +154,26 @@ class Map:
                 # WATER
                 if tile1 == 1:
                     pg.draw.circle(screen, BLUE, (
-                        render_pos_mini[0] + 1412 + minimap_offset[0],
-                        render_pos_mini[1] + 40 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
 
                 # ROCK
                 elif tile1 == 2:
                     pg.draw.circle(screen, GREY, (
-                        render_pos_mini[0] + 1412 + minimap_offset[0],
-                        render_pos_mini[1] + 40 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                     # TREE
                 elif tile1 == 3:
                     pg.draw.circle(screen, GREEN, (
-                        render_pos_mini[0] + 1414 + minimap_offset[0],
-                        render_pos_mini[1] + 40 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + 1412 + minimap_offset[0], y + 40 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 500 + minimap_offset[0], y + pg.display.Info().current_h - 500 + minimap_offset[1]) for x, y in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
-                pg.draw.rect(screen, RED, (1382.5 - camera.scroll_mini.x, 59.5 + camera.scroll_mini.y, 26, 20), 1)
+                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
     def draw(self, screen, camera):

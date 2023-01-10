@@ -35,13 +35,13 @@ class Hud:
 
          for a in range(12):
              screen.blit(self.menu7, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 374 + 16 * a))
-             screen.blit(self.menu8, (1376, 490 + 16 * a))
+             screen.blit(self.menu8, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 374 + 16 * a))
          for b in range(8):
-            screen.blit(self.menu9, (1392 + 16 * b, 682))
-            screen.blit(self.menu10, (1392 + 16 * b, 474))
+            screen.blit(self.menu9, (pg.display.Info().current_w - 144 + 16 * b, pg.display.Info().current_h - 182))
+            screen.blit(self.menu10, (pg.display.Info().current_w - 144 + 16 * b, pg.display.Info().current_h - 390))
          for c in range(8):
              for d in range(12):
-                screen.blit(self.menu11, (1392 + 16 * c, 490 + 16 * d))
+                screen.blit(self.menu11, (pg.display.Info().current_w - 144 + 16 * c, pg.display.Info().current_h - 374 + 16 * d))
 
 
      #
