@@ -7,6 +7,10 @@ from pygame.locals import *
 import sys
 from tkinter import simpledialog
 import tkinter as tk 
+
+
+
+
 pg.init()
 
 # Define global variables :
@@ -219,26 +223,6 @@ class Texte_button(Button) :
         
         
 # Define text box for choosing game name :
-text_area_surface  = pg.Surface((window_width/4 , winddow_height/4 ))
-text_surface  = Textefont.render("Nom de la partie" ,True , (0,0,0))
-text_rect  =text_surface.get_rect()
-text_rect.center = (window_width/2 , winddow_height/2 )
-SP_new_game_name = ""
-
-def ajout_char( char ,screen ) :
-    if char in range(ord('a'), ord('z')+1) or char in range(ord('0'), ord('9')+1):
-        SP_new_game_name += chr(char)
-    elif char == pg.K_SPACE :
-        SP_new_game_name += " "
-    elif char == pg.K_BACKSPACE :
-        SP_new_game_name = SP_new_game_name[:-1]
-    text_area_surface.fill((255,255,255))
-
-    text_surface = Textefont.render(SP_new_game_name , True , (0,0,0))
-    text_rect = text_surface.get_rect()
-    text_rect.center = (window_width/2 , winddow_height/2 )
-    text_area_surface.blit(text_surface, text_rect)
-    screen.blit(text_area_surface, (x, y))
 
 
 def on_button_click():
@@ -276,7 +260,7 @@ HP_tittle.resize( ( window_width , winddow_height ) )
 SP_back = Button( Pos_SP_back , Path_SP_back , None)
 SP_back.resize( ( window_width , winddow_height ) )
 
-SP_validate_txt = Textefont.render("Validate" , True , ( 0 , 0 , 0 ) , ( 180 , 180 , 180 ))
+SP_validate_txt = Textefont.render("Validate" , True , ( 0 , 0 , 0 ) , ( 255 , 255 , 255 ))
 SP_validate_txt_R = SP_validate_txt.get_rect()
 SP_validate_txt_R.topleft= ( Pos_SP_validate[0] - SP_validate_txt.get_width()/2 , Pos_SP_validate[1] - SP_validate_txt.get_height()/2 )
 
@@ -327,15 +311,7 @@ def enable_all_SP_button() :
     SP_support.set_enable()
 
 
-def set_screen_SP( screen ) :
-    disable_all_HP_button()
-    enable_all_SP_button()
-    SP_back.draw_image_center(screen)
-    SP_support.draw_image_center(screen)
-    screen.blit( SP_validate_txt , ( Pos_SP_validate[0] - SP_validate_txt.get_width()/2 , Pos_SP_validate[1] - SP_validate_txt.get_height()/2 ))
-    screen.blit( SP_go_home_txt , ( Pos_SP_go_home[0] - SP_go_home_txt.get_width()/2 , Pos_SP_go_home[1] - SP_go_home_txt.get_height()/2 ) )
-    
-    pg.display.update() 
+
 
 def set_screen_HP(screen) :
     disable_all_SP_button()
@@ -372,7 +348,18 @@ def transparenci( Surface , screen , pos , done ) :
         done = False
         screen.blit(Surface , pos )
 
+def set_screen_SP( screen ) :
+    disable_all_HP_button()
+    enable_all_SP_button()
+    SP_back.draw_image_center(screen)
+    SP_support.draw_image_center(screen)
+    screen.blit( SP_validate_txt , ( Pos_SP_validate[0] - SP_validate_txt.get_width()/2 , Pos_SP_validate[1] - SP_validate_txt.get_height()/2 ))
+    screen.blit( SP_go_home_txt , ( Pos_SP_go_home[0] - SP_go_home_txt.get_width()/2 , Pos_SP_go_home[1] - SP_go_home_txt.get_height()/2 ) )
     
+    
+    # screen.blit(SP_text_S, ( SP_text_S.get_width(),SP_text_S.get_height()))
+    
+    pg.display.update()     
         
 # Test game 
 

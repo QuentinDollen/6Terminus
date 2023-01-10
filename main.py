@@ -1,6 +1,7 @@
 import pygame as pg
 # import View.game as game
 from Interface.Data_controller import *
+from Interface.InputBoxName import *
 
 
 
@@ -34,7 +35,7 @@ def main():
 
     while running:
 
-
+        
         clock.tick(60)
         
         mouse_track = pg.mouse.get_pos()    
@@ -66,6 +67,11 @@ def main():
                         HP_newc.transparenci( mouse_track , screen )
                         pg.display.flip()
 
+                if event.type == pg.KEYDOWN and event.type != pg.K_LSHIFT :
+
+                    if Cur_page == "Select" :
+                        SP_input.ajout_char(event , screen)
+
                 if event.type == pg.MOUSEBUTTONDOWN : 
                         
                     if Cur_page == "Home" : # Si on se trouve sur la page Home 
@@ -78,7 +84,8 @@ def main():
 
                         elif HP_newc.overhead( mouse_track , screen ) :
                             Cur_page = "Select"
-                            set_screen_SP( screen )                         
+                            set_screen_SP( screen )  
+                            SP_input.draw(screen)                       
                 
                         elif HP_load_game.overhead( mouse_track , screen ) :
                             pass
@@ -93,9 +100,8 @@ def main():
 
                         if SP_validate_txt_R.collidepoint( mouse_track ) : 
                             print("Lancement de partie ")
-
-                        if text_rect.collidepoint( mouse_track ) :
-                            print("Changement de nom")
+                        print("Je test")
+                        SP_input.collide(mouse_track)
                             
 
                     else : # Si on se trouve dans l'écran titre
