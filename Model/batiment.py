@@ -19,16 +19,34 @@ class Batiment(t.Terrain):
         self.rangeDesirability = rge  # La portée maximale de la désirabilité
         self.neededEmployees = emp  # le nombre d'employé requis pour que le batiment fonctionne
         self.curEmployees = 0 # Le nombre d'employées 
-        self.name = 'Batiment'  # le nom du batiment. À modifier selon le type de batiment
-        self.Walk = []
+        self.name = "Batiment"  # le nom du batiment. À modifier selon le type de batiment
+        self.Walk = [] 
+        self.wakler_in = False # Si le walker du batiement est dans le batiment
+        
     def ret_coord(self):
         return (self.pos_x , self.pos_y)
         
     def need_employees( self , Nb_immigrant ) :
-        if Nb_immigrant > 0 and self. curEmployees < self.neededEmployees : 
-            Nb_immigrant -= 1 
+        if Nb_immigrant > 0 and self.curEmployees < self.neededEmployees : 
             self.curEmployees += 1
+            return  Nb_immigrant - 1 
+        else :
             return Nb_immigrant
+
+    def recieve_walker( self , walker ):
+        self.Walk.append(walker)
+        self.wakler_in = True
+    
+    def augm_att(self):
+        self.ind_fire += 1 
+        if(self.ind_fire > 30):
+            return -1
+        self.ind_eff += 1
+        if(self.ind_eff > 30):
+            return -2
+
+
+
 
     
 

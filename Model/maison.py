@@ -12,6 +12,9 @@ class Maison(b.Batiment):
         self.nb_habitants = 0
         self.nourriture = [['ble', 0 ], ['fruits', 0], ['viande', 0]]
         self.produits = [['argile',0], ['potterie',0], ['huile',0]]
+        self.popLim = 0
+        self.curpop = 0
+        self.faith = 0
         
     def get_delivery(self, chargement):
         print("chargement",chargement)
@@ -25,6 +28,13 @@ class Maison(b.Batiment):
             self.produits[2][1] += chargement[1]
         if chargement[0] == 'argile':
             self.produits[0][1] += chargement[1]
+
+    def add_familly( self ,  Nb_immigrant ) :
+        if Nb_immigrant > 0 and self.curpop < self.popLim : 
+            self.curpop += 1
+            return  Nb_immigrant - 1 
+        else :
+            return Nb_immigrant
                 
 
  
