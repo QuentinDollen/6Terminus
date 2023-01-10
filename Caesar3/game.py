@@ -12,7 +12,8 @@ class Game:
         self.screen = screen
         self.clock = clock
         self.width, self.height = self.screen.get_size()
-        # map
+
+        # map   
         self.map = Map(40, 40, self.width, self.height)
 
         # camera
@@ -29,7 +30,8 @@ class Game:
             self.update()
             self.draw()
 
-    def events(self):
+    def events(self):     
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -38,9 +40,13 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
+            # if event.type == pg.MOUSEBUTTONDOWN:
+            #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):
+
 
     def update(self):
         self.camera.update()
+        
 
     def draw(self):
         self.screen.fill(BLACK)
@@ -64,8 +70,3 @@ class Game:
         )
 
         pg.display.flip()
-                
-
-
-
-
