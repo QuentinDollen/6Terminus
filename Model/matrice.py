@@ -636,7 +636,11 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                     Mat[j][i][k].has_moved = 0 # le walker est prêt a bouger au prochain appel de la fonction
 
 def kill_walker(killed): # gnéhéhé
-    killed.batiment.Walk[].pop(killed)
+    for e in killed.batiment.Walk:
+        n = 0
+        if e == killed:
+            killed.batiment.Walk.pop(n)
+            n+=1
     if Mat_perso[killed.y][killed.x][0] == killed:
         if not Mat_perso[killed.y][killed.x][1]:
             Mat_perso[killed.y][killed.x].pop()
