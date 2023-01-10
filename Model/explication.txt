@@ -5,6 +5,7 @@ la liste des variables globales (qui contient pour l'instant juste la liste des 
 
 
 les matrices sont faites pour correspondre au jeu: la case en 0,0 correspond a la matrice en (0,0)
+la matrice est inversée au niveau des axes: Mat[y][x] c'est la case (x,y)
 
 pour les batiments le terrain par défaut est l'herbe
 pour les personnage j'ai (pierre-gilles) resonné de la meme facon et le personnage par défaut est Walker
