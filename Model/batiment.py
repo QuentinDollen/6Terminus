@@ -22,6 +22,7 @@ class Batiment(t.Terrain):
         self.name = "Batiment"  # le nom du batiment. À modifier selon le type de batiment
         self.Walk = [] 
         self.wakler_in = False # Si le walker du batiement est dans le batiment
+        self.hasCheck = 0
         
     def ret_coord(self):
         return (self.pos_x , self.pos_y)

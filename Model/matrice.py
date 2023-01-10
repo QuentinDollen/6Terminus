@@ -660,7 +660,7 @@ def destroy_Bat(Bat):
         Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
-            Mat_batiment[j][i] = ruines.Ruin(i, j)
+            Mat_batiment[Bat.pos_y+j][Bat.pos_x+i] = ruines.Ruin(i, j)
 
 # la matrice de boolen considère qu'il y a du feu en (x,y) 
 def set_fire(x,y):
@@ -676,15 +676,20 @@ def fire_bat(Bat):
 
 # verification de l'indice de feu, et d'effondrement
 def check_fire_eff():
+    n = 0
     for i in range(nb_cases):
         for j in range(nb_cases):
-            if(Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][i].name != "Path"):
-                n = Mat_batiment[j][i].augm_att()
-                if(n == -2):
-                    destroy_Bat(Mat_batiment[j][i])
-                if(n == -1):
-                    fire_bat(Mat_batiment[j][i])
-
+            if(Mat_batiment[j][i].hasCheck == 0):
+                Mat_batiment[j][i].hasCheck = 1
+                if(Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][i].name != "Path"):
+                    n = Mat_batiment[j][i].augm_att()
+                    if(n == -2):
+                        destroy_Bat(Mat_batiment[j][i])
+                    if(n == -1):
+                        fire_bat(Mat_batiment[j][i])
+    for i in range(nb_cases):
+        for j in range(nb_cases):
+            Mat_batiment[j][i].hasCheck = 0
 
 # renvoie un tableau avec les batiments proches d'une case dans un certain rayon, les terrains ne comptent pas et les chemins non plus
 def get_bat_prox(x,y,r):
