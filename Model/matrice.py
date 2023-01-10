@@ -633,18 +633,18 @@ def destroy_Bat(Bat):
     Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
-            Mat_batiment[j][i] = ruines.Ruin()
+            Mat_batiment[j][i] = ruines.Ruin(i, j)
 
 # la matrice de boolen considère qu'il y a du feu en (x,y) 
 def set_fire(x,y):
     Mat_fire[y][x] = 1
-
 # place du feu sur l'ensemble d'un batiment (non terminé, il faut que le batiment cesse de fonctionner)
 def fire_bat(Bat):
     Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
             set_fire(i,j)
+            destroy_Bat(Bat)
 
 # verification de l'indice de feu, et d'effondrement
 def check_fire_eff():
