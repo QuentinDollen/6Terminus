@@ -1,7 +1,6 @@
 import pygame as pg
 from game import Game
 
-
 def main():
 
     running = True
