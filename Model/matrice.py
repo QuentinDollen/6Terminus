@@ -676,53 +676,6 @@ def get_bat_prox(x,y,r):
     return tab
 
 
-# !!! les deux fonctions qui suivent vont être deplacées dans logique.py !!! (elles sont juste la pour faciliter l'ecriture au début)
-
-# fonction qui a realiser des opérations entre walkers et batiments:
-# si c'est un pompier, il va diminuer les indices de feu des batiments autour de lui, et si il y a un feu, doit aller l'eteindre 
-# si c'est un ingenieur, il va diminuer les indices d'effondrement des batiments autour de lui
-# si c'est un Delivery_Guy, et qu'il est a destination, il va proceder a un echange (il faut enlever cette partie du deplacement pour la mettre içi)
-# si c'est pretre, il va augmenter l'indice de foi des maisons autour de lui
-# si c'est un Food_Guy, et que sa mission est de distribuer des biens/bouffe aux habitants, il va donner une certaine quantité de ce qu'il a aux maisons autour de lui
-def test_walker_logique():
-    for i in range(nb_cases):
-        for j in range(nb_cases):
-            if Mat_perso[j][i][0].name != "no Walker":
-                for k in range(len(Mat_perso[j][i])):
-                    if(Mat_perso[j][i][k].name == "Prefect"):
-                        proxy = get_bat_prox(i,j,2)
-                        print("proxy", proxy)
-                        for bat in proxy:
-                            bat.ind_fire = 0
-                    if(Mat_perso[j][i][k].name == "Engineer"):
-                        proxy = get_bat_prox(i,j,2)
-                        print("proxy", proxy)
-                        for bat in proxy:
-                            bat.ind_eff = 0
-                    if(Mat_perso[j][i][k].name == "Priest"):
-                        proxy = get_bat_prox(i,j,4)
-                        print("proxy", proxy)
-                        for bat in proxy:
-                            if(InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
-                                bat.faith = bat.faith + 40
-
-
-# fonction qui teste les condition des batiments:
-# va tester le feu, l'effondrement
-# si un batiment a produit quelque chose, appelle un livraison
-# si un marché a besoin de produits, va en chercher
-# si un marché a des produits, appelle une distribution (reste a implementer)
-# si c'est une maison, va consommer de la nourriture, tester l'evolution / regression de la maison
-def test_bat_logique():
-    check_fire_eff()
-    for i in range(nb_cases):
-        for j in range(nb_cases):
-            bat = Mat_batiment[j][i]
-            if bat.name == "Farm":
-                if(bat.ind_Harv >= 6):
-                    bat.ind_Harv = 0
-                    #Call Delivery()
-
 
 
 
@@ -797,14 +750,7 @@ print("test check fire")
 print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
 check_fire_eff()
 check_fire_eff()
-print("indice de feu",Mat_batiment[1][0].ind_fire)
-print("test_walker_logique")
-test_walker_logique()
-print("indice de feu",Mat_batiment[1][0].ind_fire)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
+print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
 
 print("Test Quentin")
 
