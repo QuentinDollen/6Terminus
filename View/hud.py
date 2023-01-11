@@ -73,7 +73,7 @@ class Hud:
         self.route = button_hud("View/Graphique/paneling_00135.png","View/Graphique/paneling_00136.png", (200 , 900) )
         self.administratif = button_hud("View/Graphique/paneling_00139.png","View/Graphique/paneling_00140.png", (200 , 1000) )
         self.theatre = button_hud("View/Graphique/paneling_00143.png","View/Graphique/paneling_00144.png", (400 , 200) )
-
+        
 
    def draw(self, screen):
 
