@@ -1,7 +1,7 @@
 import sys
 import random
 
-sys.path.insert(0, '..')
+# sys.path.insert(0, '..')
 from Model import Priest
 from Model import terrain as t
 from Model import maison as mais
@@ -386,8 +386,8 @@ def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -
 
 def invoke_walker(bat,type_):
     if(bat.curEmployees >= 1):
-        (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
-        add_perso(x, y, type_, Mat_perso, bat,None)
+        (desx, desy) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
+        add_perso(nb_cases_x, nb_cases_y //2, type_, Mat_perso, bat,None, dest_x=desx , dest_y=desy)
 
 
 
@@ -592,7 +592,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
                             Mat[j][i][count].tab_path.pop(0)
                             if len(Mat[j][i][count].tab_path) != 0:
-                                (nx, ny) = Mat[j][i][count].tab_path[0]
+                                (nx, ny) = Mat[j][i][k].tab_path[0]
                             else:
                                 print(i, j, count)
                                 # procede a un echange de produits/ nourriture si arrive a destination
