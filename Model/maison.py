@@ -14,6 +14,7 @@ class Maison(b.Batiment):
         self.produits = [['argile',0], ['potterie',0], ['huile',0]]
         self.popLim = 0
         self.curpop = 0
+        self.faith = 0
         
     def get_delivery(self, chargement):
         print("chargement",chargement)
