@@ -34,6 +34,7 @@ class Game:
             self.update()
             self.draw()
 
+
     def events(self):
 
         for event in pg.event.get():
@@ -44,11 +45,14 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
+
+
             # if event.type == pg.MOUSEBUTTONDOWN:
             #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):
 
     def update(self):
         self.camera.update()
+        self.map.reload_map()
 
     def draw(self):
         self.screen.fill(BLACK)

@@ -214,7 +214,7 @@ class Map:
     def create_map(self):
 
         map = []
-        #self.reload_map()
+        # self.reload_map()
 
         for grid_x in range(self.grid_length_x):
             map.append([])
@@ -693,7 +693,9 @@ class Map:
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                self.matrix[grid_x][grid_y]=logique.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+
+        
 
     def get_neighbor(self, grid, coorX, coorY, who=4):
 

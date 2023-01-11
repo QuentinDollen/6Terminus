@@ -53,6 +53,9 @@ def getID(i, j):
     else:
         return 666
 
+def getID_base_matrix( i , j ) : 
+    return m.matrix[j][i]
+
 # initialise les matrices de jeux
 # incomplet: reste à implémenter les load
 def init_game():
@@ -117,38 +120,38 @@ def load(nom):
 
 #load("sauv1")
 #m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-Add_bat_game(0,6,100)
-Add_bat_game(1,5,5)
+# Add_bat_game(0,6,100)
+# Add_bat_game(1,5,5)
 
-Delivery(m.Mat_batiment[6][0],'ble',11)
-Delivery(m.Mat_batiment[6][0],'ble',8)
-Delivery(m.Mat_batiment[6][0],'argile',15)
+# Delivery(m.Mat_batiment[6][0],'ble',11)
+# Delivery(m.Mat_batiment[6][0],'ble',8)
+# Delivery(m.Mat_batiment[6][0],'argile',15)
 
-print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
-m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
+# m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.deplacement_perso(m.Mat_perso)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.deplacement_perso(m.Mat_perso)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.deplacement_perso(m.Mat_perso)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.deplacement_perso(m.Mat_perso)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
 
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.deplacement_perso(m.Mat_perso)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
-m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
 
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-print(" ")
-m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
+# m.deplacement_perso(m.Mat_perso)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# print(" ")
+# m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
 
-print(m.Mat_batiment[1][2].nourriture)
-print(m.Mat_batiment[1][2].produits)
+# print(m.Mat_batiment[1][2].nourriture)
+# print(m.Mat_batiment[1][2].produits)

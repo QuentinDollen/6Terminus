@@ -25,6 +25,9 @@ from Model import prefet as pref
 from copy import copy
 
 # matrice de depart par defaut
+
+
+
 matrix = [[3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
            0, 0, 0, 0],
           [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
@@ -276,7 +279,7 @@ def put_bat_mat(x, y, bat, Mat):
 # ajoute un batiment a une position specifiee en fonction de l'id
 # on utilise Mat_batiment
 # si le batiment est de type stockage, l'ajoute a la liste des batiments de stockage
-def add_bat(x, y, id_bat, Mat):
+def add_bat(x, y, id_bat, Mat = Mat_batiment):
     if id_bat == 92:
         well = wa.Well(x, y)
         Mat[y][x] = well
