@@ -1,6 +1,5 @@
 
 import pygame as pg
-
 class button_hud():
 
    def __init__(self , path , path_over,  pos ) :
@@ -40,11 +39,9 @@ class button_hud():
          screen.blit( self.get_image_over() , self.get_pos())
       else : 
          screen.blit( self.get_image() , self.get_pos())
-      
-
 class Hud:
 
-   def __init__(self, width, height):
+     def __init__(self, width, height):
 
         self.width = width
         self.height = height
@@ -75,7 +72,7 @@ class Hud:
         self.theatre = button_hud("View/Graphique/paneling_00143.png","View/Graphique/paneling_00144.png", (400 , 200) )
         
 
-   def draw(self, screen):
+     def draw(self, screen):
 
          screen.blit(self.menu1, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 840))
          screen.blit(self.menu2, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 166))
@@ -95,18 +92,7 @@ class Hud:
          for c in range(8):
              for d in range(12):
                 screen.blit(self.menu11, (pg.display.Info().current_w - 144 + 16 * c, pg.display.Info().current_h - 374 + 16 * d))
-         
 
-         
-         self.maison.draw(screen)
-         self.eau.draw(screen)
-         self.prefecture.draw(screen)
-         self.nourriture.draw(screen)
-         self.route.draw(screen)
-         self.theatre.draw(screen)
-
-   def overhead():
-      pass
 
      #
      #    # read images
