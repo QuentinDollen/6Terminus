@@ -137,6 +137,7 @@ class Map:
         self.grass_tiles = pg.Surface((grid_length_x * TILE_SIZE * 2, grid_length_y * TILE_SIZE + 2 * TILE_SIZE)).convert_alpha()
         self.tiles = self.load_images()
         self.map = self.create_map()
+        self.map_walkeur = self.create_walkeur()
 
     def draw_mini(self, screen, camera):
 
@@ -198,6 +199,10 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                if(!= NoWalker): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                    render_pos = self.map_walkeur[x][y]["render_pos"]
+                    tile = self.map_walkeur[x][y]["tile"]
+                    screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
     def create_map(self):
 
@@ -209,12 +214,23 @@ class Map:
             for grid_y in range(self.grid_length_y):
                 map_tile = self.grid_to_map(grid_x, grid_y)
                 map[grid_x].append(map_tile)
-
                 render_pos = map_tile["render_pos"]
                 self.grass_tiles.blit(self.tiles["block"], (render_pos[0] + self.grass_tiles.get_width()/2, render_pos[1]))
 
         return map
 
+    def create_walkeur(self):
+
+        map_walkeur = []
+
+        for grid_x in range(self.grid_length_x):
+            map_walkeur.append([])
+            for grid_y in range(self.grid_length_y):
+                walkeur_tile = self.grid_to_walkeur(grid_x,grid_y)
+                map_walkeur[grid_x].append(walkeur_tile)
+                walkeur_render_pos = walkeur_tile["render_pos"]
+
+        return map_walkeur
     def setTile(self,tileID,Xpos,Ypos):
         self.matrix[Xpos][Ypos] == tileID
 
@@ -494,6 +510,19 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 9000:
             tile = "reservoir_full"
 
+        #TEMPLE
+
+        elif self.matrix[grid_x][grid_y] == 60:
+            tile = "temple_farming"
+        elif self.matrix[grid_x][grid_y] == 61:
+            tile = "temple_shipping"
+        elif self.matrix[grid_x][grid_y] == 62:
+            tile = "temple_commerce"
+        elif self.matrix[grid_x][grid_y] == 63:
+            tile = "temple_war"
+        elif self.matrix[grid_x][grid_y] == 64:
+            tile = "temple_love"
+
 
         else:
             tile = ""
@@ -506,6 +535,51 @@ class Map:
             "iso_poly_mini": iso_poly_mini,
             "render_pos": [minx, miny],
             "render_pos_mini": [minx_mini, miny_mini],
+            "tile": tile
+        }
+
+        return out
+
+    def grid_to_walkeur(self,grid_x,grid_y):
+
+        rect = [
+            (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
+            (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE),
+            (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE),
+            (grid_x * TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE)
+        ]
+
+        iso_poly = [self.cart_to_iso(x, y) for x, y in rect]
+
+        minx = min([x for x, y in iso_poly])
+        miny = min([y for x, y in iso_poly])
+
+        if(l.getWalkeur(grid_x,grid_y).name == "Priest"):
+            tile = "priest0"
+
+        elif(l.getWalkeur(grid_x,grid_y).name == "Delivery_Guy"):
+            tile = "delivery_guy0"
+
+        elif(l.getWalkeur(grid_x,grid_y).name == "engineer"):
+            tile = "engineer0"
+
+        elif(l.getWalkeur(grid_x,grid_y).name == "prefet"):
+            tile = "prefet0"
+
+        elif(l.getWalkeur(grid_x,grid_y).name == "Food_Guy"):
+            tile = "food_guy0"
+
+        elif(l.getWalkeur(grid_x, grid_y).name == "Immigrant"):
+            tile = "Immigrant0"
+
+        elif(l.getWalkeur(grid_x, grid_y).name == "Recruteur"):
+            tile = "Recruteur0"
+
+        out = {
+            "grid": [grid_x, grid_y],
+            "cart_rect": rect,
+            "iso_poly": iso_poly,
+            "render_pos": [minx, miny],
             "tile": tile
         }
 
@@ -651,6 +725,18 @@ class Map:
         reservoir_empty = pg.image.load(path_to_Utilities + "/Reservoir_vide.png").convert_alpha()
         reservoir_full = pg.image.load(path_to_Utilities + "/Reservoir_plein.png").convert_alpha()
 
+        #Temples
+
+        temple_farming = pg.image.load(path_to_Utilities + "/temple_FARMING.png").convert_alpha()
+        temple_love = pg.image.load(path_to_Utilities + "/temple_LOVE.png").convert_alpha()
+        temple_shipping = pg.image.load(path_to_Utilities + "/temple_SHIPPING.png").convert_alpha()
+        temple_war = pg.image.load(path_to_Utilities + "/temple_WAR.png").convert_alpha()
+        temple_commerce = pg.image.load(path_to_Utilities + "/temple_COMMERCE.png").convert_alpha()
+
+        #Walkers
+
+        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+
         return {"block": block,
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
                 "tree60": tree60, "tree61": tree61, "tree57": tree57, "tree56": tree56, "tree58": tree58,
@@ -675,7 +761,9 @@ class Map:
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
                 "warehouse": warehouse, "granary": granary, "market": market,
                 "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
-                "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full
+                "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
+                "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
+                "priest0": priest0
                }
 
     def reload_map(self):
