@@ -99,22 +99,43 @@ def test_walker_logique():
         for j in range(m.nb_cases):
             if m.Mat_perso[j][i][0].name != "no Walker":
                 for k in range(len(m.Mat_perso[j][i])):
-                    if(m.Mat_perso[j][i][k].name == "Prefect"):
+                    perso = m.Mat_perso[j][i][k]
+                    if(perso.name == "Prefect"):
                         proxy = m.get_bat_prox(i,j,2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
-                    if(m.Mat_perso[j][i][k].name == "Engineer"):
+                    if(perso.name == "Engineer"):
                         proxy = m.get_bat_prox(i,j,2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
-                    if(m.Mat_perso[j][i][k].name == "Priest"):
+                    if(perso.name == "Priest"):
                         proxy = m.get_bat_prox(i,j,4)
                         print("proxy", proxy)
                         for bat in proxy:
                             if(m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
                                 bat.faith = bat.faith + 40
+                    if(perso.name == "Recruteur"):
+                        proxy = m.get_bat_prox(i,j,4)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            if(m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                                recruit = perso.nb_a_recruter
+                                if(bat.employed < bat.curpop and recruit > 0):
+                                    if( (bat.curpop-bat.employed) >= recruit):
+                                        bat.employed += recruit
+                                        perso.nb_a_recruter = 0
+                                    else :
+                                        perso.nb_a_recruter -= (bat.curpop-bat.employed)
+                                        bat.employed = bat.curpop
+                        if(perso.nb_a_recruter == 0):
+                            m.kill_walker(perso)
+                    if perso.name == "Delivery_Guy" and perso.bat_destination.HasSomething():
+                                    m.echange(perso)
+
+
+
 
 
 
@@ -194,27 +215,34 @@ print("HAHHAHAHAHAHHA")
 test_bat_logique()
 test_bat_logique()
 test_bat_logique()
+print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+
 test_bat_logique()
 test_bat_logique()
 
-print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print(m.Mat_perso[5][1][0].cargaison_nourriture)
-print(m.Mat_batiment[6][0].Walk)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-print(" ")
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-m.kill_walker(m.Mat_perso[5][1][3])
-#m.destroy_Bat(m.Mat_batiment[6][0])
-print("")
-print(m.Mat_batiment[6][0].Walk)
-m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-print("test teet")
-#print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+
+# print(m.Mat_perso[5][1][0].cargaison_nourriture)
+# print(m.Mat_batiment[6][0].Walk)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# print(" ")
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.kill_walker(m.Mat_perso[5][1][0])
+# #m.destroy_Bat(m.Mat_batiment[6][0])
+# print("")
+# print(m.Mat_batiment[6][0].Walk)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# print("test teet")
+# #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
