@@ -637,9 +637,9 @@ def kill_walker(killed): # gnéhéhé
             killed.batiment.Walk.pop(n)
             n += 1
     if Mat_perso[killed.y][killed.x][0] == killed:
-        if not Mat_perso[killed.y][killed.x][1]:
+        if  len(Mat_perso[killed.y][killed.x])<2:
             Mat_perso[killed.y][killed.x].pop()
-            Mat_perso[killed.y][killed.x].w.NoWalker()
+            Mat_perso[killed.y][killed.x].append(w.NoWalker())
         else:
             Mat_perso[killed.y][killed.x].pop(0)
     else:
@@ -808,7 +808,7 @@ print("Test Quentin")
 # # print(Deplacement_basique(0, 0))
 # add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-add_employees()
+# add_employees()
 # print(Mat_batiment[0][0].name == "Maison 1")
 # print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
 # add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
