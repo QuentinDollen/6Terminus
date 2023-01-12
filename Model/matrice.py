@@ -535,7 +535,6 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
     if y > 0:
         if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y-1):
             tab_possibles_chemins.append((x, y - 1))
-    print("Yo ",tab_possibles_chemins)
     if len(tab_possibles_chemins) > 0:
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
@@ -739,7 +738,7 @@ add_bat(4, 4, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 8, 8)
 
 add_bat(4, 5, 10, Mat_batiment)
-# add_bat(2, 1, 72, Mat_batiment)
+add_bat(2, 1, 72, Mat_batiment)
 # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
 # DV.ajout_marchandise(6)
 # print("cargaison", DV.cargaison_nourriture)
@@ -808,7 +807,7 @@ print("Test Quentin")
 # # print(Deplacement_basique(0, 0))
 # add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-# add_employees()
+add_employees()
 # print(Mat_batiment[0][0].name == "Maison 1")
 # print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
 # add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
