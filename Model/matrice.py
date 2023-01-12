@@ -661,13 +661,11 @@ def genocide(bat): #plus efficace à la destruction d'un batiment + len
                 Mat_perso[e.y][e.x].append(w.NoWalker())
             else:
                 Mat_perso[e.y][e.x].pop(0)
-                Mat_perso[e.y][e.x].append(w.NoWalker())
         else:
             n = 0
             for h in Mat_perso[e.y][e.x]:
                 if h == e:
                     Mat_perso[e.y][e.x].pop(n)
-                    Mat_perso[e.y][e.x].append(w.NoWalker())
                 n += 1
 
 # place des ruines a l'emplacement couvert par le batiment
