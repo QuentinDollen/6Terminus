@@ -511,31 +511,31 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    if Mat[y][x][no_walker].ttl <= 0:
-        (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
-        return (x, y)
+    # if Mat[y][x][no_walker].ttl <= 0:
+    #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
+    #     return (x, y)
 
-    if Mat_perso[y][x][no_walker].ttl <= 0:
-        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-                                    Mat_batiment)
-        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-        return tuple(x, y)
+    # if Mat_perso[y][x][no_walker].ttl <= 0:
+    #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
+    #                                 Mat_batiment)
+    #     (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+    #     return tuple(x, y)
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
 
-        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x+1, y):
             tab_possibles_chemins.append((x + 1, y))
     if x > 0:
-        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x-1, y):
             tab_possibles_chemins.append((x - 1, y))
     if y < nb_cases_y - 1:
-        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y+1):
             tab_possibles_chemins.append((x, y + 1))
     if y > 0:
-        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y-1):
             tab_possibles_chemins.append((x, y - 1))
-
+    print("Yo ",tab_possibles_chemins)
     if len(tab_possibles_chemins) > 0:
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
