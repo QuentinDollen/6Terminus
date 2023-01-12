@@ -46,6 +46,9 @@ class Game:
                     pg.quit()
                     sys.exit()
 
+            if event.type == pg.MOUSEBUTTONDOWN :
+                self.hud.overhead_all()
+
 
             # if event.type == pg.MOUSEBUTTONDOWN:
             #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):

@@ -3,13 +3,15 @@ import pygame as pg
 
 class button_hud():
 
-   def __init__(self , path , path_over,  pos ) :
+   def __init__(self , path , path_over, path_clicked,  pos ) :
       self.__transparent = False
       self.__image = pg.image.load(path)
       self.__image_over = pg.image.load(path_over)
+      self.__image_cliked = pg.image.load(path_clicked)
       self.__left = pos[0] - self.__image.get_width() /2 
       self.__up = pos[1] - self.__image.get_height()/2
       self.__pos = (self.__left, self.__up)
+      self.__clicked = False
 
 
    def get_width(self) : return self.__image.get_width()
@@ -18,7 +20,10 @@ class button_hud():
    def get_left(self) : return self.__left
    def get_image(self) : return self.__image
    def get_image_over(self) : return self.__image_over
+   def get_image_clicked(self) : return self.__image_cliked
    def get_pos(self) : return self.__pos
+
+
 
    def transparenci( self , pos , screen ) :
         
@@ -35,12 +40,20 @@ class button_hud():
 
    def overhead( self , pos ): return  self.get_left() <= pos[0] <= self.get_left()  + self.get_width() and self.get_up()  <= pos[1] <= self.get_up() + self.get_height()
 
-   def draw( self ,screen ) : 
-      if self.overhead(pg.mouse.get_pos()) :
-         screen.blit( self.get_image_over() , self.get_pos())
-      else : 
-         screen.blit( self.get_image() , self.get_pos())
-      
+   def draw( self ,screen  ) : 
+   
+
+      if self.__clicked :
+         screen.blit( self.get_image_clicked() , self.get_pos())
+      else :
+         if self.overhead(pg.mouse.get_pos()) :
+            screen.blit(self.get_image_over() , self.get_pos())
+         else :
+            screen.blit( self.get_image() , self.get_pos())
+
+   def set_cliked(self) :
+      self.__clicked = self.overhead(pg.mouse.get_pos())
+
 
 class Hud:
 
@@ -64,16 +77,16 @@ class Hud:
         self.menu11 = pg.image.load("View/Graphique/paneling_00519.png")
         
         # Buttons :
-        self.maison = button_hud("View/Graphique/paneling_00123.png","View/Graphique/paneling_00124.png", (200 , 300) )
-        self.eau = button_hud("View/Graphique/paneling_00127.png","View/Graphique/paneling_00128.png", (200 , 400) )
-        self.prefecture = button_hud("View/Graphique/paneling_00159.png","View/Graphique/paneling_00160.png", (200 , 500) )
-        self.nourriture = button_hud("View/Graphique/paneling_00155.png","View/Graphique/paneling_00156.png", (200 , 600) )
-        self.ingenieur = button_hud("View/Graphique/paneling_00167.png","View/Graphique/paneling_00168.png", (200 , 700) )
-        self.santé = button_hud("View/Graphique/paneling_00163.png","View/Graphique/paneling_00164.png", (200 , 800) )
-        self.route = button_hud("View/Graphique/paneling_00135.png","View/Graphique/paneling_00136.png", (200 , 900) )
-        self.administratif = button_hud("View/Graphique/paneling_00139.png","View/Graphique/paneling_00140.png", (200 , 1000) )
-        self.theatre = button_hud("View/Graphique/paneling_00143.png","View/Graphique/paneling_00144.png", (400 , 200) )
-        
+        self.maison = button_hud("View/Graphique/paneling_00123.png","View/Graphique/paneling_00124.png","View/Graphique/paneling_00125.png", (200 , 300) )
+        self.eau = button_hud("View/Graphique/paneling_00127.png","View/Graphique/paneling_00128.png","View/Graphique/paneling_00129.png", (200 , 400) )
+        self.prefecture = button_hud("View/Graphique/paneling_00159.png","View/Graphique/paneling_00160.png","View/Graphique/paneling_00161.png", (200 , 500) )
+        self.nourriture = button_hud("View/Graphique/paneling_00155.png","View/Graphique/paneling_00156.png","View/Graphique/paneling_00157.png", (200 , 600) )
+        self.ingenieur = button_hud("View/Graphique/paneling_00167.png","View/Graphique/paneling_00168.png","View/Graphique/paneling_00169.png", (200 , 700) )
+        self.santé = button_hud("View/Graphique/paneling_00163.png","View/Graphique/paneling_00164.png","View/Graphique/paneling_00165.png", (200 , 800) )
+        self.route = button_hud("View/Graphique/paneling_00135.png","View/Graphique/paneling_00136.png","View/Graphique/paneling_00137.png", (200 , 900) )
+        self.administratif = button_hud("View/Graphique/paneling_00139.png","View/Graphique/paneling_00140.png","View/Graphique/paneling_00141.png", (200 , 1000) )
+        self.theatre = button_hud("View/Graphique/paneling_00143.png","View/Graphique/paneling_00144.png","View/Graphique/paneling_00145.png", (400 , 200) )
+        self.pelle = button_hud("View/Graphique/paneling_00131.png","View/Graphique/paneling_00132.png","View/Graphique/paneling_00133.png",(700,700))
 
    def draw(self, screen):
 
@@ -104,9 +117,22 @@ class Hud:
          self.nourriture.draw(screen)
          self.route.draw(screen)
          self.theatre.draw(screen)
+         self.administratif.draw(screen)
+         self.pelle.draw(screen)
+         self.ingenieur.draw(screen)
+         self.santé.draw(screen)
 
-   def overhead():
-      pass
+   def overhead_all( self):
+         self.maison.set_cliked()
+         self.eau.set_cliked()
+         self.prefecture.set_cliked()
+         self.nourriture.set_cliked()
+         self.route.set_cliked()
+         self.theatre.set_cliked()
+         self.administratif.set_cliked()
+         self.pelle.set_cliked()
+         self.ingenieur.set_cliked()
+         self.santé.set_cliked()
 
      #
      #    # read images
