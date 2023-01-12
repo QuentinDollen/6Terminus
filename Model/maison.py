@@ -9,11 +9,11 @@ class Maison(b.Batiment):
     def __init__(self, nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp):
         super().__init__(nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp)
         self.name = 'Maison'
-        self.nb_habitants = 0
         self.nourriture = [['ble', 0 ], ['fruits', 0], ['viande', 0]]
         self.produits = [['argile',0], ['potterie',0], ['huile',0]]
         self.popLim = 0
         self.curpop = 0
+        self.employed = 0
         self.faith = 0
         
     def get_delivery(self, chargement):

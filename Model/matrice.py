@@ -595,10 +595,6 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 (nx, ny) = Mat[j][i][count].tab_path[0]
                             else:
                                 print(i, j, count)
-                                # procede a un echange de produits/ nourriture si arrive a destination
-                                if (Mat[j][i][count].name == "Delivery_Guy" or Mat[j][i][count].name == "Food_guy") and \
-                                        Mat[j][i][count].HasSomething():
-                                    echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
 
@@ -743,12 +739,12 @@ add_bat(4, 4, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 8, 8)
 
 add_bat(4, 5, 10, Mat_batiment)
-add_bat(2, 1, 72, Mat_batiment)
-DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DV.ajout_marchandise(6)
-print("cargaison", DV.cargaison_nourriture)
-Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
-Mat_perso[1][1][0].dest_y = 4
+# add_bat(2, 1, 72, Mat_batiment)
+# DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DV.ajout_marchandise(6)
+# print("cargaison", DV.cargaison_nourriture)
+# Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
+# Mat_perso[1][1][0].dest_y = 4
 
 #
 #
@@ -802,20 +798,20 @@ add_bat(0,1,55,Mat_batiment)
 
 print("Test Quentin")
 
-DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DVD.prev_x = 1
-DVD.prev_y = 4
-afficher_mat_route(7)
-# afficher_matrice_perso(Mat_perso, 7, 7)
-add_bat(4, 5, 5, Mat_batiment)
+# DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DVD.prev_x = 1
+# DVD.prev_y = 4
+# afficher_mat_route(7)
+# # afficher_matrice_perso(Mat_perso, 7, 7)
+# add_bat(4, 5, 5, Mat_batiment)
+# # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # print(Deplacement_basique(0, 0))
+# add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-# print(Deplacement_basique(0, 0))
-add_bat(0,0,name_id["Maison1"], Mat_batiment )
-afficher_matrice_bat(Mat_batiment, 7, 7)
 add_employees()
-print(Mat_batiment[0][0].name == "Maison 1")
-print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
-add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
-IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
-Mat_batiment[0][0].walker_in = True
-sortir_walker()
+# print(Mat_batiment[0][0].name == "Maison 1")
+# print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
+# add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
+# IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
+# Mat_batiment[0][0].walker_in = True
+# sortir_walker()
