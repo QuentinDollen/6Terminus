@@ -202,7 +202,8 @@ class Map:
                 if(!= NoWalker): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                     render_pos = self.map_walkeur[x][y]["render_pos"]
                     tile = self.map_walkeur[x][y]["tile"]
-                    screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                    if tile != "":
+                        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
     def create_map(self):
 
@@ -216,6 +217,7 @@ class Map:
                 map[grid_x].append(map_tile)
                 render_pos = map_tile["render_pos"]
                 self.grass_tiles.blit(self.tiles["block"], (render_pos[0] + self.grass_tiles.get_width()/2, render_pos[1]))
+
 
         return map
 
@@ -231,8 +233,6 @@ class Map:
                 walkeur_render_pos = walkeur_tile["render_pos"]
 
         return map_walkeur
-    def setTile(self,tileID,Xpos,Ypos):
-        self.matrix[Xpos][Ypos] == tileID
 
     def grid_to_map(self, grid_x, grid_y):
 
@@ -554,26 +554,44 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
-        if(l.getWalkeur(grid_x,grid_y).name == "Priest"):
-            tile = "priest0"
+        if(overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
+                            #AKA map d'eau, map de feu ou map de risque d'effondrement
 
-        elif(l.getWalkeur(grid_x,grid_y).name == "Delivery_Guy"):
-            tile = "delivery_guy0"
+            if(l.getWalkeur(grid_x,grid_y).name == "Priest"):
+                tile = "priest0"
 
-        elif(l.getWalkeur(grid_x,grid_y).name == "engineer"):
-            tile = "engineer0"
+            elif(l.getWalkeur(grid_x,grid_y).name == "Delivery_Guy"):
+                tile = "delivery_guy0"
 
-        elif(l.getWalkeur(grid_x,grid_y).name == "prefet"):
-            tile = "prefet0"
+            elif(l.getWalkeur(grid_x,grid_y).name == "Engineer"):
+                tile = "engineer0"
 
-        elif(l.getWalkeur(grid_x,grid_y).name == "Food_Guy"):
-            tile = "food_guy0"
+            elif(l.getWalkeur(grid_x,grid_y).name == "Prefect"):
+                tile = "prefet0"
 
-        elif(l.getWalkeur(grid_x, grid_y).name == "Immigrant"):
-            tile = "Immigrant0"
+            elif(l.getWalkeur(grid_x,grid_y).name == "Food_Guy"):
+                tile = "food_guy0"
 
-        elif(l.getWalkeur(grid_x, grid_y).name == "Recruteur"):
-            tile = "Recruteur0"
+            elif(l.getWalkeur(grid_x, grid_y).name == "Immigrant"):
+                tile = "Immigrant0"
+
+            elif(l.getWalkeur(grid_x, grid_y).name == "Recruteur"):
+                tile = "Recruteur0"
+
+        elif(overlay == "fire"): #OVERLAY FIRE
+            if (l.getWalkeur(grid_x, grid_y).name == "Prefect"):
+                tile = "prefet0"
+            else:
+                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+        elif(overlay == "bat"): #OVERLAY BAT
+            if(l.getWalkeur(grid_x,grid_y).name == "Engineer"):
+                tile = "engineer0"
+            else:
+                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+        elif(overlay == "water"):
+            tile = ""
 
         out = {
             "grid": [grid_x, grid_y],
@@ -737,7 +755,7 @@ class Map:
 
         priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
 
-        return {"block": block,
+        return {"block": block
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
                 "tree60": tree60, "tree61": tree61, "tree57": tree57, "tree56": tree56, "tree58": tree58,
                 "tree31": tree31, "tree52": tree52, "tree59": tree59, "tree49": tree49, "tree50": tree50,
