@@ -355,7 +355,7 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -1 , dest_y = -1 ):
+def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x = -1, dest_y: object = -1) -> object:
 
     if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat, Bat_cible, type_bouffe)
@@ -651,14 +651,14 @@ def kill_walker(killed): # gnéhéhé
         for e in Mat_perso[killed.y][killed.x]:
             if e == killed:
                 Mat_perso[killed.y][killed.x].pop(n)
-                n += 1
+            n += 1
 
-def genocide(bat): #plus efficace à la destruction d'un batiment
+def genocide(bat): #plus efficace à la destruction d'un batiment + len
     for e in bat.Walk:
         if Mat_perso[e.y][e.x][0] == e:
-            if not Mat_perso[e.y][e.x][1]:
+            if len(Mat_perso[e.y][e.x])<2:
                 Mat_perso[e.y][e.x].pop()
-                Mat_perso[e.y][e.x].w.NoWalker()
+                Mat_perso[e.y][e.x].append(w.NoWalker())
             else:
                 Mat_perso[e.y][e.x].pop(0)
         else:
@@ -666,11 +666,11 @@ def genocide(bat): #plus efficace à la destruction d'un batiment
             for h in Mat_perso[e.y][e.x]:
                 if h == e:
                     Mat_perso[e.y][e.x].pop(n)
-                    n += 1
-    list.clear(bat.Walk)
+                n += 1
 
 # place des ruines a l'emplacement couvert par le batiment
 def destroy_Bat(Bat):
+    genocide(Bat)
     if( InTable(Bat,Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse")):
         Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):

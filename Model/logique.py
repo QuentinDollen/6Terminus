@@ -195,12 +195,22 @@ test_bat_logique()
 test_bat_logique()
 
 print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
-m.deplacement_perso(m.Mat_perso)
+
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+print(m.Mat_perso[5][1][0].cargaison_nourriture)
+print(m.Mat_batiment[6][0].Walk)
+m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
 print(" ")
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-
-
-
+m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+m.destroy_Bat(m.Mat_batiment[6][0])
+print("")
+print(m.Mat_batiment[6][0].Walk)
+m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+print("test teet")
+#print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
