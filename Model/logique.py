@@ -157,6 +157,9 @@ def test_bat_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
+            if bat.curEmployees<bat.neededEmployees and not bat.hasRecruteur:
+                #add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, dest_y: object = -1)
+                pass
             if(bat.hasCheck == 0):
                 bat.hasCheck = 1
                 if bat.name == "Farm":
