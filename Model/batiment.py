@@ -21,8 +21,9 @@ class Batiment(t.Terrain):
         self.curEmployees = 0 # Le nombre d'employées 
         self.name = "Batiment"  # le nom du batiment. À modifier selon le type de batiment
         self.Walk = [] 
-        self.wakler_in = False # Si le walker du batiement est dans le batiment
+        self.wakler_in = False  # Si le walker du batiment est dans le batiment
         self.hasCheck = 0
+        self.hasRecruteur = False
         
     def ret_coord(self):
         return (self.pos_x , self.pos_y)

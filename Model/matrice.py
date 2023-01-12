@@ -643,7 +643,7 @@ def kill_walker(killed): # gnéhéhé
     if Mat_perso[killed.y][killed.x][0] == killed:
         if  len(Mat_perso[killed.y][killed.x])<2:
             Mat_perso[killed.y][killed.x].pop()
-            Mat_perso[killed.y][killed.x].apprend(w.NoWalker())
+            Mat_perso[killed.y][killed.x].append(w.NoWalker())
         else:
             Mat_perso[killed.y][killed.x].pop(0)
     else:

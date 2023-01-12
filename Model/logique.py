@@ -129,6 +129,9 @@ def test_bat_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
+            if bat.curEmployees<bat.neededEmployees and not bat.hasRecruteur:
+                #add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, dest_y: object = -1)
+                pass
             if(bat.hasCheck == 0):
                 bat.hasCheck = 1
                 if bat.name == "Farm":
@@ -208,7 +211,7 @@ m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batim
 m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
 print(" ")
 m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-m.kill_walker(m.Mat_perso[5][1][0])
+m.kill_walker(m.Mat_perso[5][1][3])
 #m.destroy_Bat(m.Mat_batiment[6][0])
 print("")
 print(m.Mat_batiment[6][0].Walk)
