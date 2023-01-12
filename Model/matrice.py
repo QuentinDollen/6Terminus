@@ -720,7 +720,8 @@ def get_bat_prox(x,y,r):
 
 
 
-
+def giveFood(FD, house):
+    return 0
 
 
 

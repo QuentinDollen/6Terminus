@@ -132,7 +132,14 @@ def test_walker_logique():
                         if(perso.nb_a_recruter == 0):
                             m.kill_walker(perso)
                     if perso.name == "Delivery_Guy" and perso.bat_destination.HasSomething():
-                                    m.echange(perso)
+                        m.echange(perso)
+                    if perso.name == "Food Guy":
+                        if perso.dest_x == -1:
+                            for bat in proxy:
+                                if(m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                                    m.giveFood(perso,bat)
+                        else:
+                            continue
                             
 
 
