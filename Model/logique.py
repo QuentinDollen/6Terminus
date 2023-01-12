@@ -82,7 +82,9 @@ def load(nom):
         sauv = pickle.load(f)
     sauv.uploadFromSave()
 
-
+def getWalker(i,j):
+    if(m.Mat_perso[j][i][0].name != 'no Walker'):
+        return m.Mat_perso[j][i]
 
 
 
@@ -113,6 +115,7 @@ def test_walker_logique():
                         for bat in proxy:
                             if(m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
                                 bat.faith = bat.faith + 40
+
 
 
 # fonction qui teste les condition des batiments:
@@ -184,6 +187,7 @@ print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 print("HAHHAHAHAHAHHA")
+
 test_bat_logique()
 test_bat_logique()
 test_bat_logique()
