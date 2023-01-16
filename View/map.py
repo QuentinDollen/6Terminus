@@ -1,7 +1,7 @@
 import pygame as pg
 from camera import *
 from settings import *
-#import Model.logique as l
+import Model.logique as l
 
 
 
@@ -755,7 +755,7 @@ class Map:
 
         priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
 
-        return {"block": block
+        return {"block": block,
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
                 "tree60": tree60, "tree61": tree61, "tree57": tree57, "tree56": tree56, "tree58": tree58,
                 "tree31": tree31, "tree52": tree52, "tree59": tree59, "tree49": tree49, "tree50": tree50,
