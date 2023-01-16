@@ -1,10 +1,14 @@
+import sys
+
+sys.path.insert(0, '..')
 import pygame as pg
 import sys
-from map import Map
-from settings import TILE_SIZE
-from utils import draw_text
-from camera import Camera
-# from hud import Hud
+from View.map import Map
+from View.settings import *
+# from utils import draw_text
+from View.camera import Camera
+from View.hud import Hud
+
 
 class Game:
 
@@ -12,6 +16,7 @@ class Game:
         self.screen = screen
         self.clock = clock
         self.width, self.height = self.screen.get_size()
+
         # map
         self.map = Map(40, 40, self.width, self.height)
 
@@ -19,7 +24,7 @@ class Game:
         self.camera = Camera(self.width, self.height)
 
         # hud
-        # self.hud = Hud
+        self.hud = Hud(self.width, self.height)
 
     def run(self):
         self.playing = True
@@ -29,7 +34,9 @@ class Game:
             self.update()
             self.draw()
 
+
     def events(self):
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -39,38 +46,43 @@ class Game:
                     pg.quit()
                     sys.exit()
 
+            if event.type == pg.MOUSEBUTTONUP :
+                self.hud.overhead_all()                
+
+
+            if event.type == pg.MOUSEBUTTONDOWN :
+                self.hud.overhead_all()
+
+            if event.type == pg.USEREVENT :
+                print("SIA")
+
+
+            # if event.type == pg.MOUSEBUTTONDOWN:
+            #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):
+
     def update(self):
         self.camera.update()
+        self.map.reload_map()
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.fill(BLACK)
 
-        self.screen.blit(self.map.grass_tiles, (self.camera.scroll.x, self.camera.scroll.y))
+        self.map.draw(self.screen, self.camera)
+        self.hud.draw(self.screen)
+        self.map.draw_mini(self.screen, self.camera)
 
-        for x in range(self.map.grid_length_x):
-            for y in range(self.map.grid_length_y):
+        # p = self.map.map[x][y]["iso_poly"]
+        # p = [(x + self.width/2, y) for x, y in p]
+        # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
 
-                render_pos = self.map.map[x][y]["render_pos"]
+        
 
-                tile = self.map.map[x][y]["tile"]
-                if tile != "":
-                    self.screen.blit(self.map.tiles[tile],
-                                    (render_pos[0] + self.map.grass_tiles.get_width()/2 + self.camera.scroll.x,
-                                     render_pos[1] - (self.map.tiles[tile].get_height() - TILE_SIZE) + self.camera.scroll.y))
-
-                # p = self.map.map[x][y]["iso_poly"]
-                # p = [(x + self.width/2, y) for x, y in p]
-                # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
-
-        # self.hud.draw(self.screen)
-
-        draw_text(
-            self.screen,
-            'fps={}'.format(round(self.clock.get_fps())),
-            25,
-            (255, 255, 255),
-            (10, 10)
-        )
+        # draw_text(
+        #     self.screen,
+        #     'fps={}'.format(round(self.clock.get_fps())),
+        #     25,
+        #     (255, 255, 255),
+        #     (10, 10)
+        # )
 
         pg.display.flip()
-

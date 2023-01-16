@@ -1,1 +1,1 @@
-print(j,i)
+afficher_matrice_bat
