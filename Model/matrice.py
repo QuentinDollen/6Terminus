@@ -355,7 +355,7 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat , Bat, Bat_cible , type_bouffe='ble' , dest_x = -1 , dest_y = -1 ):
+def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x = -1, dest_y: object = -1) -> object:
 
     if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat, Bat_cible, type_bouffe)
@@ -511,31 +511,30 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    if Mat[y][x][no_walker].ttl <= 0:
-        (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
-        return (x, y)
+    # if Mat[y][x][no_walker].ttl <= 0:
+    #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
+    #     return (x, y)
 
-    if Mat_perso[y][x][no_walker].ttl <= 0:
-        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-                                    Mat_batiment)
-        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-        return tuple(x, y)
+    # if Mat_perso[y][x][no_walker].ttl <= 0:
+    #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
+    #                                 Mat_batiment)
+    #     (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+    #     return tuple(x, y)
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
 
-        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x+1, y):
             tab_possibles_chemins.append((x + 1, y))
     if x > 0:
-        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x-1, y):
             tab_possibles_chemins.append((x - 1, y))
     if y < nb_cases_y - 1:
-        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y+1):
             tab_possibles_chemins.append((x, y + 1))
     if y > 0:
-        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y-1):
             tab_possibles_chemins.append((x, y - 1))
-
     if len(tab_possibles_chemins) > 0:
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
@@ -595,10 +594,6 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 (nx, ny) = Mat[j][i][k].tab_path[0]
                             else:
                                 print(i, j, count)
-                                # procede a un echange de produits/ nourriture si arrive a destination
-                                if (Mat[j][i][count].name == "Delivery_Guy" or Mat[j][i][count].name == "Food_guy") and \
-                                        Mat[j][i][count].HasSomething():
-                                    echange(Mat[j][i][count])
                                 nx = i
                                 ny = j
 
@@ -641,9 +636,9 @@ def kill_walker(killed): # gnéhéhé
             killed.batiment.Walk.pop(n)
             n += 1
     if Mat_perso[killed.y][killed.x][0] == killed:
-        if not Mat_perso[killed.y][killed.x][1]:
+        if  len(Mat_perso[killed.y][killed.x])<2:
             Mat_perso[killed.y][killed.x].pop()
-            Mat_perso[killed.y][killed.x].w.NoWalker()
+            Mat_perso[killed.y][killed.x].append(w.NoWalker())
         else:
             Mat_perso[killed.y][killed.x].pop(0)
     else:
@@ -651,14 +646,14 @@ def kill_walker(killed): # gnéhéhé
         for e in Mat_perso[killed.y][killed.x]:
             if e == killed:
                 Mat_perso[killed.y][killed.x].pop(n)
-                n += 1
+            n += 1
 
-def genocide(bat): #plus efficace à la destruction d'un batiment
+def genocide(bat): #plus efficace à la destruction d'un batiment + len
     for e in bat.Walk:
         if Mat_perso[e.y][e.x][0] == e:
-            if not Mat_perso[e.y][e.x][1]:
+            if len(Mat_perso[e.y][e.x])<2:
                 Mat_perso[e.y][e.x].pop()
-                Mat_perso[e.y][e.x].w.NoWalker()
+                Mat_perso[e.y][e.x].append(w.NoWalker())
             else:
                 Mat_perso[e.y][e.x].pop(0)
         else:
@@ -666,11 +661,11 @@ def genocide(bat): #plus efficace à la destruction d'un batiment
             for h in Mat_perso[e.y][e.x]:
                 if h == e:
                     Mat_perso[e.y][e.x].pop(n)
-                    n += 1
-    list.clear(bat.Walk)
+                n += 1
 
 # place des ruines a l'emplacement couvert par le batiment
 def destroy_Bat(Bat):
+    genocide(Bat)
     if( InTable(Bat,Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse")):
         Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
@@ -725,7 +720,8 @@ def get_bat_prox(x,y,r):
 
 
 
-
+def giveFood(FD, house):
+    return 0
 
 
 
@@ -744,11 +740,11 @@ afficher_matrice_bat(Mat_batiment, 8, 8)
 
 add_bat(4, 5, 10, Mat_batiment)
 add_bat(2, 1, 72, Mat_batiment)
-DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DV.ajout_marchandise(6)
-print("cargaison", DV.cargaison_nourriture)
-Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
-Mat_perso[1][1][0].dest_y = 4
+# DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DV.ajout_marchandise(6)
+# print("cargaison", DV.cargaison_nourriture)
+# Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
+# Mat_perso[1][1][0].dest_y = 4
 
 #
 #
@@ -791,31 +787,31 @@ add_bat(1, 0, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 7, 7)
 print(Mat_batiment[0][1].name)
 add_bat(0,1,55,Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
-print("destination",'(',prefet.dest_x,prefet.dest_y,')')
-print("test check fire")
-print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
-check_fire_eff()
-check_fire_eff()
-print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
+# print("destination",'(',prefet.dest_x,prefet.dest_y,')')
+# print("test check fire")
+# print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+# check_fire_eff()
+# check_fire_eff()
+# print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
 
 print("Test Quentin")
 
-DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DVD.prev_x = 1
-DVD.prev_y = 4
-afficher_mat_route(7)
-# afficher_matrice_perso(Mat_perso, 7, 7)
-add_bat(4, 5, 5, Mat_batiment)
+# DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DVD.prev_x = 1
+# DVD.prev_y = 4
+# afficher_mat_route(7)
+# # afficher_matrice_perso(Mat_perso, 7, 7)
+# add_bat(4, 5, 5, Mat_batiment)
+# # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # print(Deplacement_basique(0, 0))
+# add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-# print(Deplacement_basique(0, 0))
-add_bat(0,0,name_id["Maison1"], Mat_batiment )
-afficher_matrice_bat(Mat_batiment, 7, 7)
 add_employees()
-print(Mat_batiment[0][0].name == "Maison 1")
-print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
-add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
-IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
-Mat_batiment[0][0].walker_in = True
-sortir_walker()
+# print(Mat_batiment[0][0].name == "Maison 1")
+# print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
+# add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
+# IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
+# Mat_batiment[0][0].walker_in = True
+# sortir_walker()

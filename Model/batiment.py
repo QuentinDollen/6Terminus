@@ -2,7 +2,7 @@ import sys
 
 sys.path.insert(0, '..')
 from Model import terrain as t
-
+from random import *
 
 class Batiment(t.Terrain):
     def __init__(self, nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp):
@@ -21,8 +21,9 @@ class Batiment(t.Terrain):
         self.curEmployees = 0 # Le nombre d'employées 
         self.name = "Batiment"  # le nom du batiment. À modifier selon le type de batiment
         self.Walk = [] 
-        self.wakler_in = False # Si le walker du batiement est dans le batiment
+        self.wakler_in = False  # Si le walker du batiment est dans le batiment
         self.hasCheck = 0
+        self.hasRecruteur = False
         
     def ret_coord(self):
         return (self.pos_x , self.pos_y)
@@ -40,10 +41,10 @@ class Batiment(t.Terrain):
     
     def augm_att(self):
         self.ind_fire += 1 
-        if(self.ind_fire > 30):
+        if(self.ind_fire > 30 and random()<0.3):
             return -1
         self.ind_eff += 1
-        if(self.ind_eff > 30):
+        if(self.ind_eff > 30 and random()>0.7):
             return -2
 
 

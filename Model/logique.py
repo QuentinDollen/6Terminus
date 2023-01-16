@@ -5,6 +5,7 @@ sys.path.insert(0, '..')
 
 from Model import matrice as m
 
+
 # En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
 
 
@@ -23,26 +24,29 @@ def Delivery(Bat_depart, type_march, quant):
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible, type_march)
         dg.ajout_marchandise(quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
-        (cx,cy) = cible.ret_coord()
-        print("cible",cx,cy)
+        (cx, cy) = cible.ret_coord()
+        print("cible", cx, cy)
         (dx, dy) = m.SearchforRoad(cx, cy, m.Mat_batiment)
         dg.dest_x = dx
         dg.dest_y = dy
-        print(dx,dy)
+        print(dx, dy)
 
 
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
 # Pour un batiment de plusieurs cases, ne donne l'id que si la case est celle en haut, autrement renvoie 666
 def getID(i, j):
-    if m.Mat_batiment[j][i].pos_x + m.Mat_batiment[j][i].nbr_cases - 1 == i and m.Mat_batiment[j][i].pos_y + m.Mat_batiment[j][i].nbr_cases - 1 == j:
+    if m.Mat_batiment[j][i].pos_x + m.Mat_batiment[j][i].nbr_cases - 1 == i and m.Mat_batiment[j][i].pos_y + \
+            m.Mat_batiment[j][i].nbr_cases - 1 == j:
         return m.Mat_batiment[j][i].id
     else:
         return 666
+
 
 # initialise les matrices de jeux
 # incomplet: reste à implémenter les load
 def init_game():
     m.departureMatrice(m.Mat_batiment)
+
 
 # ajoute un batiment si l'espace sur la carte est libre
 def Add_bat_game(x, y, id_bat):
@@ -69,11 +73,13 @@ class State:
         m.Mat_batiment = self.Matrice_bat
         m.Mat_perso = self.Matrice_perso
 
+
 # creer un fichier de sauvegarde, à partir de l'état actuel du jeu
 def sauvegarde(nom):
     sauv = State()
     with open(nom, "wb") as f:
         pickle.dump(sauv, f)
+
 
 # charge un fichier de sauvegarde et met a jour le jeu
 def load(nom):
@@ -83,7 +89,9 @@ def load(nom):
     sauv.uploadFromSave()
 
 
-
+def getWalker(i, j):
+    if (m.Mat_perso[j][i][0].name != 'no Walker'):
+        return m.Mat_perso[j][i]
 
 
 # fonction qui a realiser des opérations entre walkers et batiments:
@@ -97,22 +105,47 @@ def test_walker_logique():
         for j in range(m.nb_cases):
             if m.Mat_perso[j][i][0].name != "no Walker":
                 for k in range(len(m.Mat_perso[j][i])):
-                    if(m.Mat_perso[j][i][k].name == "Prefect"):
-                        proxy = m.get_bat_prox(i,j,2)
+                    perso = m.Mat_perso[j][i][k]
+                    if (perso.name == "Prefect"):
+                        proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
-                    if(m.Mat_perso[j][i][k].name == "Engineer"):
-                        proxy = m.get_bat_prox(i,j,2)
+                    if (perso.name == "Engineer"):
+                        proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
-                    if(m.Mat_perso[j][i][k].name == "Priest"):
-                        proxy = m.get_bat_prox(i,j,4)
+                    if (perso.name == "Priest"):
+                        proxy = m.get_bat_prox(i, j, 4)
                         print("proxy", proxy)
                         for bat in proxy:
-                            if(m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                            if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
                                 bat.faith = bat.faith + 40
+                    if (perso.name == "Recruteur"):
+                        proxy = m.get_bat_prox(i, j, 4)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                                recruit = perso.nb_a_recruter
+                                if (bat.employed < bat.curpop and recruit > 0):
+                                    if ((bat.curpop - bat.employed) >= recruit):
+                                        bat.employed += recruit
+                                        perso.nb_a_recruter = 0
+                                    else:
+                                        perso.nb_a_recruter -= (bat.curpop - bat.employed)
+                                        bat.employed = bat.curpop
+                        if (perso.nb_a_recruter == 0):
+                            m.kill_walker(perso)
+                    if perso.name == "Delivery_Guy" and perso.bat_destination.HasSomething():
+                        m.echange(perso)
+                    if perso.name == "Food Guy":
+                        if perso.dest_x == -1:
+                            for bat in proxy:
+                                if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                                    m.giveFood(perso, bat)
+                        else:
+                            continue
 
 
 # fonction qui teste les condition des batiments:
@@ -126,51 +159,54 @@ def test_bat_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
-            if(bat.hasCheck == 0):
+            if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
+                m.invoke_walker(bat, "Recruteur")
+            if bat.hasCheck == 0:
                 bat.hasCheck = 1
                 if bat.name == "Farm":
                     bat.growFood()
-                    if(bat.ind_Harv >= 6):
+                    if bat.ind_Harv >= 6:
                         print("time for delivery")
-                        Delivery(bat, 'ble', bat.ind_Harv*2)
+                        Delivery(bat, 'ble', bat.ind_Harv * 2)
                         bat.ind_Harv = 0
-                if(bat.name == "Prefecture"):
-                    if(bat.Walk == []):
-                        m.invoke_walker(bat,"Prefect")
-                if(bat.name == "EngineersPost"):
-                    if(bat.Walk == []):
-                        m.invoke_walker(bat,"Engineer")
-                if(bat.name == "Temple"):
-                    if(bat.Walk == []):
-                        m.invoke_walker(bat,"Priest")
+                if bat.name == "Prefecture":
+                    if bat.Walk == []:
+                        m.invoke_walker(bat, "Prefect")
+                if bat.name == "EngineersPost":
+                    if bat.Walk == []:
+                        m.invoke_walker(bat, "Engineer")
+                if bat.name == "Temple":
+                    if bat.Walk == []:
+                        m.invoke_walker(bat, "Priest")
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
 
+
 # a garder
-#init_game()
+# init_game()
 
 #
 
 # partie test
 
-#print(Add_bat_game(2, 0, 5))
-#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-#print("***  modification en cours ****")
-#m.add_bat(0,0,0,m.Mat_batiment)
-#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-#print("***  test de sauvegarde ****")
+# print(Add_bat_game(2, 0, 5))
+# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# print("***  modification en cours ****")
+# m.add_bat(0,0,0,m.Mat_batiment)
+# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# print("***  test de sauvegarde ****")
 
-#sauvegarde("sauv1")
-#m.add_bat(1,0,0,m.Mat_batiment)
-#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-#print("**** test du load ****")
+# sauvegarde("sauv1")
+# m.add_bat(1,0,0,m.Mat_batiment)
+# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# print("**** test du load ****")
 
-#load("sauv1")
-#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-Add_bat_game(0,6,100)
-Add_bat_game(1,5,5)
-print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+# load("sauv1")
+# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+Add_bat_game(0, 6, 100)
+Add_bat_game(1, 5, 5)
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 # test logique:
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
@@ -179,20 +215,43 @@ print("ZEHAHAHAHAHAHAHAH")
 
 test_bat_logique()
 test_walker_logique()
-print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 print("HAHHAHAHAHAHHA")
+
 test_bat_logique()
 test_bat_logique()
 test_bat_logique()
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+
 test_bat_logique()
 test_bat_logique()
 
-print("Harvest:",m.Mat_batiment[6][0].ind_Harv)
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print(m.Mat_perso[5][1][0].cargaison_nourriture)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
+# print(m.Mat_perso[5][1][0].cargaison_nourriture)
+# print(m.Mat_batiment[6][0].Walk)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# print(" ")
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.kill_walker(m.Mat_perso[5][1][0])
+# #m.destroy_Bat(m.Mat_batiment[6][0])
+# print("")
+# print(m.Mat_batiment[6][0].Walk)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# print("test teet")
+# #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
