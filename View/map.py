@@ -1,10 +1,13 @@
+import os
+import sys
+
+sys.path.insert(0, '..')
+# Add the parent directory to the PYTHONPATH
+
 import pygame as pg
-from camera import *
-from settings import *
+from View.camera import *
+from View.settings import *
 import Model.logique as l
-
-
-
 class Map:
 
     def __init__(self, grid_length_x, grid_length_y, width, height):
@@ -199,7 +202,7 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-                if(!= NoWalker): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                if(l.getWalkeur(y,x)!= "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                     render_pos = self.map_walkeur[x][y]["render_pos"]
                     tile = self.map_walkeur[x][y]["tile"]
                     if tile != "":
@@ -208,7 +211,7 @@ class Map:
     def create_map(self):
 
         map = []
-        #self.reload_map()
+        self.reload_map()
 
         for grid_x in range(self.grid_length_x):
             map.append([])
@@ -472,60 +475,86 @@ class Map:
                                                            self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
             tile = "roadYL_capright"
 
-        elif self.matrix[grid_x][grid_y] == 7:
-            tile = "post_sign"
 
-        #Service publique
-        elif self.matrix[grid_x][grid_y] == 55:
-            tile = "security"
+        elif overlay == "":
 
-        elif self.matrix[grid_x][grid_y] == 81:
-            tile = "engineer"
+            #HOUSING
 
-        #Commerce
+            if self.matrix[grid_x][grid_y] == 7:
+                tile = "post_sign"
 
-        elif self.matrix[grid_x][grid_y] == 70:
-            tile = "market"
+            elif self.matrix[grid_x][grid_y] == 10:
+                tile = "houselvl0"
 
-        elif self.matrix[grid_x][grid_y] == 71:
-            tile = "granary"
+            elif self.matrix[grid_x][grid_y] == 11:
+                tile = "houselvl1"
 
-        elif self.matrix[grid_x][grid_y] == 72:
-            tile = "warehouse"
+            elif self.matrix[grid_x][grid_y] == 12:
+                tile = "houselvl2"
 
-        #Water services
+            elif self.matrix[grid_x][grid_y] == 13:
+                tile = "houselvl3"
 
-        elif self.matrix[grid_x][grid_y] == 92:
-            tile = "well"
+            #Service publique
+            elif self.matrix[grid_x][grid_y] == 55:
+                tile = "security"
 
-        elif self.matrix[grid_x][grid_y] == 91:
-            tile = "fountain_empty"
+            elif self.matrix[grid_x][grid_y] == 81:
+                tile = "engineer"
 
-        elif self.matrix[grid_x][grid_y] == 9100:
-            tile = "fountain_full"
+            #Commerce
 
-        elif self.matrix[grid_x][grid_y] == 90:
-            tile = "reservoir_empty"
+            elif self.matrix[grid_x][grid_y] == 70:
+                tile = "market"
 
-        elif self.matrix[grid_x][grid_y] == 9000:
-            tile = "reservoir_full"
+            elif self.matrix[grid_x][grid_y] == 71:
+                tile = "granary"
 
-        #TEMPLE
+            elif self.matrix[grid_x][grid_y] == 72:
+                tile = "warehouse"
 
-        elif self.matrix[grid_x][grid_y] == 60:
-            tile = "temple_farming"
-        elif self.matrix[grid_x][grid_y] == 61:
-            tile = "temple_shipping"
-        elif self.matrix[grid_x][grid_y] == 62:
-            tile = "temple_commerce"
-        elif self.matrix[grid_x][grid_y] == 63:
-            tile = "temple_war"
-        elif self.matrix[grid_x][grid_y] == 64:
-            tile = "temple_love"
+            #Water services
+
+            elif self.matrix[grid_x][grid_y] == 92:
+                tile = "well"
+
+            elif self.matrix[grid_x][grid_y] == 91:
+                tile = "fountain_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9100:
+                tile = "fountain_full"
+
+            elif self.matrix[grid_x][grid_y] == 90:
+                tile = "reservoir_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9000:
+                tile = "reservoir_full"
+
+            #TEMPLE
+
+            elif self.matrix[grid_x][grid_y] == 60:
+                tile = "temple_farming"
+            elif self.matrix[grid_x][grid_y] == 61:
+                tile = "temple_shipping"
+            elif self.matrix[grid_x][grid_y] == 62:
+                tile = "temple_commerce"
+            elif self.matrix[grid_x][grid_y] == 63:
+                tile = "temple_war"
+            elif self.matrix[grid_x][grid_y] == 64:
+                tile = "temple_love"
 
 
-        else:
-            tile = ""
+            else:
+                tile = ""
+
+        elif overlay == "water":
+            pass
+
+        elif overlay == "fire":
+            pass
+
+        elif overlay == "bat":
+            pass
 
         out = {
             "grid": [grid_x, grid_y],
@@ -591,6 +620,9 @@ class Map:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
         elif(overlay == "water"):
+            tile = ""
+
+        else:
             tile = ""
 
         out = {
@@ -787,8 +819,7 @@ class Map:
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                print("not ready it is.")
-                #self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
 
     def get_neighbor(self, grid, coorX, coorY, who=4):
 
