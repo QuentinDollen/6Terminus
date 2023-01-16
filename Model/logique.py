@@ -32,6 +32,7 @@ def Delivery(Bat_depart, type_march, quant):
         print(dx, dy)
 
 
+
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
 # Pour un batiment de plusieurs cases, ne donne l'id que si la case est celle en haut, autrement renvoie 666
 def getID(i, j):
