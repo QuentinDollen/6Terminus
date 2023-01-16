@@ -9,7 +9,7 @@ sys.path.insert(0, '..')
 from Model import matrice as m
 
 
-
+#walker nx ny, batiment detruire plusieurs cases, maisons construires plusieurs cases
 # Definition des Userevents
 
 Nume_maison = pg.USEREVENT 
@@ -17,7 +17,7 @@ Nume_eau = pg.USEREVENT +1
 Nume_route = pg.USEREVENT +2
 Nume_theatre = pg.USEREVENT +3
 Nume_nourriture = pg.USEREVENT+4 
-Nume_sante = pg.USEREVENT +5
+#Nume_sante = pg.USEREVENT +5
 Nume_prefecure = pg.USEREVENT+6 
 Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8 
@@ -199,6 +199,18 @@ def test_bat_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
+
+def test_event(event):
+    # if(event == Nume_maison):
+    # else if(event == Nume_eau):
+    # else if(event == Nume_route):
+    # else if(event == Nume_theatre):
+    # else if(event == Nume_nourriture):
+    # else if(event == Nume_prefecure):
+    # else if(event == Nume_pelle):
+
+
+    print("")
 
 
 # a garder

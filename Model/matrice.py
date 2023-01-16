@@ -523,7 +523,6 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
-
         if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x+1, y):
             tab_possibles_chemins.append((x + 1, y))
     if x > 0:
@@ -588,15 +587,15 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 if (new_path == []):
                                     new_path.append((i, j))
                                 Mat[j][i][count].tab_path = new_path
-
                             Mat[j][i][count].tab_path.pop(0)
                             if len(Mat[j][i][count].tab_path) != 0:
                                 (nx, ny) = Mat[j][i][count].tab_path[0]
+                                Mat[j][i][count].nx = nx
+                                Mat[j][i][count].ny = ny
                             else:
                                 print(i, j, count)
                                 nx = i
                                 ny = j
-
                                 if (Mat_perso[j][i][count].name == "Immigrant") :
                                     pass
                         else:
@@ -735,9 +734,7 @@ add_bat(1, 4, 5, Mat_batiment)
 add_bat(2, 4, 5, Mat_batiment)
 add_bat(3, 4, 5, Mat_batiment)
 add_bat(4, 4, 5, Mat_batiment)
-
 afficher_matrice_bat(Mat_batiment, 8, 8)
-
 add_bat(4, 5, 10, Mat_batiment)
 add_bat(2, 1, 72, Mat_batiment)
 # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
