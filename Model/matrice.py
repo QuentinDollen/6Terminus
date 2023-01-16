@@ -1,7 +1,7 @@
 import sys
 import random
 
-# sys.path.insert(0, '..')
+sys.path.insert(0, '..')
 from Model import Priest
 from Model import terrain as t
 from Model import maison as mais
@@ -26,9 +26,6 @@ from Model import temple
 from copy import copy
 
 # matrice de depart par defaut
-
-
-
 matrix = [[3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
            0, 0, 0, 0],
           [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
@@ -279,7 +276,7 @@ def put_bat_mat(x, y, bat, Mat):
 # ajoute un batiment a une position specifiee en fonction de l'id
 # on utilise Mat_batiment
 # si le batiment est de type stockage, l'ajoute a la liste des batiments de stockage
-def add_bat(x, y, id_bat, Mat = Mat_batiment):
+def add_bat(x, y, id_bat, Mat):
     if id_bat == 92:
         well = wa.Well(x, y)
         Mat[y][x] = well
@@ -389,8 +386,8 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x = -1, 
 
 def invoke_walker(bat,type_):
     if(bat.curEmployees >= 1):
-        (desx, desy) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
-        add_perso(nb_cases_x, nb_cases_y //2, type_, Mat_perso, bat,None, dest_x=desx , dest_y=desy)
+        (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
+        add_perso(x, y, type_, Mat_perso, bat,None)
 
 
 
@@ -517,24 +514,17 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
     # if Mat[y][x][no_walker].ttl <= 0:
     #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
     #     return (x, y)
-    # if Mat[y][x][no_walker].ttl <= 0:
-    #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
-    #     return (x, y)
 
     # if Mat_perso[y][x][no_walker].ttl <= 0:
     #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
     #                                 Mat_batiment)
     #     (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
     #     return tuple(x, y)
-    # if Mat_perso[y][x][no_walker].ttl <= 0:
-    #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-    #                                 Mat_batiment)
-        # (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-        # return tuple(x, y)
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
-        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x +1 , y):
+
+        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x+1, y):
             tab_possibles_chemins.append((x + 1, y))
     if x > 0:
         if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x-1, y):
@@ -545,7 +535,6 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
     if y > 0:
         if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y-1):
             tab_possibles_chemins.append((x, y - 1))
-
     if len(tab_possibles_chemins) > 0:
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
@@ -602,7 +591,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
                             Mat[j][i][count].tab_path.pop(0)
                             if len(Mat[j][i][count].tab_path) != 0:
-                                (nx, ny) = Mat[j][i][k].tab_path[0]
+                                (nx, ny) = Mat[j][i][count].tab_path[0]
                             else:
                                 print(i, j, count)
                                 nx = i
@@ -737,28 +726,6 @@ def giveFood(FD, house):
 
 
 
-# # non necessaire, juste un test
-# add_bat( 1 , 0 , 5 )
-# add_bat(1, 1, 5, Mat_batiment)
-# add_bat(1, 2, 5, Mat_batiment)
-# add_bat(1, 3, 5, Mat_batiment)
-# add_bat(1, 4, 5, Mat_batiment)
-# add_bat(2, 4, 5, Mat_batiment)
-# add_bat(3, 4, 5, Mat_batiment)
-# add_bat(4, 4, 5, Mat_batiment)
-
-# afficher_matrice_bat(Mat_batiment, 8, 8)
-
-# add_bat(4, 5, 10, Mat_batiment)
-# add_bat(2, 1, 72, Mat_batiment)
-# DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-# DV.ajout_marchandise(6)
-# print("cargaison", DV.cargaison_nourriture)
-# Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
-# Mat_perso[1][1][0].dest_y = 4
-
-
-
 # non necessaire, juste un test
 
 add_bat(1, 1, 5, Mat_batiment)
@@ -782,39 +749,39 @@ add_bat(2, 1, 72, Mat_batiment)
 #
 #
 # 
-# afficher_matrice_bat(Mat_batiment, 7, 7)
-# afficher_matrice_perso(Mat_perso, 5, 5)
+afficher_matrice_bat(Mat_batiment, 7, 7)
+afficher_matrice_perso(Mat_perso, 5, 5)
 
-# deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
 
-# deplacement_perso(Mat_perso)
-# suppr_Batiment(1, 4, Mat_batiment)
-# afficher_matrice_bat(Mat_batiment, 7, 7)
-# deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+suppr_Batiment(1, 4, Mat_batiment)
+afficher_matrice_bat(Mat_batiment, 7, 7)
+deplacement_perso(Mat_perso)
 
-# deplacement_perso(Mat_perso)
-# deplacement_perso(Mat_perso)
-# deplacement_perso(Mat_perso)
-# print(" ")
-# add_bat(1, 4, 5, Mat_batiment)
-# afficher_matrice_bat(Mat_batiment, 7, 7)
-# deplacement_perso(Mat_perso)
-# afficher_matrice_perso(Mat_perso, 7, 7)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+print(" ")
+add_bat(1, 4, 5, Mat_batiment)
+afficher_matrice_bat(Mat_batiment, 7, 7)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 7, 7)
 
-# print(" ")
-# deplacement_perso(Mat_perso)
+print(" ")
+deplacement_perso(Mat_perso)
 
-# afficher_matrice_perso(Mat_perso, 7, 7)
-# deplacement_perso(Mat_perso)
-# deplacement_perso(Mat_perso)
-# deplacement_perso(Mat_perso)
-# deplacement_perso(Mat_perso)
-# deplacement_perso(Mat_perso)
-# afficher_matrice_perso(Mat_perso, 7, 7)
-# deplacement_perso(Mat_perso)
-# afficher_matrice_perso(Mat_perso, 7, 7)
-# print("test livraison")
-# print(Mat_batiment[5][4].nourriture)
+afficher_matrice_perso(Mat_perso, 7, 7)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 7, 7)
+deplacement_perso(Mat_perso)
+afficher_matrice_perso(Mat_perso, 7, 7)
+print("test livraison")
+print(Mat_batiment[5][4].nourriture)
 
 add_bat(1, 0, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 7, 7)
@@ -829,14 +796,17 @@ add_bat(0,1,55,Mat_batiment)
 # check_fire_eff()
 # print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
 
-# print("Test Quentin")
+print("Test Quentin")
 
-DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DVD.prev_x = 1
-DVD.prev_y = 4
-afficher_mat_route(7)
-# afficher_matrice_perso(Mat_perso, 7, 7)
-add_bat(4, 5, 5, Mat_batiment)
+# DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DVD.prev_x = 1
+# DVD.prev_y = 4
+# afficher_mat_route(7)
+# # afficher_matrice_perso(Mat_perso, 7, 7)
+# add_bat(4, 5, 5, Mat_batiment)
+# # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # print(Deplacement_basique(0, 0))
+# add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
 add_employees()
 # print(Mat_batiment[0][0].name == "Maison 1")
@@ -845,3 +815,9 @@ add_employees()
 # IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
 # Mat_batiment[0][0].walker_in = True
 # sortir_walker()
+
+
+
+
+
+
