@@ -1,6 +1,10 @@
 import pygame as pg
+import sys
 from settings import TILE_SIZE
-from Terminus_project.Model import logique as l
+
+sys.path.insert(0, '..')
+
+from Model import logique as l
 
 
 class Map:

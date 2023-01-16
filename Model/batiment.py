@@ -2,7 +2,7 @@ import sys
 
 sys.path.insert(0, '..')
 from Model import terrain as t
-
+from random import *
 
 class Batiment(t.Terrain):
     def __init__(self, nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp):
@@ -41,10 +41,10 @@ class Batiment(t.Terrain):
     
     def augm_att(self):
         self.ind_fire += 1 
-        if(self.ind_fire > 30):
+        if(self.ind_fire > 30 and random()<0.3):
             return -1
         self.ind_eff += 1
-        if(self.ind_eff > 30):
+        if(self.ind_eff > 30 and random()>0.7):
             return -2
 
 
