@@ -1,9 +1,9 @@
-cd import pygame as pg
+import pygame as pg
 
 from Interface.Data_controller import *
 from Interface.InputBoxName import *
 from View.game import * 
-
+from Model.logique import * 
 
 
 def main():
@@ -113,8 +113,9 @@ def main():
         
 
         while playing :
+
+            Game_terminus.run()
             
-           Game_terminus.run()
 
 if __name__ == "__main__":
     main()

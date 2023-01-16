@@ -1,1 +1,0 @@
-View/Sprites/Used_sprites/Home_page/Home_page.png"
