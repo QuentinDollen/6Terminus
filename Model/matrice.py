@@ -503,30 +503,31 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    if Mat[y][x][no_walker].ttl <= 0:
-        (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
-        return (x, y)
+    # if Mat[y][x][no_walker].ttl <= 0:
+    #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
+    #     return (x, y)
 
-    if Mat_perso[y][x][no_walker].ttl <= 0:
-        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-                                    Mat_batiment)
-        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-        return tuple(x, y)
+    # if Mat_perso[y][x][no_walker].ttl <= 0:
+    #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
+    #                                 Mat_batiment)
+        # (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+        # return tuple(x, y)
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
-
-        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y][x + 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x +1 , y):
             tab_possibles_chemins.append((x + 1, y))
     if x > 0:
-        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y][x - 1] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x-1, y):
             tab_possibles_chemins.append((x - 1, y))
     if y < nb_cases_y - 1:
-        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y + 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y+1):
             tab_possibles_chemins.append((x, y + 1))
     if y > 0:
-        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y):
+        if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y-1):
             tab_possibles_chemins.append((x, y - 1))
+
+    print(tab_possibles_chemins)
 
     if len(tab_possibles_chemins) > 0:
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
@@ -597,7 +598,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 if (Mat_perso[j][i][count].name == "Immigrant") :
                                     pass
                         else:
-                            print("cas basique")
+                            print(f"({i},{j})")
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
                             print((nx,ny))
 
@@ -710,99 +711,108 @@ def test_bat_logique():
 
 
 
-# non necessaire, juste un test
+# # non necessaire, juste un test
+# add_bat( 1 , 0 , 5 )
+# add_bat(1, 1, 5, Mat_batiment)
+# add_bat(1, 2, 5, Mat_batiment)
+# add_bat(1, 3, 5, Mat_batiment)
+# add_bat(1, 4, 5, Mat_batiment)
+# add_bat(2, 4, 5, Mat_batiment)
+# add_bat(3, 4, 5, Mat_batiment)
+# add_bat(4, 4, 5, Mat_batiment)
 
-add_bat(1, 1, 5, Mat_batiment)
-add_bat(1, 2, 5, Mat_batiment)
-add_bat(1, 3, 5, Mat_batiment)
-add_bat(1, 4, 5, Mat_batiment)
-add_bat(2, 4, 5, Mat_batiment)
-add_bat(3, 4, 5, Mat_batiment)
-add_bat(4, 4, 5, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 8, 8)
 
-afficher_matrice_bat(Mat_batiment, 8, 8)
-
-add_bat(4, 5, 10, Mat_batiment)
-add_bat(2, 1, 72, Mat_batiment)
-DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DV.ajout_marchandise(6)
-print("cargaison", DV.cargaison_nourriture)
-Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
-Mat_perso[1][1][0].dest_y = 4
+# add_bat(4, 5, 10, Mat_batiment)
+# add_bat(2, 1, 72, Mat_batiment)
+# DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DV.ajout_marchandise(6)
+# print("cargaison", DV.cargaison_nourriture)
+# Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
+# Mat_perso[1][1][0].dest_y = 4
 
 #
 #
 # 
-afficher_matrice_bat(Mat_batiment, 7, 7)
-afficher_matrice_perso(Mat_perso, 5, 5)
-
-deplacement_perso(Mat_perso)
-
-deplacement_perso(Mat_perso)
-suppr_Batiment(1, 4, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
-
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-print(" ")
-add_bat(1, 4, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-
-print(" ")
-deplacement_perso(Mat_perso)
-
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-print("test livraison")
-print(Mat_batiment[5][4].nourriture)
-
-add_bat(1, 0, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-print(Mat_batiment[0][1].name)
-add_bat(0,1,55,Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
-print("destination",'(',prefet.dest_x,prefet.dest_y,')')
-print("test check fire")
-print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
-check_fire_eff()
-check_fire_eff()
-print("indice de feu",Mat_batiment[1][0].ind_fire)
-print("test_walker_logique")
-test_walker_logique()
-print("indice de feu",Mat_batiment[1][0].ind_fire)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-
-print("Test Quentin")
-
-DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-DVD.prev_x = 1
-DVD.prev_y = 4
-afficher_mat_route(7)
-# afficher_matrice_perso(Mat_perso, 7, 7)
-add_bat(4, 5, 5, Mat_batiment)
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-# print(Deplacement_basique(0, 0))
-add_bat(0,0,name_id["Maison1"], Mat_batiment )
-afficher_matrice_bat(Mat_batiment, 7, 7)
-add_employees()
-print(Mat_batiment[0][0].name == "Maison 1")
-print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
-add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
-IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
-Mat_batiment[0][0].walker_in = True
-sortir_walker()
+# afficher_matrice_perso(Mat_perso, 5, 5)
+
+# deplacement_perso(Mat_perso)
+
+# deplacement_perso(Mat_perso)
+# suppr_Batiment(1, 4, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# deplacement_perso(Mat_perso)
+
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# print(" ")
+# add_bat(1, 4, 5, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+
+# print(" ")
+# deplacement_perso(Mat_perso)
+
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# print("test livraison")
+# print(Mat_batiment[5][4].nourriture)
+
+# add_bat(1, 0, 5, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# print(Mat_batiment[0][1].name)
+# add_bat(0,1,55,Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
+# print("destination",'(',prefet.dest_x,prefet.dest_y,')')
+# print("test check fire")
+# print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+# check_fire_eff()
+# check_fire_eff()
+# print("indice de feu",Mat_batiment[1][0].ind_fire)
+# print("test_walker_logique")
+# test_walker_logique()
+# print("indice de feu",Mat_batiment[1][0].ind_fire)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+
+# print("Test Quentin")
+
+
+
+
+# add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# # # # DVD.prev_x = 1
+# # # # DVD.prev_y = 4
+# # # # afficher_mat_route(7)
+# # # # # afficher_matrice_perso(Mat_perso, 7, 7)
+# # # # add_bat(4, 5, 5, Mat_batiment)
+# afficher_mat_route(7)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# afficher_matrice_perso(Mat_perso ,7,7)
+# deplacement_perso(Mat_perso )
+# afficher_matrice_perso(Mat_perso ,7,7)
+# # # # # print(Deplacement_basique(0, 0))
+# # # # add_bat(0,0,name_id["Maison1"], Mat_batiment )
+# # # # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # # # add_employees()
+# # # # print(Mat_batiment[0][0].name == "Maison 1")
+# # # # print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
+# # # # add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
+# # # # IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
+# # # # Mat_batiment[0][0].walker_in = True
+
+# # add_perso(0,1,"Prefet" , )
+# # sortir_walker()

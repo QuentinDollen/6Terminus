@@ -46,8 +46,15 @@ class Game:
                     pg.quit()
                     sys.exit()
 
+            if event.type == pg.MOUSEBUTTONUP :
+                self.hud.overhead_all()                
+
+
             if event.type == pg.MOUSEBUTTONDOWN :
                 self.hud.overhead_all()
+
+            if event.type == pg.USEREVENT :
+                print("SIA")
 
 
             # if event.type == pg.MOUSEBUTTONDOWN:

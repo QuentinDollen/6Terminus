@@ -115,6 +115,7 @@ def main():
         while playing :
 
             Game_terminus.run()
+            
 
 if __name__ == "__main__":
     main()

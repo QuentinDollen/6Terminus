@@ -7,7 +7,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the parent directory to the PYTHONPATH
 sys.path.append(parent_dir)
 
-
+import pygame as pg
 import Model.matrice as m
 import math as ma
 import numpy as np
@@ -21,6 +21,20 @@ import Model.engineering as eng
 import Model.security as sec
 import Model.herb as h
 import Model.delivery_guy as dg
+
+
+# Definition des Userevents
+
+Nume_maison = pg.USEREVENT 
+Nume_eau = pg.USEREVENT +1
+Nume_route = pg.USEREVENT +2
+Nume_theatre = pg.USEREVENT +3
+Nume_nourriture = pg.USEREVENT+4 
+Nume_sante = pg.USEREVENT +5
+Nume_prefecure = pg.USEREVENT+6 
+Nume_ingenieur = pg.USEREVENT +7
+Nume_administratif = pg.USEREVENT+8 
+Nume_pelle = pg.USEREVENT +9
 
 
 # pour les variables globales: il nous faut la liste des greniers et des entrepots, et faire une methode qui dit s'ils sont plein ou pas
@@ -100,7 +114,7 @@ def load(nom):
     sauv.uploadFromSave()
 
 # a garder
-#init_game()
+init_game()
 
 #
 
