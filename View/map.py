@@ -202,6 +202,7 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+
                 if(l.getWalkeur(y,x)!= "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                     render_pos = self.map_walkeur[x][y]["render_pos"]
                     tile = self.map_walkeur[x][y]["tile"]
@@ -548,13 +549,74 @@ class Map:
                 tile = ""
 
         elif overlay == "water":
-            pass
+
+            if l.water(grid_x,grid_y) == True:
+                tile = "watered"
+
+            elif l.water(grid_x,grid_y) == False:
+                tile = "unwatered"
+
+            # Water services
+
+            elif self.matrix[grid_x][grid_y] == 92:
+                tile = "well"
+
+            elif self.matrix[grid_x][grid_y] == 91:
+                tile = "fountain_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9100:
+                tile = "fountain_full"
+
+            elif self.matrix[grid_x][grid_y] == 90:
+                tile = "reservoir_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9000:
+                tile = "reservoir_full"
+
+            else:
+                tile = ""
 
         elif overlay == "fire":
-            pass
+
+            risk = l.fireRisk(grid_x,grid_y)
+
+            if risk >= 80: #WORST : need Pin-Pon asap
+                tile = "red"
+            elif risk < 80 and risk >= 60:
+                tile = "orange"
+            elif risk < 60 and risk >= 40:
+                tile = "yellow"
+            elif risk < 40 and risk >= 20:
+                tile = "green"
+            elif risk < 20 and risk >= 0: #BEST : disable smoke detectors
+                tile = "blue"
+
+            elif self.matrix[grid_x][grid_y] == 55:
+                tile = "security"
+
+            else:
+                tile = ""
 
         elif overlay == "bat":
-            pass
+
+            risk = l.batRisk(grid_x, grid_y)
+
+            if risk >= 80:  # WORST : need a dispenser here
+                tile = "red"
+            elif risk < 80 and risk >= 60:
+                tile = "orange"
+            elif risk < 60 and risk >= 40:
+                tile = "yellow"
+            elif risk < 40 and risk >= 20:
+                tile = "green"
+            elif risk < 20 and risk >= 0:  # BEST : No spy around
+                tile = "blue"
+
+            elif self.matrix[grid_x][grid_y] == 81:
+                tile = "engineer"
+
+            else:
+                tile = ""
 
         out = {
             "grid": [grid_x, grid_y],
@@ -767,7 +829,7 @@ class Map:
         fire = pg.image.load(path_to_Utilities + "/ENFEU_OMG.png").convert_alpha()
         ruine_in_fire = pg.image.load(path_to_Utilities + "/Ruine_en_feu.png").convert_alpha()
 
-        #Water and aquaducts
+        #Water
 
         well = pg.image.load(path_to_Utilities + "/Puit.png").convert_alpha()
         fountain_empty = pg.image.load(path_to_Utilities + "/Fontaine_vide.png").convert_alpha()
@@ -783,9 +845,28 @@ class Map:
         temple_war = pg.image.load(path_to_Utilities + "/temple_WAR.png").convert_alpha()
         temple_commerce = pg.image.load(path_to_Utilities + "/temple_COMMERCE.png").convert_alpha()
 
+        #Overlays
+
+        red = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
+        orange = pg.image.load(path_to_Utilities + "/Land2a_00036.png").convert_alpha()
+        yellow = pg.image.load(path_to_Utilities + "/Land2a_00038.png").convert_alpha()
+        green = pg.image.load(path_to_Utilities + "/Land2a_00041.png").convert_alpha()
+        blue = pg.image.load(path_to_Utilities + "/Land2a_00043.png").convert_alpha()
+
+        watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
+        unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
+
         #Walkers
 
         priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+
+        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
+        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
+        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
+        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
 
         return {"block": block,
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
@@ -813,7 +894,10 @@ class Map:
                 "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
-                "priest0": priest0
+                "priest0": priest0, "engineer0": engineer0,
+                "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
+                "watered": watered, "unwatered": unwatered
+
                }
 
     def reload_map(self):
