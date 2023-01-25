@@ -4,6 +4,11 @@ import sys
 sys.path.insert(0, '..')
 # Add the parent directory to the PYTHONPATH
 
+
+import pygame as pg
+import sys
+
+
 import pygame as pg
 from View.camera import *
 from View.settings import *
@@ -180,9 +185,14 @@ class Map:
                 pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
+
+
+
+
     def draw(self, screen, camera):
 
         screen.blit(self.grass_tiles, (camera.scroll.x, camera.scroll.y))
+
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -203,7 +213,7 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                if(l.getWalkeur(y,x)!= "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                     render_pos = self.map_walkeur[x][y]["render_pos"]
                     tile = self.map_walkeur[x][y]["tile"]
                     if tile != "":
@@ -648,35 +658,35 @@ class Map:
         if(overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
                             #AKA map d'eau, map de feu ou map de risque d'effondrement
 
-            if(l.getWalkeur(grid_x,grid_y).name == "Priest"):
+            if(l.getWalker(grid_x,grid_y).name == "Priest"):
                 tile = "priest0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Delivery_Guy"):
+            elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
                 tile = "delivery_guy0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Engineer"):
+            elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Prefect"):
+            elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
                 tile = "prefet0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Food_Guy"):
+            elif(l.getWalker(grid_x,grid_y).name == "Food_Guy"):
                 tile = "food_guy0"
 
-            elif(l.getWalkeur(grid_x, grid_y).name == "Immigrant"):
+            elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
                 tile = "random0"
 
-            elif(l.getWalkeur(grid_x, grid_y).name == "Recruteur"):
+            elif(l.getWalker(grid_x, grid_y).name == "Recruteur"):
                 tile = "random0"
 
         elif(overlay == "fire"): #OVERLAY FIRE
-            if (l.getWalkeur(grid_x, grid_y).name == "Prefect"):
+            if (l.getWalker(grid_x, grid_y).name == "Prefect"):
                 tile = "prefet0"
             else:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
         elif(overlay == "bat"): #OVERLAY BAT
-            if(l.getWalkeur(grid_x,grid_y).name == "Engineer"):
+            if(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
             else:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
@@ -923,6 +933,8 @@ class Map:
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
                 self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+
+        
 
     def get_neighbor(self, grid, coorX, coorY, who=4):
 

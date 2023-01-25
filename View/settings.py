@@ -1,5 +1,8 @@
+from os import getcwd
+
+
 TILE_SIZE = 29
-path_to_sprites = "Sprites/Used_sprites/"
+path_to_sprites = f"{getcwd()}/View/Sprites/Used_sprites/"
 path_to_Nature = path_to_sprites + "Nature"
 path_to_House = path_to_sprites + "Home_builds"
 path_to_Utilities = path_to_sprites + "Utilities"

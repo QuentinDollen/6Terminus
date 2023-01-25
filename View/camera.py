@@ -1,5 +1,9 @@
+import sys
+
+sys.path.insert(0, '..')
+
 import pygame as pg
-from settings import *
+from View.settings import *
 
 
 class Camera:
@@ -20,9 +24,8 @@ class Camera:
     def update(self):
 
         mouse_pos = pg.mouse.get_pos()
-
         # x movement
-        if mouse_pos[0] > self.width * 0.98:
+        if mouse_pos[0] > self.width * 0.99:
             self.dx = -self.speed
         elif mouse_pos[0] < self.width * 0.02:
             self.dx = self.speed
@@ -30,7 +33,7 @@ class Camera:
             self.dx = 0
 
         # y movement
-        if mouse_pos[1] > self.height * 0.98:
+        if mouse_pos[1] > self.height * 0.99:
             self.dy = -self.speed
         elif mouse_pos[1] < self.height * 0.02:
             self.dy = self.speed
