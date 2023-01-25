@@ -1,28 +1,14 @@
-import os
-import sys
-
-# Construct the full path to the parent directory
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-# Add the parent directory to the PYTHONPATH
-sys.path.append(parent_dir)
 
 import pygame as pg
-import Model.matrice as m
-import math as ma
-import numpy as np
-import Model.batiment as b
-import Model.terrain as t
-import Model.maison as mais
-import Model.Walker as w
-import Model.Priest as p
-import Model.water as wa
-import Model.engineering as eng
-import Model.security as sec
-import Model.herb as h
-import Model.delivery_guy as dg
+import pickle
+import sys
+
+sys.path.insert(0, '..')
+
+from Model import matrice as m
 
 
+#walker nx ny, batiment detruire plusieurs cases, maisons construires plusieurs cases
 # Definition des Userevents
 
 
@@ -31,11 +17,14 @@ Nume_eau = pg.USEREVENT +1
 Nume_route = pg.USEREVENT +2
 Nume_theatre = pg.USEREVENT +3
 Nume_nourriture = pg.USEREVENT+4 
-Nume_sante = pg.USEREVENT +5
+#Nume_sante = pg.USEREVENT +5
 Nume_prefecure = pg.USEREVENT+6 
 Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8 
 Nume_pelle = pg.USEREVENT +9
+
+
+# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
 
 
 # pour les variables globales: il nous faut la liste des greniers et des entrepots, et faire une methode qui dit s'ils sont plein ou pas
@@ -214,9 +203,21 @@ def test_bat_logique():
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
 
+def test_event(event):
+    # if(event == Nume_maison):
+    # else if(event == Nume_eau):
+    # else if(event == Nume_route):
+    # else if(event == Nume_theatre):
+    # else if(event == Nume_nourriture):
+    # else if(event == Nume_prefecure):
+    # else if(event == Nume_pelle):
+
+
+    print("")
+
 
 # a garder
-init_game()
+# init_game()
 
 #
 
@@ -234,49 +235,49 @@ init_game()
 # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 # print("**** test du load ****")
 
-#load("sauv1")
-#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# Add_bat_game(0,6,100)
-# Add_bat_game(1,5,5)
+# load("sauv1")
+# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+Add_bat_game(0, 6, 100)
+Add_bat_game(1, 5, 5)
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
-# Delivery(m.Mat_batiment[6][0],'ble',11)
-# Delivery(m.Mat_batiment[6][0],'ble',8)
-# Delivery(m.Mat_batiment[6][0],'argile',15)
+# test logique:
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+print("ZEHAHAHAHAHAHAHAH")
 
-# print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
-# m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+test_bat_logique()
+test_walker_logique()
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+print("HAHHAHAHAHAHHA")
 
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+test_bat_logique()
+test_bat_logique()
 
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
-# m.deplacement_perso(m.Mat_perso)
-
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# print(" ")
-# m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-
-# # print(m.Mat_perso[5][1][0].cargaison_nourriture)
+# print(m.Mat_perso[5][1][0].cargaison_nourriture)
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 # m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
 # m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
 # m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# # m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
 # m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
 # print(" ")
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
