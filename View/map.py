@@ -4,6 +4,11 @@ import sys
 sys.path.insert(0, '..')
 # Add the parent directory to the PYTHONPATH
 
+
+import pygame as pg
+import sys
+
+
 import pygame as pg
 from View.camera import *
 from View.settings import *
@@ -180,9 +185,14 @@ class Map:
                 pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
+
+
+
+
     def draw(self, screen, camera):
 
         screen.blit(self.grass_tiles, (camera.scroll.x, camera.scroll.y))
+
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -923,6 +933,8 @@ class Map:
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
                 self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+
+        
 
     def get_neighbor(self, grid, coorX, coorY, who=4):
 

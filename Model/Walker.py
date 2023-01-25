@@ -1,20 +1,26 @@
-import pathlib
-import batiment as b
+import sys
 
-global dir_path
-
-bat_path = '' + str(pathlib.Path(__file__).absolute())
-
-dir_path: str = bat_path.replace('Batiment.py', '')
-
-class Walker():
-	def __init__(self,x,y):
-		self.x = x
-		self.y = y
-		self.image_path = dir_path+''
-		self.name = 'no Walker'
-		self.ttl = 20
-		self.tab_path = [(x,y)]
+sys.path.insert(0, '..')
 
 
+class NoWalker:
+    def __init__(self):
+        self.name = 'no Walker'
 
+
+class Walker(NoWalker):
+    def __init__(self, x, y, bat):
+        super().__init__()
+        self.x = x
+        self.y = y
+        self.name = 'unknown'
+        self.ttl = 20
+        self.tab_path = []
+        self.batiment = bat
+        self.dest_x = -1
+        self.dest_y = -1
+        self.has_moved = 0
+        self.prev_x = x # Necessaire pour le déplacement
+        self.prev_y = y # Laisser ces valeur pour deplacment_basique()
+        self.nx = x
+        self.ny = y
