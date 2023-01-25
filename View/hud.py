@@ -67,6 +67,7 @@ class button_hud():
       self.__clicked = self.overhead(pg.mouse.get_pos())
       if self.__clicked : 
          pg.event.post( pg.event.Event( self.__event ) )
+         return self.__event
 
 
 class Hud:
@@ -75,6 +76,7 @@ class Hud:
 
         self.width = width
         self.height = height
+        self.current_action = None 
 
         # menu hud
         self.menu1 = pg.image.load("View/Graphique/paneling_00017.png")
@@ -116,8 +118,7 @@ class Hud:
 
 
 
-        self.maison = button_hud("View/Graphique/paneling_00123.png","View/Graphique/paneling_00124.png","View/Graphique/paneling_00125.png", ( L1 , U1) , size_button ,Nume_maison)
-        
+        self.maison = button_hud("View/Graphique/paneling_00123.png","View/Graphique/paneling_00124.png","View/Graphique/paneling_00125.png", ( L1 , U1) , size_button ,Nume_maison)        
         self.eau = button_hud("View/Graphique/paneling_00127.png","View/Graphique/paneling_00128.png","View/Graphique/paneling_00129.png", (L1 , U2) , size_button,Nume_eau )
         self.prefecture = button_hud("View/Graphique/paneling_00159.png","View/Graphique/paneling_00160.png","View/Graphique/paneling_00161.png", ( L2 , U4 ) ,size_button,Nume_prefecure )
         self.nourriture = button_hud("View/Graphique/paneling_00155.png","View/Graphique/paneling_00156.png","View/Graphique/paneling_00157.png", ( L3 , U4 ) , size_button,Nume_nourriture )
@@ -177,16 +178,22 @@ class Hud:
          self.santé.draw(screen)
 
    def overhead_all( self):
-         self.maison.set_cliked()
-         self.eau.set_cliked()
-         self.prefecture.set_cliked()
-         self.nourriture.set_cliked()
-         self.route.set_cliked()
-         self.theatre.set_cliked()
-         self.administratif.set_cliked()
-         self.pelle.set_cliked()
-         self.ingenieur.set_cliked()
-         self.santé.set_cliked()
+
+         self.current_action = None 
+         self.current_action =  self.maison.set_cliked()
+         self.current_action =  self.eau.set_cliked()
+         self.current_action =  self.prefecture.set_cliked()
+         self.current_action =  self.nourriture.set_cliked()
+         self.current_action =  self.route.set_cliked()
+         self.current_action =  self.theatre.set_cliked()
+         self.current_action =  self.administratif.set_cliked()
+         self.current_action =  self.pelle.set_cliked()
+         self.current_action =  self.ingenieur.set_cliked()
+         self.current_action =  self.santé.set_cliked()
+
+
+         print(" Current action : ", self.current_action)
+         return self.current_action 
          
      #
      #    # read images

@@ -78,7 +78,7 @@ def main():
 
                         if HP_exit.overhead( mouse_track , screen ) :
                             running = False 
-                            Launch = False 
+                            Launch = False  
                             pg.quit()
                             sys.exit()
 
