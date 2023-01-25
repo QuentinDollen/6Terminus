@@ -17,11 +17,15 @@ Nume_eau = pg.USEREVENT +1
 Nume_route = pg.USEREVENT +2
 Nume_theatre = pg.USEREVENT +3
 Nume_nourriture = pg.USEREVENT+4 
-#Nume_sante = pg.USEREVENT +5
+Nume_sante = pg.USEREVENT +5
 Nume_prefecure = pg.USEREVENT+6 
 Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8 
 Nume_pelle = pg.USEREVENT +9
+
+
+def event_to_logic( nume , pos_init , pos_final) :
+    pass 
 
 
 # En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
@@ -269,6 +273,7 @@ m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
+print("Après")
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)

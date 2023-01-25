@@ -53,6 +53,7 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN :
                 self.hud.overhead_all()
+                self.mouse_to_tiles()
 
 
             if event.type ==  l.Nume_maison:
@@ -122,10 +123,21 @@ class Game:
 
         grid_x = int ( iso_x // TILE_SIZE)
         grid_y = int( iso_y // TILE_SIZE)
+
+        if grid_x < 0 : 
+            grid_x = 0 
+        if grid_x > 39 : 
+            grid_x = 39
+        
+        if grid_y < 0 : 
+            grid_y = 0 
+        if grid_y > 39 : 
+            grid_y = 39
+
+
         print((grid_x , grid_y))
         return grid_x , grid_y
 
 
-
-
-        
+    
+            
