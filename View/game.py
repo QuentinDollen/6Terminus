@@ -8,6 +8,7 @@ from View.settings import *
 # from utils import draw_text
 from View.camera import Camera
 from View.hud import Hud
+from Model import logique as l 
 
 
 class Game:
@@ -53,15 +54,38 @@ class Game:
             if event.type == pg.MOUSEBUTTONDOWN :
                 self.hud.overhead_all()
 
-            if event.type == pg.USEREVENT :
-                print("SIA")
+
+            if event.type ==  l.Nume_maison:
+                print("J'ai appuyé sur une maison")
+
+            if event.type ==  l.Nume_ingenieur:
+                print("J'ai appuyé sur une maison")            
+            if event.type ==  l.Nume_nourriture:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_administratif:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_pelle:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_eau:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_prefecure:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_sante:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_route:
+                print("J'ai appuyé sur une maison")
+            if event.type ==  l.Nume_theatre:
+                print("J'ai appuyé sur une maison")
+
 
 
             # if event.type == pg.MOUSEBUTTONDOWN:
             #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):
 
     def update(self):
+        
         self.camera.update()
+        self.mouse_to_tiles()
         self.map.reload_map()
 
     def draw(self):
@@ -86,3 +110,22 @@ class Game:
         # )
 
         pg.display.flip()
+
+    def mouse_to_tiles(self) :
+        mouse = pg.mouse.get_pos()
+
+        on_grid_x = -self.camera.scroll.x + mouse[0] -self.map.grass_tiles.get_width()/2
+        on_grid_y = - self.camera.scroll.y + mouse[1]
+
+        iso_y = ( 2 * on_grid_y - on_grid_x)/2
+        iso_x =  iso_y + on_grid_x
+
+        grid_x = int ( iso_x // TILE_SIZE)
+        grid_y = int( iso_y // TILE_SIZE)
+        print((grid_x , grid_y))
+        return grid_x , grid_y
+
+
+
+
+        

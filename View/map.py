@@ -188,9 +188,14 @@ class Map:
                 pg.draw.rect(screen, RED, (1382.5 - camera.scroll_mini.x, 59.5 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
+
+
+
+
     def draw(self, screen, camera):
 
         screen.blit(self.grass_tiles, (camera.scroll.x, camera.scroll.y))
+
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):

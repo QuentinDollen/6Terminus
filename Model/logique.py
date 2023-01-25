@@ -7,10 +7,6 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the parent directory to the PYTHONPATH
 sys.path.append(parent_dir)
 
-<<<<<<< HEAD
-
-# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
-=======
 import pygame as pg
 import Model.matrice as m
 import math as ma
@@ -29,6 +25,7 @@ import Model.delivery_guy as dg
 
 # Definition des Userevents
 
+
 Nume_maison = pg.USEREVENT 
 Nume_eau = pg.USEREVENT +1
 Nume_route = pg.USEREVENT +2
@@ -39,7 +36,6 @@ Nume_prefecure = pg.USEREVENT+6
 Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8 
 Nume_pelle = pg.USEREVENT +9
->>>>>>> graphics
 
 
 # pour les variables globales: il nous faut la liste des greniers et des entrepots, et faire une methode qui dit s'ils sont plein ou pas
@@ -74,11 +70,9 @@ def getID(i, j):
     else:
         return 666
 
-<<<<<<< HEAD
-=======
+
 def getID_base_matrix( i , j ) : 
     return m.matrix[j][i]
->>>>>>> graphics
 
 # initialise les matrices de jeux
 # incomplet: reste à implémenter les load
@@ -222,11 +216,7 @@ def test_bat_logique():
 
 
 # a garder
-<<<<<<< HEAD
-# init_game()
-=======
 init_game()
->>>>>>> graphics
 
 #
 
@@ -244,61 +234,6 @@ init_game()
 # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 # print("**** test du load ****")
 
-<<<<<<< HEAD
-# load("sauv1")
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-Add_bat_game(0, 6, 100)
-Add_bat_game(1, 5, 5)
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-# test logique:
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print("ZEHAHAHAHAHAHAHAH")
-
-test_bat_logique()
-test_walker_logique()
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print("HAHHAHAHAHAHHA")
-
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-test_bat_logique()
-test_bat_logique()
-
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-
-# print(m.Mat_perso[5][1][0].cargaison_nourriture)
-# print(m.Mat_batiment[6][0].Walk)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# print(" ")
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# m.kill_walker(m.Mat_perso[5][1][0])
-# #m.destroy_Bat(m.Mat_batiment[6][0])
-# print("")
-# print(m.Mat_batiment[6][0].Walk)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# print("test teet")
-# #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
-=======
 #load("sauv1")
 #m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 # Add_bat_game(0,6,100)
@@ -323,6 +258,7 @@ m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 # m.deplacement_perso(m.Mat_perso)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 # m.deplacement_perso(m.Mat_perso)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
@@ -334,6 +270,20 @@ m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 # print(" ")
 # m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
 
-# print(m.Mat_batiment[1][2].nourriture)
-# print(m.Mat_batiment[1][2].produits)
->>>>>>> graphics
+# # print(m.Mat_perso[5][1][0].cargaison_nourriture)
+# print(m.Mat_batiment[6][0].Walk)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# # m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
+# print(" ")
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# m.kill_walker(m.Mat_perso[5][1][0])
+# #m.destroy_Bat(m.Mat_batiment[6][0])
+# print("")
+# print(m.Mat_batiment[6][0].Walk)
+# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
+# print("test teet")
+# #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
