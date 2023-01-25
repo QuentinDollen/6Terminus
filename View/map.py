@@ -213,7 +213,7 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                if(l.getWalkeur(y,x)!= "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                     render_pos = self.map_walkeur[x][y]["render_pos"]
                     tile = self.map_walkeur[x][y]["tile"]
                     if tile != "":
@@ -658,35 +658,35 @@ class Map:
         if(overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
                             #AKA map d'eau, map de feu ou map de risque d'effondrement
 
-            if(l.getWalkeur(grid_x,grid_y).name == "Priest"):
+            if(l.getWalker(grid_x,grid_y).name == "Priest"):
                 tile = "priest0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Delivery_Guy"):
+            elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
                 tile = "delivery_guy0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Engineer"):
+            elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Prefect"):
+            elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
                 tile = "prefet0"
 
-            elif(l.getWalkeur(grid_x,grid_y).name == "Food_Guy"):
+            elif(l.getWalker(grid_x,grid_y).name == "Food_Guy"):
                 tile = "food_guy0"
 
-            elif(l.getWalkeur(grid_x, grid_y).name == "Immigrant"):
+            elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
                 tile = "random0"
 
-            elif(l.getWalkeur(grid_x, grid_y).name == "Recruteur"):
+            elif(l.getWalker(grid_x, grid_y).name == "Recruteur"):
                 tile = "random0"
 
         elif(overlay == "fire"): #OVERLAY FIRE
-            if (l.getWalkeur(grid_x, grid_y).name == "Prefect"):
+            if (l.getWalker(grid_x, grid_y).name == "Prefect"):
                 tile = "prefet0"
             else:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
         elif(overlay == "bat"): #OVERLAY BAT
-            if(l.getWalkeur(grid_x,grid_y).name == "Engineer"):
+            if(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
             else:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS

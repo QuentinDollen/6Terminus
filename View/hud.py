@@ -116,10 +116,6 @@ class Hud:
         L3=  self.pos[0] + 26/32 * self.dim[0]
 
 
-
-        screen.blit(self.menu1, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 840))
-        screen.blit(self.menu2, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 166))
-
         self.maison = button_hud("View/Graphique/paneling_00123.png","View/Graphique/paneling_00124.png","View/Graphique/paneling_00125.png", ( L1 , U1) , size_button ,Nume_maison)        
         self.eau = button_hud("View/Graphique/paneling_00127.png","View/Graphique/paneling_00128.png","View/Graphique/paneling_00129.png", (L1 , U2) , size_button,Nume_eau )
         self.prefecture = button_hud("View/Graphique/paneling_00159.png","View/Graphique/paneling_00160.png","View/Graphique/paneling_00161.png", ( L2 , U4 ) ,size_button,Nume_prefecure )
@@ -151,22 +147,6 @@ class Hud:
          # screen.blit(self.menu2, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 166))
       
          #corner
-<<<<<<< HEAD
-         screen.blit(self.menu3, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 390))
-         screen.blit(self.menu4, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 182))
-         screen.blit(self.menu5, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 390))
-         screen.blit(self.menu6, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 182))
-
-         for a in range(12):
-             screen.blit(self.menu7, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 374 + 16 * a))
-             screen.blit(self.menu8, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 374 + 16 * a))
-         for b in range(8):
-            screen.blit(self.menu9, (pg.display.Info().current_w - 144 + 16 * b, pg.display.Info().current_h - 182))
-            screen.blit(self.menu10, (pg.display.Info().current_w - 144 + 16 * b, pg.display.Info().current_h - 390))
-         for c in range(8):
-             for d in range(12):
-                screen.blit(self.menu11, (pg.display.Info().current_w - 144 + 16 * c, pg.display.Info().current_h - 374 + 16 * d))
-=======
          # screen.blit(self.menu3, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 390))
          # screen.blit(self.menu4, (pg.display.Info().current_w - 16, pg.display.Info().current_h - 182))
          # screen.blit(self.menu5, (pg.display.Info().current_w - 160, pg.display.Info().current_h - 390))
@@ -182,7 +162,6 @@ class Hud:
          #     for d in range(12):
          #        screen.blit(self.menu11, (pg.display.Info().current_w - 144 + 16 * c, pg.display.Info().current_h - 374 + 16 * d))
          
->>>>>>> pg_antoine
 
 
          self.maison.draw(screen)

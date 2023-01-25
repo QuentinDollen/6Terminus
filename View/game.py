@@ -29,16 +29,13 @@ class Game:
         # hud
         self.hud = Hud(self.width, self.height)
 
-<<<<<<< HEAD
         overlay = ""
-=======
         self.selection = list()
         self.selection.append([])
         self.selection.append([])
         self.actionned = None 
         
 
->>>>>>> pg_antoine
 
     def run(self):
         self.playing = True

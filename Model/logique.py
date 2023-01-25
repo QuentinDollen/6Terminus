@@ -115,8 +115,8 @@ def load(nom):
 
 
 def getWalker(i, j):
-    if (m.Mat_perso[j][i][0].name != 'no Walker'):
-        return m.Mat_perso[j][i]
+        return m.Mat_perso[j][i][0]
+
 
 
 # fonction qui a realiser des opérations entre walkers et batiments:
