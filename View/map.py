@@ -664,10 +664,10 @@ class Map:
                 tile = "food_guy0"
 
             elif(l.getWalkeur(grid_x, grid_y).name == "Immigrant"):
-                tile = "Immigrant0"
+                tile = "random0"
 
             elif(l.getWalkeur(grid_x, grid_y).name == "Recruteur"):
-                tile = "Recruteur0"
+                tile = "random0"
 
         elif(overlay == "fire"): #OVERLAY FIRE
             if (l.getWalkeur(grid_x, grid_y).name == "Prefect"):
@@ -859,14 +859,29 @@ class Map:
         #Walkers
 
         priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
-        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
-        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
-        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+        priest1 = pg.image.load(path_to_Walkers + "/priest1.png").convert_alpha()
+        priest2 = pg.image.load(path_to_Walkers + "/priest2.png").convert_alpha()
+        priest3 = pg.image.load(path_to_Walkers + "/priest3.png").convert_alpha()
 
         engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
-        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
-        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
-        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
+        engineer1 = pg.image.load(path_to_Walkers + "/Engineer1.png").convert_alpha()
+        engineer2 = pg.image.load(path_to_Walkers + "/Engineer2.png").convert_alpha()
+        engineer3 = pg.image.load(path_to_Walkers + "/Engineer3.png").convert_alpha()
+
+        prefet0 = pg.image.load(path_to_Walkers + "/Prefet0.png").convert_alpha()
+        prefet1 = pg.image.load(path_to_Walkers + "/Prefet1.png").convert_alpha()
+        prefet2 = pg.image.load(path_to_Walkers + "/Prefet2.png").convert_alpha()
+        prefet3 = pg.image.load(path_to_Walkers + "/Prefet3.png").convert_alpha()
+
+        foodguy0 = pg.image.load(path_to_Walkers + "/food_guy0.png").convert_alpha()
+        foodguy1 = pg.image.load(path_to_Walkers + "/food_guy1.png").convert_alpha()
+        foodguy2 = pg.image.load(path_to_Walkers + "/food_guy2.png").convert_alpha()
+        foodguy3 = pg.image.load(path_to_Walkers + "/food_guy3.png").convert_alpha()
+
+        random0 = pg.image.load(path_to_Walkers + "/Random0.png").convert_alpha()
+        random1 = pg.image.load(path_to_Walkers + "/Random1.png").convert_alpha()
+        random2 = pg.image.load(path_to_Walkers + "/Random2.png").convert_alpha()
+        random3 = pg.image.load(path_to_Walkers + "/Random3.png").convert_alpha()
 
         return {"block": block,
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
@@ -894,7 +909,11 @@ class Map:
                 "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
-                "priest0": priest0, "engineer0": engineer0,
+                "priest0": priest0, "priest1": priest1, "priest2": priest2, "priest3": priest3,
+                "engineer0": engineer0, "engineer1": engineer1, "engineer2": engineer2, "engineer3": engineer3,
+                "prefet0": prefet0, "prefet1": prefet1, "prefet2": prefet2, "prefet3": prefet3,
+                "foodguy0": foodguy0, "foodguy1": foodguy1, "foodguy2": foodguy2, "foodguy3": foodguy3,
+                "random0": random0, "random1": random1, "random2": random2, "random3": random3,
                 "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
                 "watered": watered, "unwatered": unwatered
 

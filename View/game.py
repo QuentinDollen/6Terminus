@@ -23,6 +23,8 @@ class Game:
         # hud
         self.hud = Hud(self.width, self.height)
 
+        overlay = ""
+
     def run(self):
         self.playing = True
         while self.playing:
