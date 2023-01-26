@@ -116,8 +116,6 @@ class Hud:
         L3=  self.pos[0] + 26/32 * self.dim[0]
 
 
-
-
         self.maison = button_hud("View/Graphique/paneling_00123.png","View/Graphique/paneling_00124.png","View/Graphique/paneling_00125.png", ( L1 , U1) , size_button ,Nume_maison)        
         self.eau = button_hud("View/Graphique/paneling_00127.png","View/Graphique/paneling_00128.png","View/Graphique/paneling_00129.png", (L1 , U2) , size_button,Nume_eau )
         self.prefecture = button_hud("View/Graphique/paneling_00159.png","View/Graphique/paneling_00160.png","View/Graphique/paneling_00161.png", ( L2 , U4 ) ,size_button,Nume_prefecure )

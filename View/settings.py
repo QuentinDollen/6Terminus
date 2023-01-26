@@ -6,6 +6,9 @@ path_to_sprites = f"{getcwd()}/View/Sprites/Used_sprites/"
 path_to_Nature = path_to_sprites + "Nature"
 path_to_House = path_to_sprites + "Home_builds"
 path_to_Utilities = path_to_sprites + "Utilities"
+path_to_Walkers = path_to_sprites + "Walkers"
+
+overlay = ""
 
 TILE_SIZE_MINI_MAP = 1.6
 
