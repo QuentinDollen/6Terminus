@@ -9,7 +9,8 @@ class Batiment(t.Terrain):
     def __init__(self, nbr_cases, id_bat, posx, posy, cst, des, stp, sze, rge, emp):
         t.Terrain.__init__(self, posx, posy, id_bat)
 
-        self.nbr_cases = nbr_cases  # espace occupe par le batiment en termes de cases. À modifier selon le type de batiment
+        self.nbr_cases = nbr_cases  # espace occupe par le batiment en termes de cases. À modifier selon le type de
+        # batiment
         self.acces_route = 0  # booleen : le batiment a acces ou non a la route
         self.ind_fire = 0  # indice de feu
         self.ind_eff = 0  # indice d'effondrement
