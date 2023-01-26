@@ -75,7 +75,7 @@ class Game:
 
                 if self.action != None :
                     self.selection[1] = self.mouse_to_tiles()
-                    print("Je fais ( ",self.selection,") : id : ", self.action)
+                    print("Je fais ",self.selection," : id : ", self.action)
                     
 
 
