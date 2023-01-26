@@ -207,17 +207,56 @@ def test_bat_logique():
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
 
-def test_event(event):
-    # if(event == Nume_maison):
-    # else if(event == Nume_eau):
-    # else if(event == Nume_route):
-    # else if(event == Nume_theatre):
-    # else if(event == Nume_nourriture):
-    # else if(event == Nume_prefecure):
-    # else if(event == Nume_pelle):
+def build_pannel_grid(x1, y1, x2, y2):
+    for i in range(x1, x2):
+        for j in range(y1, y2):
+            (i, j, m.name_id["Panneau"])
+
+def destroy_grid(x1,y1,x2,y2):
+    for i in range(x1, x2):
+        for j in range(y1, y2):
+            m.suppr_Batiment(i,j,m.Mat_batiment)
+
+def isHerb(x,y):
+    return m.Mat_batiment[y][x].name == "Herb"
 
 
-    print("")
+def Square_path(x1,y1,x2,y2):
+    if all(isHerb(i,y1) for i in range(x1,x2)) and all(isHerb(x2,j) for j in range(y1,y2)):
+        for i in range(x1,x2):
+            Add_bat_game(i,y1,m.name_id["Path"])
+        for j in range(y1,y2):
+            Add_bat_game(x2,j,m.name_id["Path"])
+    elif all(isHerb(x1,j) for j in range(y1,y2)) and all(isHerb(i,y2) for i in range(x1,x2)):
+        for j in range(y1,y2):
+            Add_bat_game(x1,j,m.name_id["Path"])
+        for i in range(x1,x2):
+            Add_bat_game(i,y2,m.name_id["Path"])
+
+
+def event_to_logic(nume, pos_init, pos_final):
+    if (nume == Nume_maison):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        build_pannel_grid(x1,y1,x2,y2)
+    elif(nume == Nume_pelle):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        destroy_grid(x1,y1,x2,y2)
+    elif(nume == Nume_route):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        Square_path(x1,y1,x2,y2)
+    #elif(nume == Nume_well):
+    #    if(pos_init == pos_final):
+    #        (x,y) = pos_init
+    #        Add_bat_game(x,y,m.name_id["Well"])
+
+
+    # elif(nume == Nume_nourriture):
+    # elif(event == Nume_prefecure):
+
+print("")
 
 
 # a garder
