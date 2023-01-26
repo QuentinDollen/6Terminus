@@ -761,7 +761,7 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
     if fg.cargaison[0][1] > 0:
-        chargement = ["viandes", fg.cargaison[1][1] / 4]
+        chargement = ["viande", fg.cargaison[1][1] / 4]
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
 

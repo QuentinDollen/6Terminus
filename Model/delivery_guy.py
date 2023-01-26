@@ -15,11 +15,11 @@ class Delivery_Guy(W.Walker):
 
     # ajoute une marchandise a la cargaison
     def ajout_marchandise(self, nb):
-        if (self.type_marchandise == 'ble'): self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
-        if (self.type_marchandise == 'fruits'): self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
-        if (self.type_marchandise == 'viandes'): self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
-        if (self.type_marchandise == 'olives'): self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
-        if (self.type_marchandise == 'argile'): self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
+        if self.type_marchandise == 'ble': self.cargaison_nourriture[0][1] = self.cargaison_nourriture[0][1] + nb
+        if self.type_marchandise == 'fruits': self.cargaison_nourriture[1][1] = self.cargaison_nourriture[1][1] + nb
+        if self.type_marchandise == 'viande': self.cargaison_nourriture[2][1] = self.cargaison_nourriture[2][1] + nb
+        if self.type_marchandise == 'olives': self.cargaison_produits[2][1] = self.cargaison_produits[2][1] + nb
+        if self.type_marchandise == 'argile': self.cargaison_produits[0][1] = self.cargaison_produits[0][1] + nb
 
     # decharge une marchandise
     def dechargement(self, type_transport):
@@ -31,8 +31,8 @@ class Delivery_Guy(W.Walker):
             res = ["fruits", self.cargaison_nourriture[1][1]]
             self.cargaison_nourriture[1][1] = 0
             return res
-        if type_transport == 'viandes':
-            res = ["viandes", self.cargaison_nourriture[2][1]]
+        if type_transport == 'viande':
+            res = ["viande", self.cargaison_nourriture[2][1]]
             self.cargaison_nourriture[2][1] = 0
             return res
         if type_transport == 'olives':
