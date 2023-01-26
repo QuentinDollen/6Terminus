@@ -139,7 +139,7 @@ class Game:
         if grid_y > 39 : 
             grid_y = 39
 
-        return (grid_x , grid_y)
+        return (grid_x, grid_y)
 
 
     

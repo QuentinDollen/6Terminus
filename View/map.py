@@ -146,11 +146,12 @@ class Map:
         self.tiles = self.load_images()
         self.map = None 
         self.create_map()
-        self.map_walkeur = self.create_walkeur()
+        self.map_walkeur = None
+        self.create_walkeur()
 
     def draw_mini(self, screen, camera):
 
-        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 100, 144.3, 111))
+        #pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 100, 144.3, 111))
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -181,9 +182,9 @@ class Map:
                         render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + pg.display.Info().current_w - 500 + minimap_offset[0], y + pg.display.Info().current_h - 500 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 124 + minimap_offset[0], y + 17 + minimap_offset[1]) for x, y in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
-                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
+                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 153.5 - camera.scroll_mini.x, 35 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
 
@@ -214,11 +215,11 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                #if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
-                #    render_pos = self.map_walkeur[x][y]["render_pos"]
-                #    tile = self.map_walkeur[x][y]["tile"]
-                #    if tile != "":
-                #        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                    render_pos = self.map_walkeur[x][y]["render_pos"]
+                    tile = self.map_walkeur[x][y]["tile"]
+                    if tile != "":
+                        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
     def create_map(self):
 
@@ -247,7 +248,7 @@ class Map:
                 map_walkeur[grid_x].append(walkeur_tile)
                 walkeur_render_pos = walkeur_tile["render_pos"]
 
-        return map_walkeur
+        self.map_walkeur = map_walkeur
 
     def grid_to_map(self, grid_x, grid_y):
 
@@ -680,7 +681,7 @@ class Map:
                 tile = "random0"
 
             else:
-                tile = "random0"
+                tile = ""
 
         elif(overlay == "fire"): #OVERLAY FIRE
             if (l.getWalker(grid_x, grid_y).name == "Prefect"):
