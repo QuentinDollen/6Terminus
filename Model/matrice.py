@@ -268,7 +268,7 @@ def afficher_mat_route(taille):
 
 # dictionnaire reliant l'id des batiments a la taille qu'ils occupent
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
-           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
+           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1 , 10:1}
 
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
@@ -768,7 +768,7 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
     if fg.cargaison[0][1] > 0:
-        chargement = ["viandes", fg.cargaison[1][1] / 4]
+        chargement = ["viande", fg.cargaison[1][1] / 4]
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
 

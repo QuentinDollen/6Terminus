@@ -146,7 +146,8 @@ class Map:
         self.tiles = self.load_images()
         self.map = None 
         self.create_map()
-        self.map_walkeur = self.create_walkeur()
+        self.map_walkeur = None 
+        self.create_walkeur()
 
     def draw_mini(self, screen, camera):
 
@@ -214,11 +215,11 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                #if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
-                #    render_pos = self.map_walkeur[x][y]["render_pos"]
-                #    tile = self.map_walkeur[x][y]["tile"]
-                #    if tile != "":
-                #        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                   render_pos = self.map_walkeur[x][y]["render_pos"]
+                   tile = self.map_walkeur[x][y]["tile"]
+                   if tile != "":
+                       screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
     def create_map(self):
 
@@ -247,7 +248,7 @@ class Map:
                 map_walkeur[grid_x].append(walkeur_tile)
                 walkeur_render_pos = walkeur_tile["render_pos"]
 
-        return map_walkeur
+        self.map_walkeur = map_walkeur
 
     def grid_to_map(self, grid_x, grid_y):
 
@@ -683,7 +684,7 @@ class Map:
                 tile = "random0"
 
             else:
-                tile = "random0"
+                tile = ""
 
         elif(overlay == "fire"): #OVERLAY FIRE
             if (l.getWalker(grid_x, grid_y).name == "Prefect"):

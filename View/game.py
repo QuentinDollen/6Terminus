@@ -30,10 +30,9 @@ class Game:
         self.hud = Hud(self.width, self.height)
 
         overlay = ""
-        self.selection = list()
-        self.selection.append([])
-        self.selection.append([])
-        self.actionned = None 
+        self.selection =[[],[]]
+        self.action = None 
+        self.mouse_button = [[],[],[]]
         
 
 
@@ -60,14 +59,40 @@ class Game:
                     pg.quit()
                     sys.exit()
             
+            
+            if event.type == pg.MOUSEBUTTONUP :
+
+                if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
+                    self.selection[1] = self.mouse_to_tiles()
+                    
+                    l.event_to_logic(self.action , self.selection[0] , self.selection[1])
+                    
+       
 
             if event.type == pg.MOUSEBUTTONDOWN : 
-                (x_,y_) = self.mouse_to_tiles()
-                print("Ajout route : (",x_,y_,")")
-                l.Add_bat_game(x_,y_,l.m.name_id["Path"])
-                l.m.afficher_matrice_bat(l.m.Mat_batiment , 10 , 10 )
+                self.mouse_button = pg.mouse.get_pressed()
+
+                l.m.add_perso( 10 , 10 , "Engineer" , l.m.Mat_perso , None , None)
+                if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
+                    self.action = self.hud.overhead_all()
+                elif self.action != None :
+                    
+                    if  self.hud.is_overhead_all()  :
+                        self.action = self.hud.overhead_all()
+                        
+                    else : 
+                        self.selection[0] = self.mouse_to_tiles()
+                    
+                if  self.mouse_button[2]:
+                    self.hud.overhead_all()
+                    self.action = None    
+                    self.selection =[[],[]]
+                    
 
 
+                
+
+            
 
 
     def update(self):

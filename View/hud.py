@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, '..')
 from Model.logique import *
 
-
+action = None  
 class button_hud():
 
    def __init__(self , path , path_over, path_clicked,  pos , size_button , event_number) :
@@ -54,7 +54,6 @@ class button_hud():
 
    def draw( self ,screen  ) : 
    
-
       if self.__clicked :
          screen.blit( self.get_image_clicked() , self.get_pos())
       else :
@@ -67,6 +66,8 @@ class button_hud():
       self.__clicked = self.overhead(pg.mouse.get_pos())
       if self.__clicked : 
          pg.event.post( pg.event.Event( self.__event ) )
+         global action 
+         action = self.__event
          return self.__event
 
 
@@ -177,21 +178,24 @@ class Hud:
 
    def overhead_all( self):
 
-         self.current_action = None 
-         self.current_action =  self.maison.set_cliked()
-         self.current_action =  self.eau.set_cliked()
-         self.current_action =  self.prefecture.set_cliked()
-         self.current_action =  self.nourriture.set_cliked()
-         self.current_action =  self.route.set_cliked()
-         self.current_action =  self.theatre.set_cliked()
-         self.current_action =  self.administratif.set_cliked()
-         self.current_action =  self.pelle.set_cliked()
-         self.current_action =  self.ingenieur.set_cliked()
-         self.current_action =  self.santé.set_cliked()
+         self.maison.set_cliked()
+         self.eau.set_cliked()
+         self.prefecture.set_cliked()
+         self.nourriture.set_cliked()
+         self.route.set_cliked()
+         self.theatre.set_cliked()
+         self.administratif.set_cliked()
+         self.pelle.set_cliked()
+         self.ingenieur.set_cliked()
+         self.santé.set_cliked()
+         global action 
+         return action 
 
-
-         print(" Current action : ", self.current_action)
-         return self.current_action 
+   def is_overhead_all( self ) :
+         pos = pg.mouse.get_pos()
+         return self.maison.overhead(pos) or self.eau.overhead(pos) or self.prefecture.overhead(pos) or self.nourriture.overhead(pos) or self.route.overhead(pos) \
+         or self.theatre.overhead(pos) or self.administratif.overhead(pos) or self.pelle.overhead(pos) or self.ingenieur.overhead(pos) or self.santé.overhead(pos)
+      
          
      #
      #    # read images
