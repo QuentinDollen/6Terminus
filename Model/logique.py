@@ -12,9 +12,9 @@ from Model import matrice as m
 # Definition des Userevents
 
 
-Nume_maison = pg.USEREVENT 
+Nume_maison = 10
 Nume_eau = pg.USEREVENT +1
-Nume_route = pg.USEREVENT +2
+Nume_route = 5
 Nume_theatre = pg.USEREVENT +3
 Nume_nourriture = pg.USEREVENT+4 
 Nume_sante = pg.USEREVENT +5
@@ -82,10 +82,16 @@ def Add_bat_game(x, y, id_bat):
     m.add_bat(x, y, id_bat, m.Mat_batiment)
     return 0
 
-def get_fire_level(x,y):
-    return m.Mat_batiment[x][y].ind_fire
-def get_eff_level(x,y):
-    return m.Mat_batiment[x][y].eff
+def get_fire_level(x, y):
+    if m.Mat_batiment[x][y].id_t:
+        return -1
+    else:
+        return m.Mat_batiment[x][y].ind_fire
+def get_eff_level(x, y):
+    if m.Mat_batiment[x][y].id_t:
+        return -1
+    else:
+        return m.Mat_batiment[x][y].eff
 
 class State:
     def __init__(self):
