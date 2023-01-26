@@ -486,6 +486,8 @@ class Map:
                                                            self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
             tile = "roadYL_capright"
 
+        elif self.matrix[grid_x][grid_y] == 5:
+            tile = "roadXL_captop"
 
         elif overlay == "":
 
@@ -935,7 +937,7 @@ class Map:
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x, grid_y)
 
         
 
