@@ -41,6 +41,7 @@ class Maison(b.Batiment):
 class Panneau(Maison):
     def __init__(self, x, y):
         Maison.__init__(self, 1, 7, x, y, 10, -3, 1, 1, 3, 0)
+        self.ind_fire = -1 
         self.name = "Panneau"
 
 

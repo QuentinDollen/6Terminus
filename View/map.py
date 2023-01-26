@@ -610,8 +610,7 @@ class Map:
             elif self.matrix[grid_x][grid_y] == 55:
                 tile = "security"
 
-            else:
-                tile = ""
+
 
         elif self.overlay == "bat":
 

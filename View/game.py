@@ -70,7 +70,7 @@ class Game:
                     Test_l.Tour_jeu()
 
                 if event.key == pg.K_u :
-                    self.map.overlay = "Fire"
+                    self.map.overlay = "fire"
 
                 if event.key == pg.K_i :
                     self.map.overlay = ""
