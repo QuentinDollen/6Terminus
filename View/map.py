@@ -23,7 +23,7 @@ class Map:
         self.matrix = [
             [3, 3, 3, 3, 3, 3, 3, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              0, 0, 0, 0],
-            [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
+            [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 3, 0, 0, 0],
             [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 3, 0, 0],
@@ -65,7 +65,7 @@ class Map:
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3],
             [1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-            [1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 39, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+            [1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              0, 3, 0, 3, 3],
             [1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 0, 3, 3],
@@ -144,7 +144,8 @@ class Map:
 
         self.grass_tiles = pg.Surface((grid_length_x * TILE_SIZE * 2, grid_length_y * TILE_SIZE + 2 * TILE_SIZE)).convert_alpha()
         self.tiles = self.load_images()
-        self.map = self.create_map()
+        self.map = None 
+        self.create_map()
         self.map_walkeur = self.create_walkeur()
 
     def draw_mini(self, screen, camera):
@@ -213,11 +214,11 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
-                    render_pos = self.map_walkeur[x][y]["render_pos"]
-                    tile = self.map_walkeur[x][y]["tile"]
-                    if tile != "":
-                        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                #if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                #    render_pos = self.map_walkeur[x][y]["render_pos"]
+                #    tile = self.map_walkeur[x][y]["tile"]
+                #    if tile != "":
+                #        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
     def create_map(self):
 
@@ -233,7 +234,7 @@ class Map:
                 self.grass_tiles.blit(self.tiles["block"], (render_pos[0] + self.grass_tiles.get_width()/2, render_pos[1]))
 
 
-        return map
+        self.map = map 
 
     def create_walkeur(self):
 
@@ -486,6 +487,8 @@ class Map:
                                                            self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
             tile = "roadYL_capright"
 
+        elif self.matrix[grid_x][grid_y] == 5:
+            tile = "roadXL_captop"
 
         elif overlay == "":
 
@@ -588,17 +591,17 @@ class Map:
 
         elif overlay == "fire":
 
-            risk = l.fireRisk(grid_x,grid_y)
+            risk = l.get_fire_level(grid_x,grid_y)
 
-            if risk >= 80: #WORST : need Pin-Pon asap
+            if risk >= 24: #WORST : need Pin-Pon asap
                 tile = "red"
-            elif risk < 80 and risk >= 60:
+            elif risk < 24 and risk >= 18:
                 tile = "orange"
-            elif risk < 60 and risk >= 40:
+            elif risk < 18 and risk >= 12:
                 tile = "yellow"
-            elif risk < 40 and risk >= 20:
+            elif risk < 12 and risk >= 6:
                 tile = "green"
-            elif risk < 20 and risk >= 0: #BEST : disable smoke detectors
+            elif risk < 6 and risk >= 0: #BEST : disable smoke detectors
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 55:
@@ -609,17 +612,17 @@ class Map:
 
         elif overlay == "bat":
 
-            risk = l.batRisk(grid_x, grid_y)
+            risk = l.get_eff_level(grid_x, grid_y)
 
-            if risk >= 80:  # WORST : need a dispenser here
+            if risk >= 24:  # WORST : need a dispenser here
                 tile = "red"
-            elif risk < 80 and risk >= 60:
+            elif risk < 24 and risk >= 18:
                 tile = "orange"
-            elif risk < 60 and risk >= 40:
+            elif risk < 18 and risk >= 12:
                 tile = "yellow"
-            elif risk < 40 and risk >= 20:
+            elif risk < 12 and risk >= 6:
                 tile = "green"
-            elif risk < 20 and risk >= 0:  # BEST : No spy around
+            elif risk < 6 and risk >= 0:  # BEST : No spy around
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 81:
@@ -661,8 +664,8 @@ class Map:
             if(l.getWalker(grid_x,grid_y).name == "Priest"):
                 tile = "priest0"
 
-            elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
-                tile = "delivery_guy0"
+            #elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
+            #    tile = "delivery_guy0"
 
             elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
@@ -677,6 +680,9 @@ class Map:
                 tile = "random0"
 
             elif(l.getWalker(grid_x, grid_y).name == "Recruteur"):
+                tile = "random0"
+
+            else:
                 tile = "random0"
 
         elif(overlay == "fire"): #OVERLAY FIRE
@@ -932,7 +938,7 @@ class Map:
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x, grid_y)
 
         
 

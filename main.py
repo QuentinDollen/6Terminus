@@ -24,7 +24,7 @@ def main():
     global screen
     screen = pg.display.set_mode((0,0), pg.FULLSCREEN)
     clock = pg.time.Clock()
-    set_screen_tittle( screen )   
+    set_screen_tittle( screen )
 
     Game_terminus = Game(screen , clock)
 
@@ -38,7 +38,7 @@ def main():
         
         clock.tick(60)
         mouse_track = pg.mouse.get_pos()    
-        pg.display.update() 
+        pg.display.update()
         pg.display.flip()
 
         

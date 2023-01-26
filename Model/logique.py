@@ -82,6 +82,10 @@ def Add_bat_game(x, y, id_bat):
     m.add_bat(x, y, id_bat, m.Mat_batiment)
     return 0
 
+def get_fire_level(x,y):
+    return m.Mat_batiment[x][y].ind_fire
+def get_eff_level(x,y):
+    return m.Mat_batiment[x][y].eff
 
 class State:
     def __init__(self):
@@ -241,12 +245,15 @@ def test_event(event):
 
 # load("sauv1")
 # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+
 Add_bat_game(0, 6, 100)
 Add_bat_game(1, 5, 5)
 print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+Add_bat_game(10, 10, 5)
+
 
 # test logique:
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 print("ZEHAHAHAHAHAHAHAH")
 

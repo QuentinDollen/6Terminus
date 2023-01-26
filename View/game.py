@@ -39,6 +39,7 @@ class Game:
 
     def run(self):
         self.playing = True
+        
         while self.playing:
             self.clock.tick(60)
             self.events()
@@ -58,23 +59,13 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
-
             
 
-            if self.actionned == None :
-
-                if event.type == pg.MOUSEBUTTONDOWN :
-                    self.actionned = self.hud.overhead_all()
-                    self.selection = [[],[]]
-
-            else :
-
-                if event.type == pg.MOUSEBUTTONDOWN : 
-                    self.selection[0] = self.mouse_to_tiles()
-
-                if event.type == pg.MOUSEBUTTONUP : 
-                    self.selection[1] = self.mouse_to_tiles()
-
+            if event.type == pg.MOUSEBUTTONDOWN : 
+                (x_,y_) = self.mouse_to_tiles()
+                print("Ajout route : (",x_,y_,")")
+                l.Add_bat_game(x_,y_,l.m.name_id["Path"])
+                l.m.afficher_matrice_bat(l.m.Mat_batiment , 10 , 10 )
 
 
 
@@ -82,8 +73,8 @@ class Game:
     def update(self):
         
         self.camera.update()
-        self.mouse_to_tiles()
-        self.map.reload_map()
+        self.map.create_map()
+        self.draw()
 
     def draw(self):
         self.screen.fill(BLACK)
