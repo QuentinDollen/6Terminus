@@ -29,12 +29,8 @@ class Maison(b.Batiment):
         if chargement[0] == 'argile':
             self.produits[0][1] += chargement[1]
 
-    def add_familly( self ,  Nb_immigrant ) :
-        if Nb_immigrant > 0 and self.curpop < self.popLim : 
-            self.curpop += 1
-            return  Nb_immigrant - 1 
-        else :
-            return Nb_immigrant
+    def inccpop(self):
+        self.curpop += 1
 
 
  
@@ -42,6 +38,7 @@ class Panneau(Maison):
     def __init__(self, x, y):
         Maison.__init__(self, 1, 7, x, y, 10, -3, 1, 1, 3, 0)
         self.name = "Panneau"
+
 
 
 class Maison_1(Maison):

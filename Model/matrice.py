@@ -25,6 +25,7 @@ from Model import prefet as pref
 from Model import engineer
 from Model import temple
 from copy import copy
+from Model import Recruteur as rec
 
 # matrice de depart par defaut
 
@@ -234,14 +235,7 @@ def afficher_matrice_perso(Mat, x, y):
 # Regarde s'il y a des immigrants et les attributs aux batiments qui en ont besoins
 
 # Ajouter tous les immigrants possible dans les batiments 
-def add_employees():
-    global Nb_immigrant
-    for i in range(nb_cases_x):
-        for j in range(nb_cases_y):
-            if Mat_batiment[j][i].name == 'Maison 1':
-                Mat_batiment[j][i].add_familly(Nb_immigrant)
-            elif not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
-                Nb_immigrant = Mat_batiment[j][i].need_employees(Nb_immigrant)
+
 
 
 # Sortie des walker
@@ -252,7 +246,7 @@ def sortir_walker():
             pass
             # print(j,i)
             # if Mat_batiment[j][i].name not in  ["Herb" , "Path"] and Mat_batiment[j][i].walker_in and random.random()%2:
-            #     print("Je sort le walker de la maison ",j," ",i)
+            #     print("Je sors le walker de la maison ",j," ",i)
 
 
 # Afficher la carte de la route :
@@ -375,34 +369,41 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
-    if type_ == "Food_Guy":
+    elif type_ == "Food_Guy":
         FG = F_G.Food_Guy(x, y, Bat, role, Bat_cible)
-    if type_ == "Engineer":
+    elif type_ == "Engineer":
         EN = engineer.Engineer(x, y, Bat)
         add_perso_mat(Mat, EN, x, y)
         Bat.Walk.append(EN)
         return EN
-    if type_ == "Immigrant":
+    elif type_ == "Immigrant":
         IM = imm.Immigrant(x, y, Bat_cible)
         add_perso_mat(Mat_perso, IM, x, y)
         route_cible = SearchforRoad(Bat_cible.pos_x, Bat_cible.pos_y)
         (IM.dest_x, IM.dest_y) = route_cible
         Bat_cible.Walk.append(IM)
         return IM
-    if type_ == "Prefect":
+    elif type_ == "Prefect":
         P = pref.Prefect(x, y, Bat)
         add_perso_mat(Mat, P, x, y)
         Bat.Walk.append(P)
         return P
-    if type_ == "Priest":
+    elif type_ == "Priest":
         Pr = pr.Priest(x, y, Bat)
         add_perso_mat(Mat, Pr, x, y)
         Bat.Walk.append(Pr)
         return Pr
+    elif type_ == "Recruteur":
+        print("recruteur")
+        Re = rec.Recruteur(x,y,Bat)
+        add_perso_mat(Mat, Re, x, y)
+        Bat.Walk.append(Re)
+    else:
+        print("unknown type, can't add perso :notlikethis:")
 
 
 def invoke_walker(bat, type_, objectif = None):
-    if bat.curEmployees >= 1:
+    if bat.curEmployees >= 1 or type_ == "Recruteur":
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
         add_perso(x, y, type_, Mat_perso, bat, objectif)
 
@@ -722,7 +723,7 @@ def check_fire_eff():
     n = 0
     for i in range(nb_cases):
         for j in range(nb_cases):
-            if Mat_batiment[j][i].hasCheck == 0:
+            if not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]) and Mat_batiment[j][i].hasCheck == 0:
                 Mat_batiment[j][i].hasCheck = 1
                 if (Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][
                     i].name != "Path"):
@@ -883,10 +884,6 @@ print("Test Quentin")
 # # print(Deplacement_basique(0, 0))
 # add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-add_employees()
 # print(Mat_batiment[0][0].name == "Maison 1")
-# print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
 # add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
 # IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
-# Mat_batiment[0][0].walker_in = True
-# sortir_walker()

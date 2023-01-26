@@ -135,8 +135,10 @@ def test_walker_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             if m.Mat_perso[j][i][0].name != "no Walker":
+                count = 0
                 for k in range(len(m.Mat_perso[j][i])):
-                    perso = m.Mat_perso[j][i][k]
+                    perso = m.Mat_perso[j][i][count]
+                    count +=1
                     if perso.name == "Prefect":
                         proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
@@ -154,6 +156,7 @@ def test_walker_logique():
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 bat.faith = bat.faith + 40
                     elif perso.name == "Recruteur":
+                        perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
                         proxy = m.get_bat_prox(i, j, 4)
                         print("proxy", proxy)
                         for bat in proxy:
@@ -167,7 +170,9 @@ def test_walker_logique():
                                         perso.nb_a_recruter -= (bat.curpop - bat.employed)
                                         bat.employed = bat.curpop
                         if perso.nb_a_recruter == 0:
+                            perso.batiment.hasRecruteur = 0
                             m.kill_walker(perso)
+
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
                         m.echange(perso)
                     elif perso.name == "Food_Guy":
@@ -179,6 +184,18 @@ def test_walker_logique():
                                         m.giveFood(perso, bat)
                         else:
                             continue
+                    elif perso.name == "Immigrant":
+                        if perso.x == perso.dest_x and perso.y == perso.dest_y:
+                            if perso.batiment.name == "Panneau":
+                                x = perso.batiment.pos_x
+                                y = perso.batiment.pos_y
+                                m.add_bat(x,y,10, m.Mat_batiment)
+                                perso.batiment.Walk.pop(perso)
+                                perso.batiment = m.Mat_batiment[y][x]
+                                perso.batiment.Walk.append(perso)
+                            perso.batiment.inccpop()
+                            m.kill_walker(perso)
+                            count -= 1
 
 
 # fonction qui teste les condition des batiments:
@@ -191,36 +208,39 @@ def test_bat_logique():
     m.check_fire_eff()
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
-            bat = m.Mat_batiment[j][i]
-            if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
-                m.invoke_walker(bat, "Recruteur")
-            elif bat.hasCheck == 0:
-                bat.hasCheck = 1
-                if bat.name == "Farm":
-                    bat.growFood()
-                    if bat.ind_Harv >= 6:
-                        print("time for delivery")
-                        Delivery(bat, 'ble', bat.ind_Harv * 2)
-                        bat.ind_Harv = 0
-                elif bat.name == "Prefecture":
-                    if bat.Walk == []:
-                        m.invoke_walker(bat, "Prefect")
-                elif bat.name == "EngineersPost":
-                    if bat.Walk == []:
-                        m.invoke_walker(bat, "Engineer")
-                elif bat.name == "Temple":
-                    if bat.Walk == []:
-                        m.invoke_walker(bat, "Priest")
-                elif bat.name == "Market":
-                    if bat.occupied_space <= 15:
-                        #m.add_perso()
-                        pass
-                elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
-                    if(bat.curpop < bat.popLim):
-                        n = getDesirability(bat)
-                        if n >= 0:
+            if not m.InTable(m.Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
+                bat = m.Mat_batiment[j][i]
+                if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
+                    m.invoke_walker(bat, "Recruteur")
+                    bat.hasRecruteur = 1
+                elif bat.hasCheck == 0:
+                    bat.hasCheck = 1
+                    if bat.name == "Farm":
+                        bat.growFood()
+                        if bat.ind_Harv >= 6:
+                            print("time for delivery")
+                            Delivery(bat, 'ble', bat.ind_Harv * 2)
+                            bat.ind_Harv = 0
+                    elif bat.name == "Prefecture":
+                        if bat.Walk == []:
+                            m.invoke_walker(bat, "Prefect")
+                    elif bat.name == "EngineersPost":
+                        if bat.Walk == []:
+                            m.invoke_walker(bat, "Engineer")
+                    elif bat.name == "Temple":
+                        if bat.Walk == []:
+                            m.invoke_walker(bat, "Priest")
+                    elif bat.name == "Market":
+                        if bat.occupied_space <= 15:
+                            #m.add_perso()
                             pass
-
+                    elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
+                        if bat.curpop < bat.popLim and bat.Walk == []:
+                            n = getDesirability(bat)
+                            print("haha je te l'avais dit")
+                            if n >= -99:
+                                for i in range(bat.popLim-bat.curpop):
+                                    m.invoke_migrant(bat)
 
 
 
@@ -323,37 +343,61 @@ print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 Add_bat_game(10, 10, 5)
 
 
-# test logique:
-m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print("ZEHAHAHAHAHAHAHAH")
+# # test logique:
+# m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
+# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# print("ZEHAHAHAHAHAHAHAH")
+#
+# test_bat_logique()
+# test_walker_logique()
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+#
+# m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# print("HAHHAHAHAHAHHA")
+#
+# test_bat_logique()
+# test_bat_logique()
+# test_bat_logique()
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+#
+# test_bat_logique()
+# test_bat_logique()
+#
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
-test_bat_logique()
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
 test_walker_logique()
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print("HAHHAHAHAHAHHA")
-
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-test_bat_logique()
 test_bat_logique()
 
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
+
 m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+test_walker_logique()
+test_bat_logique()
 print("Après")
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-
+print(m.Mat_batiment[5][4].curpop)
+print(m.Mat_batiment[3][3].hasRecruteur)
+print(m.Mat_batiment[3][3].curEmployees)
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
