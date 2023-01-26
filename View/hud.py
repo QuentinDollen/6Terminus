@@ -22,9 +22,10 @@ class button_hud():
       self.__pos = (self.__left, self.__up)
       self.__clicked = False
       self.__event = event_number
+   
 
       
-
+   def is_clicked(self) : return self.__clicked
    def get_width(self) : return self.__image.get_width()
    def get_height(self) : return self.__image.get_height()
    def get_up(self) : return self.__up

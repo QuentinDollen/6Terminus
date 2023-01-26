@@ -1,33 +1,16 @@
-import os
+
+import pygame as pg
+import pickle
 import sys
 
-# Construct the full path to the parent directory
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, '..')
 
-# Add the parent directory to the PYTHONPATH
-sys.path.append(parent_dir)
-
-<<<<<<< HEAD
-
-# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
-=======
-import pygame as pg
-import Model.matrice as m
-import math as ma
-import numpy as np
-import Model.batiment as b
-import Model.terrain as t
-import Model.maison as mais
-import Model.Walker as w
-import Model.Priest as p
-import Model.water as wa
-import Model.engineering as eng
-import Model.security as sec
-import Model.herb as h
-import Model.delivery_guy as dg
+from Model import matrice as m
 
 
+#walker nx ny, batiment detruire plusieurs cases, maisons construires plusieurs cases
 # Definition des Userevents
+
 
 Nume_maison = pg.USEREVENT 
 Nume_eau = pg.USEREVENT +1
@@ -39,7 +22,13 @@ Nume_prefecure = pg.USEREVENT+6
 Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8 
 Nume_pelle = pg.USEREVENT +9
->>>>>>> graphics
+
+
+def event_to_logic( nume , pos_init , pos_final) :
+    pass 
+
+
+# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
 
 
 # pour les variables globales: il nous faut la liste des greniers et des entrepots, et faire une methode qui dit s'ils sont plein ou pas
@@ -75,11 +64,9 @@ def getID(i, j):
     else:
         return 666
 
-<<<<<<< HEAD
-=======
+
 def getID_base_matrix( i , j ) : 
     return m.matrix[j][i]
->>>>>>> graphics
 
 # initialise les matrices de jeux
 # incomplet: reste à implémenter les load
@@ -221,13 +208,60 @@ def test_bat_logique():
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
 
+def build_pannel_grid(x1, y1, x2, y2):
+    for i in range(x1, x2):
+        for j in range(y1, y2):
+            (i, j, m.name_id["Panneau"])
+
+def destroy_grid(x1,y1,x2,y2):
+    for i in range(x1, x2):
+        for j in range(y1, y2):
+            m.suppr_Batiment(i,j,m.Mat_batiment)
+
+def isHerb(x,y):
+    return m.Mat_batiment[y][x].name == "Herb"
+
+
+def Square_path(x1,y1,x2,y2):
+    if all(isHerb(i,y1) for i in range(x1,x2)) and all(isHerb(x2,j) for j in range(y1,y2)):
+        for i in range(x1,x2):
+            Add_bat_game(i,y1,m.name_id["Path"])
+        for j in range(y1,y2):
+            Add_bat_game(x2,j,m.name_id["Path"])
+    elif all(isHerb(x1,j) for j in range(y1,y2)) and all(isHerb(i,y2) for i in range(x1,x2)):
+        for j in range(y1,y2):
+            Add_bat_game(x1,j,m.name_id["Path"])
+        for i in range(x1,x2):
+            Add_bat_game(i,y2,m.name_id["Path"])
+
+
+def event_to_logic(nume, pos_init, pos_final):
+    if (nume == Nume_maison):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        build_pannel_grid(x1,y1,x2,y2)
+    elif(nume == Nume_pelle):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        destroy_grid(x1,y1,x2,y2)
+    elif(nume == Nume_route):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        Square_path(x1,y1,x2,y2)
+    #elif(nume == Nume_well):
+    #    if(pos_init == pos_final):
+    #        (x,y) = pos_init
+    #        Add_bat_game(x,y,m.name_id["Well"])
+
+
+    # elif(nume == Nume_nourriture):
+    # elif(event == Nume_prefecure):
+
+print("")
+
 
 # a garder
-<<<<<<< HEAD
 # init_game()
-=======
-init_game()
->>>>>>> graphics
 
 #
 
@@ -245,7 +279,6 @@ init_game()
 # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 # print("**** test du load ****")
 
-<<<<<<< HEAD
 # load("sauv1")
 # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 Add_bat_game(0, 6, 100)
@@ -280,6 +313,7 @@ m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
+print("Après")
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)
@@ -299,42 +333,3 @@ m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 # print("test teet")
 # #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
-=======
-#load("sauv1")
-#m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# Add_bat_game(0,6,100)
-# Add_bat_game(1,5,5)
-
-# Delivery(m.Mat_batiment[6][0],'ble',11)
-# Delivery(m.Mat_batiment[6][0],'ble',8)
-# Delivery(m.Mat_batiment[6][0],'argile',15)
-
-# print("coordonee",m.SearchforRoad(2,1,m.Mat_batiment))
-# m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-
-# m.deplacement_perso(m.Mat_perso)
-
-# m.deplacement_perso(m.Mat_perso)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# print(" ")
-# m.afficher_matrice_bat(m.Mat_batiment, 9, 9)
-
-# print(m.Mat_batiment[1][2].nourriture)
-# print(m.Mat_batiment[1][2].produits)
->>>>>>> graphics
