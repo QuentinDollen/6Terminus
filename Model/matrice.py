@@ -2,7 +2,7 @@ import sys
 import random
 
 sys.path.insert(0, '..')
-from Model import Priest
+from Model import Priest as pr
 from Model import terrain as t
 from Model import maison as mais
 from Model import Walker as w
@@ -26,6 +26,9 @@ from Model import temple
 from copy import copy
 
 # matrice de depart par defaut
+
+
+
 matrix = [[3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
            0, 0, 0, 0],
           [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
@@ -121,16 +124,19 @@ def SearchforSpace(type_march):
         for i in range(len(Liste_stock)):
             if type(Liste_stock[i]) is g.Granary and not Liste_stock[i].isFull():
                 return Liste_stock[i]
+            i = 0
             for i in range(len(Liste_stock)):
                 if not Liste_stock[i].isFull():
                     return Liste_stock[i]
     else:
+        i=0
         for i in range(len(Liste_stock)):
             if type(Liste_stock[i]) is war.Warehouse and not Liste_stock[i].isFull():
                 return Liste_stock[i]
-            for i in range(len(Liste_stock)):
-                if not Liste_stock[i].isFull():
-                    return Liste_stock[i]
+        i = 0
+        for i in range(len(Liste_stock)):
+            if not Liste_stock[i].isFull():
+                return Liste_stock[i]
     return None
 
 
@@ -186,7 +192,10 @@ def init_mat_fire(): # matrice de booleen determinant l'emplacement de zones en 
         for i in range(nb_cases_x):
             Mat_fire[j].append([])
             Mat_fire[j][i] = 0
+
+
 init_mat_fire()
+
 
 ############################################
 
@@ -226,18 +235,19 @@ def afficher_matrice_perso(Mat, x, y):
 # Ajouter tous les immigrants possible dans les batiments 
 def add_employees() :
     global Nb_immigrant
-    for i in range( nb_cases_x ) :
-        for j in range( nb_cases_y ) :
-                if  Mat_batiment[j][i].name == 'Maison 1' :
-                    Mat_batiment[j][i].add_familly( Nb_immigrant )
-                else :
-                    Nb_immigrant = Mat_batiment[j][i].need_employees( Nb_immigrant )
-            
-# Sortie des walker 
+    for i in range(nb_cases_x):
+        for j in range(nb_cases_y):
+            if Mat_batiment[j][i].name == 'Maison 1':
+                Mat_batiment[j][i].add_familly(Nb_immigrant)
+            else:
+                Nb_immigrant = Mat_batiment[j][i].need_employees(Nb_immigrant)
 
-def sortir_walker() :
-    for i in range( nb_cases_x ) :
-        for j in range( nb_cases_y ) :
+
+# Sortie des walker
+
+def sortir_walker():
+    for i in range(nb_cases_x):
+        for j in range(nb_cases_y):
             pass
             # print(j,i)
             # if Mat_batiment[j][i].name not in  ["Herb" , "Path"] and Mat_batiment[j][i].walker_in and random.random()%2:
@@ -263,7 +273,7 @@ id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
            "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison1": 10, "Maison2": 11, "Maison3": 12,
-           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0}
+           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau" : 7}
 
 
 # permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)
@@ -277,68 +287,70 @@ def put_bat_mat(x, y, bat, Mat):
 # on utilise Mat_batiment
 # si le batiment est de type stockage, l'ajoute a la liste des batiments de stockage
 def add_bat(x, y, id_bat, Mat):
+    if id_bat == 7:
+        Mat[y][x] = mais.Panneau(x,y)
     if id_bat == 92:
         well = wa.Well(x, y)
         Mat[y][x] = well
-    if id_bat == 90:
+    elif id_bat == 90:
         Reservoir = wa.Reservoir(x, y)
         put_bat_mat(x, y, Reservoir, Mat)
-    if id_bat == 91:
+    elif id_bat == 91:
         Fountain = wa.Fountain(x, y)
         Mat[y][x] = Fountain
-    if id_bat == 8:
+    elif id_bat == 8:
         Aquaduct = wa.Aquaduct(x, y)
         Mat[y][x] = Aquaduct
-    if id_bat == 81:
+    elif id_bat == 81:
         EngineersPost = eng.EngineersPost(x, y)
         Mat[y][x] = EngineersPost
-    if id_bat == 55:
+    elif id_bat == 55:
         Prefecture = sec.Prefecture(x, y)
         Mat[y][x] = Prefecture
-    if id_bat == 5:
+    elif id_bat == 5:
         Route = pa.Path(x, y)
         Mat[y][x] = Route
         Mat_route[y][x] = 1
-    if id_bat == 84:
+    elif id_bat == 84:
         Forum = admin.Forum1(x, y)
         put_bat_mat(x, y, Forum, Mat)
-    if id_bat == 1:
+    elif id_bat == 1:
         Mat[y][x] = t.Water(x, y)
-    if id_bat == 2:
+    elif id_bat == 2:
         Mat[y][x] = t.Rock(x, y)
-    if id_bat == 3:
+    elif id_bat == 3:
         Mat[y][x] = tr.tree(x, y)
-    if id_bat == 4:
+    elif id_bat == 4:
         Senate = admin.Senate1(x, y)
         put_bat_mat(x, y, Senate, Mat)
-    if id_bat == 10:
+    elif id_bat == 10:
         Maison_1 = mais.Maison_1(x, y)
         put_bat_mat(x, y, Maison_1, Mat)
-    if id_bat == 11:
+    elif id_bat == 11:
         Maison_2 = mais.Maison_2(x, y)
         put_bat_mat(x, y, Maison_2, Mat)
-    if id_bat == 12:
+    elif id_bat == 12:
         Maison_3 = mais.Maison_3(x, y)
         put_bat_mat(x, y, Maison_3, Mat)
-    if id_bat == 13:
+    elif id_bat == 13:
         Maison_4 = mais.Maison_4(x, y)
         put_bat_mat(x, y, Maison_4, Mat)
-    if id_bat == 100:
+    elif id_bat == 100:
         Ferme = f.Ferme(x, y)
         put_bat_mat(x, y, Ferme, Mat)
-    if id_bat == 71:
+    elif id_bat == 71:
         Granary = g.Granary(x, y)
         put_bat_mat(x, y, Granary, Mat)
         Liste_stock.append(Granary)
-    if id_bat == 72:
+    elif id_bat == 72:
         Warehouse = war.Warehouse(x, y)
         put_bat_mat(x, y, Warehouse, Mat)
         Liste_stock.append(Warehouse)
-    if id_bat == 115:
+    elif id_bat == 115:
         Mat[y][x] = t.Enter_Pannel(x, y)
-    if id_bat == 116:
+    elif id_bat == 116:
         Mat[y][x] = t.Exit_Pannel(x, y)
-    if id_bat == 0:
+    elif id_bat == 0:
         Herb = h.Herb(x, y)
         Mat[y][x] = Herb
 
@@ -379,7 +391,7 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x = -1, 
         Bat.Walk.append(P)
         return P
     if type_ == "Priest":
-        Pr = Priest(x,y,Bat)
+        Pr = pr.Priest(x,y,Bat)
         add_perso_mat(Mat,Pr,x,y)
         Bat.Walk.append(Pr)
         return Pr
@@ -499,12 +511,12 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
             final_tab = min_tab_tab_notnull(tab)
         return final_tab
 
-
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
-    for i in range(0, Mat[y][x].nbr_cases):
-        for j in range(0, Mat[y][x].nbr_cases):
-            Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
+    if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]):
+        for i in range(0, Mat[y][x].nbr_cases):
+            for j in range(0, Mat[y][x].nbr_cases):
+                Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
@@ -575,7 +587,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
     for i in range(tx):
         for j in range(ty):
             if Mat[j][i][0].name != "no Walker":  # Pour toute cases, si on a un walker
-                count = 0 # count correspond au nombre de walker sur la case 
+                count = 0 # count correspond au nombre de walker sur la case
                 for k in range(len(Mat[j][i])):
                     if Mat[j][i][count].has_moved == 1:
                         count = count + 1
@@ -671,7 +683,7 @@ def destroy_Bat(Bat):
         for j in range(Bat.nbr_cases):
             Mat_batiment[j][i] = ruines.Ruin(i, j)
 
-# la matrice de boolen considère qu'il y a du feu en (x,y) 
+# la matrice de boolen considère qu'il y a du feu en (x,y)
 def set_fire(x,y):
     Mat_fire[y][x] = 1
 # place du feu sur l'ensemble d'un batiment (non terminé, il faut que le batiment cesse de fonctionner)
@@ -705,7 +717,7 @@ def get_bat_prox(x,y,r):
     tab = []
     for i in range(r):
         for j in range(r):
-            
+
             if(not InTable(Mat_batiment[y+j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y+j][x+i],tab)):
                 tab.append(Mat_batiment[y+j][x+i])
             if(y-j >= 0 and not InTable(Mat_batiment[y-j][x+i].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(Mat_batiment[y-j][x+i],tab)):
@@ -759,7 +771,7 @@ add_bat(2, 1, 72, Mat_batiment)
 
 #
 #
-# 
+#
 afficher_matrice_bat(Mat_batiment, 7, 7)
 afficher_matrice_perso(Mat_perso, 5, 5)
 
