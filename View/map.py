@@ -144,7 +144,8 @@ class Map:
 
         self.grass_tiles = pg.Surface((grid_length_x * TILE_SIZE * 2, grid_length_y * TILE_SIZE + 2 * TILE_SIZE)).convert_alpha()
         self.tiles = self.load_images()
-        self.map = self.create_map()
+        self.map = None 
+        self.create_map()
         self.map_walkeur = self.create_walkeur()
 
     def draw_mini(self, screen, camera):
@@ -233,7 +234,7 @@ class Map:
                 self.grass_tiles.blit(self.tiles["block"], (render_pos[0] + self.grass_tiles.get_width()/2, render_pos[1]))
 
 
-        return map
+        self.map = map 
 
     def create_walkeur(self):
 
