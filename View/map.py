@@ -483,8 +483,13 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
             tile = "road_quad"
 
-        elif self.matrix[grid_x][grid_y] == 5:
-            tile = "roadXL_captop"
+
+        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5,
+                                                            self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5]):
+
+            tile = "roadYL_capright"
         
         else : 
             tile = ""
@@ -861,11 +866,11 @@ class Map:
 
         #Overlays
 
-        red = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
-        orange = pg.image.load(path_to_Utilities + "/Land2a_00036.png").convert_alpha()
-        yellow = pg.image.load(path_to_Utilities + "/Land2a_00038.png").convert_alpha()
-        green = pg.image.load(path_to_Utilities + "/Land2a_00041.png").convert_alpha()
-        blue = pg.image.load(path_to_Utilities + "/Land2a_00043.png").convert_alpha()
+        red = pg.image.load(path_to_Utilities + "/Land2a_00043.png").convert_alpha()
+        orange = pg.image.load(path_to_Utilities + "/Land2a_00041.png").convert_alpha()
+        yellow = pg.image.load(path_to_Utilities + "/Land2a_00038.png").convert_alpha()  #MEDIUM
+        green = pg.image.load(path_to_Utilities + "/Land2a_00036.png").convert_alpha()
+        blue = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
 
         watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
         unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
