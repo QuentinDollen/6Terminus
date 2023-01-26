@@ -141,13 +141,14 @@ class Map:
         ]
 
         # self.perlin_scale = grid_length_x/2
-
+        self.overlay = ""
         self.grass_tiles = pg.Surface((grid_length_x * TILE_SIZE * 2, grid_length_y * TILE_SIZE + 2 * TILE_SIZE)).convert_alpha()
         self.tiles = self.load_images()
         self.map = None 
         self.create_map()
         self.map_walkeur = None 
         self.create_walkeur()
+        
 
     def draw_mini(self, screen, camera):
 
@@ -215,7 +216,7 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                if(l.getWalker(x,y).name != 'no Walker'): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                    render_pos = self.map_walkeur[x][y]["render_pos"]
                    tile = self.map_walkeur[x][y]["tile"]
                    if tile != "":
@@ -490,8 +491,11 @@ class Map:
 
         elif self.matrix[grid_x][grid_y] == 5:
             tile = "roadXL_captop"
+        
+        else : 
+            tile = ""
 
-        elif overlay == "":
+        if self.overlay == "":
 
             #HOUSING
 
@@ -559,10 +563,8 @@ class Map:
                 tile = "temple_love"
 
 
-            else:
-                tile = ""
 
-        elif overlay == "water":
+        elif self.overlay == "water":
 
             if l.water(grid_x,grid_y) == True:
                 tile = "watered"
@@ -590,7 +592,7 @@ class Map:
             else:
                 tile = ""
 
-        elif overlay == "fire":
+        elif self.overlay == "fire":
 
             risk = l.get_fire_level(grid_x,grid_y)
 
@@ -611,7 +613,7 @@ class Map:
             else:
                 tile = ""
 
-        elif overlay == "bat":
+        elif self.overlay == "bat":
 
             risk = l.get_eff_level(grid_x, grid_y)
 
@@ -659,14 +661,16 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
-        if(overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
+        if(self.overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
                             #AKA map d'eau, map de feu ou map de risque d'effondrement
+            
 
             if(l.getWalker(grid_x,grid_y).name == "Priest"):
                 tile = "priest0"
 
-            #elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
-            #    tile = "delivery_guy0"
+            elif(l.getWalker(grid_x,grid_y).name == "Delivery Guy"):
+               print("Je suis in ")
+               tile = "random0"
 
             elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
@@ -686,19 +690,19 @@ class Map:
             else:
                 tile = ""
 
-        elif(overlay == "fire"): #OVERLAY FIRE
+        elif(self.overlay == "fire"): #OVERLAY FIRE
             if (l.getWalker(grid_x, grid_y).name == "Prefect"):
                 tile = "prefet0"
             else:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
-        elif(overlay == "bat"): #OVERLAY BAT
+        elif(self.overlay == "bat"): #OVERLAY BAT
             if(l.getWalker(grid_x,grid_y).name == "Engineer"):
                 tile = "engineer0"
             else:
                 tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
-        elif(overlay == "water"):
+        elif(self.overlay == "water"):
             tile = ""
 
         else:

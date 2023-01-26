@@ -9,6 +9,7 @@ from View.settings import *
 from View.camera import Camera
 from View.hud import Hud
 from Model import logique as l 
+from Model import Test_logique as Test_l
 
 
 list_event = { l.Nume_administratif , l.Nume_eau , l.Nume_ingenieur , l.Nume_maison , l.Nume_nourriture , l.Nume_pelle , l.Nume_prefecure , l.Nume_route , l.Nume_sante , l.Nume_theatre}
@@ -58,8 +59,24 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
+
+                if event.key == pg.K_r : 
+                    Test_l.reset_maps()
+
+                if event.key == pg.K_t :
+                    Test_l.Construction_1()
             
-            
+                if event.key == pg.K_y :
+                    Test_l.Tour_jeu()
+
+                if event.key == pg.K_u :
+                    self.map.overlay = "Fire"
+
+                if event.key == pg.K_i :
+                    self.map.overlay = ""
+
+      
+
             if event.type == pg.MOUSEBUTTONUP :
 
                 if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
@@ -71,8 +88,8 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN : 
                 self.mouse_button = pg.mouse.get_pressed()
+                
 
-                l.m.add_perso( 10 , 10 , "Engineer" , l.m.Mat_perso , None , None)
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
                 elif self.action != None :
@@ -99,6 +116,7 @@ class Game:
         
         self.camera.update()
         self.map.create_map()
+        self.map.create_walkeur()
         self.draw()
 
     def draw(self):
