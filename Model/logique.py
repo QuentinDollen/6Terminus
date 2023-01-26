@@ -121,7 +121,12 @@ def load(nom):
 def getWalker(i, j):
         return m.Mat_perso[j][i][0]
 
-
+def getDesirability(bat):
+    proxy = m.get_bat_prox(bat.pos_x,bat.pos_y,5)
+    somme = 0
+    for batis in proxy:
+        somme += batis.initDesirability
+    return somme
 
 # fonction qui a realiser des opérations entre walkers et batiments:
 # si c'est un pompier, il va diminuer les indices de feu des batiments autour de lui, et si il y a un feu, doit aller l'eteindre 
@@ -210,7 +215,13 @@ def test_bat_logique():
                         m.invoke_walker(bat, "Priest")
                 elif bat.name == "Market":
                     if bat.occupied_space <= 15:
-                        bat.get_delivery()
+                        pass
+                elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
+                    if(bat.curpop < bat.popLim):
+                        n = getDesirability(bat)
+                        if n >= 0:
+                            pass
+
 
 
 

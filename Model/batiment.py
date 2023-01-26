@@ -13,7 +13,7 @@ class Batiment(t.Terrain):
         self.ind_fire = 0  # indice de feu
         self.ind_eff = 0  # indice d'effondrement
         self.cost = cst  # coût en sesterce
-        self.initDesirabilty = des  # Attractivité par défaut, par exemple les jardin et les écoles sont positifs, alors que les puits d'argile sont négatif
+        self.initDesirability = des  # Attractivité par défaut, par exemple les jardin et les écoles sont positifs, alors que les puits d'argile sont négatif
         self.stepDesirability = sze  # De combien ça baisse à chaque case
         self.sizeDesirability = stp  # Nb cases avant effet: 0 souvent
         self.rangeDesirability = rge  # La portée maximale de la désirabilité
