@@ -149,7 +149,7 @@ class Map:
 
     def draw_mini(self, screen, camera):
 
-        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 500, 144.3, 111))
+        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 100, 144.3, 111))
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):

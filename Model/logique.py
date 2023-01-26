@@ -251,6 +251,8 @@ Add_bat_game(1, 5, 5)
 print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 Add_bat_game(10, 10, 5)
 
+Add_bat_game(10, 15, 7)
+
 
 # test logique:
 m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
