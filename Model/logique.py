@@ -83,12 +83,12 @@ def Add_bat_game(x, y, id_bat):
     return 0
 
 def get_fire_level(x, y):
-    if m.Mat_batiment[x][y].id_t:
+    if getID(x,y) in (5, 3, 1, 2, 0):
         return -1
     else:
         return m.Mat_batiment[x][y].ind_fire
 def get_eff_level(x, y):
-    if m.Mat_batiment[x][y].id_t:
+    if getID(x,y) in (5, 3, 1, 2, 0):
         return -1
     else:
         return m.Mat_batiment[x][y].eff
