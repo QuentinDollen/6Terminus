@@ -242,16 +242,18 @@ def isHerb(x,y):
 
 
 def Square_path(x1,y1,x2,y2):
-    if all(isHerb(i,y1) for i in range(x1,x2)) and all(isHerb(x2,j) for j in range(y1,y2)):
-        for i in range(x1,x2):
+    if all(isHerb(i,y1) for i in range(x1,x2+1)) and all(isHerb(x2,j) for j in range(y1,y2+1)):
+        for i in range(x1,x2+1):
             Add_bat_game(i,y1,m.name_id["Path"])
-        for j in range(y1,y2):
+        for j in range(y1,y2+1):
             Add_bat_game(x2,j,m.name_id["Path"])
-    elif all(isHerb(x1,j) for j in range(y1,y2)) and all(isHerb(i,y2) for i in range(x1,x2)):
-        for j in range(y1,y2):
+    elif all(isHerb(x1,j) for j in range(y1,y2+1)) and all(isHerb(i,y2) for i in range(x1,x2+1)):
+        for j in range(y1,y2+1):
             Add_bat_game(x1,j,m.name_id["Path"])
-        for i in range(x1,x2):
+        for i in range(x1,x2+1):
             Add_bat_game(i,y2,m.name_id["Path"])
+
+
 
 
 def event_to_logic(nume, pos_init, pos_final):
@@ -275,6 +277,8 @@ def event_to_logic(nume, pos_init, pos_final):
 
     # elif(nume == Nume_nourriture):
     # elif(event == Nume_prefecure):
+
+
 
 print("")
 
