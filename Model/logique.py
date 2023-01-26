@@ -11,9 +11,9 @@ from Model import matrice as m
 # Definition des Userevents
 
 
-Nume_maison = pg.USEREVENT
+Nume_maison = 10
 Nume_eau = pg.USEREVENT +1
-Nume_route = pg.USEREVENT +2
+Nume_route = 5
 Nume_theatre = pg.USEREVENT +3
 Nume_nourriture = pg.USEREVENT+4 
 Nume_sante = pg.USEREVENT +5
