@@ -30,10 +30,9 @@ class Game:
         self.hud = Hud(self.width, self.height)
 
         overlay = ""
-        self.selection = list()
-        self.selection.append([])
-        self.selection.append([])
+        self.selection =[[],[]]
         self.action = None 
+        self.mouse_button = [[],[],[]]
         
 
 
@@ -60,16 +59,23 @@ class Game:
                     pg.quit()
                     sys.exit()
             
-            mouse_button = pg.mouse.get_pressed()
+            
+            if event.type == pg.MOUSEBUTTONUP :
 
+                if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
+                    self.selection[1] = self.mouse_to_tiles()
+                    
+                    l.event_to_logic(self.action , self.selection[0] , self.selection[1])
+                    
+       
 
-            print("Action : ", self.action)
             if event.type == pg.MOUSEBUTTONDOWN : 
-                
-                if mouse_button[0] and self.action == None :
-                    self.action = self.hud.overhead_all()
+                self.mouse_button = pg.mouse.get_pressed()
 
-                if self.action != None :
+                l.m.add_perso( 10 , 10 , "Engineer" , l.m.Mat_perso , None , None)
+                if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
+                    self.action = self.hud.overhead_all()
+                elif self.action != None :
                     
                     if  self.hud.is_overhead_all()  :
                         self.action = self.hud.overhead_all()
@@ -77,17 +83,12 @@ class Game:
                     else : 
                         self.selection[0] = self.mouse_to_tiles()
                     
-
-            if event.type == pg.MOUSEBUTTONUP : 
-
-                if self.action != None :
-                    self.selection[1] = self.mouse_to_tiles()
-                    print("Je fais ",self.selection," : id : ", self.action)
-                    l.event_to_logic(self.action , self.selection[0] , self.selection[1])
-                    
-                if mouse_button[2]:
+                if  self.mouse_button[2]:
                     self.hud.overhead_all()
-                    self.action = None 
+                    self.action = None    
+                    self.selection =[[],[]]
+                    
+
 
                 
 
