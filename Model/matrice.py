@@ -391,7 +391,7 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x = -1, 
         Bat.Walk.append(P)
         return P
     if type_ == "Priest":
-        Pr = Priest(x,y,Bat)
+        Pr = pr.Priest(x,y,Bat)
         add_perso_mat(Mat,Pr,x,y)
         Bat.Walk.append(Pr)
         return Pr
