@@ -22,7 +22,7 @@ Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8 
 Nume_pelle = pg.USEREVENT +9
 
-
+Unalterable = [0,1,2,3,4,5,6,666,116,115]
 
 # En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles prÃ©sente dans les autres fichiers servent de briques pour celles prÃ©sentes ici
 
@@ -80,7 +80,10 @@ def Add_bat_game(x, y, id_bat):
     return 0
 
 def get_fire_level(x,y):
-    return m.Mat_batiment[x][y].ind_fire
+    if m.Mat_batiment[y][x].id not in Unalterable:
+        return m.Mat_batiment[y][x].ind_fire
+    return -1
+
 def get_eff_level(x,y):
     return m.Mat_batiment[x][y].eff
 

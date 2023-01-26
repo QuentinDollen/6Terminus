@@ -357,6 +357,7 @@ def add_bat(x, y, id_bat, Mat):
 def add_perso_mat(Mat, perso, x, y):
     if Mat[y][x][0].name == "no Walker":
         Mat[y][x][0] = perso
+
     else:
         print("test4")
         Mat[y][x].append(perso)
@@ -488,26 +489,36 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
         tab3 = []
         tab4 = []
         test = 0
-        if isPath(x + 1, y, Mat) and not InTable((x + 1, y), tab_path):
-            test = 1
-            tab1 = copy(tab_path)
-            tab1.append((x + 1, y))
-            tab1 = next_case(x + 1, y, tab1, dest_x, dest_y, Mat)
-        if isPath(x, y + 1, Mat) and not InTable((x, y + 1), tab_path):
-            test = 1
-            tab2 = copy(tab_path)
-            tab2.append((x, y + 1))
-            tab2 = next_case(x, y + 1, tab2, dest_x, dest_y, Mat)
-        if isPath(x - 1, y, Mat) and not InTable((x - 1, y), tab_path):
-            test = 1
-            tab3 = copy(tab_path)
-            tab3.append((x - 1, y))
-            tab3 = next_case(x - 1, y, tab3, dest_x, dest_y, Mat)
-        if isPath(x, y - 1, Mat) and not InTable((x, y - 1), tab_path):
-            test = 1
-            tab4 = copy(tab_path)
-            tab4.append((x, y - 1))
-            tab4 = next_case(x, y - 1, tab4, dest_x, dest_y, Mat)
+
+        if  0 < x < nb_cases_x -1  :
+
+            if isPath(x + 1, y, Mat) and not InTable((x + 1, y), tab_path):
+                test = 1
+                tab1 = copy(tab_path)
+                tab1.append((x + 1, y))
+                tab1 = next_case(x + 1, y, tab1, dest_x, dest_y, Mat)
+
+            if isPath(x - 1, y, Mat) and not InTable((x - 1, y), tab_path):
+                test = 1
+                tab3 = copy(tab_path)
+                tab3.append((x - 1, y))
+                tab3 = next_case(x - 1, y, tab3, dest_x, dest_y, Mat)
+
+
+        if 0 < y < nb_cases_y -1 :
+
+            if isPath(x, y + 1, Mat) and not InTable((x, y + 1), tab_path):
+                test = 1
+                tab2 = copy(tab_path)
+                tab2.append((x, y + 1))
+                tab2 = next_case(x, y + 1, tab2, dest_x, dest_y, Mat)
+
+            if isPath(x, y - 1, Mat) and not InTable((x, y - 1), tab_path):
+                test = 1
+                tab4 = copy(tab_path)
+                tab4.append((x, y - 1))
+                tab4 = next_case(x, y - 1, tab4, dest_x, dest_y, Mat)
+
         if test == 0:
             return []
         tab = []
@@ -525,6 +536,9 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
         return final_tab
 
 
+
+
+
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
     if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
@@ -537,15 +551,12 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    # if Mat[y][x][no_walker].ttl <= 0:
-    #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
-    #     return (x, y)
 
-    # if Mat_perso[y][x][no_walker].ttl <= 0:
-    #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-    #                                 Mat_batiment)
-    #     (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-    #     return tuple(x, y)
+    print(Mat_perso[y][x][no_walker].ttl)
+    if Mat_perso[y][x][no_walker].ttl <= 0 and (Mat_perso[y][x][no_walker].dest_x ,  Mat_perso[y][x][no_walker].dest_y )== (-1,-1):
+        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].batiment.pos_y, Mat_perso[y][x][no_walker].batiment.pos_x,Mat_batiment)
+        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+        return (x, y)
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
@@ -561,9 +572,11 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
         if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y - 1):
             tab_possibles_chemins.append((x, y - 1))
     if len(tab_possibles_chemins) > 0:
+        Mat_perso[y][x][no_walker].ttl -= 1
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
-        return Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x
+        Mat_perso[y][x][no_walker].ttl -= 1
+        return (Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x)
 
 
 # verifie que la distance entre deux cases est de 1 (y compris en diagonale)
@@ -621,7 +634,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 Mat[j][i][count].nx = nx
                                 Mat[j][i][count].ny = ny
                             else:
-                                print(i, j, count)
+                                # print(i, j, count)
                                 nx = i
                                 ny = j
                                 if Mat_perso[j][i][count].name == "Immigrant":
