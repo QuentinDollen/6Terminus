@@ -161,10 +161,11 @@ def test_walker_logique():
                     elif perso.name == "Recruteur":
                         perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
                         proxy = m.get_bat_prox(i, j, 4)
-                        print("proxy", proxy)
+                        print("proxy recruteur", proxy)
                         for bat in proxy:
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 recruit = perso.nb_a_recruter
+                                print("goal recruit:", recruit)
                                 if bat.employed < bat.curpop and recruit > 0:
                                     if (bat.curpop - bat.employed) >= recruit:
                                         bat.employed += recruit
