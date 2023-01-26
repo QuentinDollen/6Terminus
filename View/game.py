@@ -8,10 +8,11 @@ from View.settings import *
 # from utils import draw_text
 from View.camera import Camera
 from View.hud import Hud
-from Model import logique as l 
+from Model import logique as l
 
+list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
+              l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
 
-list_event = { l.Nume_administratif , l.Nume_eau , l.Nume_ingenieur , l.Nume_maison , l.Nume_nourriture , l.Nume_pelle , l.Nume_prefecure , l.Nume_route , l.Nume_sante , l.Nume_theatre}
 
 class Game:
 
@@ -30,23 +31,18 @@ class Game:
         self.hud = Hud(self.width, self.height)
 
         overlay = ""
-        self.selection = list()
-        self.selection.append([])
-        self.selection.append([])
-        self.action = None 
-        
-
+        self.selection = [[], []]
+        self.action = None
+        self.mouse_button = [[], [], []]
 
     def run(self):
         self.playing = True
-        
+
         while self.playing:
             self.clock.tick(60)
             self.events()
             self.update()
             self.draw()
-
-
 
     def events(self):
 
@@ -59,39 +55,37 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
-            
-            mouse_button = pg.mouse.get_pressed()
 
-            if event.type == pg.MOUSEBUTTONDOWN : 
-                
-                if mouse_button[0] and self.action == None :
-                    self.action = self.hud.overhead_all()
+            if event.type == pg.MOUSEBUTTONUP:
 
-                if self.action != None :
-                    self.selection[0] = self.mouse_to_tiles()
-                    
-
-            if event.type == pg.MOUSEBUTTONUP : 
-
-                if self.action != None :
+                if self.action != None and self.mouse_button[0] and self.selection[0] != []:
                     self.selection[1] = self.mouse_to_tiles()
-                    print("Je fais ",self.selection," : id : ", self.action)
-                    
 
+                    l.event_to_logic(self.action, self.selection[0], self.selection[1])
 
-                if mouse_button[2]:
+            if event.type == pg.MOUSEBUTTONDOWN:
+                self.mouse_button = pg.mouse.get_pressed()
+
+                if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
+                    self.action = self.hud.overhead_all()
+                elif self.action != None:
+
+                    if self.hud.is_overhead_all():
+                        self.action = self.hud.overhead_all()
+
+                    else:
+                        self.selection[0] = self.mouse_to_tiles()
+
+                if self.mouse_button[2]:
                     self.hud.overhead_all()
-                    self.action = None 
-
-                
-
-            
-
+                    self.action = None
+                    self.selection = [[], []]
 
     def update(self):
-        
+
         self.camera.update()
         self.map.create_map()
+        self.map.create_walkeur()
         self.draw()
 
     def draw(self):
@@ -105,8 +99,6 @@ class Game:
         # p = [(x + self.width/2, y) for x, y in p]
         # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
 
-        
-
         # draw_text(
         #     self.screen,
         #     'fps={}'.format(round(self.clock.get_fps())),
@@ -117,30 +109,27 @@ class Game:
 
         pg.display.flip()
 
-    def mouse_to_tiles(self) :
+    def mouse_to_tiles(self):
         mouse = pg.mouse.get_pos()
 
-        on_grid_x = -self.camera.scroll.x + mouse[0] -self.map.grass_tiles.get_width()/2
+        on_grid_x = -self.camera.scroll.x + mouse[0] - self.map.grass_tiles.get_width() / 2
         on_grid_y = - self.camera.scroll.y + mouse[1]
 
-        iso_y = ( 2 * on_grid_y - on_grid_x)/2
-        iso_x =  iso_y + on_grid_x
+        iso_y = (2 * on_grid_y - on_grid_x) / 2
+        iso_x = iso_y + on_grid_x
 
-        grid_x = int ( iso_x // TILE_SIZE)
-        grid_y = int( iso_y // TILE_SIZE)
+        grid_x = int(iso_x // TILE_SIZE)
+        grid_y = int(iso_y // TILE_SIZE)
 
-        if grid_x < 0 : 
-            grid_x = 0 
-        if grid_x > 39 : 
+        if grid_x < 0:
+            grid_x = 0
+        if grid_x > 39:
             grid_x = 39
-        
-        if grid_y < 0 : 
-            grid_y = 0 
-        if grid_y > 39 : 
+
+        if grid_y < 0:
+            grid_y = 0
+        if grid_y > 39:
             grid_y = 39
 
-        return (grid_x , grid_y)
+        return (grid_x, grid_y)
 
-
-    
-            

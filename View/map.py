@@ -146,11 +146,12 @@ class Map:
         self.tiles = self.load_images()
         self.map = None 
         self.create_map()
-        self.map_walkeur = self.create_walkeur()
+        self.map_walkeur = None
+        self.create_walkeur()
 
     def draw_mini(self, screen, camera):
 
-        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 500, 144.3, 111))
+        #pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 100, 144.3, 111))
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -181,9 +182,9 @@ class Map:
                         render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + pg.display.Info().current_w - 500 + minimap_offset[0], y + pg.display.Info().current_h - 500 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 124 + minimap_offset[0], y + 17 + minimap_offset[1]) for x, y in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
-                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
+                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 153.5 - camera.scroll_mini.x, 35 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
 
@@ -214,11 +215,11 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                #if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
-                #    render_pos = self.map_walkeur[x][y]["render_pos"]
-                #    tile = self.map_walkeur[x][y]["tile"]
-                #    if tile != "":
-                #        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+                if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                    render_pos = self.map_walkeur[x][y]["render_pos"]
+                    tile = self.map_walkeur[x][y]["tile"]
+                    if tile != "":
+                        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
     def create_map(self):
 
@@ -247,7 +248,7 @@ class Map:
                 map_walkeur[grid_x].append(walkeur_tile)
                 walkeur_render_pos = walkeur_tile["render_pos"]
 
-        return map_walkeur
+        self.map_walkeur = map_walkeur
 
     def grid_to_map(self, grid_x, grid_y):
 
@@ -454,9 +455,6 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,6) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 4) != 5:
             tile = "roadYL_capleft"
 
-        elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
-            tile = "road_quad"
-
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5:
             tile = "roadXL_teeright"
 
@@ -481,14 +479,14 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5:
             tile = "roadcurv_righttobottom"
 
-        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 3) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
-            tile = "roadYL_capright"
+        elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
+            tile = "road_quad"
 
-        elif self.matrix[grid_x][grid_y] == 5:
-            tile = "roadXL_captop"
+        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5]):
+            tile = "roadYL_capright"
 
         elif overlay == "":
 
@@ -595,13 +593,13 @@ class Map:
 
             if risk >= 24: #WORST : need Pin-Pon asap
                 tile = "red"
-            elif risk < 24 and risk >= 18:
+            elif 24 > risk >= 18:
                 tile = "orange"
-            elif risk < 18 and risk >= 12:
+            elif 18 > risk >= 12:
                 tile = "yellow"
-            elif risk < 12 and risk >= 6:
+            elif 12 > risk >= 6:
                 tile = "green"
-            elif risk < 6 and risk >= 0: #BEST : disable smoke detectors
+            elif 6 > risk >= 0: #BEST : disable smoke detectors
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 55:
@@ -616,13 +614,13 @@ class Map:
 
             if risk >= 24:  # WORST : need a dispenser here
                 tile = "red"
-            elif risk < 24 and risk >= 18:
+            elif 24 > risk >= 18:
                 tile = "orange"
-            elif risk < 18 and risk >= 12:
+            elif 18 > risk >= 12:
                 tile = "yellow"
-            elif risk < 12 and risk >= 6:
+            elif 12 > risk >= 6:
                 tile = "green"
-            elif risk < 6 and risk >= 0:  # BEST : No spy around
+            elif 6 > risk >= 0:  # BEST : No spy around
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 81:
@@ -683,7 +681,7 @@ class Map:
                 tile = "random0"
 
             else:
-                tile = "random0"
+                tile = ""
 
         elif(overlay == "fire"): #OVERLAY FIRE
             if (l.getWalker(grid_x, grid_y).name == "Prefect"):
@@ -806,7 +804,7 @@ class Map:
         roadYL = pg.image.load(path_to_Nature + "/Land2a_00094.png").convert_alpha()  # Y line \
         roadXL_capbottom = pg.image.load(path_to_Nature + "/Land2a_00104.png").convert_alpha()  # Y line cap on the bottom
         roadXL_captop = pg.image.load(path_to_Nature + "/Land2a_00102.png").convert_alpha()  # Y line cap on the top
-        road_quad = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()  # Quad-Intersection
+        road_quad = pg.image.load(path_to_Nature + "/Land2a_00110.png").convert_alpha()  # Quad-Intersection
         roadXL_teebottom = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()
         roadXL_teetop = pg.image.load(path_to_Nature + "/Land2a_00108.png").convert_alpha()
         roadYL_teeright = pg.image.load(path_to_Nature + "/Land2a_00109.png").convert_alpha()
