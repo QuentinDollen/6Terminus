@@ -289,7 +289,6 @@ def put_bat_mat(x, y, bat, Mat):
 def add_bat(x, y, id_bat, Mat):
     if id_bat == 7:
         Mat[y][x] = mais.Panneau(x,y)
-def add_bat(x, y, id_bat, Mat):
     if id_bat == 92:
         well = wa.Well(x, y)
         Mat[y][x] = well

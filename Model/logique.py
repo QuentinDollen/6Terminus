@@ -228,9 +228,9 @@ def test_event(event):
     print("")
 
 def build_pannel_grid(x1, y1, x2, y2):
-    for i in range(x1, x2+1):
-        for j in range(y1, y2+1):
-            (i, j, m.name_id["Panneau"])
+    for i in range(min(x1,x2), max(x1,x2)+1):
+        for j in range(min(y1,y2), max(y1,y2)+1):
+            Add_bat_game(i, j, m.name_id["Panneau"])
 
 def destroy_grid(x1,y1,x2,y2):
     for i in range(x1, x2+1):
@@ -252,9 +252,6 @@ def Square_path(x1,y1,x2,y2):
             Add_bat_game(x1,j,m.name_id["Path"])
         for i in range(x1,x2+1):
             Add_bat_game(i,y2,m.name_id["Path"])
-
-
-assert 1 == 0
 
 
 def event_to_logic(nume, pos_init, pos_final):
