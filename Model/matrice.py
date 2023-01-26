@@ -62,17 +62,17 @@ matrix = [[3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 
            3, 3, 1, 1],
           [0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 3, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0,
            0, 0, 0, 3],
-          [0, 0, 0, 0, 0, 3, 3, 3, 0, 5, 5, 5, 5, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3,
+          [0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3,
            3, 3, 3, 3],
-          [0, 0, 7, 7, 3, 3, 3, 0, 0, 5, 5, 5, 5, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0,
+          [0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0,
            0, 3, 3, 3],
-          [3089, 0, 7, 7, 7, 7, 7, 0, 0, 5, 0, 0, 5, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          [3089, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 3087, 0],
           [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
            5, 5, 5, 5],
-          [0, 5, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0,
            0, 0, 0, 0],
-          [0, 5, 5, 5, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+          [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
            3, 0, 0, 3],
           [1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
            3, 3, 3, 3],
@@ -257,7 +257,7 @@ def afficher_mat_route(taille):
 
 
 # dictionnaire reliant l'id des batiments a la taille qu'ils occupent
-id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
+id_size = {0: 1, 10: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
            111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1}
 
 # dictionnaire reliant le nom des batiments avec leur id
@@ -741,27 +741,27 @@ def giveFood(FD, house):
 
 # non necessaire, juste un test
 
-add_bat(1, 1, 5, Mat_batiment)
-add_bat(1, 2, 5, Mat_batiment)
-add_bat(1, 3, 5, Mat_batiment)
-add_bat(1, 4, 5, Mat_batiment)
-add_bat(2, 4, 5, Mat_batiment)
-add_bat(3, 4, 5, Mat_batiment)
-add_bat(4, 4, 5, Mat_batiment)
-add_bat(5, 4, 5, Mat_batiment)
-add_bat(6, 4, 5, Mat_batiment)
-add_bat(7, 4, 5, Mat_batiment)
-add_bat(8, 4, 5, Mat_batiment)
-add_bat(9, 4, 5, Mat_batiment)
-add_bat(10, 4, 5, Mat_batiment)
-add_bat(10, 5, 5, Mat_batiment)
-add_bat(11, 4, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 8, 8)
-add_bat(4, 5, 10, Mat_batiment)
-add_bat(2, 1, 72, Mat_batiment)
+#add_bat(1, 1, 5, Mat_batiment)
+#add_bat(1, 2, 5, Mat_batiment)
+#add_bat(1, 3, 5, Mat_batiment)
+#add_bat(1, 4, 5, Mat_batiment)
+#add_bat(2, 4, 5, Mat_batiment)
+#add_bat(3, 4, 5, Mat_batiment)
+#add_bat(4, 4, 5, Mat_batiment)
+#add_bat(5, 4, 5, Mat_batiment)
+#add_bat(6, 4, 5, Mat_batiment)
+#add_bat(7, 4, 5, Mat_batiment)
+#add_bat(8, 4, 5, Mat_batiment)
+#add_bat(9, 4, 5, Mat_batiment)
+#add_bat(10, 4, 5, Mat_batiment)
+#add_bat(10, 5, 5, Mat_batiment)
+#add_bat(11, 4, 5, Mat_batiment)
+#afficher_matrice_bat(Mat_batiment, 8, 8)
+#add_bat(4, 5, 10, Mat_batiment)
+#add_bat(2, 1, 72, Mat_batiment)
 
-add_bat(20, 20, 5, Mat_batiment)
-add_bat(20, 21, 5, Mat_batiment)
+#add_bat(20, 20, 5, Mat_batiment)
+#add_bat(20, 21, 5, Mat_batiment)
 # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
 # DV.ajout_marchandise(6)
 # print("cargaison", DV.cargaison_nourriture)
@@ -771,39 +771,39 @@ add_bat(20, 21, 5, Mat_batiment)
 #
 #
 # 
-afficher_matrice_bat(Mat_batiment, 7, 7)
-afficher_matrice_perso(Mat_perso, 5, 5)
+#afficher_matrice_bat(Mat_batiment, 7, 7)
+#afficher_matrice_perso(Mat_perso, 5, 5)
 
-deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
 
-deplacement_perso(Mat_perso)
-suppr_Batiment(1, 4, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#suppr_Batiment(1, 4, Mat_batiment)
+#afficher_matrice_bat(Mat_batiment, 7, 7)
+#deplacement_perso(Mat_perso)
 
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-print(" ")
-add_bat(1, 4, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
+#deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#print(" ")
+#add_bat(1, 4, 5, Mat_batiment)
+#afficher_matrice_bat(Mat_batiment, 7, 7)
+#deplacement_perso(Mat_perso)
+#afficher_matrice_perso(Mat_perso, 7, 7)
 
-print(" ")
-deplacement_perso(Mat_perso)
+#print(" ")
+#deplacement_perso(Mat_perso)
 
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-print("test livraison")
-print(Mat_batiment[5][4].nourriture)
+#afficher_matrice_perso(Mat_perso, 7, 7)
+#deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#deplacement_perso(Mat_perso)
+#afficher_matrice_perso(Mat_perso, 7, 7)
+#deplacement_perso(Mat_perso)
+#afficher_matrice_perso(Mat_perso, 7, 7)
+#print("test livraison")
+#print(Mat_batiment[5][4].nourriture)
 
 # add_bat(1, 0, 5, Mat_batiment)
 # afficher_matrice_bat(Mat_batiment, 7, 7)
@@ -818,7 +818,7 @@ print(Mat_batiment[5][4].nourriture)
 # check_fire_eff()
 # print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
 
-print("Test Quentin")
+#print("Test Quentin")
 
 # DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
 # DVD.prev_x = 1
@@ -830,7 +830,7 @@ print("Test Quentin")
 # # print(Deplacement_basique(0, 0))
 # add_bat(0,0,name_id["Maison1"], Mat_batiment )
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-add_employees()
+#add_employees()
 # print(Mat_batiment[0][0].name == "Maison 1")
 # print(f"Immigrants : {Nb_immigrant} \nDans la maison {Mat_batiment[0][0].curpop }")
 # add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )

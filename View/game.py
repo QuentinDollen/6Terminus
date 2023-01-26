@@ -65,7 +65,6 @@ class Game:
                 (x_,y_) = self.mouse_to_tiles()
                 print("Ajout route : (",x_,y_,")")
                 l.Add_bat_game(x_,y_,l.m.name_id["Path"])
-                l.m.afficher_matrice_bat(l.m.Mat_batiment , 10 , 10 )
 
 
 

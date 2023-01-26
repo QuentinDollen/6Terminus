@@ -454,9 +454,6 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,6) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 4) != 5:
             tile = "roadYL_capleft"
 
-        elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
-            tile = "road_quad"
-
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5:
             tile = "roadXL_teeright"
 
@@ -481,14 +478,14 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5:
             tile = "roadcurv_righttobottom"
 
-        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 3) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
-            tile = "roadYL_capright"
+        elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
+            tile = "road_quad"
 
-        elif self.matrix[grid_x][grid_y] == 5:
-            tile = "roadXL_captop"
+        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5]):
+            tile = "roadYL_capright"
 
         elif overlay == "":
 
@@ -806,7 +803,7 @@ class Map:
         roadYL = pg.image.load(path_to_Nature + "/Land2a_00094.png").convert_alpha()  # Y line \
         roadXL_capbottom = pg.image.load(path_to_Nature + "/Land2a_00104.png").convert_alpha()  # Y line cap on the bottom
         roadXL_captop = pg.image.load(path_to_Nature + "/Land2a_00102.png").convert_alpha()  # Y line cap on the top
-        road_quad = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()  # Quad-Intersection
+        road_quad = pg.image.load(path_to_Nature + "/Land2a_00110.png").convert_alpha()  # Quad-Intersection
         roadXL_teebottom = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()
         roadXL_teetop = pg.image.load(path_to_Nature + "/Land2a_00108.png").convert_alpha()
         roadYL_teeright = pg.image.load(path_to_Nature + "/Land2a_00109.png").convert_alpha()
