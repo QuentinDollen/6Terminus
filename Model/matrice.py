@@ -501,12 +501,12 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
             final_tab = min_tab_tab_notnull(tab)
         return final_tab
 
-
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
-    for i in range(0, Mat[y][x].nbr_cases):
-        for j in range(0, Mat[y][x].nbr_cases):
-            Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
+    if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock",  "Enter_Pannel", "Exit_Pannel", "Water", "Path"]):
+        for i in range(0, Mat[y][x].nbr_cases):
+            for j in range(0, Mat[y][x].nbr_cases):
+                Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
 
 
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance
