@@ -24,7 +24,6 @@ class Camera:
     def update(self):
 
         mouse_pos = pg.mouse.get_pos()
-        print("scroll",self.scroll)
         # x movement
         if mouse_pos[0] > self.width * 0.99:
             self.dx = -self.speed

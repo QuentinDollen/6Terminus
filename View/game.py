@@ -11,6 +11,8 @@ from View.hud import Hud
 from Model import logique as l 
 
 
+list_event = { l.Nume_administratif , l.Nume_eau , l.Nume_ingenieur , l.Nume_maison , l.Nume_nourriture , l.Nume_pelle , l.Nume_prefecure , l.Nume_route , l.Nume_sante , l.Nume_theatre}
+
 class Game:
 
     def __init__(self, screen, clock):
@@ -27,13 +29,23 @@ class Game:
         # hud
         self.hud = Hud(self.width, self.height)
 
+        overlay = ""
+        self.selection = list()
+        self.selection.append([])
+        self.selection.append([])
+        self.actionned = None 
+        
+
+
     def run(self):
         self.playing = True
+        
         while self.playing:
             self.clock.tick(60)
             self.events()
             self.update()
             self.draw()
+
 
 
     def events(self):
@@ -42,52 +54,27 @@ class Game:
             if event.type == pg.QUIT:
                 pg.quit()
                 sys.exit()
+
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     pg.quit()
                     sys.exit()
+            
 
-            if event.type == pg.MOUSEBUTTONUP :
-                self.hud.overhead_all()                
-
-
-            if event.type == pg.MOUSEBUTTONDOWN :
-                self.hud.overhead_all()
-                self.mouse_to_tiles()
-
-
-            if event.type ==  l.Nume_maison:
-                print("J'ai appuyé sur une maison")
-
-            if event.type ==  l.Nume_ingenieur:
-                print("J'ai appuyé sur une maison")            
-            if event.type ==  l.Nume_nourriture:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_administratif:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_pelle:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_eau:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_prefecure:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_sante:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_route:
-                print("J'ai appuyé sur une maison")
-            if event.type ==  l.Nume_theatre:
-                print("J'ai appuyé sur une maison")
+            if event.type == pg.MOUSEBUTTONDOWN : 
+                (x_,y_) = self.mouse_to_tiles()
+                print("Ajout route : (",x_,y_,")")
+                l.Add_bat_game(x_,y_,l.m.name_id["Path"])
+                l.m.afficher_matrice_bat(l.m.Mat_batiment , 10 , 10 )
 
 
 
-            # if event.type == pg.MOUSEBUTTONDOWN:
-            #     if (pg.Rect(1382.5, 59.5, 144.3, 111)).collidepoint(event.pos):
 
     def update(self):
         
         self.camera.update()
-        self.mouse_to_tiles()
-        self.map.reload_map()
+        self.map.create_map()
+        self.draw()
 
     def draw(self):
         self.screen.fill(BLACK)
@@ -134,9 +121,7 @@ class Game:
         if grid_y > 39 : 
             grid_y = 39
 
-
-        print((grid_x , grid_y))
-        return grid_x , grid_y
+        return (grid_x , grid_y)
 
 
     

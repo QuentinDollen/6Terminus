@@ -9,14 +9,10 @@ import pygame as pg
 import sys
 
 
-sys.path.insert(0, '..')
-
-from Model import logique as l
+import pygame as pg
 from View.camera import *
 from View.settings import *
 import Model.logique as l
-
-
 class Map:
 
     def __init__(self, grid_length_x, grid_length_y, width, height):
@@ -27,7 +23,7 @@ class Map:
         self.matrix = [
             [3, 3, 3, 3, 3, 3, 3, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              0, 0, 0, 0],
-            [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 65, 3, 3, 3, 3,
+            [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 3, 0, 0, 0],
             [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 3, 0, 0],
@@ -69,7 +65,7 @@ class Map:
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3],
             [1, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-            [1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 3, 0, 72, 0, 0, 0, 3, 3, 39, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+            [1, 1, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              0, 3, 0, 3, 3],
             [1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 0, 3, 3],
@@ -148,11 +144,13 @@ class Map:
 
         self.grass_tiles = pg.Surface((grid_length_x * TILE_SIZE * 2, grid_length_y * TILE_SIZE + 2 * TILE_SIZE)).convert_alpha()
         self.tiles = self.load_images()
-        self.map = self.create_map()
+        self.map = None 
+        self.create_map()
+        self.map_walkeur = self.create_walkeur()
 
     def draw_mini(self, screen, camera):
 
-        pg.draw.rect(screen, BLACK, (1382.5, 59.5, 144.3, 111))
+        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 500, 144.3, 111))
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -166,26 +164,26 @@ class Map:
                 # WATER
                 if tile1 == 1:
                     pg.draw.circle(screen, BLUE, (
-                        render_pos_mini[0] + 1412 + minimap_offset[0],
-                        render_pos_mini[1] + 40 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
 
                 # ROCK
                 elif tile1 == 2:
                     pg.draw.circle(screen, GREY, (
-                        render_pos_mini[0] + 1412 + minimap_offset[0],
-                        render_pos_mini[1] + 40 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                     # TREE
                 elif tile1 == 3:
                     pg.draw.circle(screen, GREEN, (
-                        render_pos_mini[0] + 1414 + minimap_offset[0],
-                        render_pos_mini[1] + 40 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + 1412 + minimap_offset[0], y + 40 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 500 + minimap_offset[0], y + pg.display.Info().current_h - 500 + minimap_offset[1]) for x, y in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
-                pg.draw.rect(screen, RED, (1382.5 - camera.scroll_mini.x, 59.5 + camera.scroll_mini.y, 26, 20), 1)
+                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
 
@@ -216,24 +214,40 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
+                #if(l.getWalker(y,x).name != "NoWalker"): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                #    render_pos = self.map_walkeur[x][y]["render_pos"]
+                #    tile = self.map_walkeur[x][y]["tile"]
+                #    if tile != "":
+                #        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
+
     def create_map(self):
 
         map = []
-        # self.reload_map()
+        self.reload_map()
 
         for grid_x in range(self.grid_length_x):
             map.append([])
             for grid_y in range(self.grid_length_y):
                 map_tile = self.grid_to_map(grid_x, grid_y)
                 map[grid_x].append(map_tile)
-
                 render_pos = map_tile["render_pos"]
                 self.grass_tiles.blit(self.tiles["block"], (render_pos[0] + self.grass_tiles.get_width()/2, render_pos[1]))
 
-        return map
 
-    def setTile(self,tileID,Xpos,Ypos):
-        self.matrix[Xpos][Ypos] == tileID
+        self.map = map 
+
+    def create_walkeur(self):
+
+        map_walkeur = []
+
+        for grid_x in range(self.grid_length_x):
+            map_walkeur.append([])
+            for grid_y in range(self.grid_length_y):
+                walkeur_tile = self.grid_to_walkeur(grid_x,grid_y)
+                map_walkeur[grid_x].append(walkeur_tile)
+                walkeur_render_pos = walkeur_tile["render_pos"]
+
+        return map_walkeur
 
     def grid_to_map(self, grid_x, grid_y):
 
@@ -473,47 +487,149 @@ class Map:
                                                            self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
             tile = "roadYL_capright"
 
-        elif self.matrix[grid_x][grid_y] == 7:
-            tile = "post_sign"
+        elif self.matrix[grid_x][grid_y] == 5:
+            tile = "roadXL_captop"
 
-        #Service publique
-        elif self.matrix[grid_x][grid_y] == 55:
-            tile = "security"
+        elif overlay == "":
 
-        elif self.matrix[grid_x][grid_y] == 81:
-            tile = "engineer"
+            #HOUSING
 
-        #Commerce
+            if self.matrix[grid_x][grid_y] == 7:
+                tile = "post_sign"
 
-        elif self.matrix[grid_x][grid_y] == 70:
-            tile = "market"
+            elif self.matrix[grid_x][grid_y] == 10:
+                tile = "houselvl0"
 
-        elif self.matrix[grid_x][grid_y] == 71:
-            tile = "granary"
+            elif self.matrix[grid_x][grid_y] == 11:
+                tile = "houselvl1"
 
-        elif self.matrix[grid_x][grid_y] == 72:
-            tile = "warehouse"
+            elif self.matrix[grid_x][grid_y] == 12:
+                tile = "houselvl2"
 
-        #Water services
+            elif self.matrix[grid_x][grid_y] == 13:
+                tile = "houselvl3"
 
-        elif self.matrix[grid_x][grid_y] == 92:
-            tile = "well"
+            #Service publique
+            elif self.matrix[grid_x][grid_y] == 55:
+                tile = "security"
 
-        elif self.matrix[grid_x][grid_y] == 91:
-            tile = "fountain_empty"
+            elif self.matrix[grid_x][grid_y] == 81:
+                tile = "engineer"
 
-        elif self.matrix[grid_x][grid_y] == 9100:
-            tile = "fountain_full"
+            #Commerce
 
-        elif self.matrix[grid_x][grid_y] == 90:
-            tile = "reservoir_empty"
+            elif self.matrix[grid_x][grid_y] == 70:
+                tile = "market"
 
-        elif self.matrix[grid_x][grid_y] == 9000:
-            tile = "reservoir_full"
+            elif self.matrix[grid_x][grid_y] == 71:
+                tile = "granary"
+
+            elif self.matrix[grid_x][grid_y] == 72:
+                tile = "warehouse"
+
+            #Water services
+
+            elif self.matrix[grid_x][grid_y] == 92:
+                tile = "well"
+
+            elif self.matrix[grid_x][grid_y] == 91:
+                tile = "fountain_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9100:
+                tile = "fountain_full"
+
+            elif self.matrix[grid_x][grid_y] == 90:
+                tile = "reservoir_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9000:
+                tile = "reservoir_full"
+
+            #TEMPLE
+
+            elif self.matrix[grid_x][grid_y] == 60:
+                tile = "temple_farming"
+            elif self.matrix[grid_x][grid_y] == 61:
+                tile = "temple_shipping"
+            elif self.matrix[grid_x][grid_y] == 62:
+                tile = "temple_commerce"
+            elif self.matrix[grid_x][grid_y] == 63:
+                tile = "temple_war"
+            elif self.matrix[grid_x][grid_y] == 64:
+                tile = "temple_love"
 
 
-        else:
-            tile = ""
+            else:
+                tile = ""
+
+        elif overlay == "water":
+
+            if l.water(grid_x,grid_y) == True:
+                tile = "watered"
+
+            elif l.water(grid_x,grid_y) == False:
+                tile = "unwatered"
+
+            # Water services
+
+            elif self.matrix[grid_x][grid_y] == 92:
+                tile = "well"
+
+            elif self.matrix[grid_x][grid_y] == 91:
+                tile = "fountain_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9100:
+                tile = "fountain_full"
+
+            elif self.matrix[grid_x][grid_y] == 90:
+                tile = "reservoir_empty"
+
+            elif self.matrix[grid_x][grid_y] == 9000:
+                tile = "reservoir_full"
+
+            else:
+                tile = ""
+
+        elif overlay == "fire":
+
+            risk = l.get_fire_level(grid_x,grid_y)
+
+            if risk >= 24: #WORST : need Pin-Pon asap
+                tile = "red"
+            elif risk < 24 and risk >= 18:
+                tile = "orange"
+            elif risk < 18 and risk >= 12:
+                tile = "yellow"
+            elif risk < 12 and risk >= 6:
+                tile = "green"
+            elif risk < 6 and risk >= 0: #BEST : disable smoke detectors
+                tile = "blue"
+
+            elif self.matrix[grid_x][grid_y] == 55:
+                tile = "security"
+
+            else:
+                tile = ""
+
+        elif overlay == "bat":
+
+            risk = l.get_eff_level(grid_x, grid_y)
+
+            if risk >= 24:  # WORST : need a dispenser here
+                tile = "red"
+            elif risk < 24 and risk >= 18:
+                tile = "orange"
+            elif risk < 18 and risk >= 12:
+                tile = "yellow"
+            elif risk < 12 and risk >= 6:
+                tile = "green"
+            elif risk < 6 and risk >= 0:  # BEST : No spy around
+                tile = "blue"
+
+            elif self.matrix[grid_x][grid_y] == 81:
+                tile = "engineer"
+
+            else:
+                tile = ""
 
         out = {
             "grid": [grid_x, grid_y],
@@ -523,6 +639,75 @@ class Map:
             "iso_poly_mini": iso_poly_mini,
             "render_pos": [minx, miny],
             "render_pos_mini": [minx_mini, miny_mini],
+            "tile": tile
+        }
+
+        return out
+
+    def grid_to_walkeur(self,grid_x,grid_y):
+
+        rect = [
+            (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
+            (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE),
+            (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE),
+            (grid_x * TILE_SIZE, grid_y * TILE_SIZE + TILE_SIZE)
+        ]
+
+        iso_poly = [self.cart_to_iso(x, y) for x, y in rect]
+
+        minx = min([x for x, y in iso_poly])
+        miny = min([y for x, y in iso_poly])
+
+        if(overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
+                            #AKA map d'eau, map de feu ou map de risque d'effondrement
+
+            if(l.getWalker(grid_x,grid_y).name == "Priest"):
+                tile = "priest0"
+
+            #elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
+            #    tile = "delivery_guy0"
+
+            elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
+                tile = "engineer0"
+
+            elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
+                tile = "prefet0"
+
+            elif(l.getWalker(grid_x,grid_y).name == "Food_Guy"):
+                tile = "food_guy0"
+
+            elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
+                tile = "random0"
+
+            elif(l.getWalker(grid_x, grid_y).name == "Recruteur"):
+                tile = "random0"
+
+            else:
+                tile = "random0"
+
+        elif(overlay == "fire"): #OVERLAY FIRE
+            if (l.getWalker(grid_x, grid_y).name == "Prefect"):
+                tile = "prefet0"
+            else:
+                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+        elif(overlay == "bat"): #OVERLAY BAT
+            if(l.getWalker(grid_x,grid_y).name == "Engineer"):
+                tile = "engineer0"
+            else:
+                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+        elif(overlay == "water"):
+            tile = ""
+
+        else:
+            tile = ""
+
+        out = {
+            "grid": [grid_x, grid_y],
+            "cart_rect": rect,
+            "iso_poly": iso_poly,
+            "render_pos": [minx, miny],
             "tile": tile
         }
 
@@ -660,13 +845,59 @@ class Map:
         fire = pg.image.load(path_to_Utilities + "/ENFEU_OMG.png").convert_alpha()
         ruine_in_fire = pg.image.load(path_to_Utilities + "/Ruine_en_feu.png").convert_alpha()
 
-        #Water and aquaducts
+        #Water
 
         well = pg.image.load(path_to_Utilities + "/Puit.png").convert_alpha()
         fountain_empty = pg.image.load(path_to_Utilities + "/Fontaine_vide.png").convert_alpha()
         fountain_full = pg.image.load(path_to_Utilities + "/Fontaine_pleine.png").convert_alpha()
         reservoir_empty = pg.image.load(path_to_Utilities + "/Reservoir_vide.png").convert_alpha()
         reservoir_full = pg.image.load(path_to_Utilities + "/Reservoir_plein.png").convert_alpha()
+
+        #Temples
+
+        temple_farming = pg.image.load(path_to_Utilities + "/temple_FARMING.png").convert_alpha()
+        temple_love = pg.image.load(path_to_Utilities + "/temple_LOVE.png").convert_alpha()
+        temple_shipping = pg.image.load(path_to_Utilities + "/temple_SHIPPING.png").convert_alpha()
+        temple_war = pg.image.load(path_to_Utilities + "/temple_WAR.png").convert_alpha()
+        temple_commerce = pg.image.load(path_to_Utilities + "/temple_COMMERCE.png").convert_alpha()
+
+        #Overlays
+
+        red = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
+        orange = pg.image.load(path_to_Utilities + "/Land2a_00036.png").convert_alpha()
+        yellow = pg.image.load(path_to_Utilities + "/Land2a_00038.png").convert_alpha()
+        green = pg.image.load(path_to_Utilities + "/Land2a_00041.png").convert_alpha()
+        blue = pg.image.load(path_to_Utilities + "/Land2a_00043.png").convert_alpha()
+
+        watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
+        unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
+
+        #Walkers
+
+        priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
+        priest1 = pg.image.load(path_to_Walkers + "/priest1.png").convert_alpha()
+        priest2 = pg.image.load(path_to_Walkers + "/priest2.png").convert_alpha()
+        priest3 = pg.image.load(path_to_Walkers + "/priest3.png").convert_alpha()
+
+        engineer0 = pg.image.load(path_to_Walkers + "/Engineer0.png").convert_alpha()
+        engineer1 = pg.image.load(path_to_Walkers + "/Engineer1.png").convert_alpha()
+        engineer2 = pg.image.load(path_to_Walkers + "/Engineer2.png").convert_alpha()
+        engineer3 = pg.image.load(path_to_Walkers + "/Engineer3.png").convert_alpha()
+
+        prefet0 = pg.image.load(path_to_Walkers + "/Prefet0.png").convert_alpha()
+        prefet1 = pg.image.load(path_to_Walkers + "/Prefet1.png").convert_alpha()
+        prefet2 = pg.image.load(path_to_Walkers + "/Prefet2.png").convert_alpha()
+        prefet3 = pg.image.load(path_to_Walkers + "/Prefet3.png").convert_alpha()
+
+        foodguy0 = pg.image.load(path_to_Walkers + "/food_guy0.png").convert_alpha()
+        foodguy1 = pg.image.load(path_to_Walkers + "/food_guy1.png").convert_alpha()
+        foodguy2 = pg.image.load(path_to_Walkers + "/food_guy2.png").convert_alpha()
+        foodguy3 = pg.image.load(path_to_Walkers + "/food_guy3.png").convert_alpha()
+
+        random0 = pg.image.load(path_to_Walkers + "/Random0.png").convert_alpha()
+        random1 = pg.image.load(path_to_Walkers + "/Random1.png").convert_alpha()
+        random2 = pg.image.load(path_to_Walkers + "/Random2.png").convert_alpha()
+        random3 = pg.image.load(path_to_Walkers + "/Random3.png").convert_alpha()
 
         return {"block": block,
                 "tree33": tree33, "tree51": tree51, "tree55": tree55, "tree54": tree54, "tree36": tree36,
@@ -692,13 +923,22 @@ class Map:
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
                 "warehouse": warehouse, "granary": granary, "market": market,
                 "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
-                "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full
+                "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
+                "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
+                "priest0": priest0, "priest1": priest1, "priest2": priest2, "priest3": priest3,
+                "engineer0": engineer0, "engineer1": engineer1, "engineer2": engineer2, "engineer3": engineer3,
+                "prefet0": prefet0, "prefet1": prefet1, "prefet2": prefet2, "prefet3": prefet3,
+                "foodguy0": foodguy0, "foodguy1": foodguy1, "foodguy2": foodguy2, "foodguy3": foodguy3,
+                "random0": random0, "random1": random1, "random2": random2, "random3": random3,
+                "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
+                "watered": watered, "unwatered": unwatered
+
                }
 
     def reload_map(self):
         for grid_x in range(self.grid_length_x):
             for grid_y in range(self.grid_length_y):
-                self.matrix[grid_x][grid_y]=l.getID(grid_x,grid_y)
+                self.matrix[grid_x][grid_y]=l.getID(grid_x, grid_y)
 
         
 
