@@ -37,12 +37,10 @@ def main():
 
         
         clock.tick(60)
-        
         mouse_track = pg.mouse.get_pos()    
         pg.display.update() 
         pg.display.flip()
 
-        
         
         while Launch :
 

@@ -60,34 +60,22 @@ class Game:
                     sys.exit()
 
             
-            if event.type == pg.MOUSEBUTTONDOWN :
 
-                if self.actionned == None :
-                   self.actionned = self.hud.overhead_all()
+            if self.actionned == None :
 
-                else : 
-                    print("selection 1: ",self.selection)
+                if event.type == pg.MOUSEBUTTONDOWN :
+                    self.actionned = self.hud.overhead_all()
+                    self.selection = [[],[]]
+
+            else :
+
+                if event.type == pg.MOUSEBUTTONDOWN : 
                     self.selection[0] = self.mouse_to_tiles()
-                    print("selection 2: ",self.selection)
-                    
 
-
-            if event.type == pg.MOUSEBUTTONUP : 
-
-                if self.actionned : 
-                    self.hud.overhead_all()
-                else : 
+                if event.type == pg.MOUSEBUTTONUP : 
                     self.selection[1] = self.mouse_to_tiles()
 
 
-
-
-            #     if event.type == pg.MOUSEBUTTONDOWN  :
-            #         self.selection[0] = self.mouse_to_tiles()
-            #         print("Je suis un entier :", self.selection)
-
-            #     if event.type == pg.MOUSEBUTTONUP  :
-            #         self.selection[1] = self.mouse_to_tiles()            
 
 
 
