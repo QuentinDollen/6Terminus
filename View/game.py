@@ -33,7 +33,7 @@ class Game:
         self.selection = list()
         self.selection.append([])
         self.selection.append([])
-        self.actionned = None 
+        self.action = None 
         
 
 
@@ -60,14 +60,32 @@ class Game:
                     pg.quit()
                     sys.exit()
             
+            mouse_button = pg.mouse.get_pressed()
 
             if event.type == pg.MOUSEBUTTONDOWN : 
-                (x_,y_) = self.mouse_to_tiles()
-                print("Ajout route : (",x_,y_,")")
-                l.Add_bat_game(x_,y_,l.m.name_id["Path"])
-                l.m.afficher_matrice_bat(l.m.Mat_batiment , 10 , 10 )
+                
+                if mouse_button[0] and self.action == None :
+                    self.action = self.hud.overhead_all()
+
+                if self.action != None :
+                    self.selection[0] = self.mouse_to_tiles()
+                    
+
+            if event.type == pg.MOUSEBUTTONUP : 
+
+                if self.action != None :
+                    self.selection[1] = self.mouse_to_tiles()
+                    print("Je fais ( ",self.selection,") : id : ", self.action)
+                    
 
 
+                if mouse_button[2]:
+                    self.hud.overhead_all()
+                    self.action = None 
+
+                
+
+            
 
 
     def update(self):
