@@ -593,13 +593,13 @@ class Map:
 
             if risk >= 24: #WORST : need Pin-Pon asap
                 tile = "red"
-            elif risk < 24 and risk >= 18:
+            elif 24 > risk >= 18:
                 tile = "orange"
-            elif risk < 18 and risk >= 12:
+            elif 18 > risk >= 12:
                 tile = "yellow"
-            elif risk < 12 and risk >= 6:
+            elif 12 > risk >= 6:
                 tile = "green"
-            elif risk < 6 and risk >= 0: #BEST : disable smoke detectors
+            elif 6 > risk >= 0: #BEST : disable smoke detectors
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 55:
@@ -614,13 +614,13 @@ class Map:
 
             if risk >= 24:  # WORST : need a dispenser here
                 tile = "red"
-            elif risk < 24 and risk >= 18:
+            elif 24 > risk >= 18:
                 tile = "orange"
-            elif risk < 18 and risk >= 12:
+            elif 18 > risk >= 12:
                 tile = "yellow"
-            elif risk < 12 and risk >= 6:
+            elif 12 > risk >= 6:
                 tile = "green"
-            elif risk < 6 and risk >= 0:  # BEST : No spy around
+            elif 6 > risk >= 0:  # BEST : No spy around
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 81:

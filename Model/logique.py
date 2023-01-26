@@ -1,4 +1,3 @@
-
 import pygame as pg
 import pickle
 import sys
@@ -12,30 +11,27 @@ from Model import matrice as m
 # Definition des Userevents
 
 
-Nume_maison = pg.USEREVENT 
+Nume_maison = pg.USEREVENT
 Nume_eau = pg.USEREVENT +1
 Nume_route = pg.USEREVENT +2
 Nume_theatre = pg.USEREVENT +3
-Nume_nourriture = pg.USEREVENT+4 
+Nume_nourriture = pg.USEREVENT+4
 Nume_sante = pg.USEREVENT +5
-Nume_prefecure = pg.USEREVENT+6 
+Nume_prefecure = pg.USEREVENT+6
 Nume_ingenieur = pg.USEREVENT +7
-Nume_administratif = pg.USEREVENT+8 
+Nume_administratif = pg.USEREVENT+8
 Nume_pelle = pg.USEREVENT +9
 
 
-def event_to_logic( nume , pos_init , pos_final) :
-    pass 
 
-
-# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles présente dans les autres fichiers servent de briques pour celles présentes ici
+# En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles prÃ©sente dans les autres fichiers servent de briques pour celles prÃ©sentes ici
 
 
 # pour les variables globales: il nous faut la liste des greniers et des entrepots, et faire une methode qui dit s'ils sont plein ou pas
 # pour eviter de devoir faire un scan sur toute la matrice a chaque fois qu'on a besoin de faire une livraison
 
 # cree un walker pour effectuer une livraison
-# prend en parametre le batiment qui invoque la livraison, le type de marchandise, la quantité 
+# prend en parametre le batiment qui invoque la livraison, le type de marchandise, la quantité
 def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
     if (x != -1):
@@ -54,6 +50,7 @@ def Delivery(Bat_depart, type_march, quant):
         print(dx, dy)
 
 
+
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
 # Pour un batiment de plusieurs cases, ne donne l'id que si la case est celle en haut, autrement renvoie 666
 def getID(i, j):
@@ -64,7 +61,7 @@ def getID(i, j):
         return 666
 
 
-def getID_base_matrix( i , j ) : 
+def getID_base_matrix( i , j ) :
     return m.matrix[j][i]
 
 # initialise les matrices de jeux
@@ -82,16 +79,10 @@ def Add_bat_game(x, y, id_bat):
     m.add_bat(x, y, id_bat, m.Mat_batiment)
     return 0
 
-def get_fire_level(x, y):
-    if getID(x,y) in (5, 3, 1, 2, 0):
-        return -1
-    else:
-        return m.Mat_batiment[x][y].ind_fire
-def get_eff_level(x, y):
-    if getID(x,y) in (5, 3, 1, 2, 0):
-        return -1
-    else:
-        return m.Mat_batiment[x][y].eff
+def get_fire_level(x,y):
+    return m.Mat_batiment[x][y].ind_fire
+def get_eff_level(x,y):
+    return m.Mat_batiment[x][y].eff
 
 class State:
     def __init__(self):
@@ -130,7 +121,7 @@ def getWalker(i, j):
 
 
 # fonction qui a realiser des opérations entre walkers et batiments:
-# si c'est un pompier, il va diminuer les indices de feu des batiments autour de lui, et si il y a un feu, doit aller l'eteindre 
+# si c'est un pompier, il va diminuer les indices de feu des batiments autour de lui, et si il y a un feu, doit aller l'eteindre
 # si c'est un ingenieur, il va diminuer les indices d'effondrement des batiments autour de lui
 # si c'est un Delivery_Guy, et qu'il est a destination, il va proceder a un echange (il faut enlever cette partie du deplacement pour la mettre içi)
 # si c'est pretre, il va augmenter l'indice de foi des maisons autour de lui
@@ -146,18 +137,18 @@ def test_walker_logique():
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
-                    if (perso.name == "Engineer"):
+                    elif (perso.name == "Engineer"):
                         proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
-                    if (perso.name == "Priest"):
+                    elif (perso.name == "Priest"):
                         proxy = m.get_bat_prox(i, j, 4)
                         print("proxy", proxy)
                         for bat in proxy:
                             if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
                                 bat.faith = bat.faith + 40
-                    if (perso.name == "Recruteur"):
+                    elif (perso.name == "Recruteur"):
                         proxy = m.get_bat_prox(i, j, 4)
                         print("proxy", proxy)
                         for bat in proxy:
@@ -172,9 +163,10 @@ def test_walker_logique():
                                         bat.employed = bat.curpop
                         if (perso.nb_a_recruter == 0):
                             m.kill_walker(perso)
-                    if perso.name == "Delivery_Guy" and perso.bat_destination.HasSomething():
+                    elif perso.name == "Delivery_Guy" and perso.HasSomething():
                         m.echange(perso)
-                    if perso.name == "Food Guy":
+                    elif perso.name == "Food_Guy":
+                        proxy = m.get_bat_prox(i, j, 4)
                         if perso.dest_x == -1:
                             for bat in proxy:
                                 if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
@@ -196,7 +188,7 @@ def test_bat_logique():
             bat = m.Mat_batiment[j][i]
             if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
                 m.invoke_walker(bat, "Recruteur")
-            if bat.hasCheck == 0:
+            elif bat.hasCheck == 0:
                 bat.hasCheck = 1
                 if bat.name == "Farm":
                     bat.growFood()
@@ -204,27 +196,87 @@ def test_bat_logique():
                         print("time for delivery")
                         Delivery(bat, 'ble', bat.ind_Harv * 2)
                         bat.ind_Harv = 0
-                if bat.name == "Prefecture":
+                elif bat.name == "Prefecture":
                     if bat.Walk == []:
                         m.invoke_walker(bat, "Prefect")
-                if bat.name == "EngineersPost":
+                elif bat.name == "EngineersPost":
                     if bat.Walk == []:
                         m.invoke_walker(bat, "Engineer")
-                if bat.name == "Temple":
+                elif bat.name == "Temple":
                     if bat.Walk == []:
                         m.invoke_walker(bat, "Priest")
+                elif bat.name == "Market":
+                    if bat.occupied_space <= 15:
+                        bat.get_delivery()
+
+
+
+
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
 
 def test_event(event):
     # if(event == Nume_maison):
-    # else if(event == Nume_eau):
-    # else if(event == Nume_route):
-    # else if(event == Nume_theatre):
-    # else if(event == Nume_nourriture):
-    # else if(event == Nume_prefecure):
-    # else if(event == Nume_pelle):
+    # elif(event == Nume_eau):
+    # elif(event == Nume_route):
+    # elif(event == Nume_theatre):
+    # elif(event == Nume_nourriture):
+    # elif(event == Nume_prefecure):
+    # elif(event == Nume_pelle):
+
+
+    print("")
+
+def build_pannel_grid(x1, y1, x2, y2):
+    for i in range(min(x1,x2), max(x1,x2)+1):
+        for j in range(min(y1,y2), max(y1,y2)+1):
+            Add_bat_game(i, j, m.name_id["Panneau"])
+
+def destroy_grid(x1,y1,x2,y2):
+    for i in range(x1, x2+1):
+        for j in range(y1, y2+1):
+            m.suppr_Batiment(i,j,m.Mat_batiment)
+
+def isHerb(x,y):
+    return m.Mat_batiment[y][x].name == "Herb"
+
+
+def Square_path(x1,y1,x2,y2):
+    if all(isHerb(i,y1) for i in range(x1,x2+1)) and all(isHerb(x2,j) for j in range(y1,y2+1)):
+        for i in range(x1,x2+1):
+            Add_bat_game(i,y1,m.name_id["Path"])
+        for j in range(y1,y2+1):
+            Add_bat_game(x2,j,m.name_id["Path"])
+    elif all(isHerb(x1,j) for j in range(y1,y2+1)) and all(isHerb(i,y2) for i in range(x1,x2+1)):
+        for j in range(y1,y2+1):
+            Add_bat_game(x1,j,m.name_id["Path"])
+        for i in range(x1,x2+1):
+            Add_bat_game(i,y2,m.name_id["Path"])
+
+
+def event_to_logic(nume, pos_init, pos_final):
+    if (nume == Nume_maison):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        build_pannel_grid(x1,y1,x2,y2)
+    elif(nume == Nume_pelle):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        destroy_grid(x1,y1,x2,y2)
+    elif(nume == Nume_route):
+        (x1, y1) = pos_init
+        (x2, y2) = pos_final
+        Square_path(x1,y1,x2,y2)
+    #elif(nume == Nume_well):
+    #    if(pos_init == pos_final):
+    #        (x,y) = pos_init
+    #        Add_bat_game(x,y,m.name_id["Well"])
+
+
+    # elif(nume == Nume_nourriture):
+    # elif(event == Nume_prefecure):
+
 
 
     print("")
