@@ -208,13 +208,13 @@ def test_bat_logique():
             m.Mat_batiment[j][i].hasCheck = 0
 
 def build_pannel_grid(x1, y1, x2, y2):
-    for i in range(x1, x2):
-        for j in range(y1, y2):
+    for i in range(x1, x2+1):
+        for j in range(y1, y2+1):
             (i, j, m.name_id["Panneau"])
 
 def destroy_grid(x1,y1,x2,y2):
-    for i in range(x1, x2):
-        for j in range(y1, y2):
+    for i in range(x1, x2+1):
+        for j in range(y1, y2+1):
             m.suppr_Batiment(i,j,m.Mat_batiment)
 
 def isHerb(x,y):
@@ -234,6 +234,7 @@ def Square_path(x1,y1,x2,y2):
             Add_bat_game(i,y2,m.name_id["Path"])
 
 
+assert 1 == 0
 
 
 def event_to_logic(nume, pos_init, pos_final):
