@@ -71,7 +71,7 @@ def main():
                         SP_input.ajout_char(event , screen)
 
                 if event.type == pg.MOUSEBUTTONDOWN : 
-                        
+                    
                     if Cur_page == "Home" : # Si on se trouve sur la page Home 
 
                         if HP_exit.overhead( mouse_track , screen ) :

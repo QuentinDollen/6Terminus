@@ -22,7 +22,7 @@ Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8
 Nume_pelle = pg.USEREVENT +9
 
-
+Unalterable = [0,1,2,3,4,5,6,666,116,115]
 
 # En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles prÃ©sente dans les autres fichiers servent de briques pour celles prÃ©sentes ici
 
@@ -34,7 +34,7 @@ Nume_pelle = pg.USEREVENT +9
 # prend en parametre le batiment qui invoque la livraison, le type de marchandise, la quantité
 def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
-    if (x != -1):
+    if x != -1:
         cible = m.SearchforSpace(type_march)
         if cible == None:
             return -1
@@ -80,7 +80,10 @@ def Add_bat_game(x, y, id_bat):
     return 0
 
 def get_fire_level(x,y):
-    return m.Mat_batiment[x][y].ind_fire
+    if m.Mat_batiment[y][x].id not in Unalterable:
+        return m.Mat_batiment[y][x].ind_fire
+    return -1 
+
 def get_eff_level(x,y):
     return m.Mat_batiment[x][y].eff
 
@@ -118,7 +121,12 @@ def load(nom):
 def getWalker(i, j):
         return m.Mat_perso[j][i][0]
 
-
+def getDesirability(bat):
+    proxy = m.get_bat_prox(bat.pos_x,bat.pos_y,5)
+    somme = 0
+    for batis in proxy:
+        somme += batis.initDesirability
+    return somme
 
 # fonction qui a realiser des opérations entre walkers et batiments:
 # si c'est un pompier, il va diminuer les indices de feu des batiments autour de lui, et si il y a un feu, doit aller l'eteindre
@@ -132,45 +140,46 @@ def test_walker_logique():
             if m.Mat_perso[j][i][0].name != "no Walker":
                 for k in range(len(m.Mat_perso[j][i])):
                     perso = m.Mat_perso[j][i][k]
-                    if (perso.name == "Prefect"):
+                    if perso.name == "Prefect":
                         proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
-                    elif (perso.name == "Engineer"):
+                    elif perso.name == "Engineer":
                         proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
-                    elif (perso.name == "Priest"):
+                    elif perso.name == "Priest":
                         proxy = m.get_bat_prox(i, j, 4)
                         print("proxy", proxy)
                         for bat in proxy:
-                            if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                            if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 bat.faith = bat.faith + 40
-                    elif (perso.name == "Recruteur"):
+                    elif perso.name == "Recruteur":
                         proxy = m.get_bat_prox(i, j, 4)
                         print("proxy", proxy)
                         for bat in proxy:
-                            if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
+                            if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 recruit = perso.nb_a_recruter
-                                if (bat.employed < bat.curpop and recruit > 0):
-                                    if ((bat.curpop - bat.employed) >= recruit):
+                                if bat.employed < bat.curpop and recruit > 0:
+                                    if (bat.curpop - bat.employed) >= recruit:
                                         bat.employed += recruit
                                         perso.nb_a_recruter = 0
                                     else:
                                         perso.nb_a_recruter -= (bat.curpop - bat.employed)
                                         bat.employed = bat.curpop
-                        if (perso.nb_a_recruter == 0):
+                        if perso.nb_a_recruter == 0:
                             m.kill_walker(perso)
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
                         m.echange(perso)
                     elif perso.name == "Food_Guy":
-                        proxy = m.get_bat_prox(i, j, 4)
-                        if perso.dest_x == -1:
-                            for bat in proxy:
-                                if (m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"])):
-                                    m.giveFood(perso, bat)
+                        if perso.role == 'distributeur':
+                            proxy = m.get_bat_prox(i, j, 4)
+                            if perso.dest_x == -1:
+                                for bat in proxy:
+                                    if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
+                                        m.giveFood(perso, bat)
                         else:
                             continue
 
@@ -186,7 +195,8 @@ def test_bat_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             bat = m.Mat_batiment[j][i]
-            if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
+
+            if bat.name != "Enter_Pannel" and bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
                 m.invoke_walker(bat, "Recruteur")
             elif bat.hasCheck == 0:
                 bat.hasCheck = 1
@@ -207,7 +217,14 @@ def test_bat_logique():
                         m.invoke_walker(bat, "Priest")
                 elif bat.name == "Market":
                     if bat.occupied_space <= 15:
-                        bat.get_delivery()
+                        #m.add_perso()
+                        pass
+                elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
+                    if(bat.curpop < bat.popLim):
+                        n = getDesirability(bat)
+                        if n >= 0:
+                            pass
+
 
 
 
@@ -256,15 +273,15 @@ def Square_path(x1,y1,x2,y2):
 
 
 def event_to_logic(nume, pos_init, pos_final):
-    if (nume == Nume_maison):
+    if nume == Nume_maison:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
         build_pannel_grid(x1,y1,x2,y2)
-    elif(nume == Nume_pelle):
+    elif nume == Nume_pelle:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
         destroy_grid(x1,y1,x2,y2)
-    elif(nume == Nume_route):
+    elif nume == Nume_route:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
         Square_path(x1,y1,x2,y2)

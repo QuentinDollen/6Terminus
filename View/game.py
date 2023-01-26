@@ -8,7 +8,8 @@ from View.settings import *
 # from utils import draw_text
 from View.camera import Camera
 from View.hud import Hud
-from Model import logique as l
+from Model import logique as l 
+from Model import Test_logique as Test_l
 
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
@@ -31,9 +32,11 @@ class Game:
         self.hud = Hud(self.width, self.height)
 
         overlay = ""
-        self.selection = [[], []]
-        self.action = None
-        self.mouse_button = [[], [], []]
+        self.selection =[[],[]]
+        self.action = None 
+        self.mouse_button = [[],[],[]]
+        
+
 
     def run(self):
         self.playing = True
@@ -56,30 +59,57 @@ class Game:
                     pg.quit()
                     sys.exit()
 
-            if event.type == pg.MOUSEBUTTONUP:
+                if event.key == pg.K_r : 
+                    Test_l.reset_maps()
 
-                if self.action != None and self.mouse_button[0] and self.selection[0] != []:
+                if event.key == pg.K_t :
+                    Test_l.Construction_1()
+            
+                if event.key == pg.K_y :
+                    Test_l.Tour_jeu()
+
+                if event.key == pg.K_u :
+                    self.map.overlay = "fire"
+
+                if event.key == pg.K_i :
+                    self.map.overlay = ""
+
+      
+
+            if event.type == pg.MOUSEBUTTONUP :
+
+                if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
                     self.selection[1] = self.mouse_to_tiles()
+                    
+                    l.event_to_logic(self.action , self.selection[0] , self.selection[1])
+                    
+       
 
-                    l.event_to_logic(self.action, self.selection[0], self.selection[1])
-
-            if event.type == pg.MOUSEBUTTONDOWN:
+            if event.type == pg.MOUSEBUTTONDOWN : 
                 self.mouse_button = pg.mouse.get_pressed()
+                
 
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
-                elif self.action != None:
-
-                    if self.hud.is_overhead_all():
+                elif self.action != None :
+                    
+                    if  self.hud.is_overhead_all()  :
                         self.action = self.hud.overhead_all()
-
-                    else:
+                        
+                    else : 
                         self.selection[0] = self.mouse_to_tiles()
-
-                if self.mouse_button[2]:
+                    
+                if  self.mouse_button[2]:
                     self.hud.overhead_all()
-                    self.action = None
-                    self.selection = [[], []]
+                    self.action = None    
+                    self.selection =[[],[]]
+                    
+
+
+                
+
+            
+
 
     def update(self):
 

@@ -174,7 +174,6 @@ def init_matrice_route(Mat_route, cases_x=nb_cases_x, cases_y=nb_cases_y):
 
 ################ a garder #############################
 
-
 Mat_batiment = []
 Mat_perso = []
 Mat_route = []
@@ -241,7 +240,7 @@ def add_employees():
         for j in range(nb_cases_y):
             if Mat_batiment[j][i].name == 'Maison 1':
                 Mat_batiment[j][i].add_familly(Nb_immigrant)
-            else:
+            elif not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
                 Nb_immigrant = Mat_batiment[j][i].need_employees(Nb_immigrant)
 
 
@@ -269,12 +268,12 @@ def afficher_mat_route(taille):
 
 # dictionnaire reliant l'id des batiments a la taille qu'ils occupent
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
-           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1 , 10:1}
+           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1, 10: 1}
 
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
            "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison1": 10, "Maison2": 11, "Maison3": 12,
-           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau": 7}
+           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau": 7, "Panneau Entree": 115}
 
 
 # permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)
@@ -348,7 +347,9 @@ def add_bat(x, y, id_bat, Mat):
         put_bat_mat(x, y, Warehouse, Mat)
         Liste_stock.append(Warehouse)
     elif id_bat == 115:
-        Mat[y][x] = t.Enter_Pannel(x, y)
+        global Panneau_entree
+        Panneau_entree = t.Enter_Pannel(x, y)
+        Mat[y][x] = Panneau_entree
     elif id_bat == 116:
         Mat[y][x] = t.Exit_Pannel(x, y)
     elif id_bat == 0:
@@ -362,28 +363,32 @@ def add_bat(x, y, id_bat, Mat):
 def add_perso_mat(Mat, perso, x, y):
     if Mat[y][x][0].name == "no Walker":
         Mat[y][x][0] = perso
+         
     else:
         print("test4")
         Mat[y][x].append(perso)
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, dest_y: object = -1) -> object:
+def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, dest_y: object = -1, role=None) -> object:
     if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat, Bat_cible, type_bouffe)
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
+    if type_ == "Food_Guy":
+        FG = F_G.Food_Guy(x, y, Bat, role, Bat_cible)
     if type_ == "Engineer":
         EN = engineer.Engineer(x, y, Bat)
         add_perso_mat(Mat, EN, x, y)
         Bat.Walk.append(EN)
         return EN
     if type_ == "Immigrant":
-        IM = imm.Immigrant(x, y, Bat)
+        IM = imm.Immigrant(x, y, Bat_cible)
         add_perso_mat(Mat_perso, IM, x, y)
-        route_cible = SearchforRoad(Bat.pos_x, Bat.pos_y)
+        route_cible = SearchforRoad(Bat_cible.pos_x, Bat_cible.pos_y)
         (IM.dest_x, IM.dest_y) = route_cible
+        Bat_cible.Walk.append(IM)
         return IM
     if type_ == "Prefect":
         P = pref.Prefect(x, y, Bat)
@@ -397,11 +402,15 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
         return Pr
 
 
-def invoke_walker(bat, type_):
+def invoke_walker(bat, type_, objectif = None):
     if bat.curEmployees >= 1:
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
-        add_perso(x, y, type_, Mat_perso, bat, None)
+        add_perso(x, y, type_, Mat_perso, bat, objectif)
 
+def invoke_migrant(maison_cible):
+    (x, y) = SearchforRoad(Panneau_entree.pos_x, Panneau_entree.pos_y, Mat_batiment)
+    print("coord:",x,y)
+    add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
@@ -423,23 +432,27 @@ def SearchforRoad(x, y, Mat=Mat_batiment):
     n = Mat[y][x].nbr_cases
     x1 = 0
     y1 = 0
+    k = 0
+    w = 0
     if x != 0:
         x1 = x - 1
+        k = 1
     if y != 0:
         y1 = y - 1
-    for i in range(n + 1):
+        w = 1
+    for i in range(n + k):
         if isPath(x1, y1, Mat):
             return x1, y1
         x1 = x1 + 1
-    for j in range(n + 1):
+    for j in range(n + w):
         if isPath(x1, y1, Mat):
             return x1, y1
         y1 = y1 + 1
-    for i in range(0, n + 1):
+    for i in range(0, n + k):
         if isPath(x1, y1, Mat):
             return x1, y1
         x1 = x1 - 1
-    for j in range(n + 1):
+    for j in range(n + w):
         if isPath(x1, y1, Mat):
             return x1, y1
         y1 = y1 - 1
@@ -475,26 +488,36 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
         tab3 = []
         tab4 = []
         test = 0
-        if isPath(x + 1, y, Mat) and not InTable((x + 1, y), tab_path):
-            test = 1
-            tab1 = copy(tab_path)
-            tab1.append((x + 1, y))
-            tab1 = next_case(x + 1, y, tab1, dest_x, dest_y, Mat)
-        if isPath(x, y + 1, Mat) and not InTable((x, y + 1), tab_path):
-            test = 1
-            tab2 = copy(tab_path)
-            tab2.append((x, y + 1))
-            tab2 = next_case(x, y + 1, tab2, dest_x, dest_y, Mat)
-        if isPath(x - 1, y, Mat) and not InTable((x - 1, y), tab_path):
-            test = 1
-            tab3 = copy(tab_path)
-            tab3.append((x - 1, y))
-            tab3 = next_case(x - 1, y, tab3, dest_x, dest_y, Mat)
-        if isPath(x, y - 1, Mat) and not InTable((x, y - 1), tab_path):
-            test = 1
-            tab4 = copy(tab_path)
-            tab4.append((x, y - 1))
-            tab4 = next_case(x, y - 1, tab4, dest_x, dest_y, Mat)
+
+        if  0 < x < nb_cases_x -1  :
+
+            if isPath(x + 1, y, Mat) and not InTable((x + 1, y), tab_path):
+                test = 1
+                tab1 = copy(tab_path)
+                tab1.append((x + 1, y))
+                tab1 = next_case(x + 1, y, tab1, dest_x, dest_y, Mat)
+
+            if isPath(x - 1, y, Mat) and not InTable((x - 1, y), tab_path):
+                test = 1
+                tab3 = copy(tab_path)
+                tab3.append((x - 1, y))
+                tab3 = next_case(x - 1, y, tab3, dest_x, dest_y, Mat)
+
+
+        if 0 < y < nb_cases_y -1 :
+
+            if isPath(x, y + 1, Mat) and not InTable((x, y + 1), tab_path):
+                test = 1
+                tab2 = copy(tab_path)
+                tab2.append((x, y + 1))
+                tab2 = next_case(x, y + 1, tab2, dest_x, dest_y, Mat)
+
+            if isPath(x, y - 1, Mat) and not InTable((x, y - 1), tab_path):
+                test = 1
+                tab4 = copy(tab_path)
+                tab4.append((x, y - 1))
+                tab4 = next_case(x, y - 1, tab4, dest_x, dest_y, Mat)
+
         if test == 0:
             return []
         tab = []
@@ -512,9 +535,12 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
         return final_tab
 
 
+
+
+
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
-    if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water", "Path"]):
+    if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
         for i in range(0, Mat[y][x].nbr_cases):
             for j in range(0, Mat[y][x].nbr_cases):
                 Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
@@ -524,15 +550,12 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    # if Mat[y][x][no_walker].ttl <= 0:
-    #     (Mat[y][x][no_walker].dest_y, Mat[y][x][no_walker].dest_x) = SearchforRoad(x, y, Mat_batiment)
-    #     return (x, y)
 
-    # if Mat_perso[y][x][no_walker].ttl <= 0:
-    #     dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].bat.pos_y, Mat_perso[y][x][no_walker].bat.pos_x,
-    #                                 Mat_batiment)
-    #     (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-    #     return tuple(x, y)
+    print(Mat_perso[y][x][no_walker].ttl)
+    if Mat_perso[y][x][no_walker].ttl <= 0 and (Mat_perso[y][x][no_walker].dest_x ,  Mat_perso[y][x][no_walker].dest_y )== (-1,-1):
+        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].batiment.pos_y, Mat_perso[y][x][no_walker].batiment.pos_x,Mat_batiment)
+        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
+        return (x, y)
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
@@ -548,9 +571,11 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
         if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y - 1):
             tab_possibles_chemins.append((x, y - 1))
     if len(tab_possibles_chemins) > 0:
+        Mat_perso[y][x][no_walker].ttl -= 1 
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
-        return Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x
+        Mat_perso[y][x][no_walker].ttl -= 1 
+        return (Mat_perso[y][x][no_walker].prev_y, Mat_perso[y][x][no_walker].prev_x)
 
 
 # verifie que la distance entre deux cases est de 1 (y compris en diagonale)
@@ -608,7 +633,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 Mat[j][i][count].nx = nx
                                 Mat[j][i][count].ny = ny
                             else:
-                                print(i, j, count)
+                                # print(i, j, count)
                                 nx = i
                                 ny = j
                                 if Mat_perso[j][i][count].name == "Immigrant":
@@ -642,6 +667,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
             if Mat[j][i][0].name != "no Walker":
                 for k in range(len(Mat[j][i])):
                     Mat[j][i][k].has_moved = 0  # le walker est prêt a bouger au prochain appel de la fonction
+
 
 
 def kill_walker(killed):  # gnéhéhé
@@ -710,10 +736,10 @@ def check_fire_eff():
     n = 0
     for i in range(nb_cases):
         for j in range(nb_cases):
-            if Mat_batiment[j][i].hasCheck == 0:
+            if  Mat_batiment[j][i].name != "Enter_Pannel" and Mat_batiment[j][i].hasCheck == 0:
                 Mat_batiment[j][i].hasCheck = 1
                 if (Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][
-                    i].name != "Path"):
+                    i].name != "Path" ):
                     n = Mat_batiment[j][i].augm_att()
                     if n == -2:
                         destroy_Bat(Mat_batiment[j][i])
@@ -732,16 +758,13 @@ def get_bat_prox(x, y, r):
 
             if (not InTable(Mat_batiment[y + j][x + i].name,
                             ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(
-                    Mat_batiment[y + j][x + i], tab)):
+                Mat_batiment[y + j][x + i], tab)):
                 tab.append(Mat_batiment[y + j][x + i])
             if (y - j >= 0 and not InTable(Mat_batiment[y - j][x + i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
                                             "Path"]) and not InTable(Mat_batiment[y - j][x + i], tab)):
                 tab.append(Mat_batiment[y - j][x + i])
-            if (y - j >= 0 and x - i >= 0 and not InTable(Mat_batiment[y - j][x - i].name,
-                                                          ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel",
-                                                           "Water", "Path"]) and not InTable(Mat_batiment[y - j][x - i],
-                                                                                             tab)):
+            if (y - j >= 0 and x - i >= 0 and not InTable(Mat_batiment[y - j][x - i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel","Water", "Path"]) and not InTable(Mat_batiment[y - j][x - i],tab)):
                 tab.append(Mat_batiment[y - j][x - i])
             if (x - i >= 0 and not InTable(Mat_batiment[y + j][x - i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
@@ -761,7 +784,7 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
     if fg.cargaison[0][1] > 0:
-        chargement = ["viandes", fg.cargaison[1][1] / 4]
+        chargement = ["viande", fg.cargaison[1][1] / 4]
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
 
@@ -843,6 +866,10 @@ deplacement_perso(Mat_perso)
 afficher_matrice_perso(Mat_perso, 7, 7)
 print("test livraison")
 print(Mat_batiment[5][4].nourriture)
+add_bat(1,0,name_id["Panneau Entree"], Mat_batiment)
+invoke_migrant(Mat_batiment[5][4])
+afficher_matrice_bat(Mat_batiment, 15, 15)
+afficher_matrice_perso(Mat_perso, 7, 7)
 
 # add_bat(1, 0, 5, Mat_batiment)
 # afficher_matrice_bat(Mat_batiment, 7, 7)
