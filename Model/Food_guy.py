@@ -10,10 +10,12 @@ from Model import Walker as W
 # les dÃ©placement vont soit du marché aux greniers, soit du marche au random
 
 class Food_Guy(W.Walker):
-    def __init__(self, x, y, bat):
+    def __init__(self, x, y, bat, role, bat_dest):
         W.Walker.__init__(self, x, y, bat)
         self.cargaison = [['ble', 0], ['fruits', 0], ['viande', 0]]
         self.name = 'Food_Guy'
+        self.role = role
+        self.bat_dest = bat_dest
 
     def ajout_marchandise(self, type_nourriture, nb):
         if type_nourriture == 'ble':
