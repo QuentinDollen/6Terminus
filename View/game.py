@@ -66,7 +66,8 @@ class Game:
                     Test_l.Construction_1()
             
                 if event.key == pg.K_y :
-                    Test_l.Tour_jeu()
+                    for i in range(15):
+                        Test_l.Tour_jeu()
 
                 if event.key == pg.K_u :
                     self.map.overlay = "fire"

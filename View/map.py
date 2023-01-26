@@ -279,6 +279,14 @@ class Map:
         if self.matrix[grid_x][grid_y] == 666:
             tile = ""
 
+        if l.m.Mat_fire[grid_y][grid_x] == 1:
+            tile = "ruine_in_fire"
+
+        if self.matrix[grid_x][grid_y] == 116:
+            tile = "direction1"
+        elif self.matrix[grid_x][grid_y] == 115:
+            tile = "direction2"
+
         if self.matrix[grid_x][grid_y] == 3: #TREES
             if self.matrixNature[grid_x][grid_y] == 10033:
                 tile = "tree33"
@@ -561,6 +569,11 @@ class Map:
             elif self.matrix[grid_x][grid_y] == 64:
                 tile = "temple_love"
 
+            #Aléa
+
+            elif self.matrix[grid_x][grid_y] == 555:
+                tile = "ruine"
+
 
 
         elif self.overlay == "water":
@@ -609,6 +622,9 @@ class Map:
             elif self.matrix[grid_x][grid_y] == 55:
                 tile = "security"
 
+            elif self.matrix[grid_x][grid_y] == 555:
+                tile = "ruine"
+
 
 
         elif self.overlay == "bat":
@@ -628,6 +644,9 @@ class Map:
 
             elif self.matrix[grid_x][grid_y] == 81:
                 tile = "engineer"
+
+            elif self.matrix[grid_x][grid_y] == 555:
+                tile = "ruine"
 
             else:
                 tile = ""
