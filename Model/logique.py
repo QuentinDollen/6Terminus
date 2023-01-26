@@ -23,9 +23,6 @@ Nume_administratif = pg.USEREVENT+8
 Nume_pelle = pg.USEREVENT +9
 
 
-def event_to_logic( nume , pos_init , pos_final) :
-    pass
-
 
 # En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles prÃ©sente dans les autres fichiers servent de briques pour celles prÃ©sentes ici
 
