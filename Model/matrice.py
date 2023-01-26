@@ -268,7 +268,7 @@ def afficher_mat_route(taille):
 
 # dictionnaire reliant l'id des batiments a la taille qu'ils occupent
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
-           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1 , 10:1}
+           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1, 10: 1}
 
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
@@ -369,14 +369,16 @@ def add_perso_mat(Mat, perso, x, y):
 
 
 # cree un personnage de type specifié par un string
-def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, dest_y: object = -1) -> object:
+def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, dest_y: object = -1, role=None) -> object:
     if type_ == 'Delivery Guy':
         DV = dv.Delivery_Guy(x, y, Bat, Bat_cible, type_bouffe)
         add_perso_mat(Mat, DV, x, y)
         Bat.Walk.append(DV)
         return DV
+    if type_ == "Food_Guy":
+        FG = F_G.Food_Guy(x, y, Bat, role, Bat_cible)
     if type_ == "Engineer":
-        EN = engineer.Engineer(x, y)
+        EN = engineer.Engineer(x, y, Bat)
         add_perso_mat(Mat, EN, x, y)
         Bat.Walk.append(EN)
         return EN
@@ -742,7 +744,7 @@ def get_bat_prox(x, y, r):
 
             if (not InTable(Mat_batiment[y + j][x + i].name,
                             ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(
-                    Mat_batiment[y + j][x + i], tab)):
+                Mat_batiment[y + j][x + i], tab)):
                 tab.append(Mat_batiment[y + j][x + i])
             if (y - j >= 0 and not InTable(Mat_batiment[y - j][x + i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
