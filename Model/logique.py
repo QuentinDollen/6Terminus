@@ -183,7 +183,10 @@ def test_walker_logique():
                             print("recruteur tué")
 
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
+                        print("SOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
                         m.echange(perso)
+                        m.kill_walker(perso)
+                        count -= 1
                     elif perso.name == "Food_Guy":
                         if perso.role == 'distributeur':
                             proxy = m.get_bat_prox(i, j, 4)
@@ -279,8 +282,8 @@ def build_pannel_grid(x1, y1, x2, y2):
             Add_bat_game(i, j, m.name_id["Panneau"])
 
 def destroy_grid(x1,y1,x2,y2):
-    for i in range(x1, x2+1):
-        for j in range(y1, y2+1):
+    for i in range(min(x1,x2), max(x1,x2)+1):
+        for j in range(min(y1,y2), max(y1,y2)+1):
             m.suppr_Batiment(i,j,m.Mat_batiment)
 
 def isHerb(x,y):
@@ -288,15 +291,15 @@ def isHerb(x,y):
 
 
 def Square_path(x1,y1,x2,y2):
-    if all(isHerb(i,y1) for i in range(x1,x2+1)) and all(isHerb(x2,j) for j in range(y1,y2+1)):
-        for i in range(x1,x2+1):
+    if all(isHerb(i,y1) for i in range(min(x1,x2),max(x1,x2)+1)) and all(isHerb(x2,j) for j in range(min(y1,y2), max(y1,y2)+1)):
+        for i in range(min(x1,x2),max(x1,x2)+1):
             Add_bat_game(i,y1,m.name_id["Path"])
-        for j in range(y1,y2+1):
+        for j in range(min(y1,y2), max(y1,y2)+1):
             Add_bat_game(x2,j,m.name_id["Path"])
-    elif all(isHerb(x1,j) for j in range(y1,y2+1)) and all(isHerb(i,y2) for i in range(x1,x2+1)):
-        for j in range(y1,y2+1):
+    elif all(isHerb(x1,j) for j in range(min(y1,y2), max(y1,y2)+1)) and all(isHerb(i,y2) for i in range(min(x1,x2),max(x1,x2)+1)):
+        for j in range(min(y1,y2), max(y1,y2)+1):
             Add_bat_game(x1,j,m.name_id["Path"])
-        for i in range(x1,x2+1):
+        for i in range(min(x1, x2), max(x1, x2) + 1):
             Add_bat_game(i,y2,m.name_id["Path"])
 
 

@@ -700,6 +700,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 
 def kill_walker(killed):  # gnéhéhé
+    print("gnehehehe")
     for e in killed.batiment.Walk:
         n = 0
         if e == killed:
