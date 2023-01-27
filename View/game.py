@@ -78,7 +78,14 @@ class Game:
                 if event.key == pg.K_i:
                     self.map.overlay = ""
 
-      
+                if event.key == pg.K_w :
+                    Test_l.decrease_speed()
+
+                if event.key == pg.K_x :
+                    Test_l.increase_speed()
+
+                if event.key == pg.K_c :
+                    Test_l.pause_speed()
 
             if event.type == pg.MOUSEBUTTONUP :
 
@@ -91,8 +98,14 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN :
                 self.mouse_button = pg.mouse.get_pressed()
-                pos_souris_down = pg.mouse.get_pos()
 
+
+                if self.hud.modif_speed() :
+                    print("J'ai modifié chef")
+                    self.action = self.hud.overhead_all()
+                    print(self.action == l.Nume_increase_speed)
+                    l.event_to_logic(self.action ,None ,None)
+                
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
                 elif self.action != None :

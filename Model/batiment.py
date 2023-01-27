@@ -23,9 +23,8 @@ class Batiment(t.Terrain):
         self.curEmployees = 0  # Le nombre d'employées
         self.name = "Batiment"  # le nom du batiment. À modifier selon le type de batiment
         self.Walk = []
-        self.walker_in = False  # Si le walker du batiment est dans le batiment
         self.hasCheck = 0
-        self.hasRecruteur = False
+        self.hasRecruteur = 0
 
     def ret_coord(self):
         return (self.pos_x, self.pos_y)
@@ -37,9 +36,6 @@ class Batiment(t.Terrain):
         else:
             return Nb_immigrant
 
-    def recieve_walker(self, walker):
-        self.Walk.append(walker)
-        self.walker_in = True
 
     def augm_att(self):
         if random() < 0.3:

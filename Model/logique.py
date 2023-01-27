@@ -21,6 +21,9 @@ Nume_prefecure = pg.USEREVENT+6
 Nume_ingenieur = pg.USEREVENT +7
 Nume_administratif = pg.USEREVENT+8
 Nume_pelle = pg.USEREVENT +9
+Nume_increase_speed = pg.USEREVENT +10
+Nume_decrease_speed = pg.USEREVENT +11
+Nume_pause_speed = pg.USEREVENT +12
 
 Unalterable = [0,1,2,3,4,5,6,666,116,115]
 
@@ -82,7 +85,7 @@ def Add_bat_game(x, y, id_bat):
 def get_fire_level(x,y):
     if m.Mat_batiment[y][x].id not in Unalterable:
         return m.Mat_batiment[y][x].ind_fire
-    return -1 
+    return -1
 
 def get_eff_level(x,y):
     if m.Mat_batiment[y][x].id not in Unalterable:
@@ -140,8 +143,10 @@ def test_walker_logique():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             if m.Mat_perso[j][i][0].name != "no Walker":
+                count = 0
                 for k in range(len(m.Mat_perso[j][i])):
-                    perso = m.Mat_perso[j][i][k]
+                    perso = m.Mat_perso[j][i][count]
+                    count +=1
                     if perso.name == "Prefect":
                         proxy = m.get_bat_prox(i, j, 2)
                         print("proxy", proxy)
@@ -159,20 +164,29 @@ def test_walker_logique():
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 bat.faith = bat.faith + 40
                     elif perso.name == "Recruteur":
+                        perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
                         proxy = m.get_bat_prox(i, j, 4)
-                        print("proxy", proxy)
+                        print("proxy recruteur", proxy)
                         for bat in proxy:
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 recruit = perso.nb_a_recruter
+                                print("goal recruit:", recruit)
                                 if bat.employed < bat.curpop and recruit > 0:
                                     if (bat.curpop - bat.employed) >= recruit:
                                         bat.employed += recruit
                                         perso.nb_a_recruter = 0
+                                        perso.batiment.curEmployees += recruit
                                     else:
-                                        perso.nb_a_recruter -= (bat.curpop - bat.employed)
+                                        recruted = (bat.curpop - bat.employed)
+                                        perso.nb_a_recruter -= recruted
                                         bat.employed = bat.curpop
+                                        perso.batiment.curEmployees += recruted
                         if perso.nb_a_recruter == 0:
+                            perso.batiment.hasRecruteur = 0
                             m.kill_walker(perso)
+                            count -= 1
+                            print("recruteur tué")
+
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
                         m.echange(perso)
                     elif perso.name == "Food_Guy":
@@ -184,6 +198,21 @@ def test_walker_logique():
                                         m.giveFood(perso, bat)
                         else:
                             continue
+                    elif perso.name == "Immigrant":
+                        print(perso.dest_x, perso.dest_y, "test destination")
+                        if perso.x == perso.dest_x and perso.y == perso.dest_y:
+                            print("NGAAAAAAAAAAAAAAAAA")
+                            if perso.batiment.name == "Panneau":
+                                print("debug")
+                                x = perso.batiment.pos_x
+                                y = perso.batiment.pos_y
+                                m.add_bat(x,y,10, m.Mat_batiment)
+                                perso.batiment.Walk.remove(perso)
+                                perso.batiment = m.Mat_batiment[y][x]
+                                perso.batiment.Walk.append(perso)
+                            perso.batiment.inccpop()
+                            m.kill_walker(perso)
+                            count -= 1
 
 
 # fonction qui teste les condition des batiments:
@@ -196,37 +225,39 @@ def test_bat_logique():
     m.check_fire_eff()
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
-            bat = m.Mat_batiment[j][i]
-
-            if bat.name != "Enter_Pannel" and bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
-                m.invoke_walker(bat, "Recruteur")
-            elif bat.hasCheck == 0:
-                bat.hasCheck = 1
-                if bat.name == "Farm":
-                    bat.growFood()
-                    if bat.ind_Harv >= 6:
-                        print("time for delivery")
-                        Delivery(bat, 'ble', bat.ind_Harv * 2)
-                        bat.ind_Harv = 0
-                elif bat.name == "Prefecture":
-                    if bat.Walk == []:
-                        m.invoke_walker(bat, "Prefect")
-                elif bat.name == "EngineersPost":
-                    if bat.Walk == []:
-                        m.invoke_walker(bat, "Engineer")
-                elif bat.name == "Temple":
-                    if bat.Walk == []:
-                        m.invoke_walker(bat, "Priest")
-                elif bat.name == "Market":
-                    if bat.occupied_space <= 15:
-                        #m.add_perso()
-                        pass
-                elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
-                    if(bat.curpop < bat.popLim):
-                        n = getDesirability(bat)
-                        if n >= 0:
+            if not m.InTable(m.Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
+                bat = m.Mat_batiment[j][i]
+                if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur and (m.SearchforRoad(i, j, Mat=m.Mat_batiment) != (-1,-1)):
+                    m.invoke_walker(bat, "Recruteur")
+                    print("test:",bat.Walk[0].x,",",bat.Walk[0].y)
+                    bat.hasRecruteur = 1
+                elif bat.hasCheck == 0:
+                    bat.hasCheck = 1
+                    if bat.name == "Farm":
+                        bat.growFood()
+                        if bat.ind_Harv >= 6:
+                            print("time for delivery")
+                            Delivery(bat, 'ble', bat.ind_Harv * 2)
+                            bat.ind_Harv = 0
+                    elif bat.name == "Prefecture":
+                        if bat.Walk == []:
+                            m.invoke_walker(bat, "Prefect")
+                    elif bat.name == "EngineersPost":
+                        if bat.Walk == []:
+                            m.invoke_walker(bat, "Engineer")
+                    elif bat.name == "Temple":
+                        if bat.Walk == []:
+                            m.invoke_walker(bat, "Priest")
+                    elif bat.name == "Market":
+                        if bat.occupied_space <= 15:
+                            #m.add_perso()
                             pass
-
+                    elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
+                        if bat.curpop < bat.popLim and bat.Walk == []:
+                            n = getDesirability(bat)
+                            if n >= -99:
+                                for i in range(bat.popLim-bat.curpop):
+                                    m.invoke_migrant(bat)
 
 
 
@@ -274,6 +305,47 @@ def Square_path(x1,y1,x2,y2):
             Add_bat_game(i,y2,m.name_id["Path"])
 
 
+actual_position = 0 
+Speed_game = 100
+speed_level = 5
+tab_speed = [10,20,30,50,70,100,150,200,300,400,500]
+
+def increase_speed():
+    global Speed_game, speed_level
+    if speed_level < len(tab_speed) -1 :
+        speed_level += 1 
+        Speed_game = tab_speed[speed_level]
+        print("Midified : ",Speed_game)
+
+def decrease_speed():
+    global Speed_game, speed_level
+    if speed_level > 0 :
+        speed_level -= 1 
+        Speed_game = tab_speed[speed_level]
+
+def pause_speed() :
+    global Speed_game
+    if Speed_game == 0 :
+        Speed_game = tab_speed[speed_level]
+    else : 
+        Speed_game = 0 
+
+def Tour_jeu() :
+    global actual_position
+    actual_position += Speed_game
+    
+    if actual_position >= 1000 :
+        actual_position = 0 
+        print("Gotted")
+        m.deplacement_perso(m.Mat_perso , m.nb_cases_x , m.nb_cases_y)
+        m.check_fire_eff()
+        test_bat_logique()
+        test_walker_logique()
+
+    else :
+        print("Skipped")
+
+
 def event_to_logic(nume, pos_init, pos_final):
     if nume == Nume_maison:
         (x1, y1) = pos_init
@@ -287,68 +359,230 @@ def event_to_logic(nume, pos_init, pos_final):
         (x1, y1) = pos_init
         (x2, y2) = pos_final
         Square_path(x1,y1,x2,y2)
+
+    elif nume == Nume_increase_speed :
+        increase_speed()
+
+    elif nume == Nume_decrease_speed :
+        decrease_speed()
+
+    elif nume == Nume_pause_speed :
+        pause_speed()
     #elif(nume == Nume_well):
     #    if(pos_init == pos_final):
     #        (x,y) = pos_init
     #        Add_bat_game(x,y,m.name_id["Well"])
 
 
-    # elif(nume == Nume_nourriture):
-    # elif(event == Nume_prefecure):
+#     # elif(nume == Nume_nourriture):
+#     # elif(event == Nume_prefecure):
 
 
 
-    print("")
+# print("")
 
 
-# a garder
+# # a garder
 # init_game()
 
+# #
+
+# # partie test
+
+# # print(Add_bat_game(2, 0, 5))
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # print("***  modification en cours ****")
+# # m.add_bat(0,0,0,m.Mat_batiment)
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # print("***  test de sauvegarde ****")
+
+# # sauvegarde("sauv1")
+# # m.add_bat(1,0,0,m.Mat_batiment)
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # print("**** test du load ****")
+
+# # load("sauv1")
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+
+#print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+
+
+# # test logique:
+# m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
+# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# print("ZEHAHAHAHAHAHAHAH")
 #
+# test_bat_logique()
+# test_walker_logique()
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+#
+# m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# print("HAHHAHAHAHAHHA")
+#
+# test_bat_logique()
+# test_bat_logique()
+# test_bat_logique()
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+#
+# test_bat_logique()
+# test_bat_logique()
+#
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
-# partie test
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
 
-# print(Add_bat_game(2, 0, 5))
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# print("***  modification en cours ****")
-# m.add_bat(0,0,0,m.Mat_batiment)
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# print("***  test de sauvegarde ****")
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
 
-# sauvegarde("sauv1")
-# m.add_bat(1,0,0,m.Mat_batiment)
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# print("**** test du load ****")
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+test_walker_logique()
+test_bat_logique()
 
-# load("sauv1")
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+test_walker_logique()
+test_bat_logique()
+test_bat_logique()
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+
+#test_bat_logique()
+#test_bat_logique()
 
 #print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
-# test logique:
-#m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
-#m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-#print("ZEHAHAHAHAHAHAHAH")
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
-#test_bat_logique()
-#test_walker_logique()
-#print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
-#m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-#m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-#print("HAHHAHAHAHAHHA")
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+test_walker_logique()
+test_bat_logique()
 
-#test_bat_logique()
-#test_bat_logique()
-#test_bat_logique()
-#print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
-#test_bat_logique()
-#test_bat_logique()
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
-#print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+test_walker_logique()
+test_bat_logique()
+print("Après")
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+print("curpop maison:",m.Mat_batiment[5][4].curpop)
+print("warehouse: statut recuteur", m.Mat_batiment[3][3].hasRecruteur)
+print("warehouse : nb employés",m.Mat_batiment[3][3].curEmployees)
+print("farm : nb employés",m.Mat_batiment[6][0].curEmployees)
+print("maison : nb employés", m.Mat_batiment[5][4].employed)
+print(m.Mat_batiment[5][10])
+
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+Add_bat_game(0,3,7)
+test_bat_logique()
+test_walker_logique()
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+test_walker_logique()
+
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+print("curpop maison:",m.Mat_batiment[3][0].curpop)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+test_bat_logique()
+test_walker_logique()
+print("")
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+print("")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+test_walker_logique()
+test_bat_logique()
 #m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 #m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 #m.deplacement_perso(m.Mat_perso)
@@ -357,6 +591,10 @@ def event_to_logic(nume, pos_init, pos_final):
 #print("Après")
 #m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+print("curpop maison:",m.Mat_batiment[5][4].curpop)
+print("curpop maison:",m.Mat_batiment[3][0].curpop)
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
@@ -372,5 +610,5 @@ def event_to_logic(nume, pos_init, pos_final):
 # print("")
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# print("test teet")
+# print("test test")
 # #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
