@@ -100,11 +100,13 @@ class Game:
             if event.type == pg.MOUSEBUTTONDOWN :
                 self.mouse_button = pg.mouse.get_pressed()
 
-                
-
                 if self.hud.modif_speed() :
                     self.action = self.hud.overhead_all()
                     l.event_to_logic(self.action ,None ,None)
+
+                if self.hud.overlay.collide(pg.mouse.get_pos()) :
+                    self.action = self.hud.overlay.clicked()
+                    l.event_to_logic( self.action,None ,None)
                 
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
@@ -175,6 +177,9 @@ class Game:
 
         elif self.map.overlay == "bat":
             self.draw_text(self.screen, 'Overlay Effondrement', 25, (255, 255, 255), (10, 75))
+
+        elif self.map.overlay == "water":
+            self.draw_text(self.screen, 'Overlay Eau', 25, (255, 255, 255), (10, 75))
 
         position_write = "(" + str(self.mouse_to_tiles()[0]) + "," + str(self.mouse_to_tiles()[1]) + ")"
 

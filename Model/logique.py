@@ -309,15 +309,14 @@ Speed_game = 100
 speed_level = 5
 tab_speed = [10,20,30,50,70,100,150,200,300,400,500]
 
+
 def increase_speed():
     global Speed_game, speed_level
     if speed_level < len(tab_speed) -1 :
         speed_level += 1 
         Speed_game = tab_speed[speed_level]
 
-
-def update_overlay():
-    pass
+val_overlay = 0   
 
 def decrease_speed():
     global Speed_game, speed_level
@@ -343,8 +342,16 @@ def Tour_jeu() :
         test_bat_logique()
         test_walker_logique()
 
+def get_overlay() :
+    global val_overlay
+    match val_overlay :
+        case 1 : return "water"
+        case 2 : return "bat"
+        case 3 : return "fire"
+        case _ : return ""
 
-
+def get_water(x,y) : 
+    return m.Mat_water[x][y]
 
 def event_to_logic(nume, pos_init, pos_final):
     if nume == Nume_maison:
@@ -386,6 +393,14 @@ def event_to_logic(nume, pos_init, pos_final):
 
     elif nume == Nume_prefecure :
         build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Prefecture"])
+
+    elif nume == Nume_overlay :
+        global val_overlay
+        print("Changement de overlay")
+        val_overlay = (val_overlay +1 )%4
+        
+        
+
 
     # elif nume == Nume_ingenieur :
     #     build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["EngineersPost"])

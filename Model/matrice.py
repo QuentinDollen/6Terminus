@@ -181,6 +181,7 @@ Mat_route = []
 unemployed = 0  # Le nombre de chômeurs
 Nb_immigrant = 20  # Le nombre de migrants
 Mat_fire = []
+Mat_water = []
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
@@ -197,8 +198,38 @@ def init_mat_fire():  # matrice de booleen determinant l'emplacement de zones en
 
 init_mat_fire()
 
+def init_mat_water():
+    global Mat_water
+    assert Mat_water == []
+    for j in range(nb_cases_y):
+        Mat_water.append([])
+        for i in range(nb_cases_x):
+            Mat_water[j].append([])
+            Mat_water[j][i] = 0
+
+init_mat_water()
 
 ############################################
+
+def update_water_map( x,y ,r) :
+    global Mat_water
+    for xi in range( x-r , x + r) :
+        for yi in range( y-r , y + r ) :
+            if  0 <= xi <= nb_cases_x -1 and 0 <= yi <= nb_cases_y -1  : 
+                Mat_water[xi][yi] = 1 
+
+def restructure_water_map() :
+    global Mat_water
+    Mat_water = []
+    init_mat_water()
+    for xi in range(nb_cases_x) :
+        for yi in range(nb_cases_y):
+            if Mat_batiment[yi][xi].name == "Well" :
+                update_water_map( xi, yi , 3)
+            if Mat_batiment[yi][xi].name == "Fountain" :
+                update_water_map( xi, yi , 6)
+            if Mat_batiment[yi][xi].name == "Reservoir" :
+                update_water_map( xi, yi , 9)
 
 
 # Actualise la matrice de route
@@ -286,12 +317,15 @@ def add_bat(x, y, id_bat, Mat = Mat_batiment):
     if id_bat == 92:
         well = wa.Well(x, y)
         Mat[y][x] = well
+        update_water_map(x,y,3)
     elif id_bat == 90:
         Reservoir = wa.Reservoir(x, y)
+        update_water_map(x,y,10)
         put_bat_mat(x, y, Reservoir, Mat)
     elif id_bat == 91:
         Fountain = wa.Fountain(x, y)
         Mat[y][x] = Fountain
+        update_water_map(x,y,6)
     elif id_bat == 8:
         Aquaduct = wa.Aquaduct(x, y)
         Mat[y][x] = Aquaduct
@@ -577,6 +611,8 @@ def suppr_Batiment(x, y, Mat):
         for i in range(0, Mat[y][x].nbr_cases):
             for j in range(0, Mat[y][x].nbr_cases):
                 Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
+
+    restructure_water_map()
 
 
 # deplacement normal: aller tout de droit puis faire demi tour apres une certaine distance

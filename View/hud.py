@@ -38,14 +38,13 @@ class button_text_hub():
         screen.blit(self.back, self.pos)
         screen.blit(self.text_surface , ( self.left + 5 , self.up + 5 ))
 
-   def collide( self ,pos ) :
-        tmp = self.back.get_rect()
-        tmp.center = (100,100)
-        return tmp.collidepoint(pos)
+   def collide( self ,posi ) :
+      return self.pos[0] <= posi[0] <= self.pos[0]  + self.width and self.pos[1]  <= posi[1] <= self.pos[1] + self.height
 
    def clicked( self ) :
       pos = pg.mouse.get_pos()
       if self.collide(pos) :
+         print("QUOI" , self.event == Nume_overlay)
          pg.event.post(pg.event.Event(self.event))
          return self.event
 
@@ -288,6 +287,7 @@ class Hud:
          self.speed_down.set_cliked()
          self.speed_up.set_cliked()
          self.speed_pause.set_cliked()
+         self.overlay.clicked()
          global action 
          return action 
 

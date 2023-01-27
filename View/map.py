@@ -582,10 +582,10 @@ class Map:
 
         elif self.overlay == "water":
 
-            if l.water(grid_x,grid_y) == True:
+            if l.get_water(grid_x,grid_y) == True:
                 tile = "watered"
 
-            elif l.water(grid_x,grid_y) == False:
+            elif l.get_water(grid_x,grid_y) == False:
                 tile = "unwatered"
 
             # Water services
@@ -680,6 +680,8 @@ class Map:
 
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
+
+        self.overlay = l.get_overlay()
 
         if(self.overlay == ""):     #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
                                     #AKA map d'eau, map de feu ou map de risque d'effondrement
