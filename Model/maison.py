@@ -11,7 +11,7 @@ class Maison(b.Batiment):
         self.name = 'Maison'
         self.nourriture = [['ble', 0 ], ['fruits', 0], ['viande', 0]]
         self.produits = [['argile',0], ['potterie',0], ['huile',0]]
-        self.popLim = 0
+        self.popLim = 1
         self.curpop = 0
         self.employed = 0
         self.faith = 0
@@ -29,12 +29,8 @@ class Maison(b.Batiment):
         if chargement[0] == 'argile':
             self.produits[0][1] += chargement[1]
 
-    def add_familly( self ,  Nb_immigrant ) :
-        if Nb_immigrant > 0 and self.curpop < self.popLim : 
-            self.curpop += 1
-            return  Nb_immigrant - 1 
-        else :
-            return Nb_immigrant
+    def inccpop(self):
+        self.curpop += 1
 
 
  
@@ -43,6 +39,7 @@ class Panneau(Maison):
         Maison.__init__(self, 1, 7, x, y, 10, -3, 1, 1, 3, 0)
         self.ind_fire = -1 
         self.name = "Panneau"
+
 
 
 class Maison_1(Maison):
