@@ -39,6 +39,7 @@ Unalterable = [0,1,2,3,4,5,6,666,116,115]
 # prend en parametre le batiment qui invoque la livraison, le type de marchandise, la quantité
 def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
+    print("Heres the delivery")
     if x != -1:
         cible = m.SearchforSpace(type_march)
         if cible == None:
@@ -183,6 +184,8 @@ def test_walker_logique():
                                         perso.nb_a_recruter -= recruted
                                         bat.employed = bat.curpop
                                         perso.batiment.curEmployees += recruted
+                                print("Le nombre d'employés de", perso.batiment,  "est ", perso.batiment.curEmployees)
+
                         if perso.nb_a_recruter == 0:
                             perso.batiment.hasRecruteur = 0
                             m.kill_walker(perso)
@@ -190,10 +193,13 @@ def test_walker_logique():
                             print("recruteur tué")
 
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
-                        print("SOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-                        m.echange(perso)
-                        m.kill_walker(perso)
-                        count -= 1
+                        proxy = m.get_bat_prox(i, j, 4)
+                        print("test delivery guy")
+                        if m.InTable(perso.bat_destination, proxy):
+                            print("tentative echange")
+                            m.echange(perso)
+                            m.kill_walker(perso)
+                            count -= 1
                     elif perso.name == "Food_Guy":
                         if perso.role == 'distributeur':
                             proxy = m.get_bat_prox(i, j, 4)
@@ -240,6 +246,7 @@ def test_bat_logique():
                     bat.hasCheck = 1
                     if bat.name == "Farm":
                         bat.growFood()
+                        print(bat.ind_Harv)
                         if bat.ind_Harv >= 6:
                             print("time for delivery")
                             Delivery(bat, 'ble', bat.ind_Harv * 2)
@@ -263,10 +270,6 @@ def test_bat_logique():
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
-
-
-
-
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
@@ -337,6 +340,7 @@ def Tour_jeu() :
     
     if actual_position >= 1000 :
         actual_position = 0 
+        print("Gotted")
         m.deplacement_perso(m.Mat_perso , m.nb_cases_x , m.nb_cases_y)
         m.check_fire_eff()
         test_bat_logique()
@@ -490,7 +494,6 @@ m.deplacement_perso(m.Mat_perso)
 test_walker_logique()
 test_bat_logique()
 test_bat_logique()
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 #test_bat_logique()
 #test_bat_logique()
@@ -573,6 +576,9 @@ print(m.Mat_batiment[5][10])
 m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
 Add_bat_game(0,3,7)
+Add_bat_game(0,25,100)
+print("")
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
 test_bat_logique()
 test_walker_logique()
 m.deplacement_perso(m.Mat_perso)
@@ -615,6 +621,24 @@ m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
 test_walker_logique()
 test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+test_bat_logique()
+m.deplacement_perso(m.Mat_perso)
+print("")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+
 #m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 #m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 #m.deplacement_perso(m.Mat_perso)
@@ -644,3 +668,5 @@ print("curpop maison:",m.Mat_batiment[3][0].curpop)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
 # print("test test")
 # #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
+
+print("FIN LOGIQUE BORDEL")

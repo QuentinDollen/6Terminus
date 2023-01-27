@@ -622,9 +622,9 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
 
     print(Mat_perso[y][x][no_walker].ttl, x,y)
     if Mat_perso[y][x][no_walker].ttl <= 0 and (Mat_perso[y][x][no_walker].dest_x ,  Mat_perso[y][x][no_walker].dest_y )== (-1,-1):
-        dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].batiment.pos_y, Mat_perso[y][x][no_walker].batiment.pos_x,Mat_batiment)
-        (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
-        return (x, y)
+        kill_walker(Mat_perso[y][x][no_walker])
+        return(666,666)
+
 
     tab_possibles_chemins = []
     if x < nb_cases_x - 1:
@@ -656,19 +656,19 @@ def dist(x1, y1, x2, y2):
 # procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible
 def echange(DV):
     print("echange")
-    if dist(DV.bat_destination.pos_x, DV.bat_destination.pos_y, DV.x, DV.y):
-        print("dechargement:", DV.cargaison_nourriture)
-        if DV.type_marchandise == 'ble':
-            print("ble")
-            DV.bat_destination.get_delivery(DV.dechargement('ble'))
-        elif DV.type_marchandise == 'fruits':
-            DV.bat_destination.get_delivery(DV.dechargement('fruits'))
-        elif DV.type_marchandise == 'viande':
-            DV.bat_destination.get_delivery(DV.dechargement('viande'))
-        elif DV.type_marchandise == 'olives':
-            DV.bat_destination.get_delivery(DV.dechargement('olives'))
-        elif DV.type_marchandise == 'argile':
-            DV.bat_destination.get_delivery(DV.dechargement('argile'))
+    print("dechargement:", DV.cargaison_nourriture)
+    if DV.type_marchandise == 'ble':
+        print("ble")
+        DV.bat_destination.get_delivery(DV.dechargement('ble'))
+    elif DV.type_marchandise == 'fruits':
+        DV.bat_destination.get_delivery(DV.dechargement('fruits'))
+    elif DV.type_marchandise == 'viande':
+        DV.bat_destination.get_delivery(DV.dechargement('viande'))
+    elif DV.type_marchandise == 'olives':
+        DV.bat_destination.get_delivery(DV.dechargement('olives'))
+    elif DV.type_marchandise == 'argile':
+        DV.bat_destination.get_delivery(DV.dechargement('argile'))
+    print("La quantité de blé est", DV.bat_destination.nourriture[0][1])
 
 
 # deplace l'ensemble des walker
@@ -711,6 +711,10 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             print(Mat[j][i][count].name)
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
                             print((nx, ny))
+                            if nx == 666 and ny == 666:
+                                count -= 1
+                                nx = i
+                                ny = j
 
                         if nx == i and ny == j :  # reste immobile
                             count = count + 1
@@ -722,6 +726,8 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 count = count + 1
                             else:
                                 walk = Mat[j][i][count]
+                                print("test deplacement",walk.name)
+
                                 Mat[j][i].pop(count)
                                 if len(Mat[j][i]) == 0:
                                     Mat[j][i].append(w.NoWalker())
@@ -741,6 +747,8 @@ def kill_walker(killed):  # gnéhéhé
     print("gnehehehe")
 
     if killed.name != "no Walker" :
+        if killed.name == 'Recruteur':
+            killed.batiment.hasRecruteur = 0
         for e in killed.batiment.Walk:
             n = 0
             if e == killed:
