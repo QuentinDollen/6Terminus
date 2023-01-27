@@ -1,11 +1,15 @@
 
 import pygame as pg
 import sys
+from os import getcwd
 
 
 sys.path.insert(0, '..')
 from Model.logique import *
 
+Path_font = f"{getcwd()}/Interface/C3_policy.TTF"
+Textefont = pg.font.Font( Path_font , 36 )
+Chiffrefont = pg.font.Font(None, 20)
 action = None  
 class button_hud():
 
@@ -111,7 +115,8 @@ class Hud:
         U2 = self.pos[1] + 63/95 * self.dim[1]  + self.bandeau_size[1]
         U3 = self.pos[1] + 70/95 * self.dim[1]  + self.bandeau_size[1]
         U4 = self.pos[1] + 78/95 * self.dim[1]  + self.bandeau_size[1]
-        U5 = self.pos[1] + 85/95 * self.dim[1]  + self.bandeau_size[1]
+        U5 = self.pos[1] +  self.dim[1]  + self.bandeau_size[1]
+        U6 = self.pos[1] + 5/4 * self.dim[1]  + self.bandeau_size[1]
         L1 = self.pos[0] + 6.9/32 * self.dim[0]
         L2 = self.pos[0] + 16/32 * self.dim[0]
         L3=  self.pos[0] + 26/32 * self.dim[0]
@@ -128,6 +133,13 @@ class Hud:
         self.theatre = button_hud("View/Graphique/paneling_00143.png","View/Graphique/paneling_00144.png","View/Graphique/paneling_00145.png", ( L2 , U3 ) , size_button ,Nume_theatre)
         self.pelle = button_hud("View/Graphique/paneling_00131.png","View/Graphique/paneling_00132.png","View/Graphique/paneling_00133.png", (L2 , U1) , size_button , Nume_pelle)
 
+        self.speed_up = button_hud("View/Graphique/paneling_00247.png","View/Graphique/paneling_00248.png","View/Graphique/paneling_00249.png",(L1 , U5), size_button , Nume_increase_speed)
+        self.speed_down = button_hud("View/Graphique/paneling_00251.png","View/Graphique/paneling_00252.png","View/Graphique/paneling_00253.png",(L2 , U5),size_button , Nume_decrease_speed)
+        self.speed_pause = button_hud("View/Graphique/paneling_00097.png","View/Graphique/paneling_00098.png","View/Graphique/paneling_00099.png", ( L3 , U5) , size_button,Nume_pause_speed)
+
+        
+
+
    def draw(self, screen):
 
          # screen.blit(self.menu1, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 840))
@@ -143,6 +155,13 @@ class Hud:
          self.value =  pg.transform.scale(self.value , (self.value.get_size()[0] * coef , self.value.get_size()[1] * coef ))
          screen.blit( self.value , ( self.width/4 , 0))
          screen.blit( self.value ,  ( self.width /2, 0))
+         
+
+         U6 = self.pos[1] + 1.05 * self.dim[1]  + self.bandeau_size[1]  
+         
+         self.speed_surface =  Chiffrefont.render( str(Speed_game) + "%" , True , (0,0,0) , (255,255,255)) 
+         L4 = self.pos[0] + 16/32 * self.dim[0] - self.speed_surface.get_width()/2
+         screen.blit(Chiffrefont.render( str(Speed_game) + "%" , True , (0,0,0) , (255,255,255)) , (L4,U6) )
 
 
          # screen.blit(self.menu2, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 166))
@@ -175,6 +194,9 @@ class Hud:
          self.pelle.draw(screen)
          self.ingenieur.draw(screen)
          self.santé.draw(screen)
+         self.speed_down.draw(screen)
+         self.speed_up.draw(screen)
+         self.speed_pause.draw(screen)
 
    def overhead_all( self):
 
@@ -188,15 +210,23 @@ class Hud:
          self.pelle.set_cliked()
          self.ingenieur.set_cliked()
          self.santé.set_cliked()
+         self.speed_down.set_cliked()
+         self.speed_up.set_cliked()
+         self.speed_pause.set_cliked()
          global action 
          return action 
 
    def is_overhead_all( self ) :
          pos = pg.mouse.get_pos()
          return self.maison.overhead(pos) or self.eau.overhead(pos) or self.prefecture.overhead(pos) or self.nourriture.overhead(pos) or self.route.overhead(pos) \
-         or self.theatre.overhead(pos) or self.administratif.overhead(pos) or self.pelle.overhead(pos) or self.ingenieur.overhead(pos) or self.santé.overhead(pos)
+         or self.theatre.overhead(pos) or self.administratif.overhead(pos) or self.pelle.overhead(pos) or self.ingenieur.overhead(pos) or self.santé.overhead(pos) or \
+         self.speed_down.overhead(pos) or self.speed_up.overhead(pos) or self.speed_pause.overhead(pos)
       
          
+
+   def modif_speed( self ): 
+      pos = pg.mouse.get_pos()
+      return self.speed_down.overhead(pos) or self.speed_up.overhead(pos) or self.speed_pause.overhead(pos)
      #
      #    # read images
      #    panel1 = pg.image.load("View/Graphique/paneling_00010.png")
