@@ -280,9 +280,6 @@ class Map:
         if self.matrix[grid_x][grid_y] == 666:
             tile = ""
 
-        if l.m.Mat_fire[grid_y][grid_x] == 1:
-            tile = "ruine_in_fire"
-
         if self.matrix[grid_x][grid_y] == 116:
             tile = "direction1"
         elif self.matrix[grid_x][grid_y] == 115:
@@ -577,7 +574,8 @@ class Map:
 
             elif self.matrix[grid_x][grid_y] == 555:
                 tile = "ruine"
-
+            elif l.m.Mat_fire[grid_y][grid_x] == 1:
+                tile = "ruine_in_fire"
 
 
         elif self.overlay == "water":
