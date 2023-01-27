@@ -152,7 +152,7 @@ class Map:
 
     def draw_mini(self, screen, camera):
 
-        pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 500, 144.3, 111))
+        #pg.draw.rect(screen, BLACK, (pg.display.Info().current_w - 500, pg.display.Info().current_h - 100, 144.3, 111))
 
         for x in range(self.grid_length_x):
             for y in range(self.grid_length_y):
@@ -183,9 +183,9 @@ class Map:
                         render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + pg.display.Info().current_w - 500 + minimap_offset[0], y + pg.display.Info().current_h - 500 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 124 + minimap_offset[0], y + 17 + minimap_offset[1]) for x, y in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
-                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 500 - camera.scroll_mini.x, pg.display.Info().current_h - 500 + camera.scroll_mini.y, 26, 20), 1)
+                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 153.5 - camera.scroll_mini.x, 35 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
 
@@ -456,9 +456,6 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,6) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 4) != 5:
             tile = "roadYL_capleft"
 
-        elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
-            tile = "road_quad"
-
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5:
             tile = "roadXL_teeright"
 
@@ -483,11 +480,8 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) != 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5:
             tile = "roadcurv_righttobottom"
 
-        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 3) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) != 5,
-                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) != 5]):
-            tile = "roadYL_capright"
+        elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
+            tile = "road_quad"
 
         elif self.matrix[grid_x][grid_y] == 5:
             tile = "roadXL_captop"
@@ -598,13 +592,13 @@ class Map:
 
             if risk >= 24: #WORST : need Pin-Pon asap
                 tile = "red"
-            elif risk < 24 and risk >= 18:
+            elif 24 > risk >= 18:
                 tile = "orange"
-            elif risk < 18 and risk >= 12:
+            elif 18 > risk >= 12:
                 tile = "yellow"
-            elif risk < 12 and risk >= 6:
+            elif 12 > risk >= 6:
                 tile = "green"
-            elif risk < 6 and risk >= 0: #BEST : disable smoke detectors
+            elif 6 > risk >= 0: #BEST : disable smoke detectors
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 55:
@@ -618,13 +612,13 @@ class Map:
 
             if risk >= 24:  # WORST : need a dispenser here
                 tile = "red"
-            elif risk < 24 and risk >= 18:
+            elif 24 > risk >= 18:
                 tile = "orange"
-            elif risk < 18 and risk >= 12:
+            elif 18 > risk >= 12:
                 tile = "yellow"
-            elif risk < 12 and risk >= 6:
+            elif 12 > risk >= 6:
                 tile = "green"
-            elif risk < 6 and risk >= 0:  # BEST : No spy around
+            elif 6 > risk >= 0:  # BEST : No spy around
                 tile = "blue"
 
             elif self.matrix[grid_x][grid_y] == 81:
@@ -810,7 +804,7 @@ class Map:
         roadYL = pg.image.load(path_to_Nature + "/Land2a_00094.png").convert_alpha()  # Y line \
         roadXL_capbottom = pg.image.load(path_to_Nature + "/Land2a_00104.png").convert_alpha()  # Y line cap on the bottom
         roadXL_captop = pg.image.load(path_to_Nature + "/Land2a_00102.png").convert_alpha()  # Y line cap on the top
-        road_quad = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()  # Quad-Intersection
+        road_quad = pg.image.load(path_to_Nature + "/Land2a_00110.png").convert_alpha()  # Quad-Intersection
         roadXL_teebottom = pg.image.load(path_to_Nature + "/Land2a_00106.png").convert_alpha()
         roadXL_teetop = pg.image.load(path_to_Nature + "/Land2a_00108.png").convert_alpha()
         roadYL_teeright = pg.image.load(path_to_Nature + "/Land2a_00109.png").convert_alpha()

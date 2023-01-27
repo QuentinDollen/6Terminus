@@ -472,15 +472,15 @@ def SearchforRoade(x, y, Mat=Mat_batiment):
 def SearchforRoad( x , y , Mat = Mat_batiment) :
 
     n = Mat_batiment[y][x].nbr_cases
-    
+    print(" Je veux : ",x,y)
     for xi in range( x-1 , x + n + 1) :
         for yi in range( y-1 , y + n + 1 ) :
             if  0 <= xi <= nb_cases_x -1 and 0 <= yi <= nb_cases_y -1  : 
                 if xi in [x-1 , x+n ] or yi in [ y-1 , y+n ] :
-                    print(xi,yi)
+                    print("Yet",xi,yi)
                     if isPath(xi,yi) :
                         return xi,yi
-
+    print("Pas de route")
     return -1 , -1
 
 # cherche si une valeur est déjà presente dans un tableau
@@ -505,6 +505,7 @@ def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab
 
 # fonction de pathfinding
 def next_case(x, y, tab_path, dest_x, dest_y, Mat):
+    print("Path",x,y)
     assert (isPath(x, y, Mat))
     if x == dest_x and y == dest_y:
         return tab_path
@@ -515,7 +516,7 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
         tab4 = []
         test = 0
 
-        if  0 < x < nb_cases_x -1  :
+        if   x < nb_cases_x -1  :
 
             if isPath(x + 1, y, Mat) and not InTable((x + 1, y), tab_path):
                 test = 1
@@ -523,6 +524,8 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
                 tab1.append((x + 1, y))
                 tab1 = next_case(x + 1, y, tab1, dest_x, dest_y, Mat)
 
+
+        if   0 < x  :
             if isPath(x - 1, y, Mat) and not InTable((x - 1, y), tab_path):
                 test = 1
                 tab3 = copy(tab_path)
@@ -530,13 +533,15 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
                 tab3 = next_case(x - 1, y, tab3, dest_x, dest_y, Mat)
 
 
-        if 0 < y < nb_cases_y -1 :
+        if  y < nb_cases_y -1 :
 
             if isPath(x, y + 1, Mat) and not InTable((x, y + 1), tab_path):
                 test = 1
                 tab2 = copy(tab_path)
                 tab2.append((x, y + 1))
                 tab2 = next_case(x, y + 1, tab2, dest_x, dest_y, Mat)
+
+        if  0 < y  :
 
             if isPath(x, y - 1, Mat) and not InTable((x, y - 1), tab_path):
                 test = 1
@@ -581,7 +586,7 @@ def suppr_Batiment(x, y, Mat):
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
 
-    print(Mat_perso[y][x][no_walker].ttl)
+    print(Mat_perso[y][x][no_walker].ttl, x,y)
     if Mat_perso[y][x][no_walker].ttl <= 0 and (Mat_perso[y][x][no_walker].dest_x ,  Mat_perso[y][x][no_walker].dest_y )== (-1,-1):
         dest_walker = SearchforRoad(Mat_perso[y][x][no_walker].batiment.pos_y, Mat_perso[y][x][no_walker].batiment.pos_x,Mat_batiment)
         (Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) = (dest_walker[0], dest_walker[1])
@@ -649,8 +654,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                     else:
                         Mat[j][i][
                             count].has_moved = 1  # si le walker a déjà bougé, vaut 1 sinon 0 (chaque walker ne se déplace qu'une fois)
-                        if Mat[j][i][count].dest_x != -1 and Mat[j][i][
-                            count].dest_y != -1:  # si a un objectif, utilise un deplacement calcule, autrement, deplacement aleatoire
+                        if Mat[j][i][count].dest_x != -1 and Mat[j][i][count].dest_y != -1:  # si a un objectif, utilise un deplacement calcule, autrement, deplacement aleatoire
                             if Mat[j][i][count].tab_path == []:
                                 new_path = next_case(i, j, [(i, j)], Mat[j][i][count].dest_x, Mat[j][i][count].dest_y,
                                                      Mat_batiment)
@@ -669,12 +673,12 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 if Mat_perso[j][i][count].name == "Immigrant":
                                     pass
                         else:
-                            print("cas basique")
+                            print("cas basique",i,j)
                             print(Mat[j][i][count].name)
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
                             print((nx, ny))
 
-                        if nx == i and ny == j:  # reste immobile
+                        if nx == i and ny == j :  # reste immobile
                             count = count + 1
                         else:  # change de case
                             if not isPath(nx, ny, Mat_batiment):
@@ -820,7 +824,6 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
         chargement = ["viande", fg.cargaison[1][1] / 4]
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
-
 
 # # non necessaire, juste un test
 

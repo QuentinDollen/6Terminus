@@ -11,8 +11,9 @@ from View.hud import Hud
 from Model import logique as l 
 from Model import Test_logique as Test_l
 
+list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
+              l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
 
-list_event = { l.Nume_administratif , l.Nume_eau , l.Nume_ingenieur , l.Nume_maison , l.Nume_nourriture , l.Nume_pelle , l.Nume_prefecure , l.Nume_route , l.Nume_sante , l.Nume_theatre}
 
 class Game:
 
@@ -39,14 +40,12 @@ class Game:
 
     def run(self):
         self.playing = True
-        
+
         while self.playing:
             self.clock.tick(60)
             self.events()
             self.update()
             self.draw()
-
-
 
     def events(self):
 
@@ -75,7 +74,14 @@ class Game:
                 if event.key == pg.K_i :
                     self.map.overlay = ""
 
-      
+                if event.key == pg.K_d :
+                    Test_l.decrease_speed()
+
+                if event.key == pg.K_f :
+                    Test_l.increase_speed()
+
+                if event.key == pg.K_p :
+                    Test_l.pause_speed()
 
             if event.type == pg.MOUSEBUTTONUP :
 
@@ -88,8 +94,14 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN : 
                 self.mouse_button = pg.mouse.get_pressed()
-                
 
+
+                if self.hud.modif_speed() :
+                    print("J'ai modifié chef")
+                    self.action = self.hud.overhead_all()
+                    print(self.action == l.Nume_increase_speed)
+                    l.event_to_logic(self.action ,None ,None)
+                
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
                 elif self.action != None :
@@ -113,7 +125,7 @@ class Game:
 
 
     def update(self):
-        
+
         self.camera.update()
         self.map.create_map()
         self.map.create_walkeur()
@@ -130,8 +142,6 @@ class Game:
         # p = [(x + self.width/2, y) for x, y in p]
         # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
 
-        
-
         # draw_text(
         #     self.screen,
         #     'fps={}'.format(round(self.clock.get_fps())),
@@ -142,30 +152,27 @@ class Game:
 
         pg.display.flip()
 
-    def mouse_to_tiles(self) :
+    def mouse_to_tiles(self):
         mouse = pg.mouse.get_pos()
 
-        on_grid_x = -self.camera.scroll.x + mouse[0] -self.map.grass_tiles.get_width()/2
+        on_grid_x = -self.camera.scroll.x + mouse[0] - self.map.grass_tiles.get_width() / 2
         on_grid_y = - self.camera.scroll.y + mouse[1]
 
-        iso_y = ( 2 * on_grid_y - on_grid_x)/2
-        iso_x =  iso_y + on_grid_x
+        iso_y = (2 * on_grid_y - on_grid_x) / 2
+        iso_x = iso_y + on_grid_x
 
-        grid_x = int ( iso_x // TILE_SIZE)
-        grid_y = int( iso_y // TILE_SIZE)
+        grid_x = int(iso_x // TILE_SIZE)
+        grid_y = int(iso_y // TILE_SIZE)
 
-        if grid_x < 0 : 
-            grid_x = 0 
-        if grid_x > 39 : 
+        if grid_x < 0:
+            grid_x = 0
+        if grid_x > 39:
             grid_x = 39
-        
-        if grid_y < 0 : 
-            grid_y = 0 
-        if grid_y > 39 : 
+
+        if grid_y < 0:
+            grid_y = 0
+        if grid_y > 39:
             grid_y = 39
 
-        return (grid_x , grid_y)
+        return (grid_x, grid_y)
 
-
-    
-            
