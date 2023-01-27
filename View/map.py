@@ -549,7 +549,7 @@ class Map:
                 tile = "well"
 
             elif self.matrix[grid_x][grid_y] == 91:
-                tile = "fountain_empty"
+                tile = "fountain_full"
 
             elif self.matrix[grid_x][grid_y] == 9100:
                 tile = "fountain_full"
@@ -594,7 +594,7 @@ class Map:
                 tile = "well"
 
             elif self.matrix[grid_x][grid_y] == 91:
-                tile = "fountain_empty"
+                tile = "fountain_full"
 
             elif self.matrix[grid_x][grid_y] == 9100:
                 tile = "fountain_full"
