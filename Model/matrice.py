@@ -824,7 +824,6 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
         fg.cargaison[0][1] *= 3 / 4
         house.get_delivery(chargement)
 
-
 # # non necessaire, juste un test
 
 
