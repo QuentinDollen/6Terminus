@@ -406,6 +406,8 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
 def invoke_walker(bat, type_, objectif = None):
     if bat.curEmployees >= 1 or type_ == "Recruteur":
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
+        print("test invoke:",x,y)
+        print("test batiment:",bat.pos_x, bat.pos_y)
         add_perso(x, y, type_, Mat_perso, bat, objectif)
 
 def invoke_migrant(maison_cible):
@@ -819,8 +821,6 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
 
 
 print("Test search ")
-add_bat(10,10 , name_id["Warehouse"])
-SearchforRoad(10,10, Mat_batiment[10][10])
 
 # afficher_matrice_bat(Mat_batiment, 8, 8)
 
@@ -898,7 +898,7 @@ add_bat(2, 1, 72, Mat_batiment)
 # afficher_matrice_perso(Mat_perso, 7, 7)
 # print("test livraison")
 # print(Mat_batiment[5][4].nourriture)
-# add_bat(1,0,name_id["Panneau Entree"], Mat_batiment)
+add_bat(1,0,name_id["Panneau Entree"], Mat_batiment)
 # invoke_migrant(Mat_batiment[5][4])
 # afficher_matrice_bat(Mat_batiment, 15, 15)
 # afficher_matrice_perso(Mat_perso, 7, 7)
