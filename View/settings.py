@@ -23,4 +23,4 @@ YELLOW = (255, 255, 0)
 MINI_MAP_COLOR = (102, 0, 51)
 
 sizedbuildings_2 = {"market"}
-sizedbuildings_3 = {"reservoir_empty","reservoir_full","warehouse","granary"}
+sizedbuildings_3 = {"reservoir_empty","reservoir_full","warehouse","granary","farm"}

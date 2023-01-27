@@ -540,6 +540,9 @@ class Map:
             elif self.matrix[grid_x][grid_y] == 72:
                 tile = "warehouse"
 
+            elif self.matrix[grid_x][grid_y] == 100:
+                tile = "farm"
+
             #Water services
 
             elif self.matrix[grid_x][grid_y] == 92:
@@ -623,8 +626,8 @@ class Map:
             if self.matrix[grid_x][grid_y] == 55:
                 tile = "security"
 
-            elif self.matrix[grid_x][grid_y] == 555:
-                tile = "ruine"
+            elif self.matrix[grid_x][grid_y] == 555 and l.m.Mat_fire[grid_y][grid_x] == 1:
+                tile = "ruine_in_fire"
 
 
 
@@ -677,8 +680,8 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
-        if(self.overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
-                            #AKA map d'eau, map de feu ou map de risque d'effondrement
+        if(self.overlay == ""):     #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
+                                    #AKA map d'eau, map de feu ou map de risque d'effondrement
             
 
             if(l.getWalker(grid_x,grid_y).name == "Priest"):
@@ -849,11 +852,12 @@ class Map:
         houselvl3 = pg.image.load(path_to_House + "/Housng1a_00021.png").convert_alpha()
         bighouselvl3 = pg.image.load(path_to_House + "/Housng1a_00023.png").convert_alpha()
 
-        #Warehouses and Market
+        #Warehouses and Market and Commerce
 
         warehouse = pg.image.load(path_to_Utilities + "/Warehouse.png").convert_alpha()
         granary = pg.image.load(path_to_Utilities + "/Grange.png").convert_alpha()
         market = pg.image.load(path_to_Utilities + "/Marche.png").convert_alpha()
+        farm = pg.image.load(path_to_Utilities + "/farm.png").convert_alpha()
 
         #Service Publique/Fonctionnaires
 
@@ -944,7 +948,7 @@ class Map:
                 "roadcurv_lefttobottom": roadcurv_lefttobottom, "roadcurv_righttobottom": roadcurv_righttobottom, "roadcurv_lefttotop": roadcurv_lefttotop, "roadcurv_righttotop": roadcurv_righttotop,
                 "direction1": direction1, "direction2": direction2,
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
-                "warehouse": warehouse, "granary": granary, "market": market,
+                "warehouse": warehouse, "granary": granary, "market": market, "farm": farm,
                 "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
