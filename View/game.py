@@ -14,7 +14,7 @@ from Model import Test_logique as Test_l
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
 
-
+pos_souris_down = (0,0)
 class Game:
 
     def __init__(self, screen, clock):
@@ -59,20 +59,23 @@ class Game:
                     pg.quit()
                     sys.exit()
 
-                if event.key == pg.K_r : 
+                if event.key == pg.K_r:
                     Test_l.reset_maps()
 
-                if event.key == pg.K_t :
+                if event.key == pg.K_t:
                     Test_l.Construction_1()
             
-                if event.key == pg.K_y :
+                if event.key == pg.K_y:
                     for i in range(15):
                         Test_l.Tour_jeu()
 
-                if event.key == pg.K_u :
+                if event.key == pg.K_f:
                     self.map.overlay = "fire"
 
-                if event.key == pg.K_i :
+                if event.key == pg.K_e:
+                    self.map.overlay = "bat"
+
+                if event.key == pg.K_i:
                     self.map.overlay = ""
 
       
@@ -86,26 +89,24 @@ class Game:
                     
        
 
-            if event.type == pg.MOUSEBUTTONDOWN : 
+            if event.type == pg.MOUSEBUTTONDOWN :
                 self.mouse_button = pg.mouse.get_pressed()
-                
+                pos_souris_down = pg.mouse.get_pos()
 
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
                 elif self.action != None :
                     
-                    if  self.hud.is_overhead_all()  :
+                    if self.hud.is_overhead_all():
                         self.action = self.hud.overhead_all()
                         
-                    else : 
+                    else:
                         self.selection[0] = self.mouse_to_tiles()
                     
-                if  self.mouse_button[2]:
+                if self.mouse_button[2]:
                     self.hud.overhead_all()
                     self.action = None    
                     self.selection =[[],[]]
-                    
-
 
                 
 
@@ -126,17 +127,42 @@ class Game:
         self.hud.draw(self.screen)
         self.map.draw_mini(self.screen, self.camera)
 
-        # p = self.map.map[x][y]["iso_poly"]
-        # p = [(x + self.width/2, y) for x, y in p]
-        # pg.draw.polygon(self.screen, (0, 0, 0), p, 1)
+        p = self.map.map[self.mouse_to_tiles()[0]][self.mouse_to_tiles()[1]]["iso_poly"]
+        p = [(x + self.map.grass_tiles.get_width() / 2 + self.camera.scroll.x, y - (self.map.tiles["case"].get_height() - TILE_SIZE) + self.camera.scroll.y) for x, y in p]
 
-        # draw_text(
-        #     self.screen,
-        #     'fps={}'.format(round(self.clock.get_fps())),
-        #     25,
-        #     (255, 255, 255),
-        #     (10, 10)
-        # )
+        #if self.mouse_button[0] and self.action != None:
+        #    self.screen.blit(self.map.tiles["case"], (p[0][0] - TILE_SIZE, p[0][1]))
+
+        if self.action != None:
+            pg.draw.polygon(self.screen, (255, 255, 255), p, 4)
+        else:
+            pg.draw.polygon(self.screen, (255, 205, 0), p, 2)
+
+        self.draw_text(
+            self.screen,
+            str("(" + str(self.mouse_to_tiles()[0]) + "," + str(self.mouse_to_tiles()[1]) + ")"),
+            15,
+            (255, 205, 0),
+            (p[1][0], p[1][1] + 10)
+        )
+
+        self.draw_text(
+            self.screen,
+            'fps={}'.format(round(self.clock.get_fps())),
+            25,
+            (255, 255, 255),
+            (10, 30)
+         )
+
+        if self.map.overlay == "fire":
+            self.draw_text(self.screen, 'Overlay Feu', 25, (255, 255, 255), (10, 75))
+
+        elif self.map.overlay == "bat":
+            self.draw_text(self.screen, 'Overlay Effondrement', 25, (255, 255, 255), (10, 75))
+
+        position_write = "(" + str(self.mouse_to_tiles()[0]) + "," + str(self.mouse_to_tiles()[1]) + ")"
+
+        self.draw_text(self.screen, position_write, 15, (255, 255, 255), (10, 55))
 
         pg.display.flip()
 
@@ -164,3 +190,10 @@ class Game:
 
         return (grid_x, grid_y)
 
+    def draw_text(self, screen, text, size, colour, pos):
+
+        font = pg.font.SysFont(None, size)
+        text_surface = font.render(text, True, colour)
+        text_rect = text_surface.get_rect(topleft=pos)
+
+        screen.blit(text_surface, text_rect)

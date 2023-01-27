@@ -48,5 +48,5 @@ class Batiment(t.Terrain):
             return -1
         if random() > 0.7:
             self.ind_eff += 1
-        if (self.ind_eff > 30 and random() > 0.7):
+        if self.ind_eff > 30:
             return -2

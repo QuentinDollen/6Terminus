@@ -1,6 +1,8 @@
 import os
 import sys
 
+
+
 sys.path.insert(0, '..')
 # Add the parent directory to the PYTHONPATH
 
@@ -13,6 +15,7 @@ import pygame as pg
 from View.camera import *
 from View.settings import *
 import Model.logique as l
+import View.game as g
 class Map:
 
     def __init__(self, grid_length_x, grid_length_y, width, height):
@@ -215,13 +218,11 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-
                 if(l.getWalker(x,y).name != 'no Walker'): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                    render_pos = self.map_walkeur[x][y]["render_pos"]
                    tile = self.map_walkeur[x][y]["tile"]
                    if tile != "":
                        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-
     def create_map(self):
 
         map = []
@@ -606,7 +607,7 @@ class Map:
 
         elif self.overlay == "fire":
 
-            risk = l.get_fire_level(grid_x,grid_y)
+            risk = l.get_fire_level(grid_x, grid_y)
 
             if risk >= 24: #WORST : need Pin-Pon asap
                 tile = "red"
@@ -619,7 +620,7 @@ class Map:
             elif 6 > risk >= 0: #BEST : disable smoke detectors
                 tile = "blue"
 
-            elif self.matrix[grid_x][grid_y] == 55:
+            if self.matrix[grid_x][grid_y] == 55:
                 tile = "security"
 
             elif self.matrix[grid_x][grid_y] == 555:
@@ -642,14 +643,12 @@ class Map:
             elif 6 > risk >= 0:  # BEST : No spy around
                 tile = "blue"
 
-            elif self.matrix[grid_x][grid_y] == 81:
+            if self.matrix[grid_x][grid_y] == 81:
                 tile = "engineer"
 
             elif self.matrix[grid_x][grid_y] == 555:
                 tile = "ruine"
 
-            else:
-                tile = ""
 
         out = {
             "grid": [grid_x, grid_y],
@@ -894,6 +893,8 @@ class Map:
         watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
         unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
 
+        case = pg.image.load(path_to_Utilities + "/case.png").convert_alpha()
+
         #Walkers
 
         priest0 = pg.image.load(path_to_Walkers + "/priest0.png").convert_alpha()
@@ -953,7 +954,7 @@ class Map:
                 "foodguy0": foodguy0, "foodguy1": foodguy1, "foodguy2": foodguy2, "foodguy3": foodguy3,
                 "random0": random0, "random1": random1, "random2": random2, "random3": random3,
                 "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
-                "watered": watered, "unwatered": unwatered
+                "watered": watered, "unwatered": unwatered, "case": case
 
                }
 

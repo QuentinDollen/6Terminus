@@ -86,7 +86,7 @@ def get_fire_level(x,y):
 
 def get_eff_level(x,y):
     if m.Mat_batiment[y][x].id not in Unalterable:
-        return m.Mat_batiment[x][y].eff
+        return m.Mat_batiment[y][x].ind_eff
     return -1
 
 class State:
