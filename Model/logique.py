@@ -140,71 +140,74 @@ def test_walker_logique():
             if m.Mat_perso[j][i][0].name != "no Walker":
                 count = 0
                 for k in range(len(m.Mat_perso[j][i])):
-                    if(k > 0 and count != 0):
-                        perso = m.Mat_perso[j][i][count]
-                        count +=1
-                        if perso.name == "Prefect":
-                            proxy = m.get_bat_prox(i, j, 2)
-                            print("proxy", proxy)
-                            for bat in proxy:
-                                bat.ind_fire = 0
-                        elif perso.name == "Engineer":
-                            proxy = m.get_bat_prox(i, j, 2)
-                            print("proxy", proxy)
-                            for bat in proxy:
-                                bat.ind_eff = 0
-                        elif perso.name == "Priest":
-                            proxy = m.get_bat_prox(i, j, 4)
-                            print("proxy", proxy)
-                            for bat in proxy:
-                                if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
-                                    bat.faith = bat.faith + 40
-                        elif perso.name == "Recruteur":
-                            perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
-                            proxy = m.get_bat_prox(i, j, 4)
-                            print("proxy recruteur", proxy)
-                            for bat in proxy:
-                                if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
-                                    recruit = perso.nb_a_recruter
-                                    print("goal recruit:", recruit)
-                                    if bat.employed < bat.curpop and recruit > 0:
-                                        if (bat.curpop - bat.employed) >= recruit:
-                                            bat.employed += recruit
-                                            perso.nb_a_recruter = 0
-                                            perso.batiment.curEmployees += recruit
-                                        else:
-                                            recruted = (bat.curpop - bat.employed)
-                                            perso.nb_a_recruter -= recruted
-                                            bat.employed = bat.curpop
-                                            perso.batiment.curEmployees += recruted
-                            if perso.nb_a_recruter == 0:
-                                perso.batiment.hasRecruteur = 0
-                                m.kill_walker(perso)
-                                print("recruteur tué")
+                    perso = m.Mat_perso[j][i][count]
+                    count +=1
+                    if perso.name == "Prefect":
+                        proxy = m.get_bat_prox(i, j, 2)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            bat.ind_fire = 0
+                    elif perso.name == "Engineer":
+                        proxy = m.get_bat_prox(i, j, 2)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            bat.ind_eff = 0
+                    elif perso.name == "Priest":
+                        proxy = m.get_bat_prox(i, j, 4)
+                        print("proxy", proxy)
+                        for bat in proxy:
+                            if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
+                                bat.faith = bat.faith + 40
+                    elif perso.name == "Recruteur":
+                        perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
+                        proxy = m.get_bat_prox(i, j, 4)
+                        print("proxy recruteur", proxy)
+                        for bat in proxy:
+                            if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
+                                recruit = perso.nb_a_recruter
+                                print("goal recruit:", recruit)
+                                if bat.employed < bat.curpop and recruit > 0:
+                                    if (bat.curpop - bat.employed) >= recruit:
+                                        bat.employed += recruit
+                                        perso.nb_a_recruter = 0
+                                        perso.batiment.curEmployees += recruit
+                                    else:
+                                        recruted = (bat.curpop - bat.employed)
+                                        perso.nb_a_recruter -= recruted
+                                        bat.employed = bat.curpop
+                                        perso.batiment.curEmployees += recruted
+                        if perso.nb_a_recruter == 0:
+                            perso.batiment.hasRecruteur = 0
+                            m.kill_walker(perso)
+                            count -= 1
+                            print("recruteur tué")
 
-                        elif perso.name == "Delivery_Guy" and perso.HasSomething():
-                            m.echange(perso)
-                        elif perso.name == "Food_Guy":
-                            if perso.role == 'distributeur':
-                                proxy = m.get_bat_prox(i, j, 4)
-                                if perso.dest_x == -1:
-                                    for bat in proxy:
-                                        if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
-                                            m.giveFood(perso, bat)
-                            else:
-                                continue
-                        elif perso.name == "Immigrant":
-                            if perso.x == perso.dest_x and perso.y == perso.dest_y:
-                                if perso.batiment.name == "Panneau":
-                                    x = perso.batiment.pos_x
-                                    y = perso.batiment.pos_y
-                                    m.add_bat(x,y,10, m.Mat_batiment)
-                                    perso.batiment.Walk.remove(perso)
-                                    perso.batiment = m.Mat_batiment[y][x]
-                                    perso.batiment.Walk.append(perso)
-                                perso.batiment.inccpop()
-                                m.kill_walker(perso)
-                                count -= 1
+                    elif perso.name == "Delivery_Guy" and perso.HasSomething():
+                        m.echange(perso)
+                    elif perso.name == "Food_Guy":
+                        if perso.role == 'distributeur':
+                            proxy = m.get_bat_prox(i, j, 4)
+                            if perso.dest_x == -1:
+                                for bat in proxy:
+                                    if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
+                                        m.giveFood(perso, bat)
+                        else:
+                            continue
+                    elif perso.name == "Immigrant":
+                        print(perso.dest_x, perso.dest_y, "test destination")
+                        if perso.x == perso.dest_x and perso.y == perso.dest_y:
+                            print("NGAAAAAAAAAAAAAAAAA")
+                            if perso.batiment.name == "Panneau":
+                                print("debug")
+                                x = perso.batiment.pos_x
+                                y = perso.batiment.pos_y
+                                m.add_bat(x,y,10, m.Mat_batiment)
+                                perso.batiment.Walk.remove(perso)
+                                perso.batiment = m.Mat_batiment[y][x]
+                                perso.batiment.Walk.append(perso)
+                            perso.batiment.inccpop()
+                            m.kill_walker(perso)
+                            count -= 1
 
 
 # fonction qui teste les condition des batiments:
@@ -247,7 +250,6 @@ def test_bat_logique():
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
                         if bat.curpop < bat.popLim and bat.Walk == []:
                             n = getDesirability(bat)
-                            print("haha je te l'avais dit")
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
@@ -513,8 +515,27 @@ m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
 m.deplacement_perso(m.Mat_perso)
 test_bat_logique()
+test_walker_logique()
+print("")
 m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+print("")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
 
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+m.deplacement_perso(m.Mat_perso)
+
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+test_walker_logique()
+test_bat_logique()
+
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
+print("curpop maison:",m.Mat_batiment[5][4].curpop)
+print("curpop maison:",m.Mat_batiment[3][0].curpop)
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
