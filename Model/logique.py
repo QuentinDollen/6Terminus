@@ -88,7 +88,9 @@ def get_fire_level(x,y):
     return -1
 
 def get_eff_level(x,y):
-    return m.Mat_batiment[x][y].eff
+    if m.Mat_batiment[y][x].id not in Unalterable:
+        return m.Mat_batiment[y][x].ind_eff
+    return -1
 
 class State:
     def __init__(self):
@@ -316,7 +318,7 @@ def increase_speed():
     if speed_level < len(tab_speed) -1 :
         speed_level += 1 
         Speed_game = tab_speed[speed_level]
-        print("Midified : ",Speed_game)
+
 
 def decrease_speed():
     global Speed_game, speed_level
@@ -337,14 +339,12 @@ def Tour_jeu() :
     
     if actual_position >= 1000 :
         actual_position = 0 
-        print("Gotted")
         m.deplacement_perso(m.Mat_perso , m.nb_cases_x , m.nb_cases_y)
         m.check_fire_eff()
         test_bat_logique()
         test_walker_logique()
 
-    else :
-        print("Skipped")
+
 
 
 def event_to_logic(nume, pos_init, pos_final):

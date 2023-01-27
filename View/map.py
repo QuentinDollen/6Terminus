@@ -1,6 +1,8 @@
 import os
 import sys
 
+
+
 sys.path.insert(0, '..')
 # Add the parent directory to the PYTHONPATH
 
@@ -13,6 +15,7 @@ import pygame as pg
 from View.camera import *
 from View.settings import *
 import Model.logique as l
+import View.game as g
 class Map:
 
     def __init__(self, grid_length_x, grid_length_y, width, height):
@@ -215,13 +218,11 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-
                 if(l.getWalker(x,y).name != 'no Walker'): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                    render_pos = self.map_walkeur[x][y]["render_pos"]
                    tile = self.map_walkeur[x][y]["tile"]
                    if tile != "":
                        screen.blit(self.tiles[tile],(render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x, render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-
     def create_map(self):
 
         map = []
@@ -278,6 +279,14 @@ class Map:
 
         if self.matrix[grid_x][grid_y] == 666:
             tile = ""
+
+        if l.m.Mat_fire[grid_y][grid_x] == 1:
+            tile = "ruine_in_fire"
+
+        if self.matrix[grid_x][grid_y] == 116:
+            tile = "direction1"
+        elif self.matrix[grid_x][grid_y] == 115:
+            tile = "direction2"
 
         if self.matrix[grid_x][grid_y] == 3: #TREES
             if self.matrixNature[grid_x][grid_y] == 10033:
@@ -483,8 +492,13 @@ class Map:
         elif self.matrix[grid_x][grid_y] == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y,4) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5 and self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5:
             tile = "road_quad"
 
-        elif self.matrix[grid_x][grid_y] == 5:
-            tile = "roadXL_captop"
+
+        elif self.matrix[grid_x][grid_y] == 5 and not any([self.get_neighbor(self.matrix, grid_x, grid_y, 0) == 5,
+                                                            self.get_neighbor(self.matrix, grid_x, grid_y, 3) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 4) == 5,
+                                                           self.get_neighbor(self.matrix, grid_x, grid_y, 6) == 5]):
+
+            tile = "roadYL_capright"
         
         else : 
             tile = ""
@@ -526,6 +540,9 @@ class Map:
             elif self.matrix[grid_x][grid_y] == 72:
                 tile = "warehouse"
 
+            elif self.matrix[grid_x][grid_y] == 100:
+                tile = "farm"
+
             #Water services
 
             elif self.matrix[grid_x][grid_y] == 92:
@@ -555,6 +572,11 @@ class Map:
                 tile = "temple_war"
             elif self.matrix[grid_x][grid_y] == 64:
                 tile = "temple_love"
+
+            #Aléa
+
+            elif self.matrix[grid_x][grid_y] == 555:
+                tile = "ruine"
 
 
 
@@ -588,7 +610,7 @@ class Map:
 
         elif self.overlay == "fire":
 
-            risk = l.get_fire_level(grid_x,grid_y)
+            risk = l.get_fire_level(grid_x, grid_y)
 
             if risk >= 24: #WORST : need Pin-Pon asap
                 tile = "red"
@@ -601,10 +623,14 @@ class Map:
             elif 6 > risk >= 0: #BEST : disable smoke detectors
                 tile = "blue"
 
-            elif self.matrix[grid_x][grid_y] == 55:
+            if self.matrix[grid_x][grid_y] == 55:
                 tile = "security"
 
+            elif self.matrix[grid_x][grid_y] == 555 and l.m.Mat_fire[grid_y][grid_x] == 1:
+                tile = "ruine_in_fire"
 
+            elif self.matrix[grid_x][grid_y] == 555 and l.m.Mat_fire[grid_y][grid_x] == 0:
+                tile = "ruine"
 
         elif self.overlay == "bat":
 
@@ -621,11 +647,12 @@ class Map:
             elif 6 > risk >= 0:  # BEST : No spy around
                 tile = "blue"
 
-            elif self.matrix[grid_x][grid_y] == 81:
+            if self.matrix[grid_x][grid_y] == 81:
                 tile = "engineer"
 
-            else:
-                tile = ""
+            elif self.matrix[grid_x][grid_y] == 555:
+                tile = "ruine"
+
 
         out = {
             "grid": [grid_x, grid_y],
@@ -654,8 +681,8 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
-        if(self.overlay == ""):  #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
-                            #AKA map d'eau, map de feu ou map de risque d'effondrement
+        if(self.overlay == ""):     #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
+                                    #AKA map d'eau, map de feu ou map de risque d'effondrement
             
 
             if(l.getWalker(grid_x,grid_y).name == "Priest"):
@@ -826,11 +853,12 @@ class Map:
         houselvl3 = pg.image.load(path_to_House + "/Housng1a_00021.png").convert_alpha()
         bighouselvl3 = pg.image.load(path_to_House + "/Housng1a_00023.png").convert_alpha()
 
-        #Warehouses and Market
+        #Warehouses and Market and Commerce
 
         warehouse = pg.image.load(path_to_Utilities + "/Warehouse.png").convert_alpha()
         granary = pg.image.load(path_to_Utilities + "/Grange.png").convert_alpha()
         market = pg.image.load(path_to_Utilities + "/Marche.png").convert_alpha()
+        farm = pg.image.load(path_to_Utilities + "/farm.png").convert_alpha()
 
         #Service Publique/Fonctionnaires
 
@@ -861,14 +889,16 @@ class Map:
 
         #Overlays
 
-        red = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
-        orange = pg.image.load(path_to_Utilities + "/Land2a_00036.png").convert_alpha()
-        yellow = pg.image.load(path_to_Utilities + "/Land2a_00038.png").convert_alpha()
-        green = pg.image.load(path_to_Utilities + "/Land2a_00041.png").convert_alpha()
-        blue = pg.image.load(path_to_Utilities + "/Land2a_00043.png").convert_alpha()
+        red = pg.image.load(path_to_Utilities + "/Land2a_00043.png").convert_alpha()
+        orange = pg.image.load(path_to_Utilities + "/Land2a_00041.png").convert_alpha()
+        yellow = pg.image.load(path_to_Utilities + "/Land2a_00038.png").convert_alpha()  #MEDIUM
+        green = pg.image.load(path_to_Utilities + "/Land2a_00036.png").convert_alpha()
+        blue = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
 
         watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
         unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
+
+        case = pg.image.load(path_to_Utilities + "/case.png").convert_alpha()
 
         #Walkers
 
@@ -919,7 +949,7 @@ class Map:
                 "roadcurv_lefttobottom": roadcurv_lefttobottom, "roadcurv_righttobottom": roadcurv_righttobottom, "roadcurv_lefttotop": roadcurv_lefttotop, "roadcurv_righttotop": roadcurv_righttotop,
                 "direction1": direction1, "direction2": direction2,
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
-                "warehouse": warehouse, "granary": granary, "market": market,
+                "warehouse": warehouse, "granary": granary, "market": market, "farm": farm,
                 "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
@@ -929,7 +959,7 @@ class Map:
                 "foodguy0": foodguy0, "foodguy1": foodguy1, "foodguy2": foodguy2, "foodguy3": foodguy3,
                 "random0": random0, "random1": random1, "random2": random2, "random3": random3,
                 "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
-                "watered": watered, "unwatered": unwatered
+                "watered": watered, "unwatered": unwatered, "case": case
 
                }
 

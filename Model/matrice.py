@@ -704,23 +704,25 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 def kill_walker(killed):  # gnéhéhé
     print("gnehehehe")
-    for e in killed.batiment.Walk:
-        n = 0
-        if e == killed:
-            killed.batiment.Walk.pop(n)
-            n += 1
-    if Mat_perso[killed.y][killed.x][0] == killed:
-        if len(Mat_perso[killed.y][killed.x]) < 2:
-            Mat_perso[killed.y][killed.x].pop()
-            Mat_perso[killed.y][killed.x].append(w.NoWalker())
-        else:
-            Mat_perso[killed.y][killed.x].pop(0)
-    else:
-        n = 0
-        for e in Mat_perso[killed.y][killed.x]:
+
+    if killed.name != "no Walker" :
+        for e in killed.batiment.Walk:
+            n = 0
             if e == killed:
-                Mat_perso[killed.y][killed.x].pop(n)
-            n += 1
+                killed.batiment.Walk.pop(n)
+                n += 1
+        if Mat_perso[killed.y][killed.x][0] == killed:
+            if len(Mat_perso[killed.y][killed.x]) < 2:
+                Mat_perso[killed.y][killed.x].pop()
+                Mat_perso[killed.y][killed.x].append(w.NoWalker())
+            else:
+                Mat_perso[killed.y][killed.x].pop(0)
+        else:
+            n = 0
+            for e in Mat_perso[killed.y][killed.x]:
+                if e == killed:
+                    Mat_perso[killed.y][killed.x].pop(n)
+                n += 1
 
 
 def genocide(bat):  # plus efficace à la destruction d'un batiment + len
@@ -772,7 +774,7 @@ def check_fire_eff():
             if not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]) and Mat_batiment[j][i].hasCheck == 0:
                 Mat_batiment[j][i].hasCheck = 1
                 if (Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][
-                    i].name != "Path"):
+                    i].name != "Path" and Mat_batiment[j][i].name != "Ruin"):
                     n = Mat_batiment[j][i].augm_att()
                     if n == -2:
                         destroy_Bat(Mat_batiment[j][i])
@@ -860,14 +862,13 @@ add_bat(6, 4, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 8, 8)
 add_bat(4, 5, 10, Mat_batiment)
 add_bat(2, 1, 72, Mat_batiment)
+add_bat(20, 20, 100, Mat_batiment)
 
-# add_bat(20, 20, 5, Mat_batiment)
-# add_bat(20, 21, 5, Mat_batiment)
-# # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-# # DV.ajout_marchandise(6)
-# # print("cargaison", DV.cargaison_nourriture)
-# # Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
-# # Mat_perso[1][1][0].dest_y = 4
+# DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# DV.ajout_marchandise(6)
+# print("cargaison", DV.cargaison_nourriture)
+# Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
+# Mat_perso[1][1][0].dest_y = 4
 
 # #
 # #
