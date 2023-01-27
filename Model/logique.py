@@ -24,6 +24,8 @@ Nume_pelle = pg.USEREVENT +9
 Nume_increase_speed = pg.USEREVENT +10
 Nume_decrease_speed = pg.USEREVENT +11
 Nume_pause_speed = pg.USEREVENT +12
+Nume_well = pg.USEREVENT +13
+Nume_overlay = pg.USEREVENT +14
 
 Unalterable = [0,1,2,3,4,5,6,666,116,115]
 
@@ -272,22 +274,16 @@ def test_bat_logique():
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
 
-def test_event(event):
-    # if(event == Nume_maison):
-    # elif(event == Nume_eau):
-    # elif(event == Nume_route):
-    # elif(event == Nume_theatre):
-    # elif(event == Nume_nourriture):
-    # elif(event == Nume_prefecure):
-    # elif(event == Nume_pelle):
-
-
-    print("")
 
 def build_pannel_grid(x1, y1, x2, y2):
     for i in range(min(x1,x2), max(x1,x2)+1):
         for j in range(min(y1,y2), max(y1,y2)+1):
             Add_bat_game(i, j, m.name_id["Panneau"])
+
+def build_grid(x1, y1, x2, y2 , id_bat):
+    for i in range(min(x1,x2), max(x1,x2)+1):
+        for j in range(min(y1,y2), max(y1,y2)+1):
+            Add_bat_game(i, j,id_bat)
 
 def destroy_grid(x1,y1,x2,y2):
     for i in range(min(x1,x2), max(x1,x2)+1):
@@ -322,6 +318,9 @@ def increase_speed():
         speed_level += 1 
         Speed_game = tab_speed[speed_level]
 
+
+def update_overlay():
+    pass
 
 def decrease_speed():
     global Speed_game, speed_level
@@ -366,6 +365,7 @@ def event_to_logic(nume, pos_init, pos_final):
         (x2, y2) = pos_final
         Square_path(x1,y1,x2,y2)
 
+
     elif nume == Nume_increase_speed :
         increase_speed()
 
@@ -374,10 +374,26 @@ def event_to_logic(nume, pos_init, pos_final):
 
     elif nume == Nume_pause_speed :
         pause_speed()
-    #elif(nume == Nume_well):
-    #    if(pos_init == pos_final):
-    #        (x,y) = pos_init
-    #        Add_bat_game(x,y,m.name_id["Well"])
+    elif(nume == Nume_well):
+       if(pos_init == pos_final):
+           (x,y) = pos_init
+           Add_bat_game(x,y,m.name_id["Well"])
+    
+    elif nume == Nume_nourriture : 
+        if pos_init == pos_final :
+             Add_bat_game(pos_init[0],pos_init[1],m.name_id["Farm"])
+
+    elif nume == Nume_eau :
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Well"])
+
+    elif nume == Nume_ingenieur :
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["EngineersPost"])
+
+    elif nume == Nume_prefecure :
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Prefecture"])
+
+    # elif nume == Nume_ingenieur :
+    #     build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["EngineersPost"])
 
 
 #     # elif(nume == Nume_nourriture):
