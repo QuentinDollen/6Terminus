@@ -151,12 +151,13 @@ def test_walker_logique():
                     perso = m.Mat_perso[j][i][count]
                     count +=1
                     if perso.name == "Prefect":
-                        proxy = m.get_bat_prox(i, j, 2)
+                        proxy = m.get_bat_prox(i, j, 5)
                         print("proxy", proxy)
                         for bat in proxy:
+                            print("get etinxted")
                             bat.ind_fire = 0
                     elif perso.name == "Engineer":
-                        proxy = m.get_bat_prox(i, j, 2)
+                        proxy = m.get_bat_prox(i, j, 5)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
@@ -245,12 +246,13 @@ def test_bat_logique():
                 elif bat.hasCheck == 0:
                     bat.hasCheck = 1
                     if bat.name == "Farm":
-                        bat.growFood()
-                        print(bat.ind_Harv)
-                        if bat.ind_Harv >= 6:
-                            print("time for delivery")
-                            Delivery(bat, 'ble', bat.ind_Harv * 2)
-                            bat.ind_Harv = 0
+                        if bat.curEmployees>=1:
+                            bat.growFood()
+                            print(bat.ind_Harv)
+                            if bat.ind_Harv >= 6:
+                                print("time for delivery")
+                                Delivery(bat, 'ble', bat.ind_Harv * 2)
+                                bat.ind_Harv = 0
                     elif bat.name == "Prefecture":
                         if bat.Walk == []:
                             m.invoke_walker(bat, "Prefect")

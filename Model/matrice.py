@@ -814,7 +814,7 @@ def check_fire_eff():
     n = 0
     for i in range(nb_cases):
         for j in range(nb_cases):
-            if not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]) and Mat_batiment[j][i].hasCheck == 0:
+            if not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water", "Panneau"]) and Mat_batiment[j][i].hasCheck == 0:
                 Mat_batiment[j][i].hasCheck = 1
                 if (Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][
                     i].name != "Path" and Mat_batiment[j][i].name != "Ruin"):
@@ -834,20 +834,20 @@ def get_bat_prox(x, y, r):
     for i in range(r):
         for j in range(r):
 
-            if ( y + j < nb_cases_y -1 and x + i < nb_cases_x -1 and not InTable(Mat_batiment[y + j][x + i].name,
+            if ( y + j <= nb_cases_y -1 and x + i <= nb_cases_x -1 and not InTable(Mat_batiment[y + j][x + i].name,
                             ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(
                 Mat_batiment[y + j][x + i], tab)):
                 tab.append(Mat_batiment[y + j][x + i])
 
-            if (x + i < nb_cases_x -1 and y - j > 0 and not InTable(Mat_batiment[y - j][x + i].name,
+            if (x + i <= nb_cases_x -1 and y - j >= 0 and not InTable(Mat_batiment[y - j][x + i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
                                             "Path"]) and not InTable(Mat_batiment[y - j][x + i], tab)):
                 tab.append(Mat_batiment[y - j][x + i])
 
-            if (y - j > 0 and x - i > 0 and not InTable(Mat_batiment[y - j][x - i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel","Water", "Path"]) and not InTable(Mat_batiment[y - j][x - i],tab)):
+            if (y - j >= 0 and x - i >= 0 and not InTable(Mat_batiment[y - j][x - i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel","Water", "Path"]) and not InTable(Mat_batiment[y - j][x - i],tab)):
                 tab.append(Mat_batiment[y - j][x - i])
 
-            if (y + j < nb_cases_y -1  and x - i > 0 and not InTable(Mat_batiment[y + j][x - i].name,
+            if (y + j <= nb_cases_y -1  and x - i >= 0 and not InTable(Mat_batiment[y + j][x - i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
                                             "Path"]) and not InTable(Mat_batiment[y + j][x - i], tab)):
                 tab.append(Mat_batiment[y + j][x - i])
