@@ -88,7 +88,7 @@ def main():
                         elif HP_load_game.overhead( mouse_track , screen ) :
                             pass
 
-                    elif Cur_page == "Select" : # Si on se trouve sur la page Select
+                    elif Cur_page == "Select" : # Si ony se trouve sur la page Select
 
                         # Erreur dans la conception avec les rectangle 
 

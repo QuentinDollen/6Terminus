@@ -38,11 +38,11 @@ class Batiment(t.Terrain):
 
 
     def augm_att(self):
-        if random() < 0.3:
+        if random() < 0.1:
             self.ind_fire += 1
         if self.ind_fire > 30:
             return -1
-        if random() > 0.7:
+        if random() > 0.9:
             self.ind_eff += 1
         if self.ind_eff > 30:
             return -2

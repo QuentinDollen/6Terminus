@@ -6,9 +6,47 @@ sys.path.insert(0, '..')
 from Model.logique import *
 
 Path_font = f"{getcwd()}/Interface/C3_policy.TTF"
-Textefont = pg.font.Font( Path_font , 36 )
+Textefont = pg.font.Font( Path_font , 14 )
 Chiffrefont = pg.font.Font(None, 20)
+Test_screen = pg.display.set_mode( ( 0 , 0 ) , pg.FULLSCREEN)
+( window_width , winddow_height) = Test_screen.get_size()
 action = None
+
+
+class button_text_hub():
+
+   def __init__( self  , pos , size ,text, event) :
+        
+        self.left = pos[0] - size[0]/2
+        self.up = pos[1] - size[1]/2
+        self.pos = ( self.left , self.up )
+        self.size = size
+        self.width = size[0]
+        self.height = size[1]
+        self.text = text
+        self.event = event
+        self.text_surface = Textefont.render(self.text , True , (0,0,0) , (255,255,255))
+        self.rect = self.text_surface.get_rect()
+        self.back = pg.Surface( ( self.width , self.text_surface.get_size()[1] + 10 ))
+        self.back.fill( (255,255,255))
+
+
+
+   def draw( self , screen ) : 
+        #Faire une surface de fond 
+
+        screen.blit(self.back, self.pos)
+        screen.blit(self.text_surface , ( self.left + 5 , self.up + 5 ))
+
+   def collide( self ,posi ) :
+      return self.pos[0] <= posi[0] <= self.pos[0]  + self.width and self.pos[1]  <= posi[1] <= self.pos[1] + self.height
+
+   def clicked( self ) :
+      pos = pg.mouse.get_pos()
+      if self.collide(pos) :
+         print("QUOI" , self.event == Nume_overlay)
+         pg.event.post(pg.event.Event(self.event))
+         return self.event
 
 
 class button_hud():
@@ -111,16 +149,27 @@ class Hud:
         self.menu10 = pg.image.load("View/Graphique/paneling_00480.png")
         self.menu11 = pg.image.load("View/Graphique/paneling_00519.png")
 
+
+
+
         # Menu bandeau
 
         self.bandeau = pg.image.load("View/Graphique/Paneling_bandeau.PNG")
         self.value = pg.image.load("View/Graphique/paneling_00015.PNG")
         self.bandeau_size = self.bandeau.get_size()
 
-        self.dim = self.menu1.get_size()
-        self.pos = (width - self.dim[0], 0)
 
+        self.dim = self.menu1.get_size()
+        self.pos = (width - self.dim[0], self.bandeau_size[1])
         size_button = (9.4 / 36 * self.dim[0], 6.5 / 95 * self.dim[1])
+
+        # Menu overlay
+
+        
+
+        self.overlay = button_text_hub( (self.pos[0] + self.dim[0] * (14.8/38), self.pos[1] + self.dim[1] * (2.5/93)),( self.dim[0] * 3/4 ,  self.dim[1] * 3.5/93 ), "Overlay" , Nume_overlay)
+
+
 
         # Buttons :
 
@@ -160,6 +209,12 @@ class Hud:
         self.speed_pause = button_hud("View/Graphique/paneling_00097.png","View/Graphique/paneling_00098.png","View/Graphique/paneling_00099.png", ( L3 , U5) , size_button,Nume_pause_speed)
 
         
+        
+
+
+
+
+
 
 
     def draw(self, screen):
@@ -215,6 +270,7 @@ class Hud:
         self.speed_down.draw(screen)
         self.speed_up.draw(screen)
         self.speed_pause.draw(screen)
+        self.overlay.draw(screen)
 
     def overhead_all( self):
 
@@ -231,6 +287,7 @@ class Hud:
          self.speed_down.set_cliked()
          self.speed_up.set_cliked()
          self.speed_pause.set_cliked()
+         self.overlay.clicked()
          global action 
          return action 
 
@@ -238,7 +295,7 @@ class Hud:
          pos = pg.mouse.get_pos()
          return self.maison.overhead(pos) or self.eau.overhead(pos) or self.prefecture.overhead(pos) or self.nourriture.overhead(pos) or self.route.overhead(pos) \
          or self.theatre.overhead(pos) or self.administratif.overhead(pos) or self.pelle.overhead(pos) or self.ingenieur.overhead(pos) or self.santé.overhead(pos) or \
-         self.speed_down.overhead(pos) or self.speed_up.overhead(pos) or self.speed_pause.overhead(pos)
+         self.speed_down.overhead(pos) or self.speed_up.overhead(pos) or self.speed_pause.overhead(pos) or self.overlay.collide(pos)
       
          
 
