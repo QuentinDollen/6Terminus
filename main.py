@@ -25,7 +25,6 @@ def main():
     screen = pg.display.set_mode((0,0), pg.FULLSCREEN)
     clock = pg.time.Clock()
     set_screen_tittle( screen )
-
     Game_terminus = Game(screen , clock)
 
 

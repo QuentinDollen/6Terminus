@@ -218,7 +218,7 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-                if(l.getWalker(x,y).name != 'no Walker'): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                if l.getWalker(x,y).name != 'no Walker': #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                    render_pos = self.map_walkeur[x][y]["render_pos"]
                    tile = self.map_walkeur[x][y]["tile"]
                    if tile != "":
@@ -246,7 +246,7 @@ class Map:
         for grid_x in range(self.grid_length_x):
             map_walkeur.append([])
             for grid_y in range(self.grid_length_y):
-                walkeur_tile = self.grid_to_walkeur(grid_x,grid_y)
+                walkeur_tile = self.grid_to_walkeur(grid_x,grid_y,l.getWalker(grid_x, grid_y))
                 map_walkeur[grid_x].append(walkeur_tile)
                 walkeur_render_pos = walkeur_tile["render_pos"]
 
@@ -667,7 +667,7 @@ class Map:
 
         return out
 
-    def grid_to_walkeur(self,grid_x,grid_y):
+    def grid_to_walkeur(self,grid_x,grid_y,walker):
 
         rect = [
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
@@ -681,48 +681,65 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
-        if(self.overlay == ""):     #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
-                                    #AKA map d'eau, map de feu ou map de risque d'effondrement
-            
+        if walker.name != "no Walker":
 
-            if(l.getWalker(grid_x,grid_y).name == "Priest"):
-                tile = "priest0"
+            Mov_x = walker.x - walker.prev_x # +1 -1 0
+            Mov_y = walker.y - walker.prev_y # +1 -1 0
 
-            elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
-                tile = "random3"
+            if Mov_x == 0 and Mov_y == 1:
+                temp = 3
+            elif Mov_x == 0 and Mov_y == -1:
+                temp = 0
+            elif Mov_x == 1 and Mov_y == 0:
+                temp = 1
+            elif Mov_x == -1 and Mov_y == 0:
+                temp = 2
+            else:
+                temp = 0
 
-            elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
-                tile = "engineer0"
+            if(self.overlay == ""): #AKA map d'eau, map de feu ou map de risque d'effondrement
 
-            elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
-                tile = "prefet0"
+                if(walker.name == "Priest"):
+                    tile = "priest" + str(temp)
 
-            elif(l.getWalker(grid_x,grid_y).name == "Food_Guy"):
-                tile = "food_guy0"
+                elif(walker.name == "Delivery_Guy"):
+                    tile = "random" + str(temp)
 
-            elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
-                tile = "random2"
+                elif(walker.name == "Engineer"):
+                    tile = "engineer" + str(temp)
 
-            elif(l.getWalker(grid_x, grid_y).name == "Recruteur"):
-                tile = "random0"
+                elif(walker.name == "Prefect"):
+                    tile = "prefet" + str(temp)
+
+                elif(walker.name == "Food_Guy"):
+                    tile = "food_guy" + str(temp)
+
+                elif(walker.name == "Immigrant"):
+                    tile = "random" + str(temp)
+
+                elif(walker.name == "Recruteur"):
+                    tile = "random" + str(temp)
+
+                else:
+                    tile = ""
+
+            elif(self.overlay == "fire"): #OVERLAY FIRE
+                if (walker.name == "Prefect"):
+                    tile = "prefet0"
+                else:
+                    tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+            elif(self.overlay == "bat"): #OVERLAY BAT
+                if(walker.name == "Engineer"):
+                    tile = "engineer0"
+                else:
+                    tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+            elif(self.overlay == "water"):
+                tile = ""
 
             else:
                 tile = ""
-
-        elif(self.overlay == "fire"): #OVERLAY FIRE
-            if (l.getWalker(grid_x, grid_y).name == "Prefect"):
-                tile = "prefet0"
-            else:
-                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
-
-        elif(self.overlay == "bat"): #OVERLAY BAT
-            if(l.getWalker(grid_x,grid_y).name == "Engineer"):
-                tile = "engineer0"
-            else:
-                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
-
-        elif(self.overlay == "water"):
-            tile = ""
 
         else:
             tile = ""
