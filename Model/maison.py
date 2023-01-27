@@ -15,6 +15,8 @@ class Maison(b.Batiment):
         self.curpop = 0
         self.employed = 0
         self.faith = 0
+        self.acces_eau = 0
+
         
     def get_delivery(self, chargement):
         print("chargement",chargement)
@@ -46,7 +48,6 @@ class Maison_1(Maison):
     def __init__(self, x, y):
         Maison.__init__(self, 1, 10, x, y, 10, -3, 1, 1, 3, 0)
         self.name = 'Maison 1'
-        self.acces_eau = 0
         self.des_prev = -99  # cf https://gamefaqs.gamespot.com/pc/63635-caesar-iii/faqs/14466
         self.des_next = -10
         # self.entNeeded = 0

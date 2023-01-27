@@ -254,6 +254,8 @@ class Map:
 
     def grid_to_map(self, grid_x, grid_y):
 
+        self.overlay = l.get_overlay()
+
         rect = [
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
             (grid_x * TILE_SIZE + TILE_SIZE, grid_y * TILE_SIZE),
@@ -580,10 +582,10 @@ class Map:
 
         elif self.overlay == "water":
 
-            if l.water(grid_x,grid_y) == True:
+            if l.get_water(grid_x,grid_y) == True:
                 tile = "watered"
 
-            elif l.water(grid_x,grid_y) == False:
+            elif l.get_water(grid_x,grid_y) == False:
                 tile = "unwatered"
 
             # Water services
@@ -679,6 +681,8 @@ class Map:
         minx = min([x for x, y in iso_poly])
         miny = min([y for x, y in iso_poly])
 
+        self.overlay = l.get_overlay()
+
         if walker.name != "no Walker":
 
             Mov_x = walker.x - walker.prev_x # +1 -1 0
@@ -723,13 +727,13 @@ class Map:
 
             elif(self.overlay == "fire"): #OVERLAY FIRE
                 if (walker.name == "Prefect"):
-                    tile = "prefet0"
+                    tile = "prefet" + str(temp)
                 else:
                     tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
             elif(self.overlay == "bat"): #OVERLAY BAT
                 if(walker.name == "Engineer"):
-                    tile = "engineer0"
+                    tile = "engineer" + str(temp)
                 else:
                     tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
 
