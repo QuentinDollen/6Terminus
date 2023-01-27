@@ -310,97 +310,97 @@ def event_to_logic(nume, pos_init, pos_final):
     #        Add_bat_game(x,y,m.name_id["Well"])
 
 
-    # elif(nume == Nume_nourriture):
-    # elif(event == Nume_prefecure):
+#     # elif(nume == Nume_nourriture):
+#     # elif(event == Nume_prefecure):
 
 
 
-print("")
+# print("")
 
 
-# a garder
+# # a garder
 # init_game()
 
-#
+# #
 
-# partie test
+# # partie test
 
-# print(Add_bat_game(2, 0, 5))
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# print("***  modification en cours ****")
-# m.add_bat(0,0,0,m.Mat_batiment)
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# print("***  test de sauvegarde ****")
+# # print(Add_bat_game(2, 0, 5))
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # print("***  modification en cours ****")
+# # m.add_bat(0,0,0,m.Mat_batiment)
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # print("***  test de sauvegarde ****")
 
-# sauvegarde("sauv1")
-# m.add_bat(1,0,0,m.Mat_batiment)
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# print("**** test du load ****")
+# # sauvegarde("sauv1")
+# # m.add_bat(1,0,0,m.Mat_batiment)
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # print("**** test du load ****")
 
-# load("sauv1")
-# m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
+# # load("sauv1")
+# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
 
-Add_bat_game(0, 6, 100)
-Add_bat_game(1, 5, 5)
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-Add_bat_game(10, 10, 5)
-
-
-# # test logique:
-# m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
-# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-# print("ZEHAHAHAHAHAHAHAH")
-#
-# test_bat_logique()
-# test_walker_logique()
+# Add_bat_game(0, 6, 100)
+# Add_bat_game(1, 5, 5)
 # print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-#
+# Add_bat_game(10, 10, 5)
+
+
+# # # test logique:
+# # m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
+# # m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# # print("ZEHAHAHAHAHAHAHAH")
+# #
+# # test_bat_logique()
+# # test_walker_logique()
+# # print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+# #
+# # m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+# # m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# # print("HAHHAHAHAHAHHA")
+# #
+# # test_bat_logique()
+# # test_bat_logique()
+# # test_bat_logique()
+# # print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+# #
+# # test_bat_logique()
+# # test_bat_logique()
+# #
+# # print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+
 # m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 # m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-# print("HAHHAHAHAHAHHA")
-#
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+# test_walker_logique()
 # test_bat_logique()
+
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+
+# m.deplacement_perso(m.Mat_perso)
+# m.deplacement_perso(m.Mat_perso)
+# test_walker_logique()
 # test_bat_logique()
-# test_bat_logique()
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-#
-# test_bat_logique()
-# test_bat_logique()
-#
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-test_walker_logique()
-test_bat_logique()
-
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-test_walker_logique()
-test_bat_logique()
-print("Après")
-m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-print(m.Mat_batiment[5][4].curpop)
-print(m.Mat_batiment[3][3].hasRecruteur)
-print(m.Mat_batiment[3][3].curEmployees)
+# print("Après")
+# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+# print(m.Mat_batiment[5][4].curpop)
+# print(m.Mat_batiment[3][3].hasRecruteur)
+# print(m.Mat_batiment[3][3].curEmployees)
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)

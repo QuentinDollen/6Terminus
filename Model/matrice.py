@@ -280,7 +280,7 @@ def put_bat_mat(x, y, bat, Mat):
 # ajoute un batiment a une position specifiee en fonction de l'id
 # on utilise Mat_batiment
 # si le batiment est de type stockage, l'ajoute a la liste des batiments de stockage
-def add_bat(x, y, id_bat, Mat):
+def add_bat(x, y, id_bat, Mat = Mat_batiment):
     if id_bat == 7:
         Mat[y][x] = mais.Panneau(x, y)
     if id_bat == 92:
@@ -424,15 +424,15 @@ def departureMatrice(Mat):
 
 
 # teste si l'emplacement x,y d'une matrice correspond a un chemin
-def isPath(x, y, Mat):
+def isPath(x, y, Mat = Mat_batiment):
     return Mat[y][x].name == 'Path'
 
 
 # SearchforRoad renvoie la position de la première route rencontrée autour (distance de 1) d'un batiment situé en x,y
-def SearchforRoad(x, y, Mat=Mat_batiment):
+def SearchforRoade(x, y, Mat=Mat_batiment):
     n = Mat[y][x].nbr_cases
-    x1 = 0
-    y1 = 0
+    x1 = x
+    y1 = y
     k = 0
     w = 0
     if x != 0:
@@ -441,10 +441,18 @@ def SearchforRoad(x, y, Mat=Mat_batiment):
     if y != 0:
         y1 = y - 1
         w = 1
-    for i in range(n + k):
+
+    if  x >= nb_cases_x -1 :
+        k = -1 
+
+    if y >= nb_cases_y -1 :
+        w = -1 
+
+    for i in range(n + k) :
         if isPath(x1, y1, Mat):
             return x1, y1
         x1 = x1 + 1
+
     for j in range(n + w):
         if isPath(x1, y1, Mat):
             return x1, y1
@@ -459,6 +467,19 @@ def SearchforRoad(x, y, Mat=Mat_batiment):
         y1 = y1 - 1
     return -1, -1
 
+def SearchforRoad( x , y , Mat = Mat_batiment) :
+
+    n = Mat_batiment[y][x].nbr_cases
+    
+    for xi in range( x-1 , x + n + 1) :
+        for yi in range( y-1 , y + n + 1 ) :
+            if  0 <= xi <= nb_cases_x -1 and 0 <= yi <= nb_cases_y -1  : 
+                if xi in [x-1 , x+n ] or yi in [ y-1 , y+n ] :
+                    print(xi,yi)
+                    if isPath(xi,yi) :
+                        return xi,yi
+
+    return -1 , -1
 
 # cherche si une valeur est déjà presente dans un tableau
 def InTable(x, tab):
@@ -467,6 +488,8 @@ def InTable(x, tab):
         if x == tab[i]:
             bool_ = 1
     return bool_
+
+
 
 
 def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab of tab, with the smallest size
@@ -756,17 +779,20 @@ def get_bat_prox(x, y, r):
     for i in range(r):
         for j in range(r):
 
-            if (not InTable(Mat_batiment[y + j][x + i].name,
+            if ( y + j < nb_cases_y -1 and x + i < nb_cases_x -1 and not InTable(Mat_batiment[y + j][x + i].name,
                             ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water", "Path"]) and not InTable(
                 Mat_batiment[y + j][x + i], tab)):
                 tab.append(Mat_batiment[y + j][x + i])
-            if (y - j >= 0 and not InTable(Mat_batiment[y - j][x + i].name,
+
+            if (x + i < nb_cases_x -1 and y - j > 0 and not InTable(Mat_batiment[y - j][x + i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
                                             "Path"]) and not InTable(Mat_batiment[y - j][x + i], tab)):
                 tab.append(Mat_batiment[y - j][x + i])
-            if (y - j >= 0 and x - i >= 0 and not InTable(Mat_batiment[y - j][x - i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel","Water", "Path"]) and not InTable(Mat_batiment[y - j][x - i],tab)):
+
+            if (y - j > 0 and x - i > 0 and not InTable(Mat_batiment[y - j][x - i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel","Water", "Path"]) and not InTable(Mat_batiment[y - j][x - i],tab)):
                 tab.append(Mat_batiment[y - j][x - i])
-            if (x - i >= 0 and not InTable(Mat_batiment[y + j][x - i].name,
+
+            if (y + j < nb_cases_y -1  and x - i > 0 and not InTable(Mat_batiment[y + j][x - i].name,
                                            ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water",
                                             "Path"]) and not InTable(Mat_batiment[y + j][x - i], tab)):
                 tab.append(Mat_batiment[y + j][x - i])
@@ -791,6 +817,11 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
 
 # # non necessaire, juste un test
 
+
+print("Test search ")
+add_bat(10,10 , name_id["Warehouse"])
+SearchforRoad(10,10, Mat_batiment[10][10])
+
 # afficher_matrice_bat(Mat_batiment, 8, 8)
 
 # add_bat(4, 5, 10, Mat_batiment)
@@ -802,101 +833,101 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
 # Mat_perso[1][1][0].dest_y = 4
 
 
-# non necessaire, juste un test
+# # non necessaire, juste un test
 
-add_bat(1, 1, 5, Mat_batiment)
-add_bat(1, 2, 5, Mat_batiment)
-add_bat(1, 3, 5, Mat_batiment)
-add_bat(1, 4, 5, Mat_batiment)
-add_bat(2, 4, 5, Mat_batiment)
-add_bat(3, 4, 5, Mat_batiment)
-add_bat(4, 4, 5, Mat_batiment)
-add_bat(5, 4, 5, Mat_batiment)
-add_bat(6, 4, 5, Mat_batiment)
-add_bat(7, 4, 5, Mat_batiment)
-add_bat(8, 4, 5, Mat_batiment)
-add_bat(9, 4, 5, Mat_batiment)
-add_bat(10, 4, 5, Mat_batiment)
-add_bat(10, 5, 5, Mat_batiment)
-add_bat(11, 4, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 8, 8)
-add_bat(4, 5, 10, Mat_batiment)
-add_bat(2, 1, 72, Mat_batiment)
+# add_bat(1, 1, 5, Mat_batiment)
+# add_bat(1, 2, 5, Mat_batiment)
+# add_bat(1, 3, 5, Mat_batiment)
+# add_bat(1, 4, 5, Mat_batiment)
+# add_bat(2, 4, 5, Mat_batiment)
+# add_bat(3, 4, 5, Mat_batiment)
+# add_bat(4, 4, 5, Mat_batiment)
+# add_bat(5, 4, 5, Mat_batiment)
+# add_bat(6, 4, 5, Mat_batiment)
+# add_bat(7, 4, 5, Mat_batiment)
+# add_bat(8, 4, 5, Mat_batiment)
+# add_bat(9, 4, 5, Mat_batiment)
+# add_bat(10, 4, 5, Mat_batiment)
+# add_bat(10, 5, 5, Mat_batiment)
+# add_bat(11, 4, 5, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 8, 8)
+# add_bat(4, 5, 10, Mat_batiment)
+# add_bat(2, 1, 72, Mat_batiment)
 
-add_bat(20, 20, 5, Mat_batiment)
-add_bat(20, 21, 5, Mat_batiment)
-# DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-# DV.ajout_marchandise(6)
-# print("cargaison", DV.cargaison_nourriture)
-# Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
-# Mat_perso[1][1][0].dest_y = 4
+# add_bat(20, 20, 5, Mat_batiment)
+# add_bat(20, 21, 5, Mat_batiment)
+# # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# # DV.ajout_marchandise(6)
+# # print("cargaison", DV.cargaison_nourriture)
+# # Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
+# # Mat_perso[1][1][0].dest_y = 4
 
-#
-#
-#
-afficher_matrice_bat(Mat_batiment, 7, 7)
-afficher_matrice_perso(Mat_perso, 5, 5)
-
-deplacement_perso(Mat_perso)
-
-deplacement_perso(Mat_perso)
-suppr_Batiment(1, 4, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
-
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-print(" ")
-add_bat(1, 4, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-
-print(" ")
-deplacement_perso(Mat_perso)
-
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
-print("test livraison")
-print(Mat_batiment[5][4].nourriture)
-add_bat(1,0,name_id["Panneau Entree"], Mat_batiment)
-invoke_migrant(Mat_batiment[5][4])
-afficher_matrice_bat(Mat_batiment, 15, 15)
-afficher_matrice_perso(Mat_perso, 7, 7)
-
-# add_bat(1, 0, 5, Mat_batiment)
+# #
+# #
+# #
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-# print(Mat_batiment[0][1].name)
-# add_bat(0,1,55,Mat_batiment)
-# # afficher_matrice_bat(Mat_batiment, 7, 7)
-# # prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
-# print("destination",'(',prefet.dest_x,prefet.dest_y,')')
-# print("test check fire")
-# print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
-# check_fire_eff()
-# check_fire_eff()
-# print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+# afficher_matrice_perso(Mat_perso, 5, 5)
 
-print("Test Quentin")
+# deplacement_perso(Mat_perso)
 
-# DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
-# DVD.prev_x = 1
-# DVD.prev_y = 4
-# afficher_mat_route(7)
-# # afficher_matrice_perso(Mat_perso, 7, 7)
-# add_bat(4, 5, 5, Mat_batiment)
-# # afficher_matrice_bat(Mat_batiment, 7, 7)
-# # print(Deplacement_basique(0, 0))
-# add_bat(0,0,name_id["Maison1"], Mat_batiment )
+# deplacement_perso(Mat_perso)
+# suppr_Batiment(1, 4, Mat_batiment)
 # afficher_matrice_bat(Mat_batiment, 7, 7)
-# print(Mat_batiment[0][0].name == "Maison 1")
-# add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
-# IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])
+# deplacement_perso(Mat_perso)
+
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# print(" ")
+# add_bat(1, 4, 5, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+
+# print(" ")
+# deplacement_perso(Mat_perso)
+
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+# print("test livraison")
+# print(Mat_batiment[5][4].nourriture)
+# add_bat(1,0,name_id["Panneau Entree"], Mat_batiment)
+# invoke_migrant(Mat_batiment[5][4])
+# afficher_matrice_bat(Mat_batiment, 15, 15)
+# afficher_matrice_perso(Mat_perso, 7, 7)
+
+# # add_bat(1, 0, 5, Mat_batiment)
+# # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # print(Mat_batiment[0][1].name)
+# # add_bat(0,1,55,Mat_batiment)
+# # # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # # prefet = add_perso(1,0,"Prefect", Mat_perso, Mat_batiment[1][0],None)
+# # print("destination",'(',prefet.dest_x,prefet.dest_y,')')
+# # print("test check fire")
+# # print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+# # check_fire_eff()
+# # check_fire_eff()
+# # print(Mat_batiment[1][0].name,Mat_batiment[1][0].ind_fire)
+
+
+
+# # DVD = add_perso(0, 0, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# # DVD.prev_x = 1
+# # DVD.prev_y = 4
+# # afficher_mat_route(7)
+# # # afficher_matrice_perso(Mat_perso, 7, 7)
+# # add_bat(4, 5, 5, Mat_batiment)
+# # # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # # print(Deplacement_basique(0, 0))
+# # add_bat(0,0,name_id["Maison1"], Mat_batiment )
+# # afficher_matrice_bat(Mat_batiment, 7, 7)
+# # print(Mat_batiment[0][0].name == "Maison 1")
+# # add_perso( 1 , 4 , "Immigrant" , Mat_perso , Mat_batiment[0][0] , None , None , 0 , 0  )
+# # IMMI = imm.Immigrant(4,4,Mat_batiment[0][0])

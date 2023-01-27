@@ -11,7 +11,7 @@ class Maison(b.Batiment):
         self.name = 'Maison'
         self.nourriture = [['ble', 0 ], ['fruits', 0], ['viande', 0]]
         self.produits = [['argile',0], ['potterie',0], ['huile',0]]
-        self.popLim = 0
+        self.popLim = 1
         self.curpop = 0
         self.employed = 0
         self.faith = 0

@@ -12,6 +12,9 @@ def reset_maps() :
     m.Mat_batiment = []
     m.init_matrice_perso(m.Mat_perso,m.nb_cases_x , m.nb_cases_y)
     m.init_matrice_terrain(m.Mat_batiment,m.nb_cases_x , m.nb_cases_y)
+    Add_bat_game(39,21 , m.name_id["Path"])
+    Add_bat_game(39,20 , m.name_id["Panneau Entree"])
+    
 
 
 def Construction_1() : 
@@ -26,4 +29,6 @@ def Construction_1() :
 def Tour_jeu() :
     m.deplacement_perso(m.Mat_perso , m.nb_cases_x , m.nb_cases_y)
     m.check_fire_eff()
+    test_bat_logique()
+    test_walker_logique()
     
