@@ -42,7 +42,7 @@ def main():
         pg.display.flip()
 
         
-        while Launch :
+        while Launch : #Launch
 
             pg.display.flip()
             mouse_track = pg.mouse.get_pos()  
