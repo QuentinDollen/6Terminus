@@ -406,6 +406,8 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
 def invoke_walker(bat, type_, objectif = None):
     if bat.curEmployees >= 1 or type_ == "Recruteur":
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
+        print("test invoke:",x,y)
+        print("test batiment:",bat.pos_x, bat.pos_y)
         add_perso(x, y, type_, Mat_perso, bat, objectif)
 
 def invoke_migrant(maison_cible):
@@ -570,6 +572,10 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
     if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
+        genocide(Mat[y][x])
+        if Mat[y][x].name == "Path":
+            for e in range(len(Mat_perso[y][x])):
+                kill_walker(Mat_perso[y][x][0])
         for i in range(0, Mat[y][x].nbr_cases):
             for j in range(0, Mat[y][x].nbr_cases):
                 Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
@@ -823,8 +829,6 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
 
 
 print("Test search ")
-# add_bat(10,10 , name_id["Warehouse"])
-# SearchforRoad(10,10, Mat_batiment[10][10])
 
 # afficher_matrice_bat(Mat_batiment, 8, 8)
 
