@@ -14,9 +14,9 @@ from Model import Test_logique as Test_l
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
 
-init_clique_pos = (0, 0)
-
+pos_souris_down = (0,0)
 class Game:
+
     def __init__(self, screen, clock):
         self.screen = screen
         self.clock = clock
@@ -35,6 +35,7 @@ class Game:
         self.selection =[[],[]]
         self.action = None 
         self.mouse_button = [[],[],[]]
+        
 
 
     def run(self):
@@ -47,6 +48,7 @@ class Game:
             self.draw()
 
     def events(self):
+
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -75,13 +77,13 @@ class Game:
                 if event.key == pg.K_i:
                     self.map.overlay = ""
 
-                if event.key == pg.K_d :
+                if event.key == pg.K_w :
                     Test_l.decrease_speed()
 
-                if event.key == pg.K_f :
+                if event.key == pg.K_x :
                     Test_l.increase_speed()
 
-                if event.key == pg.K_p :
+                if event.key == pg.K_c :
                     Test_l.pause_speed()
 
             if event.type == pg.MOUSEBUTTONUP :
@@ -93,27 +95,27 @@ class Game:
                     
        
 
-            if event.type == pg.MOUSEBUTTONDOWN : 
+            if event.type == pg.MOUSEBUTTONDOWN :
                 self.mouse_button = pg.mouse.get_pressed()
-                
+
 
                 if self.hud.modif_speed() :
                     print("J'ai modifié chef")
                     self.action = self.hud.overhead_all()
                     print(self.action == l.Nume_increase_speed)
                     l.event_to_logic(self.action ,None ,None)
-
+                
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
                 elif self.action != None :
                     
-                    if  self.hud.is_overhead_all()  :
+                    if self.hud.is_overhead_all():
                         self.action = self.hud.overhead_all()
                         
-                    else : 
+                    else:
                         self.selection[0] = self.mouse_to_tiles()
                     
-                if  self.mouse_button[2]:
+                if self.mouse_button[2]:
                     self.hud.overhead_all()
                     self.action = None    
                     self.selection =[[],[]]

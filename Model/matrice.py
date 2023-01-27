@@ -406,6 +406,8 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
 def invoke_walker(bat, type_, objectif = None):
     if bat.curEmployees >= 1 or type_ == "Recruteur":
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
+        print("test invoke:",x,y)
+        print("test batiment:",bat.pos_x, bat.pos_y)
         add_perso(x, y, type_, Mat_perso, bat, objectif)
 
 def invoke_migrant(maison_cible):
@@ -701,7 +703,9 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 
 def kill_walker(killed):  # gnéhéhé
-    if killed.name != 'no Walker':
+    print("gnehehehe")
+
+    if killed.name != "no Walker" :
         for e in killed.batiment.Walk:
             n = 0
             if e == killed:
@@ -770,7 +774,7 @@ def check_fire_eff():
             if not InTable(Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]) and Mat_batiment[j][i].hasCheck == 0:
                 Mat_batiment[j][i].hasCheck = 1
                 if (Mat_batiment[j][i].name != "Herb" and Mat_batiment[j][i].name != "Tree" and Mat_batiment[j][
-                    i].name != "Path"):
+                    i].name != "Path" and Mat_batiment[j][i].name != "Ruin"):
                     n = Mat_batiment[j][i].augm_att()
                     if n == -2:
                         destroy_Bat(Mat_batiment[j][i])
@@ -824,6 +828,9 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
 
 # # non necessaire, juste un test
 
+
+print("Test search ")
+
 # afficher_matrice_bat(Mat_batiment, 8, 8)
 
 # add_bat(4, 5, 10, Mat_batiment)
@@ -835,7 +842,7 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
 # Mat_perso[1][1][0].dest_y = 4
 
 
-# non necessaire, juste un test
+# # non necessaire, juste un test
 
 add_bat(1, 1, 5, Mat_batiment)
 add_bat(1, 2, 5, Mat_batiment)
@@ -846,49 +853,54 @@ add_bat(3, 4, 5, Mat_batiment)
 add_bat(4, 4, 5, Mat_batiment)
 add_bat(5, 4, 5, Mat_batiment)
 add_bat(6, 4, 5, Mat_batiment)
-add_bat(7, 4, 5, Mat_batiment)
-add_bat(8, 4, 5, Mat_batiment)
-add_bat(9, 4, 5, Mat_batiment)
-add_bat(10, 4, 5, Mat_batiment)
-add_bat(10, 5, 5, Mat_batiment)
-add_bat(11, 4, 5, Mat_batiment)
+# add_bat(7, 4, 5, Mat_batiment)
+# add_bat(8, 4, 5, Mat_batiment)
+# add_bat(9, 4, 5, Mat_batiment)
+# add_bat(10, 4, 5, Mat_batiment)
+# add_bat(10, 5, 5, Mat_batiment)
+# add_bat(11, 4, 5, Mat_batiment)
 afficher_matrice_bat(Mat_batiment, 8, 8)
 add_bat(4, 5, 10, Mat_batiment)
 add_bat(2, 1, 72, Mat_batiment)
 add_bat(20, 20, 100, Mat_batiment)
 
-add_bat(20, 20, 5, Mat_batiment)
-add_bat(20, 21, 5, Mat_batiment)
 # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
 # DV.ajout_marchandise(6)
 # print("cargaison", DV.cargaison_nourriture)
 # Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
 # Mat_perso[1][1][0].dest_y = 4
+# add_bat(20, 20, 5, Mat_batiment)
+# add_bat(20, 21, 5, Mat_batiment)
+# # DV = add_perso(1, 1, "Delivery Guy", Mat_perso, Mat_batiment[1][1], Mat_batiment[5][4])
+# # DV.ajout_marchandise(6)
+# # print("cargaison", DV.cargaison_nourriture)
+# # Mat_perso[1][1][0].dest_x = 4  # ces valeurs devraient normalement être obtenue avec SearchforRoad()
+# # Mat_perso[1][1][0].dest_y = 4
 
-#
-#
-#
-afficher_matrice_bat(Mat_batiment, 7, 7)
-afficher_matrice_perso(Mat_perso, 5, 5)
+# #
+# #
+# #
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# afficher_matrice_perso(Mat_perso, 5, 5)
 
-deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
 
-deplacement_perso(Mat_perso)
-suppr_Batiment(1, 4, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# suppr_Batiment(1, 4, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# deplacement_perso(Mat_perso)
 
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-deplacement_perso(Mat_perso)
-print(" ")
-add_bat(1, 4, 5, Mat_batiment)
-afficher_matrice_bat(Mat_batiment, 7, 7)
-deplacement_perso(Mat_perso)
-afficher_matrice_perso(Mat_perso, 7, 7)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# deplacement_perso(Mat_perso)
+# print(" ")
+# add_bat(1, 4, 5, Mat_batiment)
+# afficher_matrice_bat(Mat_batiment, 7, 7)
+# deplacement_perso(Mat_perso)
+# afficher_matrice_perso(Mat_perso, 7, 7)
 
-print(" ")
-deplacement_perso(Mat_perso)
+# print(" ")
+# deplacement_perso(Mat_perso)
 
 # afficher_matrice_perso(Mat_perso, 7, 7)
 # deplacement_perso(Mat_perso)
