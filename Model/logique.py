@@ -136,6 +136,29 @@ def getDesirability(bat):
     for batis in proxy:
         somme += batis.initDesirability
     return somme
+def check_water():
+    for i in range(m.nb_cases):
+        for j in range(m.nb_cases):
+            if( m.InTable(m.Mat_batiment[j][i].name,["Panneau", "Maison 1", "Maison 2", "Maison 3"])  and m.Mat_water == 1):
+                m.Mat_batiment[j][i].acces_eau = 1
+def evolve(bat):
+    x = bat.pos_x
+    y = bat.pos_y
+    if bat.name == 'Maison 1':
+        m.add_bat(x, y, 11, m.Mat_batiment)
+    if bat.name == 'Maison 2':
+        m.add_bat(x, y, 12, m.Mat_batiment)
+    batiment = m.Mat_batiment[y][x]
+    batiment.nourriture = bat.nourriture
+    batiment.produits = bat.produits
+    batiment.popLim = bat.popLim
+    batiment.curpop = bat.curpop
+    batiment.employed = bat.employed
+    batiment.faith = bat.faith
+    batiment.acces_eau = bat.acces_eau
+    batiment.Walk = bat.Walk
+    for p in bat.Walk:
+        p.batiment = batiment
 
 # fonction qui a realiser des opérations entre walkers et batiments:
 # si c'est un pompier, il va diminuer les indices de feu des batiments autour de lui, et si il y a un feu, doit aller l'eteindre
@@ -152,12 +175,25 @@ def test_walker_logique():
                     perso = m.Mat_perso[j][i][count]
                     count +=1
                     if perso.name == "Prefect":
-                        proxy = m.get_bat_prox(i, j, 2)
+                        proxy = m.get_bat_prox(i, j, 5)
                         print("proxy", proxy)
                         for bat in proxy:
+                            print("get etinxted")
                             bat.ind_fire = 0
+                        for w in range(5):
+                            for s in range(5):
+                                if(s+perso.y <= 39 and w+perso.x <= 39):
+                                    m.Mat_fire[s+perso.y][w+perso.x] = 0
+                                if (s + perso.y <= 39 and -w + perso.x >= 0):
+                                    m.Mat_fire[s+perso.y][perso.x-w] = 0
+                                if(-s+perso.y >= 0 and w + perso.x <= 39):
+                                    m.Mat_fire[-s + perso.y][w + perso.x] = 0
+                                if (-s + perso.y >= 0 and -w + perso.x >= 0):
+                                    m.Mat_fire[-s + perso.y][perso.x - w] = 0
+
+
                     elif perso.name == "Engineer":
-                        proxy = m.get_bat_prox(i, j, 2)
+                        proxy = m.get_bat_prox(i, j, 5)
                         print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
@@ -235,6 +271,7 @@ def test_walker_logique():
 # si c'est une maison, va consommer de la nourriture, tester l'evolution / regression de la maison
 def test_bat_logique():
     m.check_fire_eff()
+    check_water()
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             if not m.InTable(m.Mat_batiment[j][i].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
@@ -246,12 +283,13 @@ def test_bat_logique():
                 elif bat.hasCheck == 0:
                     bat.hasCheck = 1
                     if bat.name == "Farm":
-                        bat.growFood()
-                        print(bat.ind_Harv)
-                        if bat.ind_Harv >= 6:
-                            print("time for delivery")
-                            Delivery(bat, 'ble', bat.ind_Harv * 2)
-                            bat.ind_Harv = 0
+                        if bat.curEmployees>=1:
+                            bat.growFood()
+                            print(bat.ind_Harv)
+                            if bat.ind_Harv >= 6:
+                                print("time for delivery")
+                                Delivery(bat, 'ble', bat.ind_Harv * 2)
+                                bat.ind_Harv = 0
                     elif bat.name == "Prefecture":
                         if bat.Walk == []:
                             m.invoke_walker(bat, "Prefect")
@@ -266,11 +304,15 @@ def test_bat_logique():
                             #m.add_perso()
                             pass
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
+                        if(bat.name == "Maison 1" and bat.acces_eau == 1):
+                            evolve(bat)
+
                         if bat.curpop < bat.popLim and bat.Walk == []:
                             n = getDesirability(bat)
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
+
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
             m.Mat_batiment[j][i].hasCheck = 0
