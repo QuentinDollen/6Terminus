@@ -456,7 +456,7 @@ m.deplacement_perso(m.Mat_perso)
 test_walker_logique()
 test_bat_logique()
 test_bat_logique()
-print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
 #test_bat_logique()
 #test_bat_logique()

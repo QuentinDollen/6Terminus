@@ -505,7 +505,6 @@ def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab
 
 # fonction de pathfinding
 def next_case(x, y, tab_path, dest_x, dest_y, Mat):
-    print("Path",x,y)
     assert (isPath(x, y, Mat))
     if x == dest_x and y == dest_y:
         return tab_path
