@@ -701,23 +701,24 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 
 def kill_walker(killed):  # gnéhéhé
-    for e in killed.batiment.Walk:
-        n = 0
-        if e == killed:
-            killed.batiment.Walk.pop(n)
-            n += 1
-    if Mat_perso[killed.y][killed.x][0] == killed:
-        if len(Mat_perso[killed.y][killed.x]) < 2:
-            Mat_perso[killed.y][killed.x].pop()
-            Mat_perso[killed.y][killed.x].append(w.NoWalker())
-        else:
-            Mat_perso[killed.y][killed.x].pop(0)
-    else:
-        n = 0
-        for e in Mat_perso[killed.y][killed.x]:
+    if killed.name != 'no Walker':
+        for e in killed.batiment.Walk:
+            n = 0
             if e == killed:
-                Mat_perso[killed.y][killed.x].pop(n)
-            n += 1
+                killed.batiment.Walk.pop(n)
+                n += 1
+        if Mat_perso[killed.y][killed.x][0] == killed:
+            if len(Mat_perso[killed.y][killed.x]) < 2:
+                Mat_perso[killed.y][killed.x].pop()
+                Mat_perso[killed.y][killed.x].append(w.NoWalker())
+            else:
+                Mat_perso[killed.y][killed.x].pop(0)
+        else:
+            n = 0
+            for e in Mat_perso[killed.y][killed.x]:
+                if e == killed:
+                    Mat_perso[killed.y][killed.x].pop(n)
+                n += 1
 
 
 def genocide(bat):  # plus efficace à la destruction d'un batiment + len

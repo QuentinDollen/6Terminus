@@ -14,9 +14,9 @@ from Model import Test_logique as Test_l
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
 
+init_clique_pos = (0, 0)
 
 class Game:
-
     def __init__(self, screen, clock):
         self.screen = screen
         self.clock = clock
@@ -35,7 +35,6 @@ class Game:
         self.selection =[[],[]]
         self.action = None 
         self.mouse_button = [[],[],[]]
-        
 
 
     def run(self):
@@ -48,7 +47,6 @@ class Game:
             self.draw()
 
     def events(self):
-
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -119,13 +117,9 @@ class Game:
                     self.hud.overhead_all()
                     self.action = None    
                     self.selection =[[],[]]
-                    
 
-
-                
-
-            
-
+            #if event.type == pg.MOUSEMOTION and self.selection[0] != []:
+            #    init_clique_pos = self.mouse_to_tiles()
 
     def update(self):
 
@@ -143,9 +137,6 @@ class Game:
 
         p = self.map.map[self.mouse_to_tiles()[0]][self.mouse_to_tiles()[1]]["iso_poly"]
         p = [(x + self.map.grass_tiles.get_width() / 2 + self.camera.scroll.x, y - (self.map.tiles["case"].get_height() - TILE_SIZE) + self.camera.scroll.y) for x, y in p]
-
-        #if self.mouse_button[0] and self.action != None:
-        #    self.screen.blit(self.map.tiles["case"], (p[0][0] - TILE_SIZE, p[0][1]))
 
         if self.action != None:
             pg.draw.polygon(self.screen, (255, 255, 255), p, 4)
