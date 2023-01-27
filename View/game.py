@@ -90,6 +90,7 @@ class Game:
             if event.type == pg.MOUSEBUTTONUP :
 
                 if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
+                    print(self.selection[0])
                     self.selection[1] = self.mouse_to_tiles()
                     
                     l.event_to_logic(self.action , self.selection[0] , self.selection[1])
@@ -99,19 +100,21 @@ class Game:
             if event.type == pg.MOUSEBUTTONDOWN :
                 self.mouse_button = pg.mouse.get_pressed()
 
+                
 
                 if self.hud.modif_speed() :
-                    print("J'ai modifié chef")
                     self.action = self.hud.overhead_all()
-                    print(self.action == l.Nume_increase_speed)
                     l.event_to_logic(self.action ,None ,None)
                 
                 if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
                     self.action = self.hud.overhead_all()
+                    self.selection= [[],[]]
+
                 elif self.action != None :
                     
                     if self.hud.is_overhead_all():
                         self.action = self.hud.overhead_all()
+                        self.selection= [[],[]]
                         
                     else:
                         self.selection[0] = self.mouse_to_tiles()

@@ -477,7 +477,6 @@ def SearchforRoad( x , y , Mat = Mat_batiment) :
         for yi in range( y-1 , y + n + 1 ) :
             if  0 <= xi <= nb_cases_x -1 and 0 <= yi <= nb_cases_y -1  : 
                 if xi in [x-1 , x+n ] or yi in [ y-1 , y+n ] :
-                    print("Yet",xi,yi)
                     if isPath(xi,yi) :
                         return xi,yi
     print("Pas de route")
