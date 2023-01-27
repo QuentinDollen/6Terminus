@@ -736,7 +736,7 @@ def destroy_Bat(Bat):
         Liste_stock.remove(Bat)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
-            Mat_batiment[j][i] = ruines.Ruin(i, j)
+            Mat_batiment[j+Bat.pos_y][i+Bat.pos_x] = ruines.Ruin(i+Bat.pos_x, j+Bat.pos_y)
 
 
 # la matrice de boolen considère qu'il y a du feu en (x,y)
@@ -835,24 +835,24 @@ SearchforRoad(10,10, Mat_batiment[10][10])
 
 # # non necessaire, juste un test
 
-# add_bat(1, 1, 5, Mat_batiment)
-# add_bat(1, 2, 5, Mat_batiment)
-# add_bat(1, 3, 5, Mat_batiment)
-# add_bat(1, 4, 5, Mat_batiment)
-# add_bat(2, 4, 5, Mat_batiment)
-# add_bat(3, 4, 5, Mat_batiment)
-# add_bat(4, 4, 5, Mat_batiment)
-# add_bat(5, 4, 5, Mat_batiment)
-# add_bat(6, 4, 5, Mat_batiment)
+add_bat(1, 1, 5, Mat_batiment)
+add_bat(1, 2, 5, Mat_batiment)
+add_bat(1, 3, 5, Mat_batiment)
+add_bat(1, 4, 5, Mat_batiment)
+add_bat(2, 4, 5, Mat_batiment)
+add_bat(3, 4, 5, Mat_batiment)
+add_bat(4, 4, 5, Mat_batiment)
+add_bat(5, 4, 5, Mat_batiment)
+add_bat(6, 4, 5, Mat_batiment)
 # add_bat(7, 4, 5, Mat_batiment)
 # add_bat(8, 4, 5, Mat_batiment)
 # add_bat(9, 4, 5, Mat_batiment)
 # add_bat(10, 4, 5, Mat_batiment)
 # add_bat(10, 5, 5, Mat_batiment)
 # add_bat(11, 4, 5, Mat_batiment)
-# afficher_matrice_bat(Mat_batiment, 8, 8)
-# add_bat(4, 5, 10, Mat_batiment)
-# add_bat(2, 1, 72, Mat_batiment)
+afficher_matrice_bat(Mat_batiment, 8, 8)
+add_bat(4, 5, 10, Mat_batiment)
+add_bat(2, 1, 72, Mat_batiment)
 
 # add_bat(20, 20, 5, Mat_batiment)
 # add_bat(20, 21, 5, Mat_batiment)

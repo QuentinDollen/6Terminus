@@ -161,20 +161,25 @@ def test_walker_logique():
                     elif perso.name == "Recruteur":
                         perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
                         proxy = m.get_bat_prox(i, j, 4)
-                        print("proxy", proxy)
+                        print("proxy recruteur", proxy)
                         for bat in proxy:
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 recruit = perso.nb_a_recruter
+                                print("goal recruit:", recruit)
                                 if bat.employed < bat.curpop and recruit > 0:
                                     if (bat.curpop - bat.employed) >= recruit:
                                         bat.employed += recruit
                                         perso.nb_a_recruter = 0
+                                        perso.batiment.curEmployees += recruit
                                     else:
-                                        perso.nb_a_recruter -= (bat.curpop - bat.employed)
+                                        recruted = (bat.curpop - bat.employed)
+                                        perso.nb_a_recruter -= recruted
                                         bat.employed = bat.curpop
+                                        perso.batiment.curEmployees += recruted
                         if perso.nb_a_recruter == 0:
                             perso.batiment.hasRecruteur = 0
                             m.kill_walker(perso)
+                            print("recruteur tué")
 
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
                         m.echange(perso)
@@ -215,6 +220,7 @@ def test_bat_logique():
                 bat = m.Mat_batiment[j][i]
                 if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur:
                     m.invoke_walker(bat, "Recruteur")
+                    print("test:",bat.Walk[0].x,",",bat.Walk[0].y)
                     bat.hasRecruteur = 1
                 elif bat.hasCheck == 0:
                     bat.hasCheck = 1
@@ -396,11 +402,86 @@ def event_to_logic(nume, pos_init, pos_final):
 # m.deplacement_perso(m.Mat_perso)
 # test_walker_logique()
 # test_bat_logique()
-# print("Après")
-# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-# print(m.Mat_batiment[5][4].curpop)
-# print(m.Mat_batiment[3][3].hasRecruteur)
-# print(m.Mat_batiment[3][3].curEmployees)
+# test_bat_logique()
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+#
+# test_bat_logique()
+# test_bat_logique()
+#
+# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
+
+m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
+m.afficher_matrice_perso(m.Mat_perso, 7, 7)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+test_walker_logique()
+test_bat_logique()
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+
+m.deplacement_perso(m.Mat_perso)
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+test_walker_logique()
+test_bat_logique()
+print("Après")
+print("~~~~~~~~~~~")
+m.afficher_matrice_perso(m.Mat_perso, 10, 10)
+print(m.Mat_batiment[5][4].curpop)
+print(m.Mat_batiment[3][3].hasRecruteur)
+print(m.Mat_batiment[3][3].curEmployees)
+print(m.Mat_batiment[6][0].curEmployees)
+print(m.Mat_batiment[5][4].employed)
+print(m.Mat_batiment[5][10])
 # print(m.Mat_perso[5][1][0].cargaison_nourriture)
 # print(m.Mat_batiment[6][0].Walk)
 # m.afficher_matrice_perso(m.Mat_perso, 6, 6)
