@@ -26,6 +26,7 @@ from Model import engineer
 from Model import temple
 from copy import copy
 from Model import Recruteur as rec
+from Model import market as mar
 
 # matrice de depart par defaut
 
@@ -301,12 +302,12 @@ def afficher_mat_route(taille):
 
 # dictionnaire reliant l'id des batiments a la taille qu'ils occupent
 id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72: 3, 100: 3, 101: 3, 103: 3, 109: 2,
-           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1, 10: 1}
+           111: 2, 114: 2, 1: 1, 2: 1, 3: 3, 115: 1, 116: 1, 7: 1, 10: 1, 70: 3}
 
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
            "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison1": 10, "Maison2": 11, "Maison3": 12,
-           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 72, "Herb": 0, "Panneau": 7, "Panneau Entree": 115}
+           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau": 7, "Panneau Entree": 115, "Market" : 70}
 
 
 # permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)
@@ -391,6 +392,10 @@ def add_bat(x, y, id_bat, Mat=Mat_batiment):
     elif id_bat == 0:
         Herb = h.Herb(x, y)
         Mat[y][x] = Herb
+    elif id_bat== 70:
+        Market = mar.Market(x, y)
+        put_bat_mat(x, y, Market, Mat)
+
 
 
 # globals()["Prefecture"+x+y] # truc interessant dont on se sert pas, à conserver pour plus tard
@@ -890,20 +895,30 @@ def get_bat_prox(x, y, r):
 
 
 def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
+    print("HERE THE FOOD")
+    print(fg.cargaison_nourriture)
     if fg.cargaison_nourriture[0][1] > 0:
         chargement = ["ble", 10]
         fg.cargaison_nourriture[0][1] -= 10
         house.get_delivery(chargement)
-    if fg.cargaison_nourriture[0][1] > 0:
+        print("bouffe de la maison:", house.nourriture)
+    if fg.cargaison_nourriture[1][1] > 0:
         chargement = ["fruits", 10]
-        fg.cargaison_nourriture[0][1] -= 10
+        fg.cargaison_nourriture[1][1] -= 10
         house.get_delivery(chargement)
-    if fg.cargaison_nourriture[0][1] > 0:
+    if fg.cargaison_nourriture[2][1] > 0:
         chargement = ["viande", 10]
-        fg.cargaison_nourriture[0][1] -= 10
+        fg.cargaison_nourriture[2][1] -= 10
         house.get_delivery(chargement)
+    print("test billy")
 
-
+def getFood(fg: F_G.Food_Guy, mar:mar.Market):
+    fg.cargaison_nourriture[0][1]+=mar.nourriture[0][1]
+    mar.nourriture[0][1] = 0
+    fg.cargaison_nourriture[1][1]+=mar.nourriture[1][1]
+    mar.nourriture[0][1] = 0
+    fg.cargaison_nourriture[2][1]+=mar.nourriture[2][1]
+    mar.nourriture[2][1] = 0
 
 # # non necessaire, juste un test
 

@@ -35,6 +35,7 @@ class Maison(b.Batiment):
         self.curpop += 1
 
     def hasEnoughFood(self):
+        print("test enough food")
         return (self.nourriture[0][1]+self.nourriture[1][1]+self.nourriture[2][1]) > 10
  
 class Panneau(Maison):
