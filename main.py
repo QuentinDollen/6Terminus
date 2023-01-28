@@ -18,7 +18,6 @@ def main():
     global Cur_page
     Cur_page = None
 
-
     pg.init()
     pg.mixer.init()
     global screen

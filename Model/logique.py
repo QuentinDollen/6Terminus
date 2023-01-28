@@ -508,6 +508,8 @@ def event_to_logic(nume, pos_init, pos_final):
 #
 # print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
 
+#Add_bat_game(30,31,11)
+#Add_bat_game(30,32,12)
 m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
 m.afficher_matrice_perso(m.Mat_perso, 7, 7)
 m.deplacement_perso(m.Mat_perso)
