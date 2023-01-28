@@ -45,4 +45,4 @@ class Delivery_Guy(W.Walker):
             return res
 
     def HasSomething(self):
-        return any(self.cargaison_nourriture[i][1] != 0 or self.cargaison_produits[i][1] != 0 for i in range(3))
+        return any(self.cargaison_nourriture[i][1] > 0 or self.cargaison_produits[i][1] > 0 for i in range(3))

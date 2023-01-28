@@ -55,6 +55,19 @@ def Delivery(Bat_depart, type_march, quant):
         dg.dest_y = dy
         print(dx, dy)
 
+def findFood(Bat_depart):
+    (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
+    if x != -1:
+        cible = m.SearchforFood()
+        if cible == None:
+            return -1
+        fg=m.add_perso(x, y, "Food_Guy", m.Mat_perso,Bat_depart, cible,role="collecteur")
+        (cx, cy)=cible.ret_coord()
+        print("cible", cx, cy)
+        (dx, dy) = m.SearchforRoad(cx, cy, m.Mat_batiment)
+        fg.dest_x = dx
+        fg.dest_y = dy
+        print(dx,dy)
 
 
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
@@ -240,12 +253,34 @@ def test_walker_logique():
                             m.kill_walker(perso)
                             count -= 1
                     elif perso.name == "Food_Guy":
-                        if perso.role == 'distributeur':
+                        if perso.role == 'collecteur':
+                            proxy = m.get_bat_prox(i, j, 2)
+                            print("test collecteur")
+                            if m.InTable(perso.bat_destination, proxy):
+                                print("tentative collecte")
+                                m.collecte(perso)
+                                perso.role = "livreur"
+                                perso.bat_destination = perso.batiment
+                        if perso.role == "livreur":
+                            proxy = m.get_bat_prox(i, j, 2)
+                            if m.InTable(perso.bat_destination, proxy):
+                                print("test livreur")
+                                m.livraison(perso)
+                                m.kill_walker(perso)
+                                count -= 1
+                        elif perso.role == 'distributeur':
                             proxy = m.get_bat_prox(i, j, 4)
                             if perso.dest_x == -1:
+
                                 for bat in proxy:
-                                    if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
+                                    if not perso.hasSomething:
+                                        m.kill_walker(perso)
+                                        count -= 1
+                                    if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]) and not bat.hasEnoughFood:
                                         m.giveFood(perso, bat)
+                            if not perso.hasSomething:
+                                m.kill_walker(perso)
+                                count -= 1
                         else:
                             continue
                     elif perso.name == "Immigrant":
@@ -303,8 +338,8 @@ def test_bat_logique():
                             m.invoke_walker(bat, "Priest")
                     elif bat.name == "Market":
                         if bat.occupied_space <= 15:
-                            if bat.asEnoughFood():
-                                pass
+                            if not bat.hasEnoughFood():
+                                findFood(bat)
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
                         if(bat.name == "Maison 1" and bat.acces_eau == 1):
                             print("will evolve soon")
