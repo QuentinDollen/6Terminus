@@ -11,7 +11,7 @@ def main():
 
 # Global varibles 
 
-    # Variable pour les boucles dans le jeu 
+    # Variable pour les boucles dans le jeu  
     running = True
     playing = True
     Launch = True
@@ -65,8 +65,8 @@ def main():
                         HP_newc.transparenci( mouse_track , screen )
                         pg.display.flip()
 
-                if event.type == pg.KEYDOWN and event.type != pg.K_LSHIFT :
-
+                if event.type == pg.KEYDOWN and event.unicode :
+        
                     if Cur_page == "Select" :
                         SP_input.ajout_char(event , screen)
 
@@ -86,7 +86,9 @@ def main():
                             SP_input.draw(screen)                       
                 
                         elif HP_load_game.overhead( mouse_track , screen ) :
-                            pass
+                            Cur_page = "Restaure"
+                            RP_page.draw(screen)
+                            disable_all()
 
                     elif Cur_page == "Select" : # Si ony se trouve sur la page Select
 
@@ -102,6 +104,13 @@ def main():
                         
                         SP_input.collide(mouse_track)
                             
+                    elif Cur_page == "Restaure" :
+                       
+                        action = RP_page.action()
+
+                        if action == go_to_home_page : 
+                            Cur_page = "Home"
+                            set_screen_HP(screen)
 
                     else : # Si on se trouve dans l'écran titre
 

@@ -521,19 +521,17 @@ def SearchforRoade(x, y, Mat=Mat_batiment):
         y1 = y1 - 1
     return -1, -1
 
-
 def SearchforRoad(x, y, Mat=Mat_batiment):
     n = Mat_batiment[y][x].nbr_cases
-    print(" Je veux : ", x, y)
-    for xi in range(x - 1, x + n + 1):
-        for yi in range(y - 1, y + n + 1):
-            if 0 <= xi <= nb_cases_x - 1 and 0 <= yi <= nb_cases_y - 1:
-                if xi in [x - 1, x + n] or yi in [y - 1, y + n]:
-                    if isPath(xi, yi):
-                        return xi, yi
-    print("Pas de route")
-    return -1, -1
 
+    for xi in range( x-1 , x + n + 1) :
+        for yi in range( y-1 , y + n + 1 ) :
+            if  0 <= xi <= nb_cases_x -1 and 0 <= yi <= nb_cases_y -1  : 
+                if xi in [x-1 , x+n ] or yi in [ y-1 , y+n ] :
+                    if isPath(xi,yi) :
+                        return xi,yi
+
+    return -1 , -1
 
 # cherche si une valeur est déjà presente dans un tableau
 def InTable(x, tab):
@@ -816,24 +814,27 @@ def destroy_Bat(Bat):
     genocide(Bat)
     if InTable(Bat, Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse"):
         Liste_stock.remove(Bat)
+    print("Destruction bat :",Bat.pos_x,Bat.pos_y)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
-            Mat_batiment[j + Bat.pos_y][i + Bat.pos_x] = ruines.Ruin(i + Bat.pos_x, j + Bat.pos_y)
+            
+            Mat_batiment[j+Bat.pos_y][i+Bat.pos_x] = ruines.Ruin(i+Bat.pos_x, j+Bat.pos_y)
 
 
 # la matrice de boolen considère qu'il y a du feu en (x,y)
 def set_fire(x, y):
-    Mat_fire[y][x] = 1
+    Mat_fire[x][y] = 1
 
 
 # place du feu sur l'ensemble d'un batiment (non terminé, il faut que le batiment cesse de fonctionner)
 def fire_bat(Bat):
     if InTable(Bat, Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse"):
         Liste_stock.remove(Bat)
+    print("Une maison brule",Bat.pos_x,Bat.pos_y)
     for i in range(Bat.nbr_cases):
-        for j in range(Bat.nbr_cases):
+        for j in range(Bat.nbr_cases):  
             set_fire(i, j)
-    destroy_Bat(Bat)
+    genocide(Bat)
 
 
 # verification de l'indice de feu, et d'effondrement

@@ -26,8 +26,9 @@ Nume_decrease_speed = pg.USEREVENT +11
 Nume_pause_speed = pg.USEREVENT +12
 Nume_well = pg.USEREVENT +13
 Nume_overlay = pg.USEREVENT +14
+Nume_fountain = pg.USEREVENT +15
 
-Unalterable = [0,1,2,3,4,5,6,666,116,115]
+Unalterable = [0,1,2,3,4,5,6,666,116,115 , 91 ]
 
 # En jeu (dans le main), on n'utilisera que les fonctions de logique.py, celles prÃ©sente dans les autres fichiers servent de briques pour celles prÃ©sentes ici
 
@@ -488,8 +489,10 @@ def event_to_logic(nume, pos_init, pos_final):
 
     elif nume == Nume_overlay :
         global val_overlay
-        print("Changement de overlay")
         val_overlay = (val_overlay +1 )%4
+
+    elif nume == Nume_fountain :
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Fountain"])
         
         
 

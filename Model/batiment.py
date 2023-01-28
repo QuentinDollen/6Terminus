@@ -25,6 +25,7 @@ class Batiment(t.Terrain):
         self.Walk = []
         self.hasCheck = 0
         self.hasRecruteur = 0
+        self.burning = 0 
 
     def ret_coord(self):
         return (self.pos_x, self.pos_y)
@@ -41,8 +42,16 @@ class Batiment(t.Terrain):
         if random() < 0.1:
             self.ind_fire += 1
         if self.ind_fire > 30:
-            return -1
+            self.burning += 1 
+
+            if self.burning >= 20 : 
+                return -2
+            else :
+                return -1  
+
         if random() > 0.9:
             self.ind_eff += 1
         if self.ind_eff > 30:
             return -2
+
+        return 0 
