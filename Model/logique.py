@@ -182,26 +182,49 @@ def getDesirability(bat):
 def check_water():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
-            if m.InTable(m.Mat_batiment[j][i].name, ["Panneau", "Maison 1", "Maison 2", "Maison 3"])  and m.Mat_water[i][j] == 1:
+            if m.InTable(m.Mat_batiment[j][i].name, ["Panneau", "Maison 1", "Maison 2", "Maison 3"]) and m.Mat_water[i][j]:
                 m.Mat_batiment[j][i].acces_eau = 1
                 print("EAUUUUUUUUUUUUUUUUUUUUUUUUUUU")
-            else: m.Mat_batiment[j][i].acces_eau = 0
+            if m.InTable(m.Mat_batiment[j][i].name, ["Panneau", "Maison 1", "Maison 2", "Maison 3"]) and not m.Mat_water[i][j]:
+                m.Mat_batiment[j][i].acces_eau = 0
+
+
 def evolve(bat):
     print("is Evolving")
     x = bat.pos_x
     y = bat.pos_y
     if bat.name == 'Maison 1':
         m.add_bat(x, y, 11, m.Mat_batiment)
-    if bat.name == 'Maison 2':
+    elif bat.name == 'Maison 2':
         m.add_bat(x, y, 12, m.Mat_batiment)
     batiment = m.Mat_batiment[y][x]
     batiment.nourriture = bat.nourriture
     batiment.produits = bat.produits
-    batiment.popLim = bat.popLim
     batiment.curpop = bat.curpop
     batiment.employed = bat.employed
     batiment.faith = bat.faith
     batiment.acces_eau = bat.acces_eau
+    batiment.Walk = bat.Walk
+    for p in bat.Walk:
+        p.batiment = batiment
+
+def devolve(bat):
+    print("is Devolving")
+    x = bat.pos_x
+    y = bat.pos_y
+    if bat.name == 'Maison 3':
+        m.add_bat(x, y, 11, m.Mat_batiment)
+    elif bat.name == 'Maison 2':
+        m.add_bat(x, y, 10, m.Mat_batiment)
+    batiment = m.Mat_batiment[y][x]
+    batiment.nourriture = bat.nourriture
+    batiment.produits = bat.produits
+    batiment.curpop = bat.curpop
+    if bat.curpop >= batiment.popLim:
+        batiment.curpop = batiment.popLim
+    else: batiment.curpop = bat.curpop
+    batiment.employed = bat.employed
+    batiment.faith = bat.faith
     batiment.Walk = bat.Walk
     for p in bat.Walk:
         p.batiment = batiment
@@ -383,12 +406,26 @@ def test_bat_logique():
                             print("will evolve soon")
                             evolve(bat)
                             print("evolved")
+                        elif (bat.name == "Maison 2" and bat.acces_eau == 1 and bat.nourriture[0][1]>5):
+                            print("will evolve soon into maison 3")
+                            evolve(bat)
+                            print("evolved")
+                        elif (bat.name == "Maison 3" or bat.name == "Maison 2") and not bat.acces_eau:
+                            print("you will devolve :ghost:")
+                            devolve(bat)
+                            if bat.name =="Maison 2":
+                                devolve(bat)
+                            print("devolved")
+                        elif bat.name == "Maison 3" and bat.nourriture[0][1] == 0:
+                            print("you will devolve :ghost:")
+                            devolve(bat)
+                            print("devolved")
                         if bat.curpop < bat.popLim and bat.Walk == []:
                             n = getDesirability(bat)
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
-                        if random.random()<0.5:
+                        if bat.nourriture[0][1]>0 and random.random()<0.3:
                             bat.nourriture[0][1]-=1
 
     for i in range(m.nb_cases):
