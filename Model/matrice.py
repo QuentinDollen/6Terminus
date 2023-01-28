@@ -613,7 +613,7 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
 
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
-    if not InTable(Mat[y][x].name, ["Herb", "Tree", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
+    if not InTable(Mat[y][x].name, ["Herb", "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
         genocide(Mat[y][x])
         if Mat[y][x].name == "Path":
             for e in range(len(Mat_perso[y][x])):
