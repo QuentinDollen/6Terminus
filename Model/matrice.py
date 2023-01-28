@@ -456,15 +456,17 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
 def invoke_walker(bat, type_, objectif=None):
     if bat.curEmployees >= 1 or type_ == "Recruteur":
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
-        print("test invoke:", x, y)
-        print("test batiment:", bat.pos_x, bat.pos_y)
-        add_perso(x, y, type_, Mat_perso, bat, objectif)
+        if x != -1:
+            print("test invoke:", x, y)
+            print("test batiment:", bat.pos_x, bat.pos_y)
+            add_perso(x, y, type_, Mat_perso, bat, objectif)
 
 
 def invoke_migrant(maison_cible):
     (x, y) = SearchforRoad(Panneau_entree.pos_x, Panneau_entree.pos_y, Mat_batiment)
-    print("coord:", x, y)
-    add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
+    if x != -1:
+        print("coord:", x, y)
+        add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
 
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
