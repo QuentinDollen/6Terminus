@@ -819,7 +819,7 @@ def destroy_Bat(Bat):
         for j in range(Bat.nbr_cases):
             
             Mat_batiment[j+Bat.pos_y][i+Bat.pos_x] = ruines.Ruin(i+Bat.pos_x, j+Bat.pos_y)
-
+    restructure_water_map()
 
 # la matrice de boolen considère qu'il y a du feu en (x,y)
 def set_fire(x, y):
