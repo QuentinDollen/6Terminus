@@ -73,8 +73,6 @@ class Game:
                     l.savefile("Fichier_de_demonstration.pkl")
 
 
-
-
             self.mouse_button = pg.mouse.get_pressed()
             self.mouse_pos = pg.mouse.get_pos()
 

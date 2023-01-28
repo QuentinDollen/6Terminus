@@ -472,13 +472,16 @@ def invoke_migrant(maison_cible):
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
     map_depart = matrix
+    
     for i in range(0, nb_cases_x):
         for j in range(0, nb_cases_y):
             if map_depart[j][i]:
                 add_bat(j, i, map_depart[j][i], Mat)
-
+    
     add_bat(20,0,name_id["Panneau Entree"])
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
+
+
 
 
 # teste si l'emplacement x,y d'une matrice correspond a un chemin

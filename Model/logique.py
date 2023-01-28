@@ -452,9 +452,6 @@ def isHerb(x,y):
     return m.Mat_batiment[y][x].name == "Herb"
 
 
-def set_mat_beautiful():
-    m.Mat_batiment = m.matrix
-
 def Square_path(x1,y1,x2,y2):
     if all(isHerb(i,y1) for i in range(min(x1,x2),max(x1,x2)+1)) and all(isHerb(x2,j) for j in range(min(y1,y2), max(y1,y2)+1)):
         for i in range(min(x1,x2),max(x1,x2)+1):
