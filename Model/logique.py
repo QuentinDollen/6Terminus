@@ -521,7 +521,7 @@ def event_to_logic(nume, pos_init, pos_final):
         build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Granary"])
 
     elif nume == Nume_theatre : 
-        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Granary"])
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Market"])
         
         
 

@@ -699,8 +699,8 @@ class Map:
             elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
                 tile = "prefet0"
 
-            elif(l.getWalker(grid_x,grid_y).name == "Food_Guy"):
-                tile = "food_guy0"
+            elif(l.getWalker(grid_x,grid_y).name == "FoodGuy"):
+                tile = "Food_guy0"
 
             elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
                 tile = "random0"
