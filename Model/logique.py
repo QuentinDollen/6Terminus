@@ -27,6 +27,8 @@ Nume_pause_speed = pg.USEREVENT +12
 Nume_well = pg.USEREVENT +13
 Nume_overlay = pg.USEREVENT +14
 Nume_fountain = pg.USEREVENT +15
+Nume_save = pg.USEREVENT +16 
+Nume_load = pg.USEREVENT +17
 
 Unalterable = [0,1,2,3,4,5,6,666,116,115 , 91 ]
 
@@ -136,7 +138,11 @@ def sauvegarde(nom):
 
 
 def savefile(filename) : 
-    with open( filename , "wb") as f :
+
+    if ".pkl" not in filename :
+        filename += ".pkl"
+
+    with open( f"Terminus_saves/{filename}" , "wb") as f :
         pickle.dump(m.Mat_batiment,f)
         pickle.dump(m.Mat_perso,f)
         pickle.dump(m.Mat_route,f)
@@ -144,7 +150,11 @@ def savefile(filename) :
         pickle.dump(m.Mat_water,f)
 
 def loadfile(filename) :
-    with open( filename , "rb" ) as f:
+
+    if ".pkl" not in filename :
+        filename += ".pkl"
+
+    with open( f"Terminus_saves/{filename}" , "rb" ) as f:
         m.Mat_batiment = pickle.load(f)
         m.Mat_perso = pickle.load(f)
         m.Mat_route = pickle.load(f)
@@ -442,6 +452,9 @@ def isHerb(x,y):
     return m.Mat_batiment[y][x].name == "Herb"
 
 
+def set_mat_beautiful():
+    m.Mat_batiment = m.matrix
+
 def Square_path(x1,y1,x2,y2):
     if all(isHerb(i,y1) for i in range(min(x1,x2),max(x1,x2)+1)) and all(isHerb(x2,j) for j in range(min(y1,y2), max(y1,y2)+1)):
         for i in range(min(x1,x2),max(x1,x2)+1):
@@ -505,14 +518,20 @@ def get_overlay() :
 def get_water(x,y) : 
     return m.Mat_water[x][y]
 
-def event_to_logic(nume, pos_init, pos_final):
+def event_to_logic(nume, pos_init, pos_final, Name_game = "tmp.pkl"):
+    if not pos_final :
+        pos_final = pos_init
+
     if nume == Nume_maison:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
         build_pannel_grid(x1,y1,x2,y2)
+
     elif nume == Nume_pelle:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
+
+        print(pos_init,pos_final)
         destroy_grid(x1,y1,x2,y2)
     elif nume == Nume_route:
         (x1, y1) = pos_init
@@ -561,242 +580,13 @@ def event_to_logic(nume, pos_init, pos_final):
 
     elif nume == Nume_theatre : 
         build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Market"])
+
+    elif nume == Nume_save : 
+        savefile(Name_game)
+
+    elif nume == Nume_load : 
+        loadfile(Name_game)
         
-        
 
-
-    # elif nume == Nume_ingenieur :
-    #     build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["EngineersPost"])
-
-
-#     # elif(nume == Nume_nourriture):
-#     # elif(event == Nume_prefecure):
-
-
-
-# print("")
-
-
-# # a garder
-# init_game()
-
-# #
-
-# # partie test
-
-# # print(Add_bat_game(2, 0, 5))
-# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# # print("***  modification en cours ****")
-# # m.add_bat(0,0,0,m.Mat_batiment)
-# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# # print("***  test de sauvegarde ****")
-
-# # sauvegarde("sauv1")
-# # m.add_bat(1,0,0,m.Mat_batiment)
-# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-# # print("**** test du load ****")
-
-# # load("sauv1")
-# # m.afficher_matrice_bat(m.Mat_batiment, 3, 3)
-
-#print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-
-# # test logique:
-# m.afficher_matrice_bat(m.Mat_batiment, 12, 12)
-# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-# print("ZEHAHAHAHAHAHAHAH")
-#
-# test_bat_logique()
-# test_walker_logique()
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-#
-# m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-# m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-# print("HAHHAHAHAHAHHA")
-#
-# test_bat_logique()
-# test_bat_logique()
-# test_bat_logique()
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-#
-# test_bat_logique()
-# test_bat_logique()
-#
-# print("Harvest:", m.Mat_batiment[6][0].ind_Harv)
-
-Add_bat_game(0,3,7)
-Add_bat_game(0,5,100)
-Add_bat_game(6,5,70)
-Add_bat_game(0,4,7)
-Add_bat_game(0,2,7)
-Add_bat_game(0,1,7)
-
-
-
-print("")
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-test_walker_logique()
-
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-print("curpop maison:",m.Mat_batiment[3][0].curpop)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-test_bat_logique()
-test_walker_logique()
-print("")
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-print("")
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-m.deplacement_perso(m.Mat_perso)
-
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-test_walker_logique()
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-test_bat_logique()
-m.deplacement_perso(m.Mat_perso)
-print("")
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-m.deplacement_perso(m.Mat_perso)
-print("")
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-m.deplacement_perso(m.Mat_perso)
-print("")
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-
-
-#m.afficher_matrice_bat(m.Mat_batiment, 7, 7)
-#m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-#m.deplacement_perso(m.Mat_perso)
-#m.deplacement_perso(m.Mat_perso)
-#m.deplacement_perso(m.Mat_perso)
-#print("Après")
-#m.afficher_matrice_perso(m.Mat_perso, 7, 7)
-
-m.afficher_matrice_perso(m.Mat_perso, 10, 10)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-print("curpop maison:",m.Mat_batiment[5][4].curpop)
-print("curpop maison:",m.Mat_batiment[3][0].curpop)
-
-
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-
-test_bat_logique()
-test_walker_logique()
-m.deplacement_perso(m.Mat_perso)
-print(m.Mat_batiment[5][4].nourriture)
-m.afficher_matrice_bat(m.Mat_batiment, 10, 10)
-print(m.Mat_batiment[5][6].nourriture)
-
-# print(m.Mat_perso[5][1][0].cargaison_nourriture)
-# print(m.Mat_batiment[6][0].Walk)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# m.add_perso(1, 5, "Delivery Guy", m.Mat_perso, m.Mat_batiment[6][0], m.Mat_batiment[6][0], 'ble', 1, 5)
-# print(" ")
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# m.kill_walker(m.Mat_perso[5][1][0])
-# #m.destroy_Bat(m.Mat_batiment[6][0])
-# print("")
-# print(m.Mat_batiment[6][0].Walk)
-# m.afficher_matrice_perso(m.Mat_perso, 6, 6)
-# print("test test")
-# #print(m.Mat_perso[5][1][0].cargaison_nourriture) # erreur normale
-
-print("FIN LOGIQUE BORDEL")
+# a garder
+init_game()

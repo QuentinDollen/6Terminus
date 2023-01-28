@@ -110,6 +110,19 @@ def main():
                             Cur_page = "Home"
                             set_screen_HP(screen)
 
+                        elif action == Play_sg_1 and RP_page.save_1.text not in Emplacements   : 
+                            Launch = False
+                            playing = True
+                            l.event_to_logic(l.Nume_load ,None,None,RP_page.save_1.text)
+                        elif action == Play_sg_2 and RP_page.save_2.text not in Emplacements : 
+                            Launch = False
+                            playing = True
+                            l.event_to_logic(l.Nume_load ,None,None,RP_page.save_2.text)
+                        elif action == Play_sg_3 and RP_page.save_3.text not in Emplacements : 
+                            Launch = False
+                            playing = True
+                            l.event_to_logic(l.Nume_load ,None,None,RP_page.save_3.text)
+
                     else : # Si on se trouve dans l'écran titre
 
                         Cur_page = "Home"

@@ -277,6 +277,7 @@ SP_support.set_size( ( 2*window_width /3, 2*winddow_height /3 ) )
 
 
 # Restaure game page
+print("Restaurepage")
 RP_page = Save_page()
 
 # SP_go_home = Button( )

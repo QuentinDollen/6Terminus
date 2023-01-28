@@ -10,6 +10,7 @@ from View.camera import Camera
 from View.hud import Hud
 from Model import logique as l 
 from Model import Test_logique as Test_l
+from Interface.InputBoxName import SP_input
 
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
@@ -64,58 +65,60 @@ class Game:
 
                 if event.key == pg.K_t:
                     Test_l.Construction_1()
-            
-                if event.key == pg.K_y:
-                    Test_l.Tour_jeu()
 
                 if event.key == pg.K_l:
-                    l.loadfile("Fichier_de_demonstration.pkl")
+                    l.loadfile("Fichier_de_demonstration.pkl")          
 
                 if event.key == pg.K_s:
                     l.savefile("Fichier_de_demonstration.pkl")
 
 
-            if event.type == pg.MOUSEBUTTONUP :
 
-                if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
-                    print(self.selection[0])
-                    self.selection[1] = self.mouse_to_tiles()
-                    
-                    l.event_to_logic(self.action , self.selection[0] , self.selection[1])
-                    
-       
+
+            self.mouse_button = pg.mouse.get_pressed()
+            self.mouse_pos = pg.mouse.get_pos()
+
 
             if event.type == pg.MOUSEBUTTONDOWN :
-                self.mouse_button = pg.mouse.get_pressed()
 
-                if self.hud.modif_speed() :
+                print("Action :",self.action , " Selection" , self.selection)
+                if self.hud.save.overhead(self.mouse_pos) :
+                    l.event_to_logic(l.Nume_save,None,None,SP_input.text)
+
+                elif self.hud.modif_speed() :
                     self.action = self.hud.overhead_all()
                     l.event_to_logic(self.action ,None ,None)
+                    self.acion = None
 
-                if self.hud.overlay.collide(pg.mouse.get_pos()) :
-                    self.action = self.hud.overlay.clicked()
-                    l.event_to_logic( self.action,None ,None)
-                
-                if self.action == None and self.mouse_button[0] and self.hud.is_overhead_all():
+                elif self.hud.overlay.collide(self.mouse_pos) :
+                    l.event_to_logic(l.Nume_overlay ,None,None)
+
+                elif self.hud.is_overhead_all() and  self.mouse_button[0]:
                     self.action = self.hud.overhead_all()
-                    self.selection= [[],[]]
+                    self.selection = [[],[]]
 
-                elif self.action != None :
-                    
-                    if self.hud.is_overhead_all():
-                        self.action = self.hud.overhead_all()
-                        self.selection= [[],[]]
-                        
-                    else:
-                        self.selection[0] = self.mouse_to_tiles()
-                    
-                if self.mouse_button[2]:
+                elif self.mouse_button[2] :
+                    self.action = None
+                    self.selection = [[],[]]
                     self.hud.overhead_all()
-                    self.action = None    
-                    self.selection =[[],[]]
 
-            #if event.type == pg.MOUSEMOTION and self.selection[0] != []:
-            #    init_clique_pos = self.mouse_to_tiles()
+                elif self.mouse_button[0] :
+                    self.selection[0] = self.mouse_to_tiles()
+
+
+            if event.type == pg.MOUSEBUTTONUP :
+
+                if self.action and self.selection[0] != []:
+                    self.selection[1] = self.mouse_to_tiles()
+
+
+            if self.action != None and self.selection[0] != [] and self.selection[1] != [] :
+                l.event_to_logic(self.action , self.selection[0] , self.selection[1] )
+                self.selection = [[],[]]
+
+
+
+
 
     def update(self):
         Test_l.Tour_jeu()

@@ -163,7 +163,7 @@ class Map:
                 # tile = self.map[x][y]["tile"]
                 tile1 = self.matrix[x][y]
                 # minimap
-                minimap_offset = [40, 40]
+                minimap_offset = [40, 60]
                 render_pos_mini = self.map[x][y]["render_pos_mini"]
 
                 # WATER
