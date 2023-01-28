@@ -1,7 +1,7 @@
 import pygame as pg
 import pickle
 import sys
-
+import random
 sys.path.insert(0, '..')
 
 from Model import matrice as m
@@ -378,6 +378,8 @@ def test_bat_logique():
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
+                        if random.random()<0.5:
+                            bat.nourriture[0][1]-=1
 
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
