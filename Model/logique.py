@@ -296,12 +296,12 @@ def test_walker_logique():
                             if perso.dest_x == -1:
                                 print("distribution en cours...")
                                 for bat in proxy:
-                                    if not perso.HasSomething:
+                                    if not perso.HasSomething():
                                         m.kill_walker(perso)
                                         count -= 1
                                     if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]) and not bat.hasEnoughFood():
                                         m.giveFood(perso, bat)
-                            if not perso.HasSomething:
+                            if not perso.HasSomething():
                                 m.kill_walker(perso)
                                 count -= 1
                         else:
@@ -378,7 +378,7 @@ def test_bat_logique():
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
-                        if random.random()<0.5:
+                        if bat.nourriture[0][1]>0 and random.random()<0.5:
                             bat.nourriture[0][1]-=1
 
     for i in range(m.nb_cases):
