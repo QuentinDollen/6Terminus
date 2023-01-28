@@ -43,6 +43,7 @@ class Game:
 
         while self.playing:
             self.clock.tick(60)
+            l.Tour_jeu()
             self.events()
             self.update()
             self.draw()

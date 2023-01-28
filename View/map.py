@@ -522,11 +522,17 @@ class Map:
                 tile = "houselvl3"
 
             #Service publique
-            elif self.matrix[grid_x][grid_y] == 55:
-                tile = "security"
+            if self.matrix[grid_x][grid_y] == 55:
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "security_occupied"
+                else:
+                    tile = "security"
 
             elif self.matrix[grid_x][grid_y] == 81:
-                tile = "engineer"
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "engineer_occupied"
+                else:
+                    tile = "engineer"
 
             #Commerce
 
@@ -583,7 +589,10 @@ class Map:
         elif self.overlay == "water":
 
             if l.get_water(grid_x,grid_y) == True:
-                tile = "watered"
+                if self.matrix[grid_x][grid_y] in (10, 11, 12):
+                    tile = "house_watered"
+                else:
+                    tile = "watered"
 
             elif l.get_water(grid_x,grid_y) == False:
                 tile = "unwatered"
@@ -624,7 +633,10 @@ class Map:
                 tile = "blue"
 
             if self.matrix[grid_x][grid_y] == 55:
-                tile = "security"
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "security_occupied"
+                else:
+                    tile = "security"
 
             elif self.matrix[grid_x][grid_y] == 555 and l.m.Mat_fire[grid_y][grid_x] == 1:
                 tile = "ruine_in_fire"
@@ -648,7 +660,10 @@ class Map:
                 tile = "blue"
 
             if self.matrix[grid_x][grid_y] == 81:
-                tile = "engineer"
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "engineer_occupied"
+                else:
+                    tile = "engineer"
 
             elif self.matrix[grid_x][grid_y] == 555:
                 tile = "ruine"
@@ -881,7 +896,9 @@ class Map:
         #Service Publique/Fonctionnaires
 
         security = pg.image.load(path_to_Utilities + "/Security.png").convert_alpha()
+        security_occupied = pg.image.load(path_to_Utilities + "/Security_occupied.png").convert_alpha()
         engineer = pg.image.load(path_to_Utilities + "/Engineer_post.png").convert_alpha()
+        engineer_occupied = pg.image.load(path_to_Utilities + "/Engineer_post_occupied.png").convert_alpha()
 
         #Aléas
 
@@ -914,6 +931,7 @@ class Map:
         blue = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
 
         watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
+        house_watered = pg.image.load(path_to_Utilities + "/EAU2.png").convert_alpha()
         unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
 
         case = pg.image.load(path_to_Utilities + "/case.png").convert_alpha()
@@ -968,7 +986,7 @@ class Map:
                 "direction1": direction1, "direction2": direction2,
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
                 "warehouse": warehouse, "granary": granary, "market": market, "farm": farm,
-                "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
+                "security": security, "security_occupied": security_occupied, "engineer": engineer, "engineer_occupied": engineer_occupied, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
                 "priest0": priest0, "priest1": priest1, "priest2": priest2, "priest3": priest3,
@@ -977,7 +995,7 @@ class Map:
                 "foodguy0": foodguy0, "foodguy1": foodguy1, "foodguy2": foodguy2, "foodguy3": foodguy3,
                 "random0": random0, "random1": random1, "random2": random2, "random3": random3,
                 "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
-                "watered": watered, "unwatered": unwatered, "case": case
+                "watered": watered, "unwatered": unwatered, "house_watered": house_watered, "case": case
 
                }
 
