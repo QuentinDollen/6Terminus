@@ -5,6 +5,7 @@ from os import getcwd
 sys.path.insert(0, '..')
 from Model.logique import *
 
+
 Path_font = f"{getcwd()}/Interface/C3_policy.TTF"
 Textefont = pg.font.Font( Path_font , 14 )
 Chiffrefont = pg.font.Font(None, 20)
@@ -162,7 +163,7 @@ class Hud:
         self.pos = (width - self.dim[0], self.bandeau_size[1])
         size_button = (9.4 / 36 * self.dim[0], 6.5 / 95 * self.dim[1])
         size_large_button = (16 / 36 * self.dim[0], 5 / 95 * self.dim[1])
-        size_little_button = (1/4* self.dim[0], 6 / 95 * self.dim[1])
+        size_little_button = (1.55/8* self.dim[0], 5 / 95 * self.dim[1])
         # Menu overlay
 
         
@@ -212,14 +213,10 @@ class Hud:
         self.speed_down = button_hud("View/Graphique/paneling_00251.png","View/Graphique/paneling_00252.png","View/Graphique/paneling_00253.png",(L2 , U5),size_button , Nume_decrease_speed)
         self.speed_pause = button_hud("View/Graphique/paneling_00097.png","View/Graphique/paneling_00098.png","View/Graphique/paneling_00099.png", ( L3 , U5) , size_button,Nume_pause_speed)
 
-        
+
+        save_pos = (self.pos[0] + 0.88*self.dim[0] , self.pos[1] + 3.8/100 * self.dim[1])
+        self.save = button_hud("View/Graphique/paneling_00239.png","View/Graphique/paneling_00240.png","View/Graphique/paneling_00241.png", save_pos , size_little_button, Nume_save)
       
-
-
-
-
-
-
 
     def draw(self, screen):
         # screen.blit(self.menu1, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 840))
@@ -276,6 +273,7 @@ class Hud:
         self.speed_pause.draw(screen)
         self.overlay.draw(screen)
         self.fountain.draw(screen)
+        self.save.draw(screen)
 
 
 
@@ -296,6 +294,7 @@ class Hud:
          self.speed_pause.set_cliked()
          self.fountain.set_cliked()
          self.overlay.clicked()
+         self.save.set_cliked()
          
          global action 
          return action 
