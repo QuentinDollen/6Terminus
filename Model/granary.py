@@ -9,5 +9,10 @@ class Granary(b.Batiment):
         self.max_space = 50
         self.occupied_space = 0
         self.name = "Granary"
+        self.nourriture = [['ble', 0], ['fruits', 0], ['viande', 0]]
+        self.produits = [['argile', 0], ['potterie', 0], ['huile', 0]]
     def isFull(self):
         return self.max_space == self.occupied_space
+
+    def hasFood(self):
+        return self.nourriture[0][1] + self.nourriture[1][1] + self.nourriture[2][1] > 0
