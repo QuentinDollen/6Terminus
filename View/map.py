@@ -729,7 +729,7 @@ class Map:
                     tile = "prefet" + str(temp)
 
                 elif(walker.name == "Food_Guy"):
-                    tile = "food_guy" + str(temp)
+                    tile = "foodguy" + str(temp)
 
                 elif(walker.name == "Immigrant"):
                     tile = "random" + str(temp)
@@ -903,7 +903,6 @@ class Map:
         #Aléas
 
         ruine = pg.image.load(path_to_Utilities + "/Ruine.png").convert_alpha()
-        fire = pg.image.load(path_to_Utilities + "/ENFEU_OMG.png").convert_alpha()
         ruine_in_fire = pg.image.load(path_to_Utilities + "/Ruine_en_feu.png").convert_alpha()
 
         #Water
@@ -986,7 +985,7 @@ class Map:
                 "direction1": direction1, "direction2": direction2,
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
                 "warehouse": warehouse, "granary": granary, "market": market, "farm": farm,
-                "security": security, "security_occupied": security_occupied, "engineer": engineer, "engineer_occupied": engineer_occupied, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
+                "security": security, "security_occupied": security_occupied, "engineer": engineer, "engineer_occupied": engineer_occupied, "ruine": ruine, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
                 "priest0": priest0, "priest1": priest1, "priest2": priest2, "priest3": priest3,
