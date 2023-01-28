@@ -306,7 +306,7 @@ id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
            "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison1": 10, "Maison2": 11, "Maison3": 12,
-           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau": 7, "Panneau Entree": 115}
+           "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 72, "Herb": 0, "Panneau": 7, "Panneau Entree": 115}
 
 
 # permet de inserer un batiment dans la matrice sur toute la taille qu'il occupe (non utilisable en jeu)

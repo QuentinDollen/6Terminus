@@ -126,11 +126,31 @@ class State:
 
 
 # creer un fichier de sauvegarde, à partir de l'état actuel du jeu
+
+data_set = [m.Mat_batiment , m.Mat_perso , m.Mat_route , m.Mat_fire , m.Mat_water ]
+
 def sauvegarde(nom):
     sauv = State()
     with open(nom, "wb") as f:
         pickle.dump(sauv, f)
 
+
+def savefile(filename) : 
+    with open( filename , "wb") as f :
+        pickle.dump(m.Mat_batiment,f)
+        pickle.dump(m.Mat_perso,f)
+        pickle.dump(m.Mat_route,f)
+        pickle.dump(m.Mat_fire,f)
+        pickle.dump(m.Mat_water,f)
+
+def loadfile(filename) :
+    with open( filename , "rb" ) as f:
+        m.Mat_batiment = pickle.load(f)
+        m.Mat_perso = pickle.load(f)
+        m.Mat_route = pickle.load(f)
+        m.Mat_fire = pickle.load(f)
+        m.Mat_water = pickle.load(f)
+            
 
 # charge un fichier de sauvegarde et met a jour le jeu
 def load(nom):
@@ -486,6 +506,15 @@ def event_to_logic(nume, pos_init, pos_final):
 
     elif nume == Nume_fountain :
         build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Fountain"])
+
+    elif nume == Nume_administratif : 
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Warehouse"])
+
+    elif nume == Nume_sante : 
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Granary"])
+
+    elif nume == Nume_theatre : 
+        build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Granary"])
         
         
 

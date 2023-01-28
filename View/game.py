@@ -64,7 +64,12 @@ class Game:
 
                 if event.key == pg.K_t:
                     Test_l.Construction_1()
-            
+
+                if event.key == pg.K_l:
+                    l.loadfile("Fichier_de_demonstration.pkl")          
+
+                if event.key == pg.K_s:
+                    l.savefile("Fichier_de_demonstration.pkl")
 
 
             if event.type == pg.MOUSEBUTTONUP :
