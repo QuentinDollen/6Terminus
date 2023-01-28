@@ -478,14 +478,20 @@ def get_overlay() :
 def get_water(x,y) : 
     return m.Mat_water[x][y]
 
-def event_to_logic(nume, pos_init, pos_final , Name_game = "tmp.pkl"):
+def event_to_logic(nume, pos_init, pos_final, Name_game = "tmp.pkl"):
+    if not pos_final :
+        pos_final = pos_init
+
     if nume == Nume_maison:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
         build_pannel_grid(x1,y1,x2,y2)
+
     elif nume == Nume_pelle:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
+        
+        print(pos_init,pos_final)
         destroy_grid(x1,y1,x2,y2)
     elif nume == Nume_route:
         (x1, y1) = pos_init

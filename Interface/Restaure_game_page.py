@@ -20,6 +20,8 @@ Play_sg_1 = pg.USEREVENT + 99
 Play_sg_2 = pg.USEREVENT + 98
 Play_sg_3 = pg.USEREVENT + 97
 
+Emplacements = ["Emplacement 1" , "Emplacement 2" ,"Emplacement 3"]
+
 class Save_page_button :
 
     def __init__(self , back_surface , text , pos , size = None , event = None ) :
