@@ -3,9 +3,7 @@ import pygame as pg
 from Interface.Data_controller import *
 from Interface.InputBoxName import *
 from View.game import * 
-from Model.logique import * 
-
-y
+from Model.logique import *
 def main():
 
 
