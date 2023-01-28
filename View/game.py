@@ -64,9 +64,12 @@ class Game:
 
                 if event.key == pg.K_t:
                     Test_l.Construction_1()
+            
+                if event.key == pg.K_y:
+                    Test_l.Tour_jeu()
 
                 if event.key == pg.K_l:
-                    l.loadfile("Fichier_de_demonstration.pkl")          
+                    l.loadfile("Fichier_de_demonstration.pkl")
 
                 if event.key == pg.K_s:
                     l.savefile("Fichier_de_demonstration.pkl")
@@ -111,10 +114,8 @@ class Game:
                     self.action = None    
                     self.selection =[[],[]]
 
-                
-
-            
-
+            #if event.type == pg.MOUSEMOTION and self.selection[0] != []:
+            #    init_clique_pos = self.mouse_to_tiles()
 
     def update(self):
         Test_l.Tour_jeu()
@@ -132,9 +133,6 @@ class Game:
 
         p = self.map.map[self.mouse_to_tiles()[0]][self.mouse_to_tiles()[1]]["iso_poly"]
         p = [(x + self.map.grass_tiles.get_width() / 2 + self.camera.scroll.x, y - (self.map.tiles["case"].get_height() - TILE_SIZE) + self.camera.scroll.y) for x, y in p]
-
-        #if self.mouse_button[0] and self.action != None:
-        #    self.screen.blit(self.map.tiles["case"], (p[0][0] - TILE_SIZE, p[0][1]))
 
         if self.action != None:
             pg.draw.polygon(self.screen, (255, 255, 255), p, 4)
