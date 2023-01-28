@@ -210,7 +210,7 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 - TILE_SIZE + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                    if tile in sizedbuildings_3:
+                    elif tile in sizedbuildings_3:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 - TILE_SIZE*2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
