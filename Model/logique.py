@@ -138,9 +138,12 @@ def getDesirability(bat):
 def check_water():
     for i in range(m.nb_cases):
         for j in range(m.nb_cases):
-            if( m.InTable(m.Mat_batiment[j][i].name,["Panneau", "Maison 1", "Maison 2", "Maison 3"])  and m.Mat_water == 1):
+            if m.InTable(m.Mat_batiment[j][i].name, ["Panneau", "Maison 1", "Maison 2", "Maison 3"])  and m.Mat_water[i][j] == 1:
                 m.Mat_batiment[j][i].acces_eau = 1
+                print("EAUUUUUUUUUUUUUUUUUUUUUUUUUUU")
+            else: m.Mat_batiment[j][i].acces_eau = 0
 def evolve(bat):
+    print("is Evolving")
     x = bat.pos_x
     y = bat.pos_y
     if bat.name == 'Maison 1':
@@ -182,13 +185,13 @@ def test_walker_logique():
                         for w in range(5):
                             for s in range(5):
                                 if(s+perso.y <= 39 and w+perso.x <= 39):
-                                    m.Mat_fire[s+perso.y][w+perso.x] = 0
+                                    m.Mat_fire[s+perso.x][w+perso.y] = 0
                                 if (s + perso.y <= 39 and -w + perso.x >= 0):
-                                    m.Mat_fire[s+perso.y][perso.x-w] = 0
+                                    m.Mat_fire[s+perso.x][perso.y-w] = 0
                                 if(-s+perso.y >= 0 and w + perso.x <= 39):
-                                    m.Mat_fire[-s + perso.y][w + perso.x] = 0
+                                    m.Mat_fire[-s + perso.x][w + perso.y] = 0
                                 if (-s + perso.y >= 0 and -w + perso.x >= 0):
-                                    m.Mat_fire[-s + perso.y][perso.x - w] = 0
+                                    m.Mat_fire[-s + perso.x][perso.y - w] = 0
 
 
                     elif perso.name == "Engineer":
@@ -304,8 +307,9 @@ def test_bat_logique():
                             pass
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
                         if(bat.name == "Maison 1" and bat.acces_eau == 1):
+                            print("will evolve soon")
                             evolve(bat)
-
+                            print("evolved")
                         if bat.curpop < bat.popLim and bat.Walk == []:
                             n = getDesirability(bat)
                             if n >= -99:
