@@ -75,9 +75,9 @@ class Game:
 
             self.mouse_button = pg.mouse.get_pressed()
             self.mouse_pos = pg.mouse.get_pos()
-            
-                
-            if event.type == pg.MOUSEBUTTONDOWN : 
+
+
+            if event.type == pg.MOUSEBUTTONDOWN :
 
                 print("Action :",self.action , " Selection" , self.selection)
                 if self.hud.save.overhead(self.mouse_pos) :
@@ -86,17 +86,17 @@ class Game:
                 elif self.hud.modif_speed() :
                     self.action = self.hud.overhead_all()
                     l.event_to_logic(self.action ,None ,None)
-                    self.acion = None 
+                    self.acion = None
 
-                elif self.hud.overlay.collide(self.mouse_pos) : 
+                elif self.hud.overlay.collide(self.mouse_pos) :
                     l.event_to_logic(l.Nume_overlay ,None,None)
 
                 elif self.hud.is_overhead_all() and  self.mouse_button[0]:
                     self.action = self.hud.overhead_all()
                     self.selection = [[],[]]
 
-                elif self.mouse_button[2] : 
-                    self.action = None 
+                elif self.mouse_button[2] :
+                    self.action = None
                     self.selection = [[],[]]
                     self.hud.overhead_all()
 
@@ -104,18 +104,18 @@ class Game:
                     self.selection[0] = self.mouse_to_tiles()
 
 
-            if event.type == pg.MOUSEBUTTONUP : 
+            if event.type == pg.MOUSEBUTTONUP :
 
                 if self.action and self.selection[0] != []:
                     self.selection[1] = self.mouse_to_tiles()
-                            
-            
+
+
             if self.action != None and self.selection[0] != [] and self.selection[1] != [] :
                 l.event_to_logic(self.action , self.selection[0] , self.selection[1] )
                 self.selection = [[],[]]
 
 
-                
+
 
 
     def update(self):
@@ -134,9 +134,6 @@ class Game:
 
         p = self.map.map[self.mouse_to_tiles()[0]][self.mouse_to_tiles()[1]]["iso_poly"]
         p = [(x + self.map.grass_tiles.get_width() / 2 + self.camera.scroll.x, y - (self.map.tiles["case"].get_height() - TILE_SIZE) + self.camera.scroll.y) for x, y in p]
-
-        #if self.mouse_button[0] and self.action != None:
-        #    self.screen.blit(self.map.tiles["case"], (p[0][0] - TILE_SIZE, p[0][1]))
 
         if self.action != None:
             pg.draw.polygon(self.screen, (255, 255, 255), p, 4)

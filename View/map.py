@@ -186,9 +186,9 @@ class Map:
                         render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + pg.display.Info().current_w - 124 + minimap_offset[0], y + 17 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 130 + minimap_offset[0], y + 40 + minimap_offset[1]) for x, y in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
-                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 153.5 - camera.scroll_mini.x, 35 + camera.scroll_mini.y, 26, 20), 1)
+                pg.draw.rect(screen, RED, (pg.display.Info().current_w - 153.5 - camera.scroll_mini.x, 65 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
 
 
@@ -210,7 +210,7 @@ class Map:
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 - TILE_SIZE + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
 
-                    if tile in sizedbuildings_3:
+                    elif tile in sizedbuildings_3:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 - TILE_SIZE*2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
@@ -218,7 +218,7 @@ class Map:
                         screen.blit(self.tiles[tile],
                                     (render_pos[0] + self.grass_tiles.get_width() / 2 + camera.scroll.x,
                                      render_pos[1] - (self.tiles[tile].get_height() - TILE_SIZE) + camera.scroll.y))
-                if(l.getWalker(x,y).name != 'no Walker'): #Vérifier si un/des walkeur/s est/sont sur la case actuelle
+                if l.getWalker(x,y).name != 'no Walker': #Vérifier si un/des walkeur/s est/sont sur la case actuelle
                    render_pos = self.map_walkeur[x][y]["render_pos"]
                    tile = self.map_walkeur[x][y]["tile"]
                    if tile != "":
@@ -246,13 +246,15 @@ class Map:
         for grid_x in range(self.grid_length_x):
             map_walkeur.append([])
             for grid_y in range(self.grid_length_y):
-                walkeur_tile = self.grid_to_walkeur(grid_x,grid_y)
+                walkeur_tile = self.grid_to_walkeur(grid_x,grid_y,l.getWalker(grid_x, grid_y))
                 map_walkeur[grid_x].append(walkeur_tile)
                 walkeur_render_pos = walkeur_tile["render_pos"]
 
         self.map_walkeur = map_walkeur
 
     def grid_to_map(self, grid_x, grid_y):
+
+        self.overlay = l.get_overlay()
 
         rect = [
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
@@ -279,9 +281,6 @@ class Map:
 
         if self.matrix[grid_x][grid_y] == 666:
             tile = ""
-
-        if l.m.Mat_fire[grid_y][grid_x] == 1:
-            tile = "ruine_in_fire"
 
         if self.matrix[grid_x][grid_y] == 116:
             tile = "direction1"
@@ -523,11 +522,17 @@ class Map:
                 tile = "houselvl3"
 
             #Service publique
-            elif self.matrix[grid_x][grid_y] == 55:
-                tile = "security"
+            if self.matrix[grid_x][grid_y] == 55:
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "security_occupied"
+                else:
+                    tile = "security"
 
             elif self.matrix[grid_x][grid_y] == 81:
-                tile = "engineer"
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "engineer_occupied"
+                else:
+                    tile = "engineer"
 
             #Commerce
 
@@ -577,20 +582,27 @@ class Map:
 
             elif self.matrix[grid_x][grid_y] == 555:
                 tile = "ruine"
-
+            elif l.m.Mat_fire[grid_y][grid_x] == 1:
+                tile = "ruine_in_fire"
 
 
         elif self.overlay == "water":
 
             if l.get_water(grid_x,grid_y) == True:
-                tile = "watered"
+                if self.matrix[grid_x][grid_y] in (10, 11, 12):
+                    tile = "house_watered"
+                else:
+                    tile = "watered"
 
             elif l.get_water(grid_x,grid_y) == False:
                 tile = "unwatered"
 
+            else:
+                tile = ""
+
             # Water services
 
-            elif self.matrix[grid_x][grid_y] == 92:
+            if self.matrix[grid_x][grid_y] == 92:
                 tile = "well"
 
             elif self.matrix[grid_x][grid_y] == 91:
@@ -624,7 +636,10 @@ class Map:
                 tile = "blue"
 
             if self.matrix[grid_x][grid_y] == 55:
-                tile = "security"
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "security_occupied"
+                else:
+                    tile = "security"
 
             elif self.matrix[grid_x][grid_y] == 555 and l.m.Mat_fire[grid_y][grid_x] == 1:
                 tile = "ruine_in_fire"
@@ -648,7 +663,10 @@ class Map:
                 tile = "blue"
 
             if self.matrix[grid_x][grid_y] == 81:
-                tile = "engineer"
+                if l.m.Mat_batiment[grid_y][grid_x].curEmployees == l.m.Mat_batiment[grid_y][grid_x].neededEmployees:
+                    tile = "engineer_occupied"
+                else:
+                    tile = "engineer"
 
             elif self.matrix[grid_x][grid_y] == 555:
                 tile = "ruine"
@@ -667,7 +685,7 @@ class Map:
 
         return out
 
-    def grid_to_walkeur(self,grid_x,grid_y):
+    def grid_to_walkeur(self,grid_x,grid_y,walker):
 
         rect = [
             (grid_x * TILE_SIZE, grid_y * TILE_SIZE),
@@ -683,48 +701,65 @@ class Map:
 
         self.overlay = l.get_overlay()
 
-        if(self.overlay == ""):     #OVERLAY en beta. Cette variable va controler le type de map que l'on doit faire apparaitre à l'écran
-                                    #AKA map d'eau, map de feu ou map de risque d'effondrement
-            
+        if walker.name != "no Walker":
 
-            if(l.getWalker(grid_x,grid_y).name == "Priest"):
-                tile = "priest0"
+            Mov_x = walker.x - walker.prev_x # +1 -1 0
+            Mov_y = walker.y - walker.prev_y # +1 -1 0
 
-            elif(l.getWalker(grid_x,grid_y).name == "Delivery_Guy"):
-               tile = "random0"
+            if Mov_x == 0 and Mov_y == 1:
+                temp = 3
+            elif Mov_x == 0 and Mov_y == -1:
+                temp = 0
+            elif Mov_x == 1 and Mov_y == 0:
+                temp = 1
+            elif Mov_x == -1 and Mov_y == 0:
+                temp = 2
+            else:
+                temp = 0
 
-            elif(l.getWalker(grid_x,grid_y).name == "Engineer"):
-                tile = "engineer0"
+            if self.overlay == "": #AKA map d'eau, map de feu ou map de risque d'effondrement
 
-            elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
-                tile = "prefet0"
+                if(walker.name == "Priest"):
+                    tile = "priest" + str(temp)
 
-            elif(l.getWalker(grid_x,grid_y).name == "FoodGuy"):
-                tile = "Food_guy0"
+                elif(walker.name == "Delivery_Guy"):
+                    tile = "random" + str(temp)
 
-            elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
-                tile = "random0"
+                elif(walker.name == "Engineer"):
+                    tile = "engineer" + str(temp)
 
-            elif(l.getWalker(grid_x, grid_y).name == "Recruteur"):
-                tile = "random0"
+                elif(walker.name == "Prefect"):
+                    tile = "prefet" + str(temp)
+
+                elif(walker.name == "Food_Guy"):
+                    tile = "foodguy" + str(temp)
+
+                elif(walker.name == "Immigrant"):
+                    tile = "random" + str(temp)
+
+                elif(walker.name == "Recruteur"):
+                    tile = "random" + str(temp)
+
+                else:
+                    tile = ""
+
+            elif(self.overlay == "fire"): #OVERLAY FIRE
+                if (walker.name == "Prefect"):
+                    tile = "prefet" + str(temp)
+                else:
+                    tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+            elif(self.overlay == "bat"): #OVERLAY BAT
+                if(walker.name == "Engineer"):
+                    tile = "engineer" + str(temp)
+                else:
+                    tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
+
+            elif(self.overlay == "water"):
+                tile = ""
 
             else:
                 tile = ""
-
-        elif(self.overlay == "fire"): #OVERLAY FIRE
-            if (l.getWalker(grid_x, grid_y).name == "Prefect"):
-                tile = "prefet0"
-            else:
-                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
-
-        elif(self.overlay == "bat"): #OVERLAY BAT
-            if(l.getWalker(grid_x,grid_y).name == "Engineer"):
-                tile = "engineer0"
-            else:
-                tile = "" #NE PAS AFFICHER LES AUTRES WALKERS
-
-        elif(self.overlay == "water"):
-            tile = ""
 
         else:
             tile = ""
@@ -864,12 +899,13 @@ class Map:
         #Service Publique/Fonctionnaires
 
         security = pg.image.load(path_to_Utilities + "/Security.png").convert_alpha()
+        security_occupied = pg.image.load(path_to_Utilities + "/Security_occupied.png").convert_alpha()
         engineer = pg.image.load(path_to_Utilities + "/Engineer_post.png").convert_alpha()
+        engineer_occupied = pg.image.load(path_to_Utilities + "/Engineer_post_occupied.png").convert_alpha()
 
         #Aléas
 
         ruine = pg.image.load(path_to_Utilities + "/Ruine.png").convert_alpha()
-        fire = pg.image.load(path_to_Utilities + "/ENFEU_OMG.png").convert_alpha()
         ruine_in_fire = pg.image.load(path_to_Utilities + "/Ruine_en_feu.png").convert_alpha()
 
         #Water
@@ -897,6 +933,7 @@ class Map:
         blue = pg.image.load(path_to_Utilities + "/Land2a_00034.png").convert_alpha()
 
         watered = pg.image.load(path_to_Utilities + "/EAU.png").convert_alpha()
+        house_watered = pg.image.load(path_to_Utilities + "/EAU2.png").convert_alpha()
         unwatered = pg.image.load(path_to_Utilities + "/PAS_EAU.png").convert_alpha()
 
         case = pg.image.load(path_to_Utilities + "/case.png").convert_alpha()
@@ -951,7 +988,7 @@ class Map:
                 "direction1": direction1, "direction2": direction2,
                 "post_sign": post_sign, "houselvl0": houselvl0, "houselvl1": houselvl1, "houselvl2": houselvl2, "houselvl3": houselvl3,
                 "warehouse": warehouse, "granary": granary, "market": market, "farm": farm,
-                "security": security, "engineer": engineer, "ruine": ruine, "fire": fire, "ruine_in_fire": ruine_in_fire,
+                "security": security, "security_occupied": security_occupied, "engineer": engineer, "engineer_occupied": engineer_occupied, "ruine": ruine, "ruine_in_fire": ruine_in_fire,
                 "well": well, "fountain_empty": fountain_empty, "fountain_full": fountain_full, "reservoir_empty": reservoir_empty, "reservoir_full": reservoir_full,
                 "temple_farming": temple_farming, "temple_love": temple_love, "temple_shipping": temple_shipping, "temple_war": temple_war, "temple_commerce": temple_commerce,
                 "priest0": priest0, "priest1": priest1, "priest2": priest2, "priest3": priest3,
@@ -960,7 +997,7 @@ class Map:
                 "foodguy0": foodguy0, "foodguy1": foodguy1, "foodguy2": foodguy2, "foodguy3": foodguy3,
                 "random0": random0, "random1": random1, "random2": random2, "random3": random3,
                 "red": red, "orange": orange, "yellow": yellow, "green": green, "blue": blue,
-                "watered": watered, "unwatered": unwatered, "case": case
+                "watered": watered, "unwatered": unwatered, "house_watered": house_watered, "case": case
 
                }
 
