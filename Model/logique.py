@@ -303,8 +303,8 @@ def test_bat_logique():
                             m.invoke_walker(bat, "Priest")
                     elif bat.name == "Market":
                         if bat.occupied_space <= 15:
-                            #m.add_perso()
-                            pass
+                            if bat.asEnoughFood():
+                                pass
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
                         if(bat.name == "Maison 1" and bat.acces_eau == 1):
                             print("will evolve soon")
