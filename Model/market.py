@@ -28,6 +28,8 @@ class Market(b.Batiment):
         if chargement[0] == 'argile':
             self.produits[0][1] += chargement[1]
 
+    def hasEnoughFood(self):
+        return (self.nourriture[0][1]+self.nourriture[1][1]+self.nourriture[2][1]) > 20
     # def need_delivery(self):
 
     # def distribution():

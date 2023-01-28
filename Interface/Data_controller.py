@@ -8,6 +8,8 @@ import sys
 from tkinter import simpledialog
 import tkinter as tk 
 
+sys.path.insert(0, '..')
+from Interface.Restaure_game_page import *
 
 
 
@@ -59,14 +61,14 @@ Pos_SP_support = (  window_width/2 , winddow_height/2  )
 
 # Define all buttons events :
 
-go_to_home_page = pg.event.Event ( pg.USEREVENT )
-go_to_game_page = pg.event.Event ( pg.USEREVENT + 1 )
-exit_game = pg.event.Event ( pg.USEREVENT + 2 )
-save_game = pg.event.Event ( pg.USEREVENT + 3 )
-pause_game = pg.event.Event ( pg.USEREVENT + 4 )
-start_game = pg.event.Event ( pg.USEREVENT + 5 )
-go_to_save_repositori = pg.event.Event ( pg.USEREVENT + 6 )
-go_to_new_carrer = pg.event.Event ( pg.USEREVENT + 7 )
+go_to_home_page =  pg.USEREVENT +100
+go_to_game_page = pg.USEREVENT +101
+exit_game = pg.USEREVENT +102
+save_game = pg.USEREVENT +103
+pause_game = pg.USEREVENT +104
+start_game = pg.USEREVENT +105
+go_to_save_repositori = pg.USEREVENT +106
+go_to_new_carrer = pg.USEREVENT +107
 
 # Define button class :
 
@@ -274,6 +276,8 @@ SP_support = Button( Pos_SP_support , Path_SP_support , None)
 SP_support.set_size( ( 2*window_width /3, 2*winddow_height /3 ) )
 
 
+# Restaure game page
+RP_page = Save_page()
 
 # SP_go_home = Button( )
 
