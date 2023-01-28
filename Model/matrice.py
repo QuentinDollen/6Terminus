@@ -222,8 +222,8 @@ init_mat_water()
 
 def update_water_map(x, y, r):
     global Mat_water
-    for xi in range(x - r, x + r):
-        for yi in range(y - r, y + r):
+    for xi in range(x - r, x + r +1):
+        for yi in range(y - r, y + r +1):
             if 0 <= xi <= nb_cases_x - 1 and 0 <= yi <= nb_cases_y - 1:
                 Mat_water[xi][yi] = 1
 

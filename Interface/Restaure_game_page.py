@@ -1,4 +1,5 @@
-from os import getcwd
+from os import getcwd, listdir
+from os.path import isfile,join
 import pygame as pg
 from pygame.locals import * 
 import sys
@@ -15,6 +16,9 @@ Textefont = pg.font.Font( Path_font , 36 )
 Chiffrefont = pg.font.Font(None, 36)
 
 go_to_home_page =  pg.USEREVENT + 100
+Play_sg_1 = pg.USEREVENT + 99
+Play_sg_2 = pg.USEREVENT + 98
+Play_sg_3 = pg.USEREVENT + 97
 
 class Save_page_button :
 
@@ -60,12 +64,31 @@ class Save_page_button :
 class Save_page :
 
     def __init__( self ) :
+        print("Je suis juste avant ")
+        Fichiers_sauvegardes = [ f for f in listdir("Terminus_saves") if isfile("Terminus_saves/"+f) ]
+        for i in range( 3-  len(Fichiers_sauvegardes)  ):
+            Fichiers_sauvegardes.append(f"Emplacement {i+1}")
+        save_1_n = "Emplacement 1"
+        save_2_n = "Emplacement 2"
+        save_3_n = "Emplacement 3"       
+
+        [save_1_n , save_2_n , save_3_n ] = Fichiers_sauvegardes
+
+        if ".pkl" in save_1_n : 
+            save_1_n= save_1_n[:-4]
+            
+        if ".pkl" in save_2_n : 
+            save_1_n= save_2_n[:-4]
+
+        if ".pkl" in save_3_n : 
+            save_1_n= save_3_n[:-4]
+        print("Fichiers sauvegarde :",Fichiers_sauvegardes)
 
         self.back = Save_page_button( pg.image.load(f"{getcwd()}/View/Sprites/Restaure_game_page/RP_back.PNG") ,None, (window_width /2 , winddow_height / 2) , (window_width , winddow_height ))
         self.support = Save_page_button( pg.image.load(f"{getcwd()}/View/Sprites/Restaure_game_page/RP_support.PNG")  ,None, (window_width /2 , winddow_height / 2) , (window_width /2 , winddow_height /2))
-        self.save_1 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8) ) ,"Save 1", (window_width /2 , winddow_height / 3))
-        self.save_2 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,"Save 2", (window_width /2 , winddow_height /2)) 
-        self.save_3 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,"Save 3", (window_width /2 , winddow_height * 4/ 6))
+        self.save_1 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8) ) ,save_1_n, (window_width /2 , winddow_height / 3) ,None , Play_sg_1)
+        self.save_2 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,save_2_n, (window_width /2 , winddow_height /2),None , Play_sg_2) 
+        self.save_3 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,save_3_n, (window_width /2 , winddow_height * 4/ 6),None , Play_sg_3)
         self.retour = Save_page_button( Chiffrefont.render("Return" , True , (255,255,255)) , "Return" , (window_width *7/10 , winddow_height *7/10) ,None,go_to_home_page)
 
     def draw ( self , screen ) :

@@ -10,6 +10,7 @@ from View.camera import Camera
 from View.hud import Hud
 from Model import logique as l 
 from Model import Test_logique as Test_l
+from Interface.InputBoxName import SP_input
 
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
@@ -73,6 +74,10 @@ class Game:
 
 
             if event.type == pg.MOUSEBUTTONUP :
+
+                if self.hud.save.overhead(pg.mouse.get_pos()) :
+                    print("Sauvegarde dans le fichier : ",SP_input.text)
+                    l.event_to_logic(l.Nume_save,None,None,SP_input.text)
 
                 if self.action != None and  self.mouse_button[0] and self.selection[0] != []:
                     print(self.selection[0])

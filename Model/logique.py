@@ -27,6 +27,8 @@ Nume_pause_speed = pg.USEREVENT +12
 Nume_well = pg.USEREVENT +13
 Nume_overlay = pg.USEREVENT +14
 Nume_fountain = pg.USEREVENT +15
+Nume_save = pg.USEREVENT +16 
+Nume_load = pg.USEREVENT +17
 
 Unalterable = [0,1,2,3,4,5,6,666,116,115 , 91 ]
 
@@ -136,7 +138,11 @@ def sauvegarde(nom):
 
 
 def savefile(filename) : 
-    with open( filename , "wb") as f :
+
+    if ".pkl" not in filename :
+        filename += ".pkl"
+
+    with open( f"Terminus_saves/{filename}" , "wb") as f :
         pickle.dump(m.Mat_batiment,f)
         pickle.dump(m.Mat_perso,f)
         pickle.dump(m.Mat_route,f)
@@ -144,7 +150,11 @@ def savefile(filename) :
         pickle.dump(m.Mat_water,f)
 
 def loadfile(filename) :
-    with open( filename , "rb" ) as f:
+
+    if ".pkl" not in filename :
+        filename += ".pkl"
+
+    with open( f"Terminus_saves/{filename}" , "rb" ) as f:
         m.Mat_batiment = pickle.load(f)
         m.Mat_perso = pickle.load(f)
         m.Mat_route = pickle.load(f)
@@ -468,7 +478,7 @@ def get_overlay() :
 def get_water(x,y) : 
     return m.Mat_water[x][y]
 
-def event_to_logic(nume, pos_init, pos_final):
+def event_to_logic(nume, pos_init, pos_final , Name_game = "tmp.pkl"):
     if nume == Nume_maison:
         (x1, y1) = pos_init
         (x2, y2) = pos_final
@@ -524,7 +534,12 @@ def event_to_logic(nume, pos_init, pos_final):
 
     elif nume == Nume_theatre : 
         build_grid(pos_init[0],pos_init[1],pos_final[0],pos_final[1] , m.name_id["Market"])
-        
+
+    elif nume == Nume_save : 
+        savefile(Name_game)
+
+    elif nume == Nume_load : 
+        loadfile(Name_game)
         
 
 
