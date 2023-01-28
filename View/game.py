@@ -72,8 +72,6 @@ class Game:
                 if event.key == pg.K_s:
                     l.savefile("Fichier_de_demonstration.pkl")
 
-                if event.key == pg.K_j :
-                    l.set_mat_beautiful()
 
             self.mouse_button = pg.mouse.get_pressed()
             self.mouse_pos = pg.mouse.get_pos()
