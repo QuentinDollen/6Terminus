@@ -351,9 +351,9 @@ class Map:
             else:
                 tile = ""
 
-        elif self.matrix[grid_x][grid_y] == 3089:
+        elif self.matrix[grid_x][grid_y] == 115:
             tile = "direction1"
-        elif self.matrix[grid_x][grid_y] == 3087:
+        elif self.matrix[grid_x][grid_y] == 116:
             tile = "direction2"
 
         elif self.matrix[grid_x][grid_y] == 2:  #ROCKS
