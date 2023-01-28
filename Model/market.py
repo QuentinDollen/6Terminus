@@ -7,7 +7,7 @@ from Model import batiment as b
 class Market(b.Batiment):
 
     def __init__(self, posx, posy):
-        b.Batiment.__init__(self, 3, 70, posx, posy, 40, -2, 1, 1, 6, 5)
+        b.Batiment.__init__(self, 2, 70, posx, posy, 40, -2, 1, 1, 6, 5)
         self.name = "Market"
         self.max_space = 30
         self.occupied_space = 0
