@@ -378,7 +378,7 @@ def test_bat_logique():
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
-                        if random.random()<0.5:
+                        if bat.nourriture[0][1]>0 and random.random()<0.5:
                             bat.nourriture[0][1]-=1
 
     for i in range(m.nb_cases):
