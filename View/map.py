@@ -588,13 +588,14 @@ class Map:
 
         elif self.overlay == "water":
 
-            if l.get_water(grid_x,grid_y) == True:
+            if l.get_water(grid_x, grid_y):
+
                 if self.matrix[grid_x][grid_y] in (10, 11, 12):
                     tile = "house_watered"
                 else:
                     tile = "watered"
 
-            elif l.get_water(grid_x,grid_y) == False:
+            elif not l.get_water(grid_x, grid_y):
                 tile = "unwatered"
 
             else:
@@ -616,9 +617,6 @@ class Map:
 
             elif self.matrix[grid_x][grid_y] == 9000:
                 tile = "reservoir_full"
-
-            else:
-                tile = ""
 
         elif self.overlay == "fire":
 

@@ -147,6 +147,24 @@ class Game:
             (p[1][0], p[1][1] + 10)
         )
 
+        batiment = l.m.Mat_batiment[self.mouse_to_tiles()[1]][self.mouse_to_tiles()[0]]
+
+        if batiment.id in (10, 11, 12) and batiment.name != "Herb": #MAISONS
+            self.draw_text(
+                self.screen,
+                str('Quantité de blé : ' + str(batiment.nourriture[0][1])),
+                15,
+                (255, 205, 0),
+                (p[1][0], p[1][1] + 30)
+            )
+            self.draw_text(
+                self.screen,
+                str('Population : ' + str(batiment.curpop)),
+                15,
+                (255, 205, 0),
+                (p[1][0], p[1][1] + 45)
+            )
+
         self.draw_text(
             self.screen,
             'fps={}'.format(round(self.clock.get_fps())),
