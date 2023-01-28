@@ -474,9 +474,9 @@ def departureMatrice(Mat):
     for i in range(0, nb_cases_x):
         for j in range(0, nb_cases_y):
             if map_depart[j][i]:
-                add_bat(i, j, map_depart[j][i], Mat)
+                add_bat(j, i, map_depart[j][i], Mat)
     
-    add_bat(0,20,name_id["Panneau Entree"])
+    add_bat(20,0,name_id["Panneau Entree"])
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
 
 
