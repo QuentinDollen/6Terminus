@@ -64,28 +64,13 @@ class Game:
 
                 if event.key == pg.K_t:
                     Test_l.Construction_1()
-            
-                if event.key == pg.K_y:
-                    for i in range(15):
-                        Test_l.Tour_jeu()
 
-                if event.key == pg.K_f:
-                    self.map.overlay = "fire"
+                if event.key == pg.K_l:
+                    l.loadfile("Fichier_de_demonstration.pkl")          
 
-                if event.key == pg.K_e:
-                    self.map.overlay = "bat"
+                if event.key == pg.K_s:
+                    l.savefile("Fichier_de_demonstration.pkl")
 
-                if event.key == pg.K_i:
-                    self.map.overlay = ""
-
-                if event.key == pg.K_w :
-                    Test_l.decrease_speed()
-
-                if event.key == pg.K_x :
-                    Test_l.increase_speed()
-
-                if event.key == pg.K_c :
-                    Test_l.pause_speed()
 
             if event.type == pg.MOUSEBUTTONUP :
 
@@ -132,7 +117,7 @@ class Game:
 
 
     def update(self):
-
+        Test_l.Tour_jeu()
         self.camera.update()
         self.map.create_map()
         self.map.create_walkeur()

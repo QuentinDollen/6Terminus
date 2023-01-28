@@ -549,7 +549,7 @@ class Map:
                 tile = "well"
 
             elif self.matrix[grid_x][grid_y] == 91:
-                tile = "fountain_empty"
+                tile = "fountain_full"
 
             elif self.matrix[grid_x][grid_y] == 9100:
                 tile = "fountain_full"
@@ -594,7 +594,7 @@ class Map:
                 tile = "well"
 
             elif self.matrix[grid_x][grid_y] == 91:
-                tile = "fountain_empty"
+                tile = "fountain_full"
 
             elif self.matrix[grid_x][grid_y] == 9100:
                 tile = "fountain_full"
@@ -699,8 +699,8 @@ class Map:
             elif(l.getWalker(grid_x,grid_y).name == "Prefect"):
                 tile = "prefet0"
 
-            elif(l.getWalker(grid_x,grid_y).name == "Food_Guy"):
-                tile = "food_guy0"
+            elif(l.getWalker(grid_x,grid_y).name == "FoodGuy"):
+                tile = "Food_guy0"
 
             elif(l.getWalker(grid_x, grid_y).name == "Immigrant"):
                 tile = "random0"
