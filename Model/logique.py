@@ -187,7 +187,6 @@ def evolve(bat):
     batiment = m.Mat_batiment[y][x]
     batiment.nourriture = bat.nourriture
     batiment.produits = bat.produits
-    batiment.popLim = bat.popLim
     batiment.curpop = bat.curpop
     batiment.employed = bat.employed
     batiment.faith = bat.faith
@@ -373,12 +372,16 @@ def test_bat_logique():
                             print("will evolve soon")
                             evolve(bat)
                             print("evolved")
+                        if (bat.name == "Maison 2" and bat.acces_eau == 1 and bat.nourriture[0][1]>0):
+                            print("will evolve soon into maison 3")
+                            evolve(bat)
+                            print("evolved")
                         if bat.curpop < bat.popLim and bat.Walk == []:
                             n = getDesirability(bat)
                             if n >= -99:
                                 for i in range(bat.popLim-bat.curpop):
                                     m.invoke_migrant(bat)
-                        if bat.nourriture[0][1]>0 and random.random()<0.5:
+                        if bat.nourriture[0][1]>0 and random.random()<0.3:
                             bat.nourriture[0][1]-=1
 
     for i in range(m.nb_cases):
