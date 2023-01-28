@@ -3,9 +3,7 @@ import pygame as pg
 from Interface.Data_controller import *
 from Interface.InputBoxName import *
 from View.game import * 
-from Model.logique import * 
-
-
+from Model.logique import *
 def main():
 
 
@@ -18,12 +16,14 @@ def main():
     global Cur_page
     Cur_page = None
 
+
     pg.init()
     pg.mixer.init()
     global screen
     screen = pg.display.set_mode((0,0), pg.FULLSCREEN)
     clock = pg.time.Clock()
     set_screen_tittle( screen )
+
     Game_terminus = Game(screen , clock)
 
 
