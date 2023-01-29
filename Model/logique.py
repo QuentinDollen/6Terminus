@@ -314,7 +314,12 @@ def test_walker_logique():
                                 print(perso.cargaison_nourriture)
                                 perso.role = "livreur"
                                 perso.bat_destination = perso.batiment
+                                (dx,dy) = m.SearchforRoad(perso.batiment.pos_x,perso.batiment.pos_y,m.Mat_batiment)
+                                if dx != -1:
+                                    perso.dest_y = dy
+                                    perso.dest_x = dx
                         if perso.role == "livreur":
+                            print("ici")
                             proxy = m.get_bat_prox(i, j, 2)
                             if m.InTable(perso.bat_destination, proxy):
                                 print("test livreur")
@@ -395,8 +400,9 @@ def test_bat_logique():
                                 findFood(bat)
                             elif bat.Walk == []:
                                 (x, y) = m.SearchforRoad(bat.pos_x, bat.pos_y, m.Mat_batiment)
-                                FG = m.add_perso(x,y,"Food_Guy",m.Mat_perso,bat,None, role= "distributeur")
-                                m.getFood(FG, bat)
+                                if x != -1:
+                                    FG = m.add_perso(x,y,"Food_Guy",m.Mat_perso,bat,None, role= "distributeur")
+                                    m.getFood(FG, bat)
 
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
                         if(bat.name == "Maison 1" and bat.acces_eau == 1):
