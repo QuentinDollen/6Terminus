@@ -394,9 +394,9 @@ def test_bat_logique():
                             m.invoke_walker(bat, "Priest")
                     elif bat.name == "Market":
                         if bat.occupied_space <= 15:
-                            if not bat.hasEnoughFood():
+                            if not bat.hasEnoughFood() and bat.Walk == []:
                                 findFood(bat)
-                            else:
+                            elif bat.Walk == []:
                                 (x, y) = m.SearchforRoad(bat.pos_x, bat.pos_y, m.Mat_batiment)
                                 FG = m.add_perso(x,y,"Food_Guy",m.Mat_perso,bat,None, role= "distributeur")
                                 m.getFood(FG, bat)
