@@ -893,7 +893,6 @@ def get_bat_prox(x, y, r):
                                                                         "Path"]) and not InTable(
                 Mat_batiment[y + j][x - i], tab)):
                 tab.append(Mat_batiment[y + j][x - i])
-    print(tab)
     return tab
 
 

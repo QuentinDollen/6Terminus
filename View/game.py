@@ -78,6 +78,9 @@ class Game:
                 if event.key == pg.K_j :
                     l.set_mat_beautiful()
 
+                if event.key == pg.K_F1 : 
+                    Test_l.Construction_maison_1()
+
             self.mouse_button = pg.mouse.get_pressed()
             self.mouse_pos = pg.mouse.get_pos()
 
