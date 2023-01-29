@@ -11,7 +11,7 @@ from View.hud import Hud
 from Model import logique as l 
 from Model import Test_logique as Test_l
 from Interface.InputBoxName import SP_input
-from Interface.Data_controller import set_screen_HP
+from Interface.Data_controller import RP_page
 
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
@@ -74,6 +74,8 @@ class Game:
 
                 if event.key == pg.K_m : 
                     l.event_to_logic(l.Nume_save , None , None , SP_input.text)
+                    RP_page.reset_saves()
+                    
                     self.playing = False 
 
                 if event.key == pg.K_p :

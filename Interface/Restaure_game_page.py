@@ -28,6 +28,11 @@ class Save_page_button :
         self.back = back_surface 
         self.text = text 
         self.event = event
+
+
+
+
+        
         if size : 
             self.resize(size)
         if back_surface :
@@ -96,7 +101,36 @@ class Save_page :
         self.save_3 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,save_3_n, (window_width /2 , winddow_height * 4/ 6),None , Play_sg_3)
         self.retour = Save_page_button( Chiffrefont.render("Return" , True , (255,255,255)) , "Return" , (window_width *7/10 , winddow_height *7/10) ,None,go_to_home_page)
 
+
+    def reset_saves(self) :
+
+        Fichiers_sauvegardes = [ f for f in listdir("Terminus_saves") if isfile("Terminus_saves/"+f) ]
+        #printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        for i in range( 3-  len(Fichiers_sauvegardes)  ):
+            Fichiers_sauvegardes.append(f"Emplacement {i+1}")
+
+        #printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        save_1_n = "Emplacement 1"
+        save_2_n = "Emplacement 2"
+        save_3_n = "Emplacement 3"       
+        #printtt("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        [save_1_n , save_2_n , save_3_n ] = Fichiers_sauvegardes
+        #printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        if ".pkl" in save_1_n : 
+            save_1_n= save_1_n[:-4]
+            
+        if ".pkl" in save_2_n : 
+            save_2_n= save_2_n[:-4]
+
+        if ".pkl" in save_3_n : 
+            save_3_n= save_3_n[:-4]
+
+        self.save_1 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8) ) ,save_1_n, (window_width /2 , winddow_height / 3) ,None , Play_sg_1)
+        self.save_2 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,save_2_n, (window_width /2 , winddow_height /2),None , Play_sg_2) 
+        self.save_3 = Save_page_button( pg.Surface( (window_width /4 , winddow_height / 8)  ) ,save_3_n, (window_width /2 , winddow_height * 4/ 6),None , Play_sg_3)
+
     def draw ( self , screen ) :
+        
 
         self.back.draw(screen)
         self.support.draw(screen)
