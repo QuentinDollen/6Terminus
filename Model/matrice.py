@@ -634,6 +634,7 @@ def suppr_Batiment(x, y, Mat):
         for i in range(0, Mat[y][x].nbr_cases):
             for j in range(0, Mat[y][x].nbr_cases):
                 Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
+                Mat_fire[y + j][x + i] = 0
 
     restructure_water_map()
 
@@ -857,7 +858,7 @@ def fire_bat(Bat):
     print("Une maison brule",Bat.pos_x,Bat.pos_y)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):  
-            set_fire(i, j)
+            set_fire(Bat.pos_y, Bat.pos_x)
     genocide(Bat)
 
 
