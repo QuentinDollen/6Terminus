@@ -448,6 +448,8 @@ def build_grid(x1, y1, x2, y2 , id_bat):
             Add_bat_game(i, j,id_bat)
 
 def destroy_grid(x1,y1,x2,y2):
+    # print("grid")
+    # print(x1,y1,x2,y2)
     for i in range(min(x1,x2), max(x1,x2)+1):
         for j in range(min(y1,y2), max(y1,y2)+1):
             m.suppr_Batiment(i,j,m.Mat_batiment)
@@ -531,7 +533,7 @@ def event_to_logic(nume, pos_init, pos_final, Name_game = "tmp.pkl"):
         (x1, y1) = pos_init
         (x2, y2) = pos_final
 
-        print(pos_init,pos_final)
+        #print(pos_init,pos_final)
         destroy_grid(x1,y1,x2,y2)
     elif nume == Nume_route:
         (x1, y1) = pos_init

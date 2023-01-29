@@ -621,7 +621,8 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
 
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
-
+    #print("supprimer")
+    #print(x,y)
     if Mat[y][x].name in ["Maison1","Panneau","Maison2","Maison3"] :
         global Population
         Population -= Mat[y][x].curpop
@@ -631,9 +632,11 @@ def suppr_Batiment(x, y, Mat):
         if Mat[y][x].name == "Path":
             for e in range(len(Mat_perso[y][x])):
                 kill_walker(Mat_perso[y][x][0])
-        for i in range(0, Mat[y][x].nbr_cases):
-            for j in range(0, Mat[y][x].nbr_cases):
-                if y+j <= 39 and x+i <= 39:
+        # for i in range(0, Mat[y][x].nbr_cases):
+        #     for j in range(0, Mat[y][x].nbr_cases):
+        for i in range(Mat[y][x].nbr_cases, -1, -1):
+            for j in range(Mat[y][x].nbr_cases, -1, -1):
+                if y+j <= 39 and x+i <= 39 and Mat[y][x].name != "Herb":
                     Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
                     Mat_fire[y + j][x + i] = 0
 
