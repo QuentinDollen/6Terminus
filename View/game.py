@@ -162,15 +162,15 @@ class Game:
                 self.screen,
                 str('Quantité de blé : ' + str(batiment.nourriture[0][1])),
                 15,
-                (255, 205, 0),
-                (p[1][0], p[1][1] + 30)
+                (255, 255, 255),
+                (10, 90)
             )
             self.draw_text(
                 self.screen,
                 str('Population : ' + str(batiment.curpop)),
                 15,
-                (255, 205, 0),
-                (p[1][0], p[1][1] + 45)
+                (255, 255, 255),
+                (10, 105)
             )
 
         self.draw_text(
