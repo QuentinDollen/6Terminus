@@ -130,7 +130,12 @@ def main():
         
 
         while playing:
-            Game_terminus.run()
+            playing = Game_terminus.run()
+
+            if not playing : 
+                Cur_page = "Home" 
+                set_screen_HP(screen    )
+                Launch = True 
             
             
 

@@ -188,6 +188,7 @@ unemployed = 0  # Le nombre de chômeurs
 Nb_immigrant = 20  # Le nombre de migrants
 Mat_fire = []
 Mat_water = []
+Population = 0 
 init_matrice_terrain(Mat_batiment, nb_cases_x, nb_cases_y)
 init_matrice_perso(Mat_perso, nb_cases_x, nb_cases_y)
 init_matrice_route(Mat_route, nb_cases_x, nb_cases_y)
@@ -467,6 +468,8 @@ def invoke_migrant(maison_cible):
     (x, y) = SearchforRoad(Panneau_entree.pos_x, Panneau_entree.pos_y, Mat_batiment)
     print("coord:", x, y)
     if  x != 1 and y != -1 :
+        global Population
+        Population += 1 
         add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
 
 
@@ -618,6 +621,11 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
 
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
+
+    if Mat[y][x].name in ["Maison1","Panneau","Maison2","Maison3"] :
+        global Population
+        Population -= Mat[y][x].curpop
+
     if not InTable(Mat[y][x].name, ["Herb",  "Rock", "Enter_Pannel", "Exit_Pannel", "Water"]):
         genocide(Mat[y][x])
         if Mat[y][x].name == "Path":
@@ -800,12 +808,17 @@ def kill_walker(killed):  # gnéhéhé
                 n += 1
 
 
+def get_Population() : 
+    global Population
+    return Population
+
 def genocide(bat):  # plus efficace à la destruction d'un batiment + len
     for e in bat.Walk:
         if Mat_perso[e.y][e.x][0] == e:
             if len(Mat_perso[e.y][e.x]) < 2:
                 Mat_perso[e.y][e.x].pop()
                 Mat_perso[e.y][e.x].append(w.NoWalker())
+        
             else:
                 Mat_perso[e.y][e.x].pop(0)
         else:
@@ -822,6 +835,10 @@ def destroy_Bat(Bat):
     if InTable(Bat, Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse"):
         Liste_stock.remove(Bat)
     print("Destruction bat :",Bat.pos_x,Bat.pos_y)
+
+    if Bat.name in ["Maison1","Panneau","Maison2","Maison3"] :
+        global Population
+        Population -= Bat.curpop
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):
             
