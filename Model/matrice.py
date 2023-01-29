@@ -662,10 +662,6 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
     if y > 0:
         if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y - 1):
             tab_possibles_chemins.append((x, y - 1))
-<<<<<<< HEAD
-=======
-
->>>>>>> test_combi
     if len(tab_possibles_chemins) > 0:
         Mat_perso[y][x][no_walker].ttl -= 1
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
