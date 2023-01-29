@@ -96,7 +96,7 @@ def init_game():
 def Add_bat_game(x, y, id_bat):
     for i in range(m.id_size[id_bat]):
         for j in range(m.id_size[id_bat]):
-            if m.Mat_batiment[y + j][x + i].name != "Herb":
+            if i+x > 39 or y+j > 39 or m.Mat_batiment[y + j][x + i].name != "Herb":
                 return -1
     m.add_bat(x, y, id_bat, m.Mat_batiment)
     return 0
@@ -375,7 +375,6 @@ def test_bat_logique():
                 bat = m.Mat_batiment[j][i]
                 if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur and (m.SearchforRoad(i, j, Mat=m.Mat_batiment) != (-1,-1)):
                     m.invoke_walker(bat, "Recruteur")
-                    print("test:",bat.Walk[0].x,",",bat.Walk[0].y)
                     bat.hasRecruteur = 1
                 elif bat.hasCheck == 0:
                     bat.hasCheck = 1

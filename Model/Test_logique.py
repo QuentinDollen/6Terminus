@@ -58,10 +58,43 @@ def Construction_maison_2() :
     Add_bat_game(23 , 15 , m.name_id["Well"])
 
 def Construction_maison_3() :
-    pass
+    reset_maps()
+    for i in range(1, m.nb_cases_y):
+        Add_bat_game(21, i, m.name_id["Path"])
+        if 10 < i < 20:
+            Add_bat_game(22, i, m.name_id["Maison 1"])
+        if i == 8:
+            Add_bat_game(22, i, m.name_id["Prefecture"])
+        if i == 22:
+            Add_bat_game(22, i, m.name_id["Prefecture"])
+        if i == 9:
+            Add_bat_game(22, i, m.name_id["EngineersPost"])
+
+
 
 def Construction_maison_4() :
-    pass
+    reset_maps()
+    for i in range(1, m.nb_cases_y):
+        Add_bat_game(21, i, m.name_id["Path"])
+        if 10 < i < 20:
+            Add_bat_game(22, i, m.name_id["Maison 1"])
+        if i == 8:
+            Add_bat_game(22, i, m.name_id["Prefecture"])
+        if i == 22:
+            Add_bat_game(22, i, m.name_id["Prefecture"])
+        if i == 9:
+            Add_bat_game(22, i, m.name_id["EngineersPost"])
+        if i == 2:
+            Add_bat_game(22, i, m.name_id["Farm"])
+        if i == 2:
+            Add_bat_game(18, i, m.name_id["Granary"])
+        if i == 24:
+            Add_bat_game(22, i, m.name_id["Market"])
+        if i == 21:
+            Add_bat_game(22,i,m.name_id["Fountain"])
+
+
+
 
 def Construction_maison_5() :
     pass

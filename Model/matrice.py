@@ -307,7 +307,7 @@ id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72
 
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
-           "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison1": 10, "Maison2": 11, "Maison3": 12,
+           "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison 1": 10, "Maison 2": 11, "Maison 3": 12,
            "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau": 7, "Panneau Entree": 115,
            "Panneau Sortie": 116, "Market" : 70}
 
@@ -633,8 +633,9 @@ def suppr_Batiment(x, y, Mat):
                 kill_walker(Mat_perso[y][x][0])
         for i in range(0, Mat[y][x].nbr_cases):
             for j in range(0, Mat[y][x].nbr_cases):
-                Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
-                Mat_fire[y + j][x + i] = 0
+                if y+j <= 39 and x+i <= 39:
+                    Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
+                    Mat_fire[y + j][x + i] = 0
 
     restructure_water_map()
 
@@ -792,10 +793,8 @@ def kill_walker(killed):  # gnéhéhé
         if killed.name == 'Recruteur':
             killed.batiment.hasRecruteur = 0
         for e in killed.batiment.Walk:
-            n = 0
             if e == killed:
-                killed.batiment.Walk.pop(n)
-                n += 1
+                killed.batiment.Walk.remove(e)
         if Mat_perso[killed.y][killed.x][0] == killed:
             if len(Mat_perso[killed.y][killed.x]) < 2:
                 Mat_perso[killed.y][killed.x].pop()
