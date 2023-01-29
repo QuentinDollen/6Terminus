@@ -184,7 +184,6 @@ def check_water():
         for j in range(m.nb_cases):
             if m.InTable(m.Mat_batiment[j][i].name, ["Panneau", "Maison 1", "Maison 2", "Maison 3"]) and m.Mat_water[i][j]:
                 m.Mat_batiment[j][i].acces_eau = 1
-                print("EAUUUUUUUUUUUUUUUUUUUUUUUUUUU")
             if m.InTable(m.Mat_batiment[j][i].name, ["Panneau", "Maison 1", "Maison 2", "Maison 3"]) and not m.Mat_water[i][j]:
                 m.Mat_batiment[j][i].acces_eau = 0
 
@@ -247,18 +246,17 @@ def test_walker_logique():
                         proxy = m.get_bat_prox(i, j, 5)
                         print("proxy", proxy)
                         for bat in proxy:
-                            print("get etinxted")
                             bat.ind_fire = 0
                         for w in range(5):
                             for s in range(5):
                                 if(s+perso.y <= 39 and w+perso.x <= 39):
-                                    m.Mat_fire[s+perso.x][w+perso.y] = 0
+                                    m.Mat_fire[w+perso.x][s+perso.y] = 0
                                 if (s + perso.y <= 39 and -w + perso.x >= 0):
-                                    m.Mat_fire[s+perso.x][perso.y-w] = 0
+                                    m.Mat_fire[-w+perso.x][perso.y+s] = 0
                                 if(-s+perso.y >= 0 and w + perso.x <= 39):
-                                    m.Mat_fire[-s + perso.x][w + perso.y] = 0
+                                    m.Mat_fire[w + perso.x][-s + perso.y] = 0
                                 if (-s + perso.y >= 0 and -w + perso.x >= 0):
-                                    m.Mat_fire[-s + perso.x][perso.y - w] = 0
+                                    m.Mat_fire[-w + perso.x][perso.y - s] = 0
 
 
                     elif perso.name == "Engineer":
@@ -342,7 +340,6 @@ def test_walker_logique():
                     elif perso.name == "Immigrant":
                         print(perso.dest_x, perso.dest_y, "test destination")
                         if perso.x == perso.dest_x and perso.y == perso.dest_y:
-                            print("NGAAAAAAAAAAAAAAAAA")
                             if perso.batiment.name == "Panneau":
                                 print("debug")
                                 x = perso.batiment.pos_x
@@ -498,7 +495,6 @@ def Tour_jeu() :
     
     if actual_position >= 1000 :
         actual_position = 0 
-        print("Gotted")
         m.deplacement_perso(m.Mat_perso , m.nb_cases_x , m.nb_cases_y)
         m.check_fire_eff()
         test_bat_logique()
