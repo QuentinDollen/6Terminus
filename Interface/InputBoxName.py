@@ -51,7 +51,7 @@ class InputBoxName :
         
 
         if len(self.text) < 18 and self.writing :
-            if ord(event.unicode) in range(ord('a'), ord('z')+1) or ord(event.unicode) in range(ord('0'), ord('9')+1):
+            if ord(event.unicode) in range(ord('a'), ord('z')+1) or ord(event.unicode) in range(ord('0'), ord('9')+1) or ord(event.unicode) in range( ord('A') , ord('Z') +1 ):
 
                 self.text += event.unicode
 

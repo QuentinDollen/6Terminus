@@ -6,10 +6,9 @@ from View.game import *
 from Model.logique import *
 def main():
 
-
 # Global varibles 
 
-    # Variable pour les boucles dans le jeu  
+    # Variable pour les boucles dans le jeu
     running = True
     global Cur_page
     Cur_page = None

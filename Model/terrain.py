@@ -4,7 +4,8 @@ class Terrain:
         self.pos_x = x  # position x sur la map
         self.pos_y = y  # position y sur la map
         self.name = 'Terrain vide'
-        self.id = id_t  # id du terrain
+        self.id = id_t  # id du terrain:wq
+
 
 
 class Water(Terrain):

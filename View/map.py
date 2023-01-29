@@ -72,7 +72,7 @@ class Map:
              0, 3, 0, 3, 3],
             [1, 1, 1, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 0, 3, 3],
-            [1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 39, 3, 3, 3, 3,
+            [1, 1, 1, 1, 1, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
              3, 3, 3, 3, 3],
             [0, 1, 1, 1, 1, 0, 0, 3, 3, 3, 3, 0, 0, 0, 2, 0, 0, 2, 2, 3, 2, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3,
              3, 3, 3, 3],
@@ -126,7 +126,7 @@ class Map:
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 10036, 10033, 10033, 10033, 10036, 10036, 10040, 10036, 0, 10036, 10040, 0, 0, 0, 0, 0, 0, 0, 10033, 0, 0, 10033, 10036, 10041, 10041, 10034, 10036, 10036, 10037, 10033, 10033, 10032, 0, 0, 10034],
             [30146, 0, 0, 10033, 10047, 10053, 10040, 10042, 10053, 10044, 10034, 10034, 10034, 10031, 10036, 0, 0, 0, 0, 10054, 10033, 10035, 10035, 10037, 10040, 10049, 10046, 10044, 10038, 10037, 10045, 10043, 10035, 10040, 10042, 10044, 10040, 10040, 10033, 10031],
-            [30170, 30144, 0, 0, 10036, 10040, 10040, 10040, 10042, 10033, 0, 0, 0, 10052, 0, 0, 0, 0, 0, 10033, 10036, 39, 10041, 10038, 10042, 10035, 10047, 10044, 10044, 10044, 10043, 10042, 10041, 10050, 10040, 0, 10047, 0, 10040, 10044],
+            [30170, 30144, 0, 0, 10036, 10040, 10040, 10040, 10042, 10033, 0, 0, 0, 10052, 0, 0, 0, 0, 0, 10033, 10036, 30139, 10041, 10038, 10042, 10035, 10047, 10044, 10044, 10044, 10043, 10042, 10041, 10050, 10040, 0, 10047, 0, 10040, 10044],
             [30121, 30170, 30147, 0, 0, 10053, 10036, 10036, 10047, 10047, 0, 0, 0, 0, 10047, 0, 10037, 10037, 10037, 10037, 10033, 10035, 10042, 10042, 10042, 10042, 10043, 10045, 10050, 10060, 10060, 10049, 10061, 10040, 10054, 10046, 10050, 0, 10053, 10060],
             [30141, 30172, 30170, 30135, 30147, 0, 0, 10040, 10040, 10050, 0, 0, 0, 0, 0, 0, 0, 20378, 10054, 10041, 10042, 10043, 10044, 10045, 10044, 10043, 10042, 10041, 10040, 10040, 39, 10038, 10037, 10037, 10038, 10042, 10044, 10037, 10060, 10054],
             [0, 30152, 30172, 30121, 30131, 0, 0, 10036, 10042, 10043, 10044, 0, 0, 0, 20384, 0, 0, 20383, 20371, 10035, 20377, 0, 0, 0, 0, 10037, 10053, 10053, 10038, 10038, 10053, 10035, 0, 0, 10037, 10050, 10060, 10040, 10054, 10055],
@@ -163,30 +163,32 @@ class Map:
                 # tile = self.map[x][y]["tile"]
                 tile1 = self.matrix[x][y]
                 # minimap
-                minimap_offset = [40, 60]
+                minimap_offset = [45, 50]
                 render_pos_mini = self.map[x][y]["render_pos_mini"]
 
                 # WATER
                 if tile1 == 1:
                     pg.draw.circle(screen, BLUE, (
-                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
-                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 130 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 1040 + minimap_offset[1]), 2)
 
 
                 # ROCK
                 elif tile1 == 2:
                     pg.draw.circle(screen, GREY, (
-                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
-                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 130 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 1040 + minimap_offset[1]), 2)
 
-                    # TREE
+                # TREE
                 elif tile1 == 3:
                     pg.draw.circle(screen, GREEN, (
-                        render_pos_mini[0] + pg.display.Info().current_w - 500 + minimap_offset[0],
-                        render_pos_mini[1] + pg.display.Info().current_h - 500 + minimap_offset[1]), 2)
+                        render_pos_mini[0] + pg.display.Info().current_w - 130 + minimap_offset[0],
+                        render_pos_mini[1] + pg.display.Info().current_h - 1040 + minimap_offset[1]), 2)
+
 
                 mini = self.map[x][y]["iso_poly_mini"]
-                mini = [(x + pg.display.Info().current_w - 130 + minimap_offset[0], y + 40 + minimap_offset[1]) for x, y in mini]
+                mini = [(x + pg.display.Info().current_w - 130 + minimap_offset[0], y + 40 + minimap_offset[1]) for x, y
+                        in mini]
                 pg.draw.polygon(screen, YELLOW, mini, 2)
                 pg.draw.rect(screen, RED, (pg.display.Info().current_w - 153.5 - camera.scroll_mini.x, 65 + camera.scroll_mini.y, 26, 20), 1)
                 # pg.draw.circle(screen, RED, (1382.5 + 13 - camera.scroll_mini.x, 59.5 + 10 + camera.scroll_mini.y), 5)
@@ -351,9 +353,9 @@ class Map:
             else:
                 tile = ""
 
-        elif self.matrix[grid_x][grid_y] == 3089:
+        elif self.matrix[grid_x][grid_y] == 115:
             tile = "direction1"
-        elif self.matrix[grid_x][grid_y] == 3087:
+        elif self.matrix[grid_x][grid_y] == 116:
             tile = "direction2"
 
         elif self.matrix[grid_x][grid_y] == 2:  #ROCKS
@@ -588,13 +590,14 @@ class Map:
 
         elif self.overlay == "water":
 
-            if l.get_water(grid_x,grid_y) == True:
+            if l.get_water(grid_x, grid_y):
+
                 if self.matrix[grid_x][grid_y] in (10, 11, 12):
                     tile = "house_watered"
                 else:
                     tile = "watered"
 
-            elif l.get_water(grid_x,grid_y) == False:
+            elif not l.get_water(grid_x, grid_y):
                 tile = "unwatered"
 
             else:
@@ -616,9 +619,6 @@ class Map:
 
             elif self.matrix[grid_x][grid_y] == 9000:
                 tile = "reservoir_full"
-
-            else:
-                tile = ""
 
         elif self.overlay == "fire":
 
