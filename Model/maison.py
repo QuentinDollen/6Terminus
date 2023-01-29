@@ -32,7 +32,10 @@ class Maison(b.Batiment):
             self.produits[0][1] += chargement[1]
 
     def inccpop(self):
-        self.curpop += 1
+        if self.popLim > self.curpop :
+            self.curpop += 1
+        else :
+            self.curpop = self.popLim
 
     def hasEnoughFood(self):
         print("test enough food")
