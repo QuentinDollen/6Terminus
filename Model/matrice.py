@@ -307,7 +307,7 @@ id_size = {0: 1, 92: 1, 90: 3, 91: 1, 8: 1, 81: 1, 55: 1, 5: 1, 84: 2, 71: 3, 72
 
 # dictionnaire reliant le nom des batiments avec leur id
 name_id = {"Well": 92, "Reservoir": 90, "Fountain": 91, "Aquaduct": 8, "EngineersPost": 81, "Prefecture": 55, "Path": 5,
-           "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison1": 10, "Maison2": 11, "Maison3": 12,
+           "Forum1": 84, "Water": 1, "Rock": 2, "Tree": 3, "Senate1": 4, "Maison 1": 10, "Maison 2": 11, "Maison 3": 12,
            "Maison4": 13, "Farm": 100, "Granary": 71, "Warehouse": 71, "Herb": 0, "Panneau": 7, "Panneau Entree": 115,
            "Panneau Sortie": 116, "Market" : 70}
 
@@ -408,7 +408,7 @@ def add_perso_mat(Mat, perso, x, y):
         Mat[y][x][0] = perso
 
     else:
-        print("test4")
+        #print("test4")
         Mat[y][x].append(perso)
 
 
@@ -447,7 +447,7 @@ def add_perso(x, y, type_, Mat, Bat, Bat_cible, type_bouffe='ble', dest_x=-1, de
         Bat.Walk.append(Pr)
         return Pr
     elif type_ == "Recruteur":
-        print("recruteur")
+        #print("recruteur")
         Re = rec.Recruteur(x, y, Bat)
         add_perso_mat(Mat, Re, x, y)
         Bat.Walk.append(Re)
@@ -459,14 +459,14 @@ def invoke_walker(bat, type_, objectif=None):
     if bat.curEmployees >= 1 or type_ == "Recruteur":
         (x, y) = SearchforRoad(bat.pos_x, bat.pos_y, Mat_batiment)
         if x != -1:
-            print("test invoke:", x, y)
-            print("test batiment:", bat.pos_x, bat.pos_y)
+            #print("test invoke:", x, y)
+            #print("test batiment:", bat.pos_x, bat.pos_y)
             add_perso(x, y, type_, Mat_perso, bat, objectif)
 
 
 def invoke_migrant(maison_cible):
     (x, y) = SearchforRoad(Panneau_entree.pos_x, Panneau_entree.pos_y, Mat_batiment)
-    print("coord:", x, y)
+    #print("coord:", x, y)
     if  x != 1 and y != -1 :
         global Population
         Population += 1 
@@ -622,7 +622,7 @@ def next_case(x, y, tab_path, dest_x, dest_y, Mat):
 # supprime un batiment d'une matrice, à l'aide de ses coordonées
 def suppr_Batiment(x, y, Mat):
 
-    if Mat[y][x].name in ["Maison1","Panneau","Maison2","Maison3"] :
+    if Mat[y][x].name in ["Maison 1","Panneau","Maison 2","Maison 3"] :
         global Population
         Population -= Mat[y][x].curpop
 
@@ -643,7 +643,7 @@ def suppr_Batiment(x, y, Mat):
 # doit prendre une direction au pif a un croisement
 # renvoie le prochain x et le prochain y
 def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
-    print(Mat_perso[y][x][no_walker].ttl, x, y)
+    #print(Mat_perso[y][x][no_walker].ttl, x, y)
     if Mat_perso[y][x][no_walker].ttl <= 0 and (
     Mat_perso[y][x][no_walker].dest_x, Mat_perso[y][x][no_walker].dest_y) == (-1, -1):
         kill_walker(Mat_perso[y][x][no_walker])
@@ -667,7 +667,7 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
     else:
         Mat_perso[y][x][no_walker].ttl -= -1
-        print("demis tours : ", x,y ,Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y)
+        #print("demis tours : ", x,y ,Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y)
         return (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y)
 
 
@@ -679,10 +679,10 @@ def dist(x1, y1, x2, y2):
 
 # procede a un echange d'un walker de type delivery guy passé en parametre, ssi il se trouve a proximite de son batiment cible
 def echange(DV):
-    print("echange")
-    print("dechargement:", DV.cargaison_nourriture)
+    #print("echange")
+    #print("dechargement:", DV.cargaison_nourriture)
     if DV.type_marchandise == 'ble':
-        print("ble")
+        #print("ble")
         DV.bat_destination.get_delivery(DV.dechargement('ble'))
     elif DV.type_marchandise == 'fruits':
         DV.bat_destination.get_delivery(DV.dechargement('fruits'))
@@ -692,7 +692,7 @@ def echange(DV):
         DV.bat_destination.get_delivery(DV.dechargement('olives'))
     elif DV.type_marchandise == 'argile':
         DV.bat_destination.get_delivery(DV.dechargement('argile'))
-    print("La quantité de blé est", DV.bat_destination.nourriture[0][1])
+    #print("La quantité de blé est", DV.bat_destination.nourriture[0][1])
 
 def collecte(fg: F_G.Food_Guy):
     fg.cargaison_nourriture[0][1] += fg.bat_destination.nourriture[0][1]
@@ -749,10 +749,10 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 if Mat_perso[j][i][count].name == "Immigrant":
                                     pass
                         else:
-                            print("cas basique", i, j)
-                            print(Mat[j][i][count].name)
+                            #print("cas basique", i, j)
+                            #print(Mat[j][i][count].name)
                             (nx, ny) = Deplacement_basique(i, j, no_walker=count)
-                            print((nx, ny))
+                            #print((nx, ny))
                             if nx == 666 and ny == 666:
                                 count -= 1
                                 nx = i
@@ -768,7 +768,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                                 count = count + 1
                             else:
                                 walk = Mat[j][i][count]
-                                print("test deplacement", walk.name)
+                                #print("test deplacement", walk.name)
 
                                 Mat[j][i].pop(count)
                                 if len(Mat[j][i]) == 0:
@@ -786,7 +786,7 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 
 
 def kill_walker(killed):  # gnéhéhé
-    print("gnehehehe")
+    #print("gnehehehe")
 
     if killed.name != "no Walker":
         if killed.name == 'Recruteur':
@@ -836,9 +836,10 @@ def destroy_Bat(Bat):
     genocide(Bat)
     if InTable(Bat, Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse"):
         Liste_stock.remove(Bat)
-    print("Destruction bat :",Bat.pos_x,Bat.pos_y)
+    #print("Destruction bat :",Bat.pos_x,Bat.pos_y)
 
-    if Bat.name in ["Maison1","Panneau","Maison2","Maison3"] :
+    if Bat.name in ["Maison 1","Panneau","Maison 2","Maison 3"] :
+        #print("Population descends destroy")
         global Population
         Population -= Bat.curpop
     for i in range(Bat.nbr_cases):
@@ -856,7 +857,7 @@ def set_fire(x, y):
 def fire_bat(Bat):
     if InTable(Bat, Liste_stock) and (Bat.name == "Granary" or Bat.name == "Warehouse"):
         Liste_stock.remove(Bat)
-    print("Une maison brule",Bat.pos_x,Bat.pos_y)
+    #print("Une maison brule",Bat.pos_x,Bat.pos_y)
     for i in range(Bat.nbr_cases):
         for j in range(Bat.nbr_cases):  
             set_fire(Bat.pos_y, Bat.pos_x)
@@ -920,13 +921,13 @@ def get_bat_prox(x, y, r):
 
 
 def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
-    print("HERE THE FOOD")
-    print(fg.cargaison_nourriture)
+    #print("HERE THE FOOD")
+    #print(fg.cargaison_nourriture)
     if fg.cargaison_nourriture[0][1] > 0:
         chargement = ["ble", 10]
         fg.cargaison_nourriture[0][1] -= 10
         house.get_delivery(chargement)
-        print("bouffe de la maison:", house.nourriture)
+        #print("bouffe de la maison:", house.nourriture)
     if fg.cargaison_nourriture[1][1] > 0:
         chargement = ["fruits", 10]
         fg.cargaison_nourriture[1][1] -= 10
@@ -935,7 +936,7 @@ def giveFood(fg: F_G.Food_Guy, house: mais.Maison):
         chargement = ["viande", 10]
         fg.cargaison_nourriture[2][1] -= 10
         house.get_delivery(chargement)
-    print("test billy")
+    #print("test billy")
 
 def getFood(fg: F_G.Food_Guy, mar:mar.Market):
     fg.cargaison_nourriture[0][1]+=mar.nourriture[0][1]

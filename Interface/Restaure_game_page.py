@@ -66,19 +66,19 @@ class Save_page_button :
 class Save_page :
 
     def __init__( self ) :
-        print("Je suis juste avant ")
+        #printt("Je suis juste avant ")
         Fichiers_sauvegardes = [ f for f in listdir("Terminus_saves") if isfile("Terminus_saves/"+f) ]
-        print("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        #printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
         for i in range( 3-  len(Fichiers_sauvegardes)  ):
             Fichiers_sauvegardes.append(f"Emplacement {i+1}")
 
-        print("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        #printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
         save_1_n = "Emplacement 1"
         save_2_n = "Emplacement 2"
         save_3_n = "Emplacement 3"       
-        print("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        #printtt("Fichiers sauvegarde :",Fichiers_sauvegardes)
         [save_1_n , save_2_n , save_3_n ] = Fichiers_sauvegardes
-        print("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        #printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
         if ".pkl" in save_1_n : 
             save_1_n= save_1_n[:-4]
             
@@ -87,7 +87,7 @@ class Save_page :
 
         if ".pkl" in save_3_n : 
             save_3_n= save_3_n[:-4]
-        print("Fichiers sauvegarde :",Fichiers_sauvegardes)
+        # printt("Fichiers sauvegarde :",Fichiers_sauvegardes)
 
         self.back = Save_page_button( pg.image.load(f"{getcwd()}/View/Sprites/Restaure_game_page/RP_back.PNG") ,None, (window_width /2 , winddow_height / 2) , (window_width , winddow_height ))
         self.support = Save_page_button( pg.image.load(f"{getcwd()}/View/Sprites/Restaure_game_page/RP_support.PNG")  ,None, (window_width /2 , winddow_height / 2) , (window_width /2 , winddow_height /2))

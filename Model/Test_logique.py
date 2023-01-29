@@ -18,6 +18,7 @@ def reset_maps() :
     m.Mat_route = []
     m.Mat_fire = []
     m.Mat_water = []
+    m.Population = 0 
     m.init_matrice_terrain(m.Mat_batiment,m.nb_cases_x , m.nb_cases_y)
     m.init_matrice_route(m.Mat_route)
     Add_bat_game(20,0 , m.name_id["Panneau Entree"])
@@ -45,8 +46,6 @@ def Construction_maison_1() :
         Add_bat_game( 21 , i , m.name_id["Path"])
         if 10 < i < 20 :
             Add_bat_game(22 , i , m.name_id["Panneau"])
-
-    Add_bat_game(23 , 15 , m.name_id["Well"])
 
 def Construction_maison_2() :
     reset_maps()

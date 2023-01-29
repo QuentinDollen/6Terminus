@@ -107,7 +107,7 @@ class Game:
 
             if event.type == pg.MOUSEBUTTONDOWN :
 
-                print("Action :",self.action , " Selection" , self.selection)
+
                 if self.hud.save.overhead(self.mouse_pos) :
                     l.event_to_logic(l.Nume_save,None,None,SP_input.text)
 

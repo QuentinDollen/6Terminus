@@ -42,21 +42,21 @@ Unalterable = [0,1,2,3,4,5,6,666,116,115 , 91 ]
 # prend en parametre le batiment qui invoque la livraison, le type de marchandise, la quantité
 def Delivery(Bat_depart, type_march, quant):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
-    print("Heres the delivery")
+    # print("Heres the delivery")
     if x != -1:
         cible = m.SearchforSpace(type_march)
         if cible == None:
             return -1
-        print("MUDA MUDA")
+        # print("MUDA MUDA")
         dg = m.add_perso(x, y, 'Delivery Guy', m.Mat_perso, Bat_depart, cible, type_march)
         dg.ajout_marchandise(quant)
         # Bat dest devra être calculé : grenier, entrepot, marché
         (cx, cy) = cible.ret_coord()
-        print("cible", cx, cy)
+        #print("cible", cx, cy)
         (dx, dy) = m.SearchforRoad(cx, cy, m.Mat_batiment)
         dg.dest_x = dx
         dg.dest_y = dy
-        print(dx, dy)
+        # print(dx, dy)
 
 def findFood(Bat_depart):
     (x, y) = m.SearchforRoad(Bat_depart.pos_x, Bat_depart.pos_y, m.Mat_batiment)
@@ -66,11 +66,11 @@ def findFood(Bat_depart):
             return -1
         fg=m.add_perso(x, y, "Food_Guy", m.Mat_perso,Bat_depart, cible,role="collecteur")
         (cx, cy)=cible.ret_coord()
-        print("cible", cx, cy)
+        # print("cible", cx, cy)
         (dx, dy) = m.SearchforRoad(cx, cy, m.Mat_batiment)
         fg.dest_x = dx
         fg.dest_y = dy
-        print(dx,dy)
+        # print(dx,dy)
 
 
 # renvoie l'ID d'un batiment placé sur une case de la matrice des batiments, dont les coordonées sont données en argument
@@ -191,7 +191,7 @@ def check_water():
 
 
 def evolve(bat):
-    print("is Evolving")
+    # print("is Evolving")
     x = bat.pos_x
     y = bat.pos_y
     if bat.name == 'Maison 1':
@@ -210,7 +210,7 @@ def evolve(bat):
         p.batiment = batiment
 
 def devolve(bat):
-    print("is Devolving")
+    # print("is Devolving")
     x = bat.pos_x
     y = bat.pos_y
     if bat.name == 'Maison 3':
@@ -221,8 +221,11 @@ def devolve(bat):
     batiment.nourriture = bat.nourriture
     batiment.produits = bat.produits
     batiment.curpop = bat.curpop
+    print("curpop : " , batiment.curpop ," New popLim  :" , batiment.popLim )
     if bat.curpop >= batiment.popLim:
+        m.Population -= bat.curpop - batiment.popLim 
         batiment.curpop = batiment.popLim
+
     else: batiment.curpop = bat.curpop
     batiment.employed = bat.employed
     batiment.faith = bat.faith
@@ -246,7 +249,7 @@ def test_walker_logique():
                     count +=1
                     if perso.name == "Prefect":
                         proxy = m.get_bat_prox(i, j, 5)
-                        print("proxy", proxy)
+                        # #print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_fire = 0
                         for w in range(5):
@@ -263,23 +266,23 @@ def test_walker_logique():
 
                     elif perso.name == "Engineer":
                         proxy = m.get_bat_prox(i, j, 5)
-                        print("proxy", proxy)
+                        #print("proxy", proxy)
                         for bat in proxy:
                             bat.ind_eff = 0
                     elif perso.name == "Priest":
                         proxy = m.get_bat_prox(i, j, 4)
-                        print("proxy", proxy)
+                        #print("proxy", proxy)
                         for bat in proxy:
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 bat.faith = bat.faith + 40
                     elif perso.name == "Recruteur":
                         perso.nb_a_recruter = perso.batiment.neededEmployees - perso.batiment.curEmployees
                         proxy = m.get_bat_prox(i, j, 4)
-                        print("proxy recruteur", proxy)
+                        #print("proxy recruteur", proxy)
                         for bat in proxy:
                             if m.InTable(bat.name, ["Maison 1", "Maison 2", "Maison 3", "Maison 4"]):
                                 recruit = perso.nb_a_recruter
-                                print("goal recruit:", recruit)
+                                #print("goal recruit:", recruit)
                                 if bat.employed < bat.curpop and recruit > 0:
                                     if (bat.curpop - bat.employed) >= recruit:
                                         bat.employed += recruit
@@ -290,30 +293,30 @@ def test_walker_logique():
                                         perso.nb_a_recruter -= recruted
                                         bat.employed = bat.curpop
                                         perso.batiment.curEmployees += recruted
-                                print("Le nombre d'employés de", perso.batiment,  "est ", perso.batiment.curEmployees)
+                                #print("Le nombre d'employés de", perso.batiment,  "est ", perso.batiment.curEmployees)
 
                         if perso.nb_a_recruter == 0:
                             perso.batiment.hasRecruteur = 0
                             m.kill_walker(perso)
                             count -= 1
-                            print("recruteur tué")
+                            #print("recruteur tué")
 
                     elif perso.name == "Delivery_Guy" and perso.HasSomething():
                         proxy = m.get_bat_prox(i, j, 4)
-                        print("test delivery guy")
+                        #print("test delivery guy")
                         if m.InTable(perso.bat_destination, proxy):
-                            print("tentative echange")
+                            #print("tentative echange")
                             m.echange(perso)
                             m.kill_walker(perso)
                             count -= 1
                     elif perso.name == "Food_Guy":
                         if perso.role == 'collecteur':
                             proxy = m.get_bat_prox(i, j, 2)
-                            print("test collecteur")
+                            #print("test collecteur")
                             if m.InTable(perso.bat_destination, proxy):
-                                print("tentative collecte")
+                                #print("tentative collecte")
                                 m.collecte(perso)
-                                print(perso.cargaison_nourriture)
+                                #print(perso.cargaison_nourriture)
                                 perso.role = "livreur"
                                 perso.bat_destination = perso.batiment
                                 (dx,dy) = m.SearchforRoad(perso.batiment.pos_x,perso.batiment.pos_y,m.Mat_batiment)
@@ -321,18 +324,18 @@ def test_walker_logique():
                                     perso.dest_y = dy
                                     perso.dest_x = dx
                         if perso.role == "livreur":
-                            print("ici")
+                            #print("ici")
                             proxy = m.get_bat_prox(i, j, 2)
                             if m.InTable(perso.bat_destination, proxy):
-                                print("test livreur")
+                                #print("test livreur")
                                 m.livraison(perso)
                                 m.kill_walker(perso)
                                 count -= 1
                         elif perso.role == 'distributeur':
                             proxy = m.get_bat_prox(i, j, 4)
-                            print("there is a ditributeur")
+                            #print("there is a ditributeur")
                             if perso.dest_x == -1:
-                                print("distribution en cours...")
+                                #print("distribution en cours...")
                                 for bat in proxy:
                                     if not perso.HasSomething():
                                         m.kill_walker(perso)
@@ -345,10 +348,10 @@ def test_walker_logique():
                         else:
                             continue
                     elif perso.name == "Immigrant":
-                        print(perso.dest_x, perso.dest_y, "test destination")
+                        #print(perso.dest_x, perso.dest_y, "test destination")
                         if perso.x == perso.dest_x and perso.y == perso.dest_y:
                             if perso.batiment.name == "Panneau":
-                                print("debug")
+                                #print("debug")
                                 x = perso.batiment.pos_x
                                 y = perso.batiment.pos_y
                                 m.add_bat(x,y,10, m.Mat_batiment)
@@ -375,16 +378,16 @@ def test_bat_logique():
                 bat = m.Mat_batiment[j][i]
                 if bat.curEmployees < bat.neededEmployees and not bat.hasRecruteur and (m.SearchforRoad(i, j, Mat=m.Mat_batiment) != (-1,-1)):
                     m.invoke_walker(bat, "Recruteur")
-                    print("test:",bat.Walk[0].x,",",bat.Walk[0].y)
+                    #print("test:",bat.Walk[0].x,",",bat.Walk[0].y)
                     bat.hasRecruteur = 1
                 elif bat.hasCheck == 0:
                     bat.hasCheck = 1
                     if bat.name == "Farm":
                         if bat.curEmployees>=1:
                             bat.growFood()
-                            print(bat.ind_Harv)
+                            #print(bat.ind_Harv)
                             if bat.ind_Harv >= 6:
-                                print("time for delivery")
+                                #print("time for delivery")
                                 Delivery(bat, 'ble', bat.ind_Harv * 2)
                                 bat.ind_Harv = 0
                     elif bat.name == "Prefecture":
@@ -408,23 +411,23 @@ def test_bat_logique():
 
                     elif m.InTable(bat.name,["Panneau", "Maison 1", "Maison 2", "Maison 3"]):
                         if(bat.name == "Maison 1" and bat.acces_eau == 1):
-                            print("will evolve soon")
+                            #print("will evolve soon")
                             evolve(bat)
-                            print("evolved")
+                            #print("evolved")
                         elif (bat.name == "Maison 2" and bat.acces_eau == 1 and bat.nourriture[0][1]>5):
-                            print("will evolve soon into maison 3")
+                            #print("will evolve soon into maison 3")
                             evolve(bat)
-                            print("evolved")
+                            #print("evolved")
                         elif (bat.name == "Maison 3" or bat.name == "Maison 2") and not bat.acces_eau:
-                            print("you will devolve :ghost:")
+                            #print("you will devolve :ghost:")
                             devolve(bat)
-                            if bat.name =="Maison 2":
-                                devolve(bat)
-                            print("devolved")
+                            # if bat.name =="Maison 2":
+                            #     devolve(bat)
+                            #print("devolved")
                         elif bat.name == "Maison 3" and bat.nourriture[0][1] == 0:
-                            print("you will devolve :ghost:")
+                            #print("you will devolve :ghost:")
                             devolve(bat)
-                            print("devolved")
+                            #print("devolved")
                         if bat.curpop < bat.popLim and bat.Walk == []:
                             n = getDesirability(bat)
                             if n >= -99:
@@ -532,7 +535,7 @@ def event_to_logic(nume, pos_init, pos_final, Name_game = "tmp.pkl"):
         (x1, y1) = pos_init
         (x2, y2) = pos_final
 
-        print(pos_init,pos_final)
+
         destroy_grid(x1,y1,x2,y2)
     elif nume == Nume_route:
         (x1, y1) = pos_init
