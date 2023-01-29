@@ -43,6 +43,33 @@ def Construction_maison_1() :
     reset_maps()
     for i in range ( 1 , m.nb_cases_y ) :
         Add_bat_game( 21 , i , m.name_id["Path"])
-        if 10 < i < 15 :
+        if 10 < i < 20 :
             Add_bat_game(22 , i , m.name_id["Panneau"])
+
+    Add_bat_game(23 , 15 , m.name_id["Well"])
+
+def Construction_maison_2() :
+    reset_maps()
+    for i in range ( 1 , m.nb_cases_y ) :
+        Add_bat_game( 21 , i , m.name_id["Path"])
+        if 10 < i < 20 :
+            Add_bat_game(22 , i , m.name_id["Panneau"])
+
+    Add_bat_game(23 , 15 , m.name_id["Well"])
+
+def Construction_maison_3() :
+    pass
+
+def Construction_maison_4() :
+    pass
+
+def Construction_maison_5() :
+    pass
+
+def Construction_maison_6() :
+    pass
+
+def Construction_maison_7() :
+    pass
+
 

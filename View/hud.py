@@ -220,6 +220,7 @@ class Hud:
 
     def draw(self, screen):
         # screen.blit(self.menu1, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 840))
+        
         screen.blit(self.menu1, self.pos)
         screen.blit(self.bandeau, (0, 0))
         screen.blit(self.sous_menu, (self.pos[0] , self.pos[1] + self.dim[1]))
@@ -233,11 +234,15 @@ class Hud:
         screen.blit(self.value, (self.width / 4, 0))
         screen.blit(self.value, (self.width / 2, 0))
          
+
+        self.pop_surface = Chiffrefont.render("Pop : " + str(m.get_Population()) , True , (255,255,255) ) 
+        screen.blit(Chiffrefont.render("Pop : " + str(m.get_Population()) , True , (0,0,0) , (255,255,255)) , (self.width / 4 + self.value.get_width()/2 - self.pop_surface.get_width() /2,  self.value.get_height() /2 - self.pop_surface.get_height() / 2  ))
+
         U6 = self.pos[1] + 1.05 * self.dim[1]  + self.bandeau_size[1]  
          
-        self.speed_surface =  Chiffrefont.render( str(Speed_game) + "%" , True , (0,0,0) , (255,255,255)) 
+        self.speed_surface =  Chiffrefont.render( str(get_speed_game()) + "%" , True , (0,0,0) , (255,255,255)) 
         L4 = self.pos[0] + 16/32 * self.dim[0] - self.speed_surface.get_width()/2
-        screen.blit(Chiffrefont.render( str(Speed_game) + "%" , True , (0,0,0) , (255,255,255)) , (L4,U6) )
+        screen.blit(Chiffrefont.render( str(get_speed_game()) + "%" , True , (0,0,0) , (255,255,255)) , (L4,U6) )
 
 
         # screen.blit(self.menu2, (pg.display.Info().current_w - 162, pg.display.Info().current_h - 166))

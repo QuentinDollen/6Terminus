@@ -101,6 +101,8 @@ def Add_bat_game(x, y, id_bat):
     m.add_bat(x, y, id_bat, m.Mat_batiment)
     return 0
 
+def get_speed_game() : return Speed_game
+
 def get_fire_level(x,y):
     if m.Mat_batiment[y][x].id not in Unalterable:
         return m.Mat_batiment[y][x].ind_fire
