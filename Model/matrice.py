@@ -69,8 +69,8 @@ matrix = [[3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 
            0, 0, 0, 3],
           [0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3,
            3, 3, 3, 3],
-          [0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0,
-           0, 3, 3, 3],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+           0, 0, 0, 0],
           [115, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 116, 0],
           [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -465,15 +465,14 @@ def invoke_walker(bat, type_, objectif=None):
 
 def invoke_migrant(maison_cible):
     (x, y) = SearchforRoad(Panneau_entree.pos_x, Panneau_entree.pos_y, Mat_batiment)
-    if x != -1:
-        print("coord:", x, y)
+    print("coord:", x, y)
+    if  x != 1 and y != -1 :
         add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
 
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
 def departureMatrice(Mat):
     map_depart = matrix
-    
     for i in range(0, nb_cases_x):
         for j in range(0, nb_cases_y):
             if map_depart[j][i]:
@@ -481,8 +480,6 @@ def departureMatrice(Mat):
     
     add_bat(20,0,name_id["Panneau Entree"])
     afficher_matrice_bat(Mat, nb_cases_x, nb_cases_y)
-
-
 
 
 # teste si l'emplacement x,y d'une matrice correspond a un chemin
@@ -898,7 +895,6 @@ def get_bat_prox(x, y, r):
                                                                         "Path"]) and not InTable(
                 Mat_batiment[y + j][x - i], tab)):
                 tab.append(Mat_batiment[y + j][x - i])
-    print(tab)
     return tab
 
 
