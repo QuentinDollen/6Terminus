@@ -11,11 +11,10 @@ def main():
 
     # Variable pour les boucles dans le jeu  
     running = True
-    playing = True
-    Launch = True
     global Cur_page
     Cur_page = None
-
+    playing = True
+    Launch = True
 
     pg.init()
     pg.mixer.init()
@@ -113,14 +112,17 @@ def main():
                         elif action == Play_sg_1 and RP_page.save_1.text not in Emplacements   : 
                             Launch = False
                             playing = True
+                            SP_input.text = RP_page.save_1.text
                             l.event_to_logic(l.Nume_load ,None,None,RP_page.save_1.text)
                         elif action == Play_sg_2 and RP_page.save_2.text not in Emplacements : 
                             Launch = False
                             playing = True
+                            SP_input.text = RP_page.save_2.text
                             l.event_to_logic(l.Nume_load ,None,None,RP_page.save_2.text)
                         elif action == Play_sg_3 and RP_page.save_3.text not in Emplacements : 
                             Launch = False
                             playing = True
+                            SP_input.text = RP_page.save_3.text
                             l.event_to_logic(l.Nume_load ,None,None,RP_page.save_3.text)
 
                     else : # Si on se trouve dans l'écran titre

@@ -558,7 +558,7 @@ def min_tab_tab_notnull(tab):  # take a tab of tab and return the tab in the tab
 
 # fonction de pathfinding
 def next_case(x, y, tab_path, dest_x, dest_y, Mat):
-    assert (isPath(x, y, Mat))
+    assert (isPath(x, y, Mat)) 
     if x == dest_x and y == dest_y:
         return tab_path
     else:
@@ -722,8 +722,10 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
                             if Mat[j][i][count].tab_path == []:
                                 new_path = next_case(i, j, [(i, j)], Mat[j][i][count].dest_x, Mat[j][i][count].dest_y,
                                                      Mat_batiment)
+                                
                                 if new_path == []:
                                     new_path.append((i, j))
+
                                 Mat[j][i][count].tab_path = new_path
                             Mat[j][i][count].tab_path.pop(0)
                             if len(Mat[j][i][count].tab_path) != 0:

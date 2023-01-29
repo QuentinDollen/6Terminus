@@ -11,11 +11,13 @@ from View.hud import Hud
 from Model import logique as l 
 from Model import Test_logique as Test_l
 from Interface.InputBoxName import SP_input
+from Interface.Data_controller import set_screen_HP
 
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
 
 pos_souris_down = (0,0)
+
 class Game:
 
     def __init__(self, screen, clock):
@@ -48,6 +50,8 @@ class Game:
             self.update()
             self.draw()
 
+        set_screen_HP(self.screen)
+
     def events(self):
 
         for event in pg.event.get():
@@ -71,6 +75,14 @@ class Game:
 
                 if event.key == pg.K_s:
                     l.savefile("Fichier_de_demonstration.pkl")
+
+                if event.key == pg.K_p : 
+                    l.event_to_logic(l.Nume_pause_speed , None , None)
+
+                if event.key == pg.K_m :
+                    l.event_to_logic(l.Nume_save, None , None , SP_input.text)
+                    set_screen_HP(self.screen)
+                    
 
 
             self.mouse_button = pg.mouse.get_pressed()
