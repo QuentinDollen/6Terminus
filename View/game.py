@@ -67,11 +67,13 @@ class Game:
                     Test_l.Construction_1()
 
                 if event.key == pg.K_l:
-                    l.loadfile("Fichier_de_demonstration.pkl")          
+                    l.loadfile("Fichier_de_demonstration.pkl")
 
                 if event.key == pg.K_s:
                     l.savefile("Fichier_de_demonstration.pkl")
 
+                if event.key == pg.K_j :
+                    l.set_mat_beautiful()
 
             self.mouse_button = pg.mouse.get_pressed()
             self.mouse_pos = pg.mouse.get_pos()
@@ -86,7 +88,7 @@ class Game:
                 elif self.hud.modif_speed() :
                     self.action = self.hud.overhead_all()
                     l.event_to_logic(self.action ,None ,None)
-                    self.acion = None
+                    self.action = None
 
                 elif self.hud.overlay.collide(self.mouse_pos) :
                     l.event_to_logic(l.Nume_overlay ,None,None)
@@ -114,9 +116,8 @@ class Game:
                 l.event_to_logic(self.action , self.selection[0] , self.selection[1] )
                 self.selection = [[],[]]
 
-
-
-
+            #if event.type == pg.MOUSEMOTION and self.selection[0] != []:
+            #    init_clique_pos = self.mouse_to_tiles()
 
     def update(self):
         Test_l.Tour_jeu()
@@ -147,6 +148,24 @@ class Game:
             (255, 205, 0),
             (p[1][0], p[1][1] + 10)
         )
+
+        batiment = l.m.Mat_batiment[self.mouse_to_tiles()[1]][self.mouse_to_tiles()[0]]
+
+        if batiment.id in (10, 11, 12) and batiment.name != "Herb": #MAISONS
+            self.draw_text(
+                self.screen,
+                str('Quantité de blé : ' + str(batiment.nourriture[0][1])),
+                15,
+                (255, 205, 0),
+                (p[1][0], p[1][1] + 30)
+            )
+            self.draw_text(
+                self.screen,
+                str('Population : ' + str(batiment.curpop)),
+                15,
+                (255, 205, 0),
+                (p[1][0], p[1][1] + 45)
+            )
 
         self.draw_text(
             self.screen,

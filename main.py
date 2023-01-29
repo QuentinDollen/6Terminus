@@ -6,7 +6,6 @@ from View.game import *
 from Model.logique import *
 def main():
 
-
 # Global varibles 
 
     # Variable pour les boucles dans le jeu
