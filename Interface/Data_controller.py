@@ -319,6 +319,8 @@ def enable_all_SP_button() :
 
 
 def set_screen_HP(screen) :
+    global Cur_page
+    Cur_page = "Home"
     disable_all_SP_button()
     enable_all_HP_button()
     HP_tittle.set_disable()

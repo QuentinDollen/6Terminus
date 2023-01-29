@@ -129,8 +129,7 @@ def main():
                        
         
 
-        while playing :
-
+        while playing:
             Game_terminus.run()
             
             

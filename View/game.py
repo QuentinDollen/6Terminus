@@ -11,6 +11,7 @@ from View.hud import Hud
 from Model import logique as l 
 from Model import Test_logique as Test_l
 from Interface.InputBoxName import SP_input
+from Interface.Data_controller import set_screen_HP
 
 list_event = {l.Nume_administratif, l.Nume_eau, l.Nume_ingenieur, l.Nume_maison, l.Nume_nourriture, l.Nume_pelle,
               l.Nume_prefecure, l.Nume_route, l.Nume_sante, l.Nume_theatre}
@@ -36,8 +37,9 @@ class Game:
         self.selection =[[],[]]
         self.action = None 
         self.mouse_button = [[],[],[]]
+        self.playing = False
         
-
+    def get_playing(self): return self.playing
 
     def run(self):
         self.playing = True
@@ -47,6 +49,8 @@ class Game:
             self.events()
             self.update()
             self.draw()
+
+        return self.playing
 
     def events(self):
 
@@ -60,27 +64,40 @@ class Game:
                     pg.quit()
                     sys.exit()
 
-                if event.key == pg.K_r:
-                    Test_l.reset_maps()
-
-                if event.key == pg.K_t:
-                    Test_l.Construction_1()
-
-                if event.key == pg.K_y:
-                    Test_l.Tour_jeu()
-
                 if event.key == pg.K_l:
                     l.loadfile("Fichier_de_demonstration.pkl")
 
                 if event.key == pg.K_s:
                     l.savefile("Fichier_de_demonstration.pkl")
 
-                if event.key == pg.K_j :
-                    l.set_mat_beautiful()
+                if event.key == pg.K_m : 
+                    l.event_to_logic(l.Nume_save , None , None , SP_input.text)
+                    self.playing = False 
+                    set_screen_HP(self.screen)
+                    
 
                 if event.key == pg.K_F1 : 
                     Test_l.Construction_maison_1()
 
+                if event.key == pg.K_F2 : 
+                    Test_l.Construction_maison_2()
+
+                if event.key == pg.K_F3 : 
+                    Test_l.Construction_maison_3()
+
+                if event.key == pg.K_F4 : 
+                    Test_l.Construction_maison_4()
+
+                if event.key == pg.K_F5 : 
+                    Test_l.Construction_maison_5()
+
+                if event.key == pg.K_F6 : 
+                    Test_l.Construction_maison_6()
+
+                if event.key == pg.K_F7 : 
+                    Test_l.Construction_maison_7()
+
+                
             self.mouse_button = pg.mouse.get_pressed()
             self.mouse_pos = pg.mouse.get_pos()
 
