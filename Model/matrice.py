@@ -634,8 +634,8 @@ def suppr_Batiment(x, y, Mat):
                 kill_walker(Mat_perso[y][x][0])
         # for i in range(0, Mat[y][x].nbr_cases):
         #     for j in range(0, Mat[y][x].nbr_cases):
-        for i in range(Mat[y][x].nbr_cases, -1, -1):
-            for j in range(Mat[y][x].nbr_cases, -1, -1):
+        for i in range(Mat[y][x].nbr_cases -1 , -1, -1):
+            for j in range(Mat[y][x].nbr_cases -1 , -1, -1):
                 if y+j <= 39 and x+i <= 39 and Mat[y][x].name != "Herb":
                     Mat[Mat[y][x].pos_y + j][Mat[y][x].pos_x + i] = h.Herb(Mat[y][x].pos_x + i, Mat[y][x].pos_y + j)
                     Mat_fire[y + j][x + i] = 0
