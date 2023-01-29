@@ -498,7 +498,6 @@ def Tour_jeu() :
     
     if actual_position >= 1000 :
         actual_position = 0 
-        print("Gotted")
         m.deplacement_perso(m.Mat_perso , m.nb_cases_x , m.nb_cases_y)
         m.check_fire_eff()
         test_bat_logique()

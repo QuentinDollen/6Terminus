@@ -463,9 +463,11 @@ def invoke_walker(bat, type_, objectif=None):
 
 
 def invoke_migrant(maison_cible):
+    print(" Panneau : " ,Panneau_entree.pos_x, Panneau_entree.pos_y)
     (x, y) = SearchforRoad(Panneau_entree.pos_x, Panneau_entree.pos_y, Mat_batiment)
     print("coord:", x, y)
-    add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
+    if  x != 1 and y != -1 :
+        add_perso(x, y, "Immigrant", Mat_perso, Panneau_entree, maison_cible)
 
 
 # charge la matrice de départ par défaut dans la matrice donnée en argument
@@ -651,6 +653,7 @@ def Deplacement_basique(x, y, Mat=Mat_perso, no_walker=0):
     if y > 0:
         if Mat_route[y - 1][x] and (Mat_perso[y][x][no_walker].prev_x, Mat_perso[y][x][no_walker].prev_y) != (x, y - 1):
             tab_possibles_chemins.append((x, y - 1))
+            
     if len(tab_possibles_chemins) > 0:
         Mat_perso[y][x][no_walker].ttl -= 1
         return tab_possibles_chemins[random.randrange(0, len(tab_possibles_chemins))]  # Aléatoire
