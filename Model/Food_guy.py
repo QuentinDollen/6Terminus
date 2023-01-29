@@ -2,23 +2,17 @@ import sys
 
 sys.path.insert(0, '..')
 from Model import Walker as W
+from Model import delivery_guy as DG
 
 
-# food_guy a essentielement le même fonctionnement que delivery guy,
-# faut juste le faire heriter et rajouter les condition appropriées:
-# doit uniquement être appelable d'un marché
-# les déplacement vont soit du marché aux greniers, soit du marché au random
+# food_guy a essentiellement le même fonctionnement que delivery guy,
+# faut juste le faire heriter et rajouter les conditions appropriées:
+# doit uniquement être appelable d'un marchÃ©
+# les déplacement vont soit du marché aux greniers, soit du marche au random
 
-class Food_Guy(W.Walker):
-    def __init__(self, x, y, bat):
-        W.Walker.__init__(self, x, y, bat)
-        self.cargaison = [['blé', 0], ['fruits', 0], ['viande', 0]]
+class Food_Guy(DG.Delivery_Guy):
+    def __init__(self, x, y, bat, role, bat_dest):
+        DG.Delivery_Guy.__init__(self, x, y, bat, bat_dest)
         self.name = 'Food_Guy'
-
-    def ajout_marchandise(self, type_nourriture, nb):
-        if type_nourriture == 'blé':
-            self.cargaison[0][1] = self.cargaison[0][1] + nb
-        if type_nourriture == 'fruits':
-            self.cargaison[1][1] = self.cargaison[1][1] + nb
-        if type_nourriture == 'viandes':
-            self.cargaison[2][1] = self.cargaison[2][1] + nb
+        self.role = role
+        self.bat_destination = bat_dest
