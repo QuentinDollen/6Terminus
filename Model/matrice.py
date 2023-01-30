@@ -792,6 +792,10 @@ def deplacement_perso(Mat, tx=nb_cases, ty=nb_cases):
 def kill_walker(killed):  # gnéhéhé
     #print("gnehehehe")
 
+    if killed.name != "Immigrant":
+        global Population 
+        Population -= 1
+
     if killed.name != "no Walker":
         if killed.name == 'Recruteur':
             killed.batiment.hasRecruteur = 0
